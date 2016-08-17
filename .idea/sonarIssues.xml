@@ -3,6 +3,11 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../collector/cxa-monitoring-common/src/main/java/com/tomax/collector/common/utility/HttpClient.java">
           <value>
             <set />
