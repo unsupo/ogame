@@ -6,6 +6,7 @@ import objects.Ship;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -15,9 +16,20 @@ import java.util.stream.Collectors;
  */
 public class Simulator {
     public static void main(String[] args) throws IOException {
-        List<Player> battleInfo = BattleInfoParser.parse(Utility.BATTLE_INFO);
+//        List<Player> battleInfo = BattleInfoParser.parse(Utility.BATTLE_INFO);
+    	List<Player> battleInfo = new LinkedList<Player>();
+    	Player attacker = new Player("A");
+    	Player defender = new Player("D");
+    	battleInfo.add(attacker);
+    	battleInfo.add(defender);
+    	for(Player player : battleInfo){
+    		player.setArmourTeach(12);
+    		player.setShieldingTech(12);
+    		player.setWeaponsTech(12);
+    	}
+    	defender.addShip("light fighter", 10000);
+    	attacker.addShip("deathstar", 1);
         new Simulator().simulate(battleInfo.get(0),battleInfo.get(1));
-
     }
 
     /*
@@ -63,9 +75,12 @@ public class Simulator {
     public void simulate(Player attacker, Player defender){
         modifyShips(attacker);
         modifyShips(defender);
-
-        List<Ship>      attackerAfter = getShipList((HashMap<Ship,Integer>)attacker.getShips().clone()),
-                        defenderAfter = getShipList((HashMap<Ship,Integer>)defender.getShips().clone());
+        List<Ship>      attackerStart = clone(attacker.getShips()),
+                		defenderStart = clone(defender.getShips());
+        
+        
+        List<Ship>      attackerAfter = clone(attacker.getShips()),
+                        defenderAfter = clone(defender.getShips());
 
         int maxNumRounds = 6;
         boolean isFightingOver = false;
@@ -76,6 +91,30 @@ public class Simulator {
             removeTheDestroyed(attackerAfter);
             removeTheDestroyed(defenderAfter);
         }
+        System.out.println("Attacker: ");
+        printBeforeAfter(attackerStart, attackerAfter);
+        System.out.println("Defender: ");
+        printBeforeAfter(defenderStart, defenderAfter);
+    }
+    
+    private void printBeforeAfter(List<Ship> before, List<Ship> after){
+    	HashMap<String, Integer> shipCountsBefore, shipCountsAfter;
+    	shipCountsBefore = new HashMap<String, Integer>();
+    	shipCountsAfter = new HashMap<String, Integer>();
+    	for(Ship ship : before){
+    		Integer curShips = shipCountsBefore.get(ship.getName());
+    		shipCountsBefore.put(ship.getName(), curShips == null ? 1: curShips+1);
+    	}
+    	for(Ship ship : after){
+    		Integer curShips = shipCountsAfter.get(ship.getName());
+    		shipCountsAfter.put(ship.getName(), curShips == null ? 1: curShips+1);
+    	}
+    	for(String name : shipCountsBefore.keySet()){
+    		Integer beforeNum = shipCountsBefore.get(name);
+    		Integer afterNum = shipCountsAfter.get(name) == null ? 0 : shipCountsAfter.get(name);
+    		System.out.println(name + " " + beforeNum + " -> " + afterNum);
+    	}
+    	System.out.println();
     }
 
     private void removeTheDestroyed(List<Ship> ships) {
@@ -85,7 +124,7 @@ public class Simulator {
     }
 
     private void modifyShips(Player p) {
-        for (Ship s : p.getShips().keySet()) {
+        for (Ship s : p.getShips()) {
             s.setShield_power(s.getShield_power()*(1+p.getShieldingTech()/10));
             s.setStructural_integrity(s.getStructural_integrity()*(1+p.getArmourTeach()/10));
             s.setWeapon_power(s.getWeapon_power()*(1+p.getWeaponsTech()/10));
@@ -95,6 +134,9 @@ public class Simulator {
     private void fight(Player attacker, Player defender, List<Ship> attackerAfter, List<Ship> defenderAfter) {
         List<Ship> removed = new ArrayList<>();
         for(int i = 0; i<attackerAfter.size(); i++){
+        	if(defenderAfter.size() == 0){
+        		break;
+        	}
             Ship attackShip = attackerAfter.get(i);
             List<Ship> thisRoundDefender = new ArrayList<>(defenderAfter);
             int W = attackShip.getWeapon_power();
@@ -103,8 +145,8 @@ public class Simulator {
             attack(W,defender,ranTarget);
             thisRoundDefender.remove(ran);
             if(attackShip.getRapidFire().containsKey(ranTarget.getId()+"")) {
-                int r = attackShip.getRapidFire().get(ranTarget.getId()+"");
-                if (isChance(100*(r-1)/(double)r)) {
+                double r = attackShip.getRapidFire().get(ranTarget.getId()+"");
+                if (isChance((r-1)/r)) {
                     defenderAfter.remove(ran);
                     removed.add(ranTarget);
                     i--;
@@ -113,19 +155,20 @@ public class Simulator {
         }
         defenderAfter.addAll(removed);
     }
+    
 
-    private List<Ship> getShipList(HashMap<Ship, Integer> defenderAfter) {
-        List<Ship> shipList = new ArrayList<>();
-        for(Ship s : defenderAfter.keySet())
-            for(int i = 0; i< defenderAfter.get(s); i++)
-                    shipList.add(s.clone(s));
-        return shipList;
+    private List<Ship> clone(List<Ship> original) {
+    	List<Ship> clone = new ArrayList<Ship>();
+    	for(Ship ship : original){
+    		clone.add(ship.clone(ship));
+    	}
+    	return clone;
     }
 
     private void attack(int W, Player defender, Ship defenseShip){
         int S = defenseShip.getShield_power();
-        int H = defenseShip.getStructural_integrity();
-        double Hi = 0;
+        double H = defenseShip.getStructural_integrity();
+        double Hi= 0;
         try {
             Hi = getInitialStructuralIntegrity(defenseShip);
         } catch (IOException e) {
@@ -136,24 +179,33 @@ public class Simulator {
         else if(W < S)
             defenseShip.setShield_power(S-W);
         else{
-            defenseShip.setStructural_integrity(H - (W - S));
+            defenseShip.setStructural_integrity((int)(H - (W - S)));
             defenseShip.setShield_power(0);
             H = defenseShip.getStructural_integrity();
         }
         if(H < .7*Hi)
-            if(isChance(100*(1-H/Hi)))
+        	if(H< 0){
+        		H = 0;
+        	}
+            if(isChance(1-H/Hi))
                 defenseShip.setStructural_integrity(0);
     }
 
     private int getInitialStructuralIntegrity(Ship defenseShip) throws IOException {
         return Ship.getAllShips().stream().filter(a->a.getName().equals(defenseShip.getName())).collect(Collectors.toList()).get(0).getStructural_integrity();
     }
+    
+    int counter;
+    Random random = new Random();
 
     public boolean isChance(double chance){
-        int places = (Double.toString(chance).length() - Double.toString(chance).indexOf('.') - 1);
-        int max = (int)(Math.pow(10,places)*chance);
-        int numberFound = new Random().nextInt(max);
-        return numberFound <= chance;
+        boolean c =  random.nextDouble() <= chance;
+//        counter++;
+//        System.out.print(".");
+//        if(!c){
+//        	System.out.println("We did it " + counter);
+//        }
+        return c;
     }
 
 }

@@ -1,20 +1,22 @@
 package objects;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by jarndt on 8/8/16.
  */
 public class Player {
     public Player() {
-        ships = new HashMap<>();
+        ships = new ArrayList<Ship>();
     }public Player(String name) {
-        ships = new HashMap<>();
+        ships = new ArrayList<Ship>();
         this.name = name;
     }
 
-    private HashMap<Ship,Integer> ships;
+    private List<Ship> ships;
     private int weaponsTech, armourTeach, shieldingTech;
     private int combustionTech, impulseTeach, hyperspaceTech;
     private String name;
@@ -79,11 +81,11 @@ public class Player {
 
     private Coordinates coordinates;
 
-    public HashMap<Ship, Integer> getShips() {
+    public List<Ship> getShips() {
         return ships;
     }
 
-    public void setShips(HashMap<Ship, Integer> ships) {
+    public void setShips(List<Ship> ships) {
         this.ships = ships;
     }
 
@@ -152,10 +154,17 @@ public class Player {
     }
 
     public void addShip(Ship ship, int count) {
-        if(ship.isDefenseStructure())
-            this.isDefender = true;
-        this.ships.put(ship,count);
-    }public void addShip(String ship, int count) throws IOException {
-        this.addShip(new Ship(ship),count);
+    	try {
+			this.addShip(ship.getName(), count);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void addShip(String shipName, int count) throws IOException {
+    	for(int i=0;i<count;i++){
+    		this.ships.add(new Ship(shipName));
+    	}
     }
 }

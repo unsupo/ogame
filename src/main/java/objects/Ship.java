@@ -261,6 +261,10 @@ public class Ship {
     }
 
     public Ship(){}
+    
+    public int getWeighedPrice(){
+    	return (metal_cost+crystal_cost*4+deuterium_cost*5)/1000;
+    }
 
     public Ship parse(String lineInCSVFile){
         rapidFire = new HashMap<>();
