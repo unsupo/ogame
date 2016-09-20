@@ -1,6 +1,6 @@
 package utilities;
 
-import objects.Player;
+import objects.PlayerSIM;
 import objects.Ship;
 
 import java.io.IOException;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
  */
 public class Simulator {
     public static void main(String[] args) throws IOException {
-//        List<Player> battleInfo = BattleInfoParser.parse(Utility.BATTLE_INFO);
-    	List<Player> battleInfo = new LinkedList<Player>();
-    	Player attacker = new Player("A");
-    	Player defender = new Player("D");
+//        List<PlayerSIM> battleInfo = BattleInfoParser.parse(Utility.BATTLE_INFO);
+    	List<PlayerSIM> battleInfo = new LinkedList<PlayerSIM>();
+    	PlayerSIM attacker = new PlayerSIM("A");
+    	PlayerSIM defender = new PlayerSIM("D");
     	battleInfo.add(attacker);
     	battleInfo.add(defender);
-    	for(Player player : battleInfo){
+    	for(PlayerSIM player : battleInfo){
     		player.setArmourTeach(12);
     		player.setShieldingTech(12);
     		player.setWeaponsTech(12);
@@ -72,7 +72,7 @@ public class Simulator {
             unit.H = unit.H_i
 
      */
-    public void simulate(Player attacker, Player defender){
+    public void simulate(PlayerSIM attacker, PlayerSIM defender){
         modifyShips(attacker);
         modifyShips(defender);
         List<Ship>      attackerStart = clone(attacker.getShips()),
@@ -123,7 +123,7 @@ public class Simulator {
                 ships.remove(i);
     }
 
-    private void modifyShips(Player p) {
+    private void modifyShips(PlayerSIM p) {
         for (Ship s : p.getShips()) {
             s.setShield_power(s.getShield_power()*(1+p.getShieldingTech()/10));
             s.setStructural_integrity(s.getStructural_integrity()*(1+p.getArmourTeach()/10));
@@ -131,7 +131,7 @@ public class Simulator {
         }
     }
 
-    private void fight(Player attacker, Player defender, List<Ship> attackerAfter, List<Ship> defenderAfter) {
+    private void fight(PlayerSIM attacker, PlayerSIM defender, List<Ship> attackerAfter, List<Ship> defenderAfter) {
         List<Ship> removed = new ArrayList<>();
         for(int i = 0; i<attackerAfter.size(); i++){
         	if(defenderAfter.size() == 0){
@@ -165,7 +165,7 @@ public class Simulator {
     	return clone;
     }
 
-    private void attack(int W, Player defender, Ship defenseShip){
+    private void attack(int W, PlayerSIM defender, Ship defenseShip){
         int S = defenseShip.getShield_power();
         double H = defenseShip.getStructural_integrity();
         double Hi= 0;

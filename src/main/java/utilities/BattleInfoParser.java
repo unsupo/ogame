@@ -1,6 +1,6 @@
 package utilities;
 
-import objects.Player;
+import objects.PlayerSIM;
 import objects.Ship;
 import utilities.filesystem.FileOptions;
 
@@ -16,19 +16,19 @@ public class BattleInfoParser {
                                 ARMOUR      =  "armour",
                                 SHIELDING   = "shielding";
 
-    public static List<Player> parse(String battleInfoPath) throws IOException {
+    public static List<PlayerSIM> parse(String battleInfoPath) throws IOException {
         List<String> file = FileOptions.readFileIntoListString(battleInfoPath);
-        List<Player> players = new ArrayList<>();
+        List<PlayerSIM> players = new ArrayList<>();
 
-        Player p = null;
+        PlayerSIM p = null;
         for(String s : file){
             String[] split = s.split(":");
             if(s.startsWith("-")){
                 if(p == null)
-                    p = new Player(s);
+                    p = new PlayerSIM(s);
                 else {
                     players.add(p);
-                    p = new Player(s);
+                    p = new PlayerSIM(s);
                 }
             }else if(WEAPONS.equals(split[0]))
                 p.setWeaponsTech(Integer.parseInt(split[1]));
