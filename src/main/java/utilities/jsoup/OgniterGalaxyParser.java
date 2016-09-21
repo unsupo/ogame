@@ -76,12 +76,13 @@ public class OgniterGalaxyParser {
                     _HSQLDB.executeQuery(playerQuery);
                 } catch (Exception e1){
                     e1.printStackTrace();
+                    System.out.println(playerQuery);
                 }
             }
-            else
+            else {
                 e.printStackTrace();
-
-            System.out.println(playerQuery);
+                System.out.println(playerQuery);
+            }
         }
 
         try {
@@ -97,7 +98,7 @@ public class OgniterGalaxyParser {
 
         } catch (Exception e){
             if(e.getMessage().contains("unique constraint")){
-                playerQuery = "update planet set " +
+                planetQuery = "update planet set " +
                         "planet_name = " + "'"+planetPlayer.getPlanetName()+"',"+
                         "moon_name = " + "'"+planetPlayer.getMoonName()+"',"+
                         "moon_size = " + "'"+planetPlayer.getMoonSize()+"',"+
@@ -111,11 +112,13 @@ public class OgniterGalaxyParser {
                     _HSQLDB.executeQuery(playerQuery);
                 } catch (Exception e1){
                     e1.printStackTrace();
+                    System.out.println(planetQuery);
                 }
             }
-            else
+            else {
                 e.printStackTrace();
-            System.out.println(planetQuery);
+                System.out.println(planetQuery);
+            }
         }
     }
 
