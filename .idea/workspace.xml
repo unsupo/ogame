@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce5b5be5-240e-4abe-ac80-d5bfe7bac7fc" name="Default" comment="added ogniter and database for a player and planet tables">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.lck" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.lck" />
+    <list default="true" id="ce5b5be5-240e-4abe-ac80-d5bfe7bac7fc" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Runner.class" afterPath="$PROJECT_DIR$/target/classes/Runner.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Runner.java" afterPath="$PROJECT_DIR$/src/main/java/Runner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.log" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java" />
     </list>
     <list id="a9961e98-e9f0-4f79-b2a3-b60ed64a7ce1" name="New changelist" comment="" />
     <ignored path="ogame.iws" />
@@ -29,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="42" column="78" selection-start-line="42" selection-start-column="78" selection-end-line="42" selection-end-column="78" />
+            <state relative-caret-position="135">
+              <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -41,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OgniterGalaxyParser.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OgniterGalaxyParser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+            <state relative-caret-position="184">
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -56,8 +56,8 @@
       <file leaf-file-name="_HSQLDB.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="29" column="55" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="55" />
+            <state relative-caret-position="184">
+              <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -68,11 +68,10 @@
       <file leaf-file-name="PlanetPlayer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/utilities/jsoup/PlanetPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="120" column="88" selection-start-line="120" selection-start-column="88" selection-end-line="120" selection-end-column="88" />
+            <state relative-caret-position="157">
+              <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3385#3386#0" expanded="true" />
                 <element signature="e#3418#3419#0" expanded="true" />
                 <element signature="e#3453#3454#0" expanded="true" />
                 <element signature="e#3484#3485#0" expanded="true" />
@@ -1272,7 +1271,7 @@
       <workItem from="1472845866680" duration="1570000" />
       <workItem from="1473175445354" duration="200000" />
       <workItem from="1473279458578" duration="14000" />
-      <workItem from="1474311758484" duration="31738000" />
+      <workItem from="1474311758484" duration="33140000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1471467227087</created>
@@ -1309,11 +1308,18 @@
       <option name="project" value="LOCAL" />
       <updated>1474493347834</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added ogniter and database for a player and planet tables">
+      <created>1474493470908</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1474493470908</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60437000" />
+    <option name="totallyTimeSpent" value="61839000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1389,8 +1395,20 @@
           <properties />
           <option name="timeStamp" value="39" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java</url>
+          <line>111</line>
+          <properties />
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="64" />
+      <option name="time" value="68" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1833,13 +1851,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/jsoup/PlanetPlayer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="120" column="88" selection-start-line="120" selection-start-column="88" selection-end-line="120" selection-end-column="88" />
+        <state relative-caret-position="184">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3385#3386#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/jsoup/PlanetPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#3418#3419#0" expanded="true" />
             <element signature="e#3453#3454#0" expanded="true" />
             <element signature="e#3484#3485#0" expanded="true" />
@@ -1863,30 +1890,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="29" column="55" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="42" column="78" selection-start-line="42" selection-start-column="78" selection-end-line="42" selection-end-column="78" />
+        <state relative-caret-position="135">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
