@@ -33,8 +33,8 @@ public class OgniterGalaxyParser {
             else {
                 e.printStackTrace();
                 System.out.println("FAILED [" + galaxy + ":" + system + ":*] LINK: " + link);
-                return;
             }
+            return;
         }
         List<String> columnNames = new ArrayList<>();
         List<PlanetPlayer> planetPlayers = new ArrayList<>();
