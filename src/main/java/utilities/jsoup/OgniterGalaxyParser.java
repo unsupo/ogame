@@ -21,15 +21,20 @@ public class OgniterGalaxyParser {
 
     public static final String UNIVERSE_LINK = "http://en.ogniter.org/en/"+UNIVERSE_REGX+"/galaxy/"+GALAXY_REGX+"/"+SYSTEM_REGX;
 
+    private int retryCount = 0;
     public void parseUniverse(int universe, int galaxy, int system) throws IOException {
         String link = getLink(universe,galaxy,system);
         Elements doc = null;
         try {
             doc = Jsoup.connect(link).timeout(5000).get().select("table").get(0).select("tr");
         }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("FAILED ["+galaxy+":"+system+":*] LINK: "+link);
-            return;
+            if(retryCount++ <= 100)
+                parseUniverse(universe,galaxy,system);
+            else {
+                e.printStackTrace();
+                System.out.println("FAILED [" + galaxy + ":" + system + ":*] LINK: " + link);
+                return;
+            }
         }
         List<String> columnNames = new ArrayList<>();
         List<PlanetPlayer> planetPlayers = new ArrayList<>();
