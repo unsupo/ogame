@@ -23,6 +23,13 @@ for(Map<String, Object> a : _HSQLDB.executeQuery("select * from player p JOIN pl
 _HSQLDB.getInstance().db.stopDBServer();
 System.exit(0);
 
+The following example query will get all inactive players who are in galaxy 5
+        for(Map<String, Object> a : _HSQLDB.executeQuery(
+                "select * from player p JOIN planet t ON p.player_name = t.player_name " +
+                        "where player_status in ('I','i') and " +
+                            "regexp_substring(coordinates,'[0-9]+')='5'"))
+            System.out.println(a);
+
 
 The following is an example of how to insert all data into the hsql database to be read with a query example like above.
 
