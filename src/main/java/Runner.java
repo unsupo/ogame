@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public class Runner {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Initialize.login("s129-en.ogame.gameforge.com","unsupo","supersmash")
+        Initialize.login("s129-en.ogame.gameforge.com","<username>","<password>")
                 .clickOnResearch().clickOnEnergyTechnology().clickOnStartWithDM(); //500 DM
         Thread.sleep(Utility.getInProgressTime());
 
