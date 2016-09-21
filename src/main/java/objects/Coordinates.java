@@ -8,6 +8,7 @@ public class Coordinates {
     int galaxy, system, planet;
 
     public Coordinates(String coordinates) {
+        coordinates = coordinates.replace("[","").replace("]","");
         String[] split = coordinates.split(":");
         galaxy = Integer.parseInt(split[0]);
         system = Integer.parseInt(split[1]);
@@ -89,5 +90,9 @@ public class Coordinates {
 
     public void setPlanet(int planet) {
         this.planet = planet;
+    }
+
+    public String getCoordinates() {
+        return galaxy+":"+system+":"+planet;
     }
 }
