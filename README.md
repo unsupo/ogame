@@ -24,14 +24,7 @@ _HSQLDB.getInstance().db.stopDBServer();
 System.exit(0);
 
 
-The following is an example of how to insert data into the hsql database to be read with a query example like above.
+The following is an example of how to insert all data into the hsql database to be read with a query example like above.
 
-IntStream.iterate(1, i -> i + 1).limit(9).parallel().forEach(a->IntStream.iterate(1, i -> i + 1).limit(499).parallel()
-    .forEach(b -> {
-        try {
-            new OgniterGalaxyParser().parseUniverse(398, a, b);
-            System.out.println("DONE WITH: "+a+" : "+b+" : *");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }));
+OgniterGalaxyParser.parseEntireUniverse(398); //unierse 398 is quantum
+
