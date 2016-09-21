@@ -3,7 +3,6 @@ import utilities.jsoup.OgniterGalaxyParser;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.stream.IntStream;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -12,16 +11,8 @@ public class Runner {
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 //        _HSQLDB.executeQuery("update player set alliance_name = 'null',player_link = 'en/398/player/100003',alliance_link = 'null',player_rank = 4089,player_status = 'a' WHERE player_name = 'comagf';");
 
+        OgniterGalaxyParser.parseEntireUniverse(398);
 
-        IntStream.iterate(1, i -> i + 1).limit(9).parallel().forEach(a->IntStream.iterate(1, i -> i + 1).limit(499).parallel()
-                .forEach(b -> {
-                    try {
-                        new OgniterGalaxyParser().parseUniverse(398, a, b);
-                        System.out.println("DONE WITH: "+a+" : "+b+" : *");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }));
 
 //        for(int i = 1; i<10; i++)
 //            for(int j = 1; j<500; j++)
