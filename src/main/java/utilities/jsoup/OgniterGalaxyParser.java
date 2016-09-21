@@ -8,6 +8,7 @@ import utilities.database._HSQLDB;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Created by jarndt on 9/21/16.
@@ -22,8 +23,14 @@ public class OgniterGalaxyParser {
 
     public void parseUniverse(int universe, int galaxy, int system) throws IOException {
         String link = getLink(universe,galaxy,system);
-        Elements doc = Jsoup.connect(link).get().select("table").get(0).select("tr");
-
+        Elements doc = null;
+        try {
+            doc = Jsoup.connect(link).timeout(5000).get().select("table").get(0).select("tr");
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("FAILED ["+galaxy+":"+system+":*] LINK: "+link);
+            return;
+        }
         List<String> columnNames = new ArrayList<>();
         List<PlanetPlayer> planetPlayers = new ArrayList<>();
         int index = 0;
@@ -133,4 +140,27 @@ public class OgniterGalaxyParser {
                             .replace(SYSTEM_REGX,system+"");
     }
 
+    private static class Counter{
+        private int doneCount = 0;
+        public synchronized void increment(){
+            doneCount++;
+        }
+
+        public int getDoneCount() {
+            return doneCount;
+        }
+    }
+    public static void parseEntireUniverse(int universe){ //398
+        final Counter c = new Counter();
+        IntStream.iterate(1, i -> i + 1).limit(9).parallel().forEach(a->IntStream.iterate(1, i -> i + 1).limit(499).parallel()
+                .forEach(b -> {
+                    try {
+                        new OgniterGalaxyParser().parseUniverse(universe, a, b);
+                        c.increment();
+                        System.out.println("DONE WITH: "+a+":"+b+":* \tTotal Left: "+(499*9 - c.getDoneCount()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }));
+    }
 }
