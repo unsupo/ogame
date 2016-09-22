@@ -1,27 +1,20 @@
 package utilities.selenium;
 
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
-
-import com.codeborne.selenide.WebDriverRunner;
-
 import utilities.OSProperties;
+
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -90,7 +83,7 @@ public class UIMethods {
     private WebDriver _getWebDriver() {
         if(chrome == null){
             setProperty();
-            chrome = headless?new PhantomJSDriver(getCaps()): new ChromeDriver();
+            chrome = headless?new PhantomJSDriver(getCaps()): new FirefoxDriver();//new ChromeDriver();
             WebDriverRunner.setWebDriver(chrome);
         }
         chrome.manage().window().maximize();
