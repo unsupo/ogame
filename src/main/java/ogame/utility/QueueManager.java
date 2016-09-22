@@ -2,6 +2,7 @@ package ogame.utility;
 
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
+import utilities.jsoup.OgniterGalaxyParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +31,25 @@ public class QueueManager {
 
     private QueueManager() throws IOException {
         WatchServiceCreator.start();
-
         startFileContentReader();
+        parseUniverse();
+    }
+
+    public void parseUniverse() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    OgniterGalaxyParser.parseEntireUniverse(398);
+
+                    try {
+                        Thread.sleep(1000*3600*24);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
     private void startFileContentReader() {
@@ -77,5 +95,9 @@ public class QueueManager {
             loginParams = loginInfo.split(":")[1].trim().split(",");
         }
         return loginParams;
+    }
+
+    public static void start() throws IOException {
+        getInstance();
     }
 }

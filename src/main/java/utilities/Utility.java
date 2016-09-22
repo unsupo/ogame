@@ -2,7 +2,6 @@ package utilities;
 
 import objects.Buildable;
 import ogame.pages.Action;
-import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import utilities.selenium.UIMethods;
 
@@ -24,7 +23,8 @@ public class Utility {
                                 FACILITIES_INFO = RESOURCE_DIR+"facilities_info.cvs",
                                 BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs",
                                 SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs",
-                                MAPPINGS        = RESOURCE_DIR+"mapper.cvs";
+                                MAPPINGS        = RESOURCE_DIR+"mapper.cvs",
+                                LAST_UPDATE     = RESOURCE_DIR+"last_update";
 
     public static long getInProgressTime(){
         String time;
