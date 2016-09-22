@@ -1,9 +1,7 @@
+import ogame.utility.Initialize;
+
 import java.io.IOException;
 import java.sql.SQLException;
-
-import objects.Ship;
-import ogame.utility.Initialize;
-import utilities.Utility;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -11,8 +9,8 @@ import utilities.Utility;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-    	Initialize.login("s117-en.ogame.gameforge.com", "mgutin", "1bobbill");
-    	Utility.build(Ship.SMALL_CARGO, 2);
+        Initialize.login();
+
     }
 
 

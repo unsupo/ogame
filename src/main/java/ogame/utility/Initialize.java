@@ -48,6 +48,15 @@ public class Initialize {
         instance = new Initialize(universe,username,password);
         return new Overview();
     }
+    public static Overview login() throws IOException {
+        String[] params = QueueManager.getLoginParams();
+        instance = new Initialize(params[0],params[1],params[2]);
+        return new Overview();
+    }
+
+
+
+
     public static List<Buildable> getBuildableObjects(){
         return getInstance().buildables;
     }
@@ -131,4 +140,5 @@ public class Initialize {
         }
         return null;
     }
+
 }
