@@ -37,7 +37,7 @@ public class Initialize {
         return getBuildableObjects().stream().filter(a->a.getId() == id).collect(Collectors.toList()).get(0);
     }
 
-    private static Initialize getInstance(){
+    public static Initialize getInstance(){
         if(instance == null)
             instance = new Initialize();
 //            throw new IllegalArgumentException("Please login first Initialize.login(uni,username,password)");
@@ -78,6 +78,8 @@ public class Initialize {
 
         getPlanets();
         getResearch();
+
+        QueueManager.start();
     }
 
     private void addBuildingFromFile(String file) throws IOException {

@@ -1,4 +1,5 @@
 import ogame.utility.Initialize;
+import ogame.utility.QueueManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,6 +11,8 @@ public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
         Initialize.login();
+
+        QueueManager.getInstance().parseUniverse();
 
     }
 
