@@ -1,6 +1,10 @@
 package utilities;
 
+import objects.Buildable;
+import ogame.utility.Initialize;
 import utilities.selenium.UIMethods;
+
+import java.util.HashMap;
 
 /**
  * Created by jarndt on 8/8/16.
@@ -15,7 +19,8 @@ public class Utility {
                                 RESEARCH_INFO   = RESOURCE_DIR+"research_info.cvs",
                                 FACILITIES_INFO = RESOURCE_DIR+"facilities_info.cvs",
                                 BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs",
-                                SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs";
+                                SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs",
+                                MAPPINGS        = RESOURCE_DIR+"mapper.cvs";
 
     public static long getInProgressTime(){
         String time;
@@ -39,5 +44,20 @@ public class Utility {
                 timeLeft+=Long.parseLong(s.replace("w",""))*1000*60*60*24*7;
 
         return timeLeft;
+    }
+
+    public static HashMap<String,Integer> getBuildableRequirements(String buildableName){
+        getAllRequirements(buildableName);
+        return requirements;
+    }
+
+    private static HashMap<String,Integer> requirements = new HashMap<>();
+    private static void getAllRequirements(String buildable){
+        for(Buildable b : Initialize.getBuildableByName(buildable).getRequires()){
+            if(!requirements.containsKey(b.getName()) ||
+                    (requirements.containsKey(b.getName()) && requirements.get(b.getName()) < b.getLevelNeeded()))
+                requirements.put(b.getName(),b.getLevelNeeded());
+            getAllRequirements(b.getName());
+        }
     }
 }

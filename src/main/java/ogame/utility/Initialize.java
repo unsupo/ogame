@@ -4,11 +4,14 @@ import objects.Buildable;
 import objects.Planet;
 import ogame.pages.Login;
 import ogame.pages.Overview;
+import ogame.pages.Research;
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
+import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,11 +23,13 @@ public class Initialize {
     public static String    BUILDINGS   = Utility.BUILDING_INFO,
                             FACILITIES  = Utility.FACILITIES_INFO,
                             RESEARCH    = Utility.RESEARCH_INFO,
-                            SHIPYARD    = Utility.SHIPYARD_INFO;
+                            SHIPYARD    = Utility.SHIPYARD_INFO,
+                            MAPPINGS    = Utility.MAPPINGS;
 
     private static Initialize instance;
 
     private List<Buildable> buildables = new ArrayList<>();
+    private HashMap<String,Integer> researches = new HashMap<>();
 
     public static Buildable getBuildableByName(String name){
         return getBuildableObjects().stream().filter(a->name.equals(a.getName())).collect(Collectors.toList()).get(0);
@@ -53,6 +58,9 @@ public class Initialize {
             e.printStackTrace();
         }
     }
+    public static HashMap<String,Integer> getResearches(){
+        return getInstance().researches;
+    }
 
     private Initialize(String universe, String username, String password) throws IOException {
         loadFiles();
@@ -76,12 +84,41 @@ public class Initialize {
 
 
     public HashMap<String,Integer> getResearch() { //research name, level
-        return new HashMap<>();
+        if(!researches.isEmpty())
+            return researches;
+
+        new Overview().clickOnResearch();
+
+        List<Buildable> researchList = buildables.stream()
+                .filter(a -> a.getId() >= 16 && a.getId() <= 31).collect(Collectors.toList());
+
+        for(Buildable b : researchList) {
+            String v = UIMethods.getTextFromAttributeAndValue(Research.ID, b.getWebName());
+            researches.put(b.getName(),Integer.parseInt(v));
+        }
+        return researches;
     }
 
     public HashMap<String, Planet> getPlanets() { //planet name, Planet
         return new HashMap<>();
     }
 
+    private static HashMap<String,List<Integer>> mappings = new HashMap<>();
 
+    public static String getType(int id) throws IOException {
+        if(mappings.isEmpty()) {
+            List<String> v = FileOptions.readFileIntoListString(MAPPINGS);
+            for(String s : v){
+                String[] split = s.split(",");
+                mappings.put(split[0], Arrays.asList(Integer.parseInt(split[1]),Integer.parseInt(split[2])));
+            }
+        }
+        for(String key : mappings.keySet()){
+            List<Integer> l = mappings.get(key);
+            Integer v1 = l.get(0), v2 = l.get(1);
+            if(id <= v2 && id >= v1)
+                return key;
+        }
+        return null;
+    }
 }

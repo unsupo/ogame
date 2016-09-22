@@ -448,12 +448,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/mapper.cvs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/ogame_ship_info.cvs">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/research_info.cvs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script">
           <value>
             <set />
           </value>
