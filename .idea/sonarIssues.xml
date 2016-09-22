@@ -458,6 +458,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/shipyard_info.cvs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../ui-automation/trunk/src/main/java/utilities/UIMethods.java">
           <value>
             <set />

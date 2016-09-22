@@ -3,12 +3,15 @@ package utilities.jsoup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import utilities.Utility;
 import utilities.database._HSQLDB;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jarndt on 9/21/16.
@@ -157,15 +160,36 @@ public class OgniterGalaxyParser {
     }
     public static void parseEntireUniverse(int universe){ //398
         final Counter c = new Counter();
-        IntStream.iterate(1, i -> i + 1).limit(9).parallel().forEach(a->IntStream.iterate(1, i -> i + 1).limit(499).parallel()
-                .forEach(b -> {
-                    try {
-                        new OgniterGalaxyParser().parseUniverse(universe, a, b);
-                        c.increment();
-                        System.out.println("DONE WITH: "+a+":"+b+":* \tTotal Left: "+(499*9 - c.getDoneCount()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }));
+//        IntStream.iterate(1, i -> i + 1).limit(9).parallel().forEach(a->IntStream.iterate(1, i -> i + 1).limit(499).parallel()
+//                .forEach(b -> {
+//                    try {
+//                        new OgniterGalaxyParser().parseUniverse(universe, a, b);
+//                        c.increment();
+//                        System.out.println("DONE WITH: "+a+":"+b+":* \tTotal Left: "+(499*9 - c.getDoneCount()));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }));
+
+        //OTHER OPTION IS ExecutorService
+        ExecutorService executor = Executors.newFixedThreadPool(Utility.MAX_THREAD_COUNT);
+        for(final Counter c1 = new Counter(); c1.getDoneCount() < 9; c1.increment())
+            for(final Counter c2 = new Counter(); c2.getDoneCount() < 499; c2.increment())
+                executor.execute(()->{
+                try {
+                    int a = c1.getDoneCount(), b = c2.getDoneCount();
+                    new OgniterGalaxyParser().parseUniverse(universe, a,b);
+                    c.increment();
+                    System.out.println("DONE WITH: "+c1.getDoneCount()+":"+b+":* \tTotal Left: "+(499*9 - c.getDoneCount()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        executor.shutdown();
+        try {
+            executor.awaitTermination(5, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

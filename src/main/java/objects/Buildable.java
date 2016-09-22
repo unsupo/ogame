@@ -1,5 +1,9 @@
 package objects;
 
+import utilities.Utility;
+
+import java.io.IOException;
+
 /**
  * Created by jarndt on 9/19/16.
  */
@@ -61,8 +65,18 @@ public class Buildable {
     public Buildable(String line) {
         String[] obj = line.split(",");
         id = Integer.parseInt(obj[0]);
-        name = obj[1];
+        name = obj[1].contains("/")?getObjName(obj[1]):obj[1];
         webName = obj[2];
         requires = obj.length <= 3 ? "" : obj[3];
+    }
+
+    private String getObjName(String s) {
+        String[] split = s.split("\\/");
+        try {
+            return Ship.getShipByID(Integer.parseInt(split[1]),Utility.RESOURCE_DIR+split[0]).getName();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

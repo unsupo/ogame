@@ -22,8 +22,12 @@ public class Ship {
         return allShips;
     }
 
-    public static boolean isValidShip(String shipName) throws IOException {
-        return getAllShips().stream().filter(a->a.getName().equals(shipName)).collect(Collectors.toList()).size() != 0;
+    public static boolean isValidShip(String shipName,String...pathToShipFile) throws IOException {
+        return getAllShips(pathToShipFile).stream().filter(a->a.getName().equals(shipName)).collect(Collectors.toList()).size() != 0;
+    }public static Ship getShipByID(int ID,String...pathToShipFile) throws IOException {
+        return getAllShips(pathToShipFile).stream().filter(a->a.getId() == ID).collect(Collectors.toList()).get(0);
+    }public static Ship getShipByName(String shipName,String...pathToShipFile) throws IOException {
+        return getAllShips(pathToShipFile).stream().filter(a->a.getName().equals(shipName)).collect(Collectors.toList()).get(0);
     }
 
     private int id, metal_cost,
