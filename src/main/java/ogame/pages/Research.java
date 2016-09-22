@@ -32,4 +32,8 @@ public class Research extends OGamePage{
     public Action clickOnCombustionDrive() {
         return performAction(COMBUSTION);
     }
+
+    public Action clickOnResearchByName(String name) {
+        return performAction(name);
+    }
 }

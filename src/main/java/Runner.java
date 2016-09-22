@@ -7,8 +7,37 @@ import java.sql.SQLException;
  * Created by jarndt on 9/19/16.
  */
 public class Runner {
+
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-        System.out.println(Initialize.getBuildableByName("Light Fighter").getRequires());
+        Initialize.getBuildableObjects().forEach(System.out::println);
+
+    }
+
+
+
+    //EXAMPLES
+//    Research o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash")
+//            .clickOnResearch();
+//    HashMap<String, Integer> requirements = Utility.getBuildableRequirements("Small Cargo Ship");
+//
+//    HashMap<String, Integer> researches = Initialize.getResearches();
+//        for(String name : requirements.keySet())
+//            if(researches.containsKey(name) && researches.get(name) < requirements.get(name))
+//            for(int i = 0; i<requirements.get(name) - researches.get(name); i++) {
+//        Thread.sleep(Utility.getInProgressTime());
+//        o.clickOnResearchByName(name).clickOnStartWithDM();
+//    }
+
+//        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash");
+//        o.clickOnResearch().clickOnCombustionDrive().clickOnStartWithDM();
+//        new Shipyard().clickOnSmallCargo();
+
+//        printAllRequirements("Deathstar");
+//
+//        requirements.forEach((a,b)-> System.out.println(a+" "+b));
+
+//        System.out.println(Initialize.getBuildableByName("Deathstar").getRequires());
+
 
 
 //        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash");
@@ -53,6 +82,4 @@ public class Runner {
         System.out.println(Utility.getInProgressTime());
         Thread.sleep(Utility.getInProgressTime());
         */
-    }
-
 }

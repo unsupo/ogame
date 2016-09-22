@@ -13,6 +13,24 @@ import java.util.List;
 public class Buildable {
     private String name;
 
+    @Override
+    public String toString() {
+        return "Buildable{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", webName='" + webName + '\'' +
+                ", id=" + id +
+                ", levelNeeded=" + levelNeeded +
+                ", requires='" + requires + '\'' +
+                '}';
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    private String type;
+
     public String getWebName() {
         return webName;
     }
@@ -28,17 +46,6 @@ public class Buildable {
 
     public int getLevelNeeded() {
         return levelNeeded;
-    }
-
-    @Override
-    public String toString() {
-        return "Buildable{" +
-                "name='" + name + '\'' +
-                ", webName='" + webName + '\'' +
-                ", id=" + id +
-                ", levelNeeded=" + levelNeeded +
-                ", requires='" + getRequires() + '\'' +
-                '}';
     }
 
     @Override
@@ -101,6 +108,11 @@ public class Buildable {
         name = obj[1].contains("/")?getObjName(obj[1]):obj[1];
         webName = obj[2];
         requires = obj.length <= 3 ? "" : obj[3];
+        try {
+            type = Initialize.getType(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getObjName(String s) {
