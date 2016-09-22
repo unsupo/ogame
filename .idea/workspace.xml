@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce5b5be5-240e-4abe-ac80-d5bfe7bac7fc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/shipyard_info.cvs" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.lck" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Runner.class" afterPath="$PROJECT_DIR$/target/classes/Runner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/objects/Buildable.class" afterPath="$PROJECT_DIR$/target/classes/objects/Buildable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/objects/Ship.class" afterPath="$PROJECT_DIR$/target/classes/objects/Ship.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ogame/pages/Shipyard.class" afterPath="$PROJECT_DIR$/target/classes/ogame/pages/Shipyard.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ogame/utility/Initialize.class" afterPath="$PROJECT_DIR$/target/classes/ogame/utility/Initialize.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utilities/BattleInfoParser.class" afterPath="$PROJECT_DIR$/target/classes/utilities/BattleInfoParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utilities/Utility.class" afterPath="$PROJECT_DIR$/target/classes/utilities/Utility.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Runner.java" afterPath="$PROJECT_DIR$/src/main/java/Runner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/Buildable.java" afterPath="$PROJECT_DIR$/src/main/java/objects/Buildable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/Ship.java" afterPath="$PROJECT_DIR$/src/main/java/objects/Ship.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/pages/Shipyard.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/pages/Shipyard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/Utility.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/Utility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.log" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.properties" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.script" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.script" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/ogame_ship_info.cvs" afterPath="$PROJECT_DIR$/src/main/resources/ogame_ship_info.cvs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ogame_ship_info.cvs" afterPath="$PROJECT_DIR$/target/classes/ogame_ship_info.cvs" />
-    </list>
+    <list default="true" id="ce5b5be5-240e-4abe-ac80-d5bfe7bac7fc" name="Default" comment="" />
     <list id="a9961e98-e9f0-4f79-b2a3-b60ed64a7ce1" name="New changelist" comment="" />
     <ignored path="ogame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -114,11 +89,9 @@
       <file leaf-file-name="Shipyard.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Shipyard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="150">
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1380,7 +1353,7 @@
       <workItem from="1472845866680" duration="1570000" />
       <workItem from="1473175445354" duration="200000" />
       <workItem from="1473279458578" duration="14000" />
-      <workItem from="1474311758484" duration="40447000" />
+      <workItem from="1474311758484" duration="40646000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1471467227087</created>
@@ -1452,11 +1425,18 @@
       <option name="project" value="LOCAL" />
       <updated>1474496376314</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added ships">
+      <created>1474502855104</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1474502855104</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69146000" />
+    <option name="totallyTimeSpent" value="69345000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1481,8 +1461,8 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Regex Tester" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32871014" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26987952" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26987952" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32871014" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1515,7 +1495,8 @@
     <MESSAGE value="added httpclient" />
     <MESSAGE value="added ogniter and database for a player and planet tables" />
     <MESSAGE value="fixed database" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed database" />
+    <MESSAGE value="added ships" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ships" />
     <option name="PRESELECT_EXISTING_CHANGELIST" value="false" />
   </component>
   <component name="XDebuggerManager">
@@ -1619,8 +1600,8 @@
         <state relative-caret-position="150">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <element signature="e#168#169#0" expanded="true" />
-            <element signature="e#203#204#0" expanded="true" />
+            <element signature="e#160#161#0" expanded="true" />
+            <element signature="e#195#196#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1630,8 +1611,8 @@
         <state relative-caret-position="120">
           <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
           <folding>
-            <element signature="e#168#169#0" expanded="true" />
-            <element signature="e#195#196#0" expanded="true" />
+            <element signature="e#160#161#0" expanded="true" />
+            <element signature="e#187#188#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1649,24 +1630,13 @@
         <state relative-caret-position="120">
           <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
           <folding>
-            <element signature="e#164#165#0" expanded="true" />
-            <element signature="e#191#192#0" expanded="true" />
+            <element signature="e#156#157#0" expanded="true" />
+            <element signature="e#183#184#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/RecruitOfficers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
-          <folding>
-            <element signature="e#176#177#0" expanded="true" />
-            <element signature="e#203#204#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Alliance.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
@@ -1677,13 +1647,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Alliance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
+          <folding>
+            <element signature="e#160#161#0" expanded="true" />
+            <element signature="e#187#188#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Galaxy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
           <folding>
-            <element signature="e#166#167#0" expanded="true" />
-            <element signature="e#193#194#0" expanded="true" />
+            <element signature="e#158#159#0" expanded="true" />
+            <element signature="e#185#186#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1693,8 +1674,8 @@
         <state relative-caret-position="120">
           <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
           <folding>
-            <element signature="e#165#166#0" expanded="true" />
-            <element signature="e#192#193#0" expanded="true" />
+            <element signature="e#157#158#0" expanded="true" />
+            <element signature="e#184#185#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1704,8 +1685,8 @@
         <state relative-caret-position="120">
           <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="20" />
           <folding>
-            <element signature="e#167#168#0" expanded="true" />
-            <element signature="e#194#195#0" expanded="true" />
+            <element signature="e#159#160#0" expanded="true" />
+            <element signature="e#186#187#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1818,12 +1799,12 @@
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="26" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#886#887#0" expanded="true" />
-            <element signature="e#940#941#0" expanded="true" />
-            <element signature="e#982#983#0" expanded="true" />
-            <element signature="e#1032#1033#0" expanded="true" />
-            <element signature="e#1079#1080#0" expanded="true" />
-            <element signature="e#1125#1126#0" expanded="true" />
+            <element signature="e#878#879#0" expanded="true" />
+            <element signature="e#932#933#0" expanded="true" />
+            <element signature="e#974#975#0" expanded="true" />
+            <element signature="e#1024#1025#0" expanded="true" />
+            <element signature="e#1071#1072#0" expanded="true" />
+            <element signature="e#1117#1118#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1976,11 +1957,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Shipyard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
