@@ -1,8 +1,11 @@
 package objects;
 
+import ogame.utility.Initialize;
 import utilities.Utility;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -14,15 +17,27 @@ public class Buildable {
         return webName;
     }
 
-    private String webName;
+    private String webName, line;
     private int id;
+
+    public void setLevelNeeded(int levelNeeded) {
+        this.levelNeeded = levelNeeded;
+    }
+
+    private int levelNeeded;
+
+    public int getLevelNeeded() {
+        return levelNeeded;
+    }
 
     @Override
     public String toString() {
         return "Buildable{" +
                 "name='" + name + '\'' +
+                ", webName='" + webName + '\'' +
                 ", id=" + id +
-                ", requires='" + requires + '\'' +
+                ", levelNeeded=" + levelNeeded +
+                ", requires='" + getRequires() + '\'' +
                 '}';
     }
 
@@ -56,13 +71,31 @@ public class Buildable {
         return id;
     }
 
-    public String getRequires() {
+    public String getRequiresString() {
         return requires;
+    }
+
+    public List<Buildable> getRequires(){
+        String[] split = requires.split("\\/");
+        List<Buildable> buildables = new ArrayList<>();
+        for(String s : split){
+            if(s == null)
+                continue;
+            if(s.trim().isEmpty())
+                continue;
+            String[] subSplit = s.split("\\.");
+            Buildable b = null;
+            b = (Buildable) Initialize.getBuildableByID(Integer.parseInt(subSplit[0])).clone();
+            b.setLevelNeeded(Integer.parseInt(subSplit[1]));
+            buildables.add(b);
+        }
+        return buildables;
     }
 
     private String requires;
 
     public Buildable(String line) {
+        this.line = line;
         String[] obj = line.split(",");
         id = Integer.parseInt(obj[0]);
         name = obj[1].contains("/")?getObjName(obj[1]):obj[1];
@@ -78,5 +111,10 @@ public class Buildable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Buildable clone(){
+        return new Buildable(this.line);
     }
 }

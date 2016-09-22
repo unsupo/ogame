@@ -28,6 +28,8 @@ public class Initialize {
 
     public static Buildable getBuildableByName(String name){
         return getBuildableObjects().stream().filter(a->name.equals(a.getName())).collect(Collectors.toList()).get(0);
+    }  public static Buildable getBuildableByID(int id) {
+        return getBuildableObjects().stream().filter(a->a.getId() == id).collect(Collectors.toList()).get(0);
     }
 
     private static Initialize getInstance(){
@@ -80,4 +82,6 @@ public class Initialize {
     public HashMap<String, Planet> getPlanets() { //planet name, Planet
         return new HashMap<>();
     }
+
+
 }

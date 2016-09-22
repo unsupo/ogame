@@ -8,7 +8,7 @@ import java.sql.SQLException;
  */
 public class Runner {
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-        System.out.println(Initialize.getBuildableByName("Light Fighter"));
+        System.out.println(Initialize.getBuildableByName("Light Fighter").getRequires());
 
 
 //        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash");
