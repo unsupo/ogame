@@ -90,6 +90,7 @@ public class UIMethods {
         return chrome;
     }
 
+
     public static WebElement clickOnText(String text){
         List<WebElement> e = getWebDriver().findElements(By.xpath("//*[text()='"+text+"']"));
         for(WebElement el : e)
@@ -115,16 +116,32 @@ public class UIMethods {
             }
         return null;
     }
-
+    
     public static WebElement clickOnAttributeAndValue(String name, String value) {
+    	return clickOnAttributeAndValue(name, value, 0);
+    }
+    
+    public static WebElement clickOnAttributeAndValue(String name, String value, int index) {
         try{
-            WebElement e = getWebDriver().findElement(By.xpath("//*[@"+name+"='"+value+"']"));
-            e.click();
-            return e;
+            List<WebElement> list = getWebDriver().findElements(By.xpath("//*[@"+name+"='"+value+"']"));
+            list.get(index).click();
+            return list.get(index);
         }catch(Exception e){
             return _clickOnAttributeAndValue(name, value, getWebDriver(), 0);
         }
     }
+    
+    
+    public static WebElement submitOnAttributeAndValue(String name, String value, int index) {
+        try{
+            List<WebElement> list = getWebDriver().findElements(By.xpath("//*[@"+name+"='"+value+"']"));
+            list.get(index).submit();
+            return list.get(index);
+        }catch(Exception e){
+            return _clickOnAttributeAndValue(name, value, getWebDriver(), 0);
+        }
+    }
+    
     private static WebElement _clickOnAttributeAndValue(String name, String value, WebDriver driver, int level) {
         String path = "//*[@"+name+"='"+value+"']/parent::*";
         for(int i = 0; i<level; i++)
@@ -218,4 +235,5 @@ public class UIMethods {
         WebElement e = getWebDriver().findElement(By.xpath("//*[@"+attribute+"='"+value+"']"));//.click();
         return e.getText();
     }
+
 }
