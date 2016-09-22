@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 public class Initialize {
     public static String    BUILDINGS   = Utility.BUILDING_INFO,
                             FACILITIES  = Utility.FACILITIES_INFO,
-                            RESEARCH    = Utility.RESEARCH_INFO;
+                            RESEARCH    = Utility.RESEARCH_INFO,
+                            SHIPYARD    = Utility.SHIPYARD_INFO;
 
     private static Initialize instance;
 
@@ -31,7 +32,8 @@ public class Initialize {
 
     private static Initialize getInstance(){
         if(instance == null)
-            throw new IllegalArgumentException("Please login first Initialize.login(uni,username,password)");
+            instance = new Initialize();
+//            throw new IllegalArgumentException("Please login first Initialize.login(uni,username,password)");
         return instance;
     }
 
@@ -41,6 +43,13 @@ public class Initialize {
     }
     public static List<Buildable> getBuildableObjects(){
         return getInstance().buildables;
+    }
+    private Initialize() {
+        try {
+            loadFiles();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Initialize(String universe, String username, String password) throws IOException {
@@ -60,6 +69,7 @@ public class Initialize {
         addBuildingFromFile(BUILDINGS);
         addBuildingFromFile(RESEARCH);
         addBuildingFromFile(FACILITIES);
+        addBuildingFromFile(SHIPYARD);
     }
 
 

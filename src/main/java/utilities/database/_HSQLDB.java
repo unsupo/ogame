@@ -46,7 +46,7 @@ public class _HSQLDB {
         return instance;
     }
 
-    public static List<Map<String, Object>> executeQuery(String query) throws IOException, SQLException {
+    synchronized public static List<Map<String, Object>> executeQuery(String query) throws IOException, SQLException {
         return getInstance().db.executeQuery(query);
     }
 

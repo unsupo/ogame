@@ -6,13 +6,16 @@ import utilities.selenium.UIMethods;
  * Created by jarndt on 8/8/16.
  */
 public class Utility {
+    public static final int MAX_THREAD_COUNT = 200;
+
     public static final String  DIR             = System.getProperty("user.dir"),
                                 RESOURCE_DIR    = DIR+"/src/main/resources/",
                                 SHIP_INFO       = RESOURCE_DIR+"ogame_ship_info.cvs",
                                 BATTLE_INFO     = RESOURCE_DIR+"battle_info",
                                 RESEARCH_INFO   = RESOURCE_DIR+"research_info.cvs",
                                 FACILITIES_INFO = RESOURCE_DIR+"facilities_info.cvs",
-                                BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs";
+                                BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs",
+                                SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs";
 
     public static long getInProgressTime(){
         String time;
