@@ -1,31 +1,27 @@
 package ogame.pages;
 
 import ogame.utility.Initialize;
+import utilities.Utility;
 import utilities.selenium.UIMethods;
 
 import java.util.concurrent.TimeUnit;
+
+import objects.Ship;
 
 /**
  * Created by jarndt on 9/19/16.
  */
 public class Shipyard extends OGamePage{
     public static final String ID = "id";
-    private static final String SMALL_CARGO = "Small Cargo";
 
     @Override
     public String getPageLoadedConstant() {
         return null;
     }
 
-    private Action performAction(String constant){
-        String webName = Initialize.getBuildableByName(constant).getWebName();
-        UIMethods.clickOnAttributeAndValue(ID,webName);
-        UIMethods.waitForText(constant,30, TimeUnit.SECONDS);
-        return new Action();
-    }
 
     public Action clickOnSmallCargo() {
-        return performAction(SMALL_CARGO);
+        return Utility.clickAction(ID, Ship.SMALL_CARGO);
     }
 
 }

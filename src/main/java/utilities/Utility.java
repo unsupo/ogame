@@ -1,10 +1,14 @@
 package utilities;
 
 import objects.Buildable;
+import ogame.pages.Action;
+import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import utilities.selenium.UIMethods;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jarndt on 8/8/16.
@@ -47,11 +51,13 @@ public class Utility {
     }
 
     public static HashMap<String,Integer> getBuildableRequirements(String buildableName){
+    	requirements = new HashMap<>();
         getAllRequirements(buildableName);
         return requirements;
     }
 
-    private static HashMap<String,Integer> requirements = new HashMap<>();
+    private static HashMap<String,Integer> requirements;
+    
     private static void getAllRequirements(String buildable){
         for(Buildable b : Initialize.getBuildableByName(buildable).getRequires()){
             if(!requirements.containsKey(b.getName()) ||
@@ -59,5 +65,28 @@ public class Utility {
                 requirements.put(b.getName(),b.getLevelNeeded());
             getAllRequirements(b.getName());
         }
+    }
+    
+    public static Action clickAction(String ID, String constant){
+        String webName = Initialize.getBuildableByName(constant).getWebName();
+        UIMethods.clickOnAttributeAndValue(ID,webName);
+        UIMethods.waitForText(constant,30, TimeUnit.SECONDS);
+        try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return new Action();
+    }
+    
+    
+    public static void build(String name, int number) throws IOException{
+    	String type = Initialize.getType(name);
+        UIMethods.clickOnText(type);
+        clickAction("id", name);
+        UIMethods.typeOnAttributeAndValue("id", "number", number + "");
+        new Action().clickOnStartWithDM();
+        UIMethods.clickOnAttributeAndValue("class", "build-it");
     }
 }
