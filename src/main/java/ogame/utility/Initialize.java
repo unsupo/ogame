@@ -94,6 +94,12 @@ public class Initialize {
 
         for(Buildable b : researchList) {
             String v = UIMethods.getTextFromAttributeAndValue(Research.ID, b.getWebName());
+            if(v.contains("(")){
+            	String[] split = v.split("\\(");
+            	split[0] = split[0].trim();
+            	split[1] = split[1].replaceAll("\\)","").replaceAll("\\+", "");
+            	v = Integer.parseInt(split[0]) + Integer.parseInt(split[1]) + "";
+            }
             researches.put(b.getName(),Integer.parseInt(v));
         }
         return researches;
@@ -105,6 +111,10 @@ public class Initialize {
 
     private static HashMap<String,List<Integer>> mappings = new HashMap<>();
 
+    public static String getType(String name) throws IOException{
+    	return getType(getBuildableByName(name).getId());
+    }
+    
     public static String getType(int id) throws IOException {
         if(mappings.isEmpty()) {
             List<String> v = FileOptions.readFileIntoListString(MAPPINGS);

@@ -66,7 +66,7 @@ public class OGamePage {
     }
     
     public OGamePage clickOnPlanet(int index){
-    	UIMethods.clickOnAttributeAndValue("class", "planet-name  ", 2);
+    	UIMethods.clickOnAttributeAndValue("class", "planet-name  ", index);
 		return new OGamePage();
     }
 

@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
  * Created by jarndt on 8/8/16.
  */
 public class Ship {
+	
+	
+    public static final String SMALL_CARGO = "Small Cargo";
+
     private static List<Ship> allShips;
     public static List<Ship> getAllShips(String...pathToShipFile) throws IOException {
         String path = Utility.SHIP_INFO;
