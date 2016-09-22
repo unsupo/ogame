@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jarndt on 9/19/16.
  */
-public class Research extends AbstractOgamePage{
+public class Research extends OGamePage{
     public static final String ID = "id";
     private static final String ENERGY = "Energy Technology";
     private static final String COMBUSTION = "Combustion Drive";
