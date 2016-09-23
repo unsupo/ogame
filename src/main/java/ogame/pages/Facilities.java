@@ -1,6 +1,7 @@
 package ogame.pages;
 
 import ogame.utility.Initialize;
+import ogame.utility.Resource;
 import utilities.selenium.UIMethods;
 
 import java.util.concurrent.TimeUnit;
@@ -14,6 +15,14 @@ public class Facilities extends OGamePage{
     private static final String RESEARCH_LAB = "Research Lab";
     private static final String SHIPYARD = "Shipyard";
 
+    public static final String[] names = {ROBOTICS_FACTORY, RESEARCH_LAB, SHIPYARD};
+    
+    public static final Resource[] baseCosts = Resource.convertCosts(new long[] {
+    		400, 120, 200,
+    		200, 400, 200,
+    		200, 400, 200
+    });
+    
     @Override
     public String getPageLoadedConstant() {
         return "Facility buildings";
