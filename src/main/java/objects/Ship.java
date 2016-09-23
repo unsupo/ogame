@@ -12,9 +12,28 @@ import java.util.stream.Collectors;
  * Created by jarndt on 8/8/16.
  */
 public class Ship {
-	
-	
-    public static final String SMALL_CARGO = "Small Cargo";
+    public static final String  SMALL_CARGO         = "Small Cargo",
+                                CRUISER             = "Cruiser",
+                                LIGHT_FIGHTER       = "Light Fighter",
+                                HEAVY_FIGHTER       = "Heavy Fighter",
+                                BATTLESHIP          = "Battleship",
+                                BATTLECRUISER       = "Battlecruiser",
+                                BOMBER              = "Bomber",
+                                DESTROYER           = "Destroyer",
+                                DEATHSTAR           = "Deathstar",
+                                LARGE_CARGO         = "Large Cargo",
+                                COLONY_SHIP         = "Colony Ship",
+                                RECYCLER            = "Recycler",
+                                ESPIONAGE_PROBE     = "Espionage Probe",
+                                SOLAR_SATELLITE     = "Solar Satellite",
+                                ROCKET_LAUNCHER     = "Rocket Launcher",
+                                LIGHT_LASER         = "Light Laser",
+                                HEAVY_LASER         = "Heavy Laser",
+                                GAUSS_CANNON        = "Gauss Cannon",
+                                ION_CANNON          = "Ion Cannon",
+                                PLASMA_TURRET       = "Plasma Turret",
+                                SMALL_SHIELD_DOME   = "Small Shield Dome",
+                                LARGE_SHIELD_DOME   = "Large Shield Dome";
 
     private static List<Ship> allShips;
     public static List<Ship> getAllShips(String...pathToShipFile) throws IOException {

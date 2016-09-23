@@ -51,6 +51,7 @@ public class Research extends OGamePage{
     	200, 600, 0,
     	1000, 0, 0
     });
+    public static final String RESEARCH = "Research";
 
     @Override
     public String getPageLoadedConstant() {
