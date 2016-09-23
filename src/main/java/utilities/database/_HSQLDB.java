@@ -11,8 +11,8 @@ import java.util.Map;
  * Created by jarndt on 9/21/16.
  */
 public class _HSQLDB {
-    public final String dbName = "";
-    public HSQLDB db = null;
+    private static String dbName = "ogniterDB";
+    private HSQLDB db = null;
     private _HSQLDB() throws IOException, SQLException {
         db = new HSQLDB("ogniterDB");
         db.executeQuery(
@@ -46,8 +46,17 @@ public class _HSQLDB {
         return instance;
     }
 
+    public static void setDbName(int dbNameNumber){
+        dbName+=dbNameNumber;
+    }
+
     public static List<Map<String, Object>> executeQuery(String query) throws IOException, SQLException {
-        return getInstance().db.executeQuery(query);
+//        try {
+            return getInstance().db.executeQuery(query);
+//        }catch (SQLTransientConnectionException e){
+//            executeQuery(query); //DOC states that the this execption could succeed if tried again:  https://docs.oracle.com/javase/7/docs/api/java/sql/SQLTransientConnectionException.html
+//        }
+//        return null;
     }
 
 }

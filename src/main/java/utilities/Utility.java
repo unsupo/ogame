@@ -89,4 +89,12 @@ public class Utility {
         new Action().clickOnStartWithDM();
         UIMethods.clickOnAttributeAndValue("class", "build-it");
     }
+
+    public static int getOgniterUniverseNumber(String universe) {
+        if("s129-en.ogame.gameforge.com".equals(universe))
+            return 645;
+        if("s117-en.ogame.gameforge.com".equals(universe))
+            return 398;
+        return 398;
+    }
 }

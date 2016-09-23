@@ -163,7 +163,7 @@ public class OgniterGalaxyParser {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         try {
-            String lastUpdate = FileOptions.readFileIntoString(Utility.LAST_UPDATE);
+            String lastUpdate = FileOptions.readFileIntoString(Utility.LAST_UPDATE+"_"+universe);
             LocalDateTime dateTime = LocalDateTime.from(f.parse(lastUpdate));
 
             if(dateTime.plusDays(1).isBefore(LocalDateTime.now()))
@@ -185,7 +185,7 @@ public class OgniterGalaxyParser {
                 }));
 
         try {
-            FileOptions.writeToFileOverWrite(Utility.LAST_UPDATE,LocalDateTime.now().format(f));
+            FileOptions.writeToFileOverWrite(Utility.LAST_UPDATE+"_"+universe,LocalDateTime.now().format(f));
         } catch (IOException e) {
             e.printStackTrace();
         }
