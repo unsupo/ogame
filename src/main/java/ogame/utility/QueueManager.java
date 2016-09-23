@@ -1,6 +1,7 @@
 package ogame.utility;
 
 import utilities.Utility;
+import utilities.database._HSQLDB;
 import utilities.filesystem.FileOptions;
 import utilities.jsoup.OgniterGalaxyParser;
 
@@ -32,6 +33,7 @@ public class QueueManager {
     private QueueManager() throws IOException {
         WatchServiceCreator.start();
         startFileContentReader();
+        _HSQLDB.setDbName(Utility.getOgniterUniverseNumber(getLoginParameters()[0]));
         parseUniverse();
     }
 
@@ -40,7 +42,7 @@ public class QueueManager {
             @Override
             public void run() {
                 while(true){
-                    OgniterGalaxyParser.parseEntireUniverse(398);
+                    OgniterGalaxyParser.parseEntireUniverse(Utility.getOgniterUniverseNumber(getLoginParameters()[0]));
 
                     try {
                         Thread.sleep(1000*3600*24);

@@ -1,10 +1,12 @@
 package ogame.utility;
 
 import objects.Buildable;
+import objects.Coordinates;
 import objects.Planet;
-import ogame.pages.Login;
-import ogame.pages.Overview;
-import ogame.pages.Research;
+import ogame.pages.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
 import utilities.selenium.UIMethods;
@@ -28,8 +30,10 @@ public class Initialize {
 
     private static Initialize instance;
 
+    private static HashMap<String,List<Integer>> mappings = new HashMap<>();
     private List<Buildable> buildables = new ArrayList<>();
-    private HashMap<String,Integer> researches = new HashMap<>();
+    private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
+    private HashMap<String,Planet> planets = new HashMap<>();//planetName, Planet object
 
     public static Buildable getBuildableByName(String name){
         return getBuildableObjects().stream().filter(a->name.equals(a.getName())).collect(Collectors.toList()).get(0);
@@ -40,7 +44,6 @@ public class Initialize {
     public static Initialize getInstance(){
         if(instance == null)
             instance = new Initialize();
-//            throw new IllegalArgumentException("Please login first Initialize.login(uni,username,password)");
         return instance;
     }
 
@@ -94,39 +97,74 @@ public class Initialize {
     }
 
 
-    public HashMap<String,Integer> getResearch() { //research name, level
-        if(!researches.isEmpty())
-            return researches;
+    public HashMap<String,Integer> getResearch() throws IOException { //research name, level
+        return getMapValue(Research.ID,"Research",researches);
+    }public HashMap<String,Integer> getFacilities(String planetName) throws IOException { //research name, level
+        return getMapValue(Facilities.ID,"Facilities",getPlanets().get(planetName).getFacilities());
+    }public HashMap<String,Integer> getBuildings(String planetName) throws IOException { //research name, level
+        return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
+    }
+    private HashMap<String,Integer> getMapValue(String ID, String name, HashMap<String,Integer> map) throws IOException {
+        if(!map.isEmpty())
+            return map;
 
-        new Overview().clickOnResearch();
+        UIMethods.clickOnText(name);
 
-        List<Buildable> researchList = buildables.stream()
-                .filter(a -> a.getId() >= 16 && a.getId() <= 31).collect(Collectors.toList());
+        map.putAll(getValues(ID,name));
 
-        for(Buildable b : researchList) {
-            String v = UIMethods.getTextFromAttributeAndValue(Research.ID, b.getWebName());
+        return map;
+    }
+
+    public HashMap<String,Integer> getValues(String ID, String typeName) throws IOException {
+        List<Integer> values = getMappings().get(typeName);
+        int v1 = values.get(0), v2 = values.get(1);
+        HashMap<String,Integer> map = new HashMap<>();
+        List<Buildable> buildableList = buildables.stream()
+                .filter(a -> a.getId() >= v1 && a.getId() <= v2).collect(Collectors.toList());
+        for(Buildable b : buildableList) {
+            String v = UIMethods.getTextFromAttributeAndValue(ID, b.getWebName());
             if(v.contains("(")){
-            	String[] split = v.split("\\(");
-            	split[0] = split[0].trim();
-            	split[1] = split[1].replaceAll("\\)","").replaceAll("\\+", "");
-            	v = Integer.parseInt(split[0]) + Integer.parseInt(split[1]) + "";
+                String[] split = v.split("\\(");
+                split[0] = split[0].trim();
+                split[1] = split[1].replaceAll("\\)","").replaceAll("\\+", "");
+                v = Integer.parseInt(split[0]) + Integer.parseInt(split[1]) + "";
             }
-            researches.put(b.getName(),Integer.parseInt(v));
+            map.put(b.getName(),Integer.parseInt(v));
         }
-        return researches;
+        return map;
     }
 
-    public HashMap<String, Planet> getPlanets() { //planet name, Planet
-        return new HashMap<>();
+    public HashMap<String, Planet> getPlanets() throws IOException { //planet name, Planet
+        if(!planets.isEmpty())
+            return planets;
+
+        Elements smallPlanets = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("div.smallplanet");
+        for(Element e : smallPlanets){
+            String id = e.id();
+            String planetName = e.select("span.planet-name  ").text();
+            String coordinates = e.select("span.planet-koords  ").text();
+
+            Planet p = new Planet();
+            p.setWebElement(id);
+            p.setCoordinates(new Coordinates(coordinates));
+
+            planets.put(planetName,p);
+        }
+
+        for(String name : planets.keySet()){
+            UIMethods.clickOnAttributeAndValue("id",planets.get(name).getWebElement());
+            getFacilities(name);
+            getBuildings(name);
+        }
+
+        return planets;
     }
 
-    private static HashMap<String,List<Integer>> mappings = new HashMap<>();
 
     public static String getType(String name) throws IOException{
     	return getType(getBuildableByName(name).getId());
     }
-    
-    public static String getType(int id) throws IOException {
+    public static HashMap<String, List<Integer>> getMappings() throws IOException {
         if(mappings.isEmpty()) {
             List<String> v = FileOptions.readFileIntoListString(MAPPINGS);
             for(String s : v){
@@ -134,13 +172,17 @@ public class Initialize {
                 mappings.put(split[0], Arrays.asList(Integer.parseInt(split[1]),Integer.parseInt(split[2])));
             }
         }
-        for(String key : mappings.keySet()){
-            List<Integer> l = mappings.get(key);
+        return mappings;
+    }
+    public static String getType(int id) throws IOException {
+        for(String key : getMappings().keySet()){
+            List<Integer> l = getMappings().get(key);
             Integer v1 = l.get(0), v2 = l.get(1);
             if(id <= v2 && id >= v1)
                 return key;
         }
         return null;
     }
+
 
 }
