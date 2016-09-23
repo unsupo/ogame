@@ -1,18 +1,15 @@
 package ogame.pages;
 
-import ogame.utility.Initialize;
-import utilities.Utility;
-import utilities.selenium.UIMethods;
-
-import java.util.concurrent.TimeUnit;
-
 import objects.Ship;
+import utilities.Utility;
 
 /**
  * Created by jarndt on 9/19/16.
  */
 public class Shipyard extends OGamePage{
-    public static final String ID = "id";
+    public static final String ID = "id", WEB_ID_APPENDER = "details";
+
+    public static final String SHIPYARD = "Shipyard";
 
     @Override
     public String getPageLoadedConstant() {
