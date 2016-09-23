@@ -54,7 +54,7 @@ public class Resource {
 
 	public static Resource[] convertCosts(long[] costs){
 		Resource[] resources = new Resource[costs.length/3];
-		for(int i=0;i<3;i+=3){
+		for(int i=0;i<costs.length;i+=3){
 			resources[i/3] = new Resource(costs[i], costs[i+1], costs[i+2]);
 		}
 		return resources;
