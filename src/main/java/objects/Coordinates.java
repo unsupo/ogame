@@ -1,9 +1,11 @@
 package objects;
 
+import java.util.Comparator;
+
 /**
  * Created by jarndt on 8/8/16.
  */
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates>{
     String universe;
     int galaxy, system, planet;
 
@@ -23,19 +25,6 @@ public class Coordinates {
                 " : " + system +
                 " : " + planet +
                 " ] }";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Coordinates that = (Coordinates) o;
-
-        if (galaxy != that.galaxy) return false;
-        if (system != that.system) return false;
-        return planet == that.planet;
-
     }
 
     @Override
@@ -95,4 +84,23 @@ public class Coordinates {
     public String getCoordinates() {
         return galaxy+":"+system+":"+planet;
     }
+    
+    @Override
+    public boolean equals(Object other){
+    	if(other instanceof Coordinates){
+    		Coordinates oc = (Coordinates)other;
+    		if(universe != null && oc.universe != null && !universe.equals(oc.universe)){
+    			return false;
+    		}
+    		return galaxy == oc.galaxy && planet == oc.planet && system == oc.system;
+    	}
+    	return false;
+    
+    }
+
+	@Override
+	public int compareTo(Coordinates o) {
+		return galaxy*1000000-o.galaxy*1000000+system*20-o.system*20+planet-o.planet;
+
+	}
 }
