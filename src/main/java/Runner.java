@@ -15,7 +15,7 @@ public class Runner {
 
 
     //EXAMPLES
-//    Research o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash")
+//    Research o = Initialize.login("s129-en.ogame.gameforge.com", "<username>", "<password>")
 //            .clickOnResearch();
 //    HashMap<String, Integer> requirements = Utility.getBuildableRequirements("Small Cargo Ship");
 //
@@ -27,7 +27,7 @@ public class Runner {
 //        o.clickOnResearchByName(name).clickOnStartWithDM();
 //    }
 
-//        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash");
+//        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "<username>", "<password>");
 //        o.clickOnResearch().clickOnCombustionDrive().clickOnStartWithDM();
 //        new Shipyard().clickOnSmallCargo();
 
@@ -39,7 +39,7 @@ public class Runner {
 
 
 
-//        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "unsupo", "supersmash");
+//        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "<username>", "<password>");
 //        o.clickOnResearch().clickOnCombustionDrive().clickOnStartWithDM();
 //        new Shipyard().clickOnSmallCargo();
 
