@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Created by jarndt on 9/22/16.
  */
 public class QueueManager {
-    private static final String LOGIN = "login";
+    private static final String LOGIN = "login", BUILD = "build";
     private static QueueManager instance;
     private HashMap<File,List<String>> fileContents = new HashMap<>();
 
