@@ -5,6 +5,8 @@ package ogame.pages;
  */
 public class Resources extends OGamePage{
     public static final String ID = "ref";
+    public static final String RESOURCES = "Resources";
+
     @Override
     public String getPageLoadedConstant() {
         return null;

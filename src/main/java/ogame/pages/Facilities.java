@@ -22,7 +22,8 @@ public class Facilities extends OGamePage{
     		200, 400, 200,
     		200, 400, 200
     });
-    
+    public static final String FACILITIES = "Facilities";
+
     @Override
     public String getPageLoadedConstant() {
         return "Facility buildings";
