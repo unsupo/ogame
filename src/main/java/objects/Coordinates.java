@@ -7,7 +7,9 @@ import java.util.Comparator;
  */
 public class Coordinates implements Comparable<Coordinates>{
     String universe;
-    int galaxy, system, planet;
+    int galaxy, system, planet, type;
+    
+    public static final int PLANET = 0, MOON = 1, DEBRIS_FIELD = 2;
 
     public Coordinates(String coordinates) {
         coordinates = coordinates.replace("[","").replace("]","");
@@ -101,6 +103,31 @@ public class Coordinates implements Comparable<Coordinates>{
 	@Override
 	public int compareTo(Coordinates o) {
 		return galaxy*1000000-o.galaxy*1000000+system*20-o.system*20+planet-o.planet;
-
+	}
+	
+	public int getDistance(Coordinates other){
+		if(galaxy != other.galaxy){
+			return getMinDistance(galaxy, other.galaxy, 9)*20000;
+		}
+		if(system != other.system){
+			return 2700 + getMinDistance(system, other.system, 499)*95;
+		}
+		if(planet != other.planet){
+			return 1000 + Math.abs(planet - other.planet)*5;
+		}
+		return 5;
+	}
+	
+	public static int getTime(int distance, int speed){
+		return 10 + (int)(3500*Math.sqrt(10*distance/speed));
+	}
+	
+	public int getTime(Coordinates other, int speed){
+		return Coordinates.getTime(getDistance(other), speed);
+	}
+	
+	private int getMinDistance(int one, int two, int loop){
+		int distance = Math.abs(one - two);
+		return Math.min(distance, 499-loop);
 	}
 }
