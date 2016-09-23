@@ -1,7 +1,5 @@
 package objects;
 
-import java.util.Comparator;
-
 /**
  * Created by jarndt on 8/8/16.
  */
@@ -102,7 +100,10 @@ public class Coordinates implements Comparable<Coordinates>{
 
 	@Override
 	public int compareTo(Coordinates o) {
-		return galaxy*1000000-o.galaxy*1000000+system*20-o.system*20+planet-o.planet;
+        return Integer.compare(galaxy,o.galaxy)*8+
+                Integer.compare(system,o.system)*4+
+                Integer.compare(planet,o.planet)*2+
+                Integer.compare(type,o.type)*1;
 	}
 	
 	public int getDistance(Coordinates other){
@@ -128,6 +129,6 @@ public class Coordinates implements Comparable<Coordinates>{
 	
 	private int getMinDistance(int one, int two, int loop){
 		int distance = Math.abs(one - two);
-		return Math.min(distance, 499-loop);
+		return Math.min(distance, loop - distance);
 	}
 }
