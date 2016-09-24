@@ -1,13 +1,23 @@
 package utilities;
 
 import objects.Buildable;
-import ogame.pages.Action;
+import objects.Coordinates;
+import objects.Planet;
+import ogame.pages.*;
 import ogame.utility.Initialize;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
+import utilities.database._HSQLDB;
 import utilities.selenium.UIMethods;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 8/8/16.
@@ -17,6 +27,7 @@ public class Utility {
 
     public static final String  DIR             = System.getProperty("user.dir"),
                                 RESOURCE_DIR    = DIR+"/src/main/resources/",
+                                PROFILE_DIR     = RESOURCE_DIR+"/profile/",
                                 SHIP_INFO       = RESOURCE_DIR+"ogame_ship_info.cvs",
                                 BATTLE_INFO     = RESOURCE_DIR+"battle_info",
                                 RESEARCH_INFO   = RESOURCE_DIR+"research_info.cvs",
@@ -92,9 +103,54 @@ public class Utility {
 
     public static int getOgniterUniverseNumber(String universe) {
         if("s129-en.ogame.gameforge.com".equals(universe))
-            return 645;
+            return 572;
         if("s117-en.ogame.gameforge.com".equals(universe))
             return 398;
         return 398;
+    }
+
+    public static List<Coordinates> getInactiveTargets(Coordinates yourCoordinates) throws IOException, SQLException {
+//        Coordinates coordinates = Initialize.getPlanetMap().get("Homeworld").getCoordinates();
+        List<Map<String, Object>> results = _HSQLDB.executeQuery(
+                "select coordinates from player p JOIN planet t ON p.player_name = t.player_name " +
+                        "where player_status in ('I','i') and " +
+                        "regexp_substring(coordinates,'[0-9]+')='" + yourCoordinates.getGalaxy() + "'");
+
+        List<Coordinates> coords = results.stream().map(a->new Coordinates(a.get("COORDINATES").toString()))
+                .collect(Collectors.toList());
+        Collections.sort(coords,(a,b)->yourCoordinates.compareTo(a)-yourCoordinates.compareTo(b));
+        return coords;
+    }
+
+
+    public static String getActivePlanetName(){
+        Elements v = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("div.smallplanet");
+        if(v.size() > 1)
+            v = v.select("a.active");
+        Elements vv = v.get(0).select("span.planet-name  ");
+        return vv.text();
+    }public static Planet getActivePlanet() throws IOException {
+        return Initialize.getPlanet(getActivePlanetName());
+    }
+
+
+    public static void clickOnNewPage(String pageName) throws IOException {
+        UIMethods.clickOnText(pageName);
+
+        if(Research.RESEARCH.equals(pageName))
+            Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
+        else{
+            String planetName = getActivePlanetName();
+            HashMap<String, Planet> planetMap = Initialize.getPlanetMap();
+            if(!planetMap.containsKey(planetName))
+                planetMap.put(planetName,new Planet());
+            Planet planet = planetMap.get(planetName);
+            if(Facilities.FACILITIES.equals(pageName))
+                planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID,Facilities.FACILITIES));
+            if(Resources.RESOURCES.equals(pageName))
+                planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID,Resources.RESOURCES));
+            if(Shipyard.SHIPYARD.equals(pageName))
+                planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID,Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
+        }
     }
 }
