@@ -6,6 +6,7 @@ import objects.Planet;
 import objects.Ship;
 import ogame.utility.Initialize;
 import ogame.utility.Resource;
+import utilities.Utility;
 import utilities.selenium.UIMethods;
 
 import java.io.IOException;
@@ -130,6 +131,9 @@ public class MissionBuilder {
     }
 
     public MissionBuilder sendFleet() throws IOException {
+        if(source == null)
+            source = Utility.getActivePlanet().getCoordinates();
+
         Planet fromPlanet = Initialize.getPlanet(source);
 
         UIMethods.clickOnAttributeAndValue("id", fromPlanet.getWebElement());

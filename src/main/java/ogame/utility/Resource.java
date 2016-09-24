@@ -1,11 +1,11 @@
 package ogame.utility;
 
-import java.io.IOException;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import ogame.pages.Facilities;
 import ogame.pages.Research;
+import ogame.pages.Resources;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.io.IOException;
 
 public class Resource {
 
@@ -26,16 +26,23 @@ public class Resource {
 	}
 
 	public static Resource getCumulativeCost(String name, int min, int max) throws IOException{
-		if(name.equals(Research.ASTROPHYSICS)){
-			
-		}else{
-			return getCumulativeCost(getBaseCost(name), min, max);
+		double multiplier = 2;
+		switch (name){
+			case Research.ASTROPHYSICS: 			multiplier = 1.75; break;
+			case Resources.METAL_MINE:				//fall through
+			case Resources.DUETERIUM_SYNTHESIZER:	//fall through
+			case Resources.SOLAR_PLANET: 			multiplier = 1.5; break;
+			case Resources.CRYSTAL_MINE: 			multiplier = 1.6; break;
+			case Resources.FUSION_REACTOR: 			multiplier = 1.8; break;
 		}
-		return null;
+		return getCumulativeCost(getBaseCost(name), min, max, multiplier);
 	}
 	
 	private static Resource getCumulativeCost(Resource base, int min, int max){
 		return base.multiply(Math.pow(2, max)-Math.pow(2, min -1));
+	}
+	private static Resource getCumulativeCost(Resource base, int min, int max, double power){
+		return base.multiply(Math.pow(power, max)-Math.pow(power, min -1));
 	}
 	
 	public static Resource getBaseCost(String name) {
