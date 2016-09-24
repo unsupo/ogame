@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.stream.Collectors;
 
 /**
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 public class QueueManager {
     private static final String LOGIN = "login", BUILD = "build";
     private static QueueManager instance;
+
+    private PriorityBlockingQueue<QueuedJob> queuedJobs = new PriorityBlockingQueue<>();
     private HashMap<File,List<String>> fileContents = new HashMap<>();
 
     public static HashMap<File,List<String>> getFileContents() throws IOException {
@@ -28,6 +31,10 @@ public class QueueManager {
         if(instance == null)
             instance = new QueueManager();
         return instance;
+    }
+
+    public static PriorityBlockingQueue<QueuedJob> getPriorityQueue() throws IOException {
+        return getInstance().queuedJobs;
     }
 
     private QueueManager() throws IOException {
@@ -83,7 +90,7 @@ public class QueueManager {
         return getInstance().getLoginParameters();
     }
 
-    private String[] getLoginParameters() {
+    public String[] getLoginParameters() {
         if(loginParams == null) {
             List<String> values = new ArrayList<>();
             while (fileContents.isEmpty())
