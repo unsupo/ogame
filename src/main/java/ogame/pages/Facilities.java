@@ -11,9 +11,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class Facilities extends OGamePage{
     public static final String ID = "ref";
-    private static final String ROBOTICS_FACTORY = "Robotics Factory";
-    private static final String RESEARCH_LAB = "Research Lab";
-    private static final String SHIPYARD = "Shipyard";
+
+    public static final String FACILITIES = "Facilities";
+
+    private static final String ROBOTICS_FACTORY    = "Robotics Factory",
+                                RESEARCH_LAB        = "Research Lab",
+                                SHIPYARD            = "Shipyard",
+                                ALLIANCE_DEPOT      = "Alliance Depot",
+                                MISSILE_SILO        = "Missile Silo",
+                                NANITE_FACTORY      = "Nanite Factory",
+                                TERRAFORMER         = "Terraformer",
+                                SPACE_DOCK          = "Space Dock";
 
     public static final String[] names = {ROBOTICS_FACTORY, RESEARCH_LAB, SHIPYARD};
     
@@ -22,7 +30,6 @@ public class Facilities extends OGamePage{
     		200, 400, 200,
     		200, 400, 200
     });
-    public static final String FACILITIES = "Facilities";
 
     @Override
     public String getPageLoadedConstant() {
