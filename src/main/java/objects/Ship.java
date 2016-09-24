@@ -256,8 +256,9 @@ public class Ship {
         isDefenseStructure = defenseStructure;
     }
 
-    public void setName(String name) {
+    public Ship setName(String name) {
         this.name = name;
+        return this;
     }
 
     public void setRapidFire(HashMap<String, Integer> rapidFire) {

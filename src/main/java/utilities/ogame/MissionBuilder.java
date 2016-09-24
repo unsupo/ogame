@@ -2,6 +2,8 @@ package utilities.ogame;
 
 import objects.Coordinates;
 import objects.Fleet;
+import objects.Planet;
+import objects.Ship;
 import ogame.utility.Initialize;
 import ogame.utility.Resource;
 import utilities.selenium.UIMethods;
@@ -26,14 +28,16 @@ public class MissionBuilder {
 
     private Fleet fleet;
     private String mission;
-    private int speed;
+    private int speed = 100;
+    private Coordinates destination;
 
     @Override
     public String toString() {
         return "MissionBuilder{" +
-                " mission='" + mission + '\'' +
+                "mission='" + mission + '\'' +
                 ", speed=" + speed +
                 ", destination=" + destination +
+                ", source=" + source +
                 ", resourceToSend=" + resourceToSend +
                 ", fleet=" + fleet +
                 '}';
@@ -50,6 +54,7 @@ public class MissionBuilder {
         if (fleet != null ? !fleet.equals(that.fleet) : that.fleet != null) return false;
         if (mission != null ? !mission.equals(that.mission) : that.mission != null) return false;
         if (destination != null ? !destination.equals(that.destination) : that.destination != null) return false;
+        if (source != null ? !source.equals(that.source) : that.source != null) return false;
         return resourceToSend != null ? resourceToSend.equals(that.resourceToSend) : that.resourceToSend == null;
 
     }
@@ -60,12 +65,24 @@ public class MissionBuilder {
         result = 31 * result + (mission != null ? mission.hashCode() : 0);
         result = 31 * result + speed;
         result = 31 * result + (destination != null ? destination.hashCode() : 0);
+        result = 31 * result + (source != null ? source.hashCode() : 0);
         result = 31 * result + (resourceToSend != null ? resourceToSend.hashCode() : 0);
         return result;
     }
 
-    Coordinates destination;
-    Resource resourceToSend;
+    public Coordinates getSource() {
+        return source;
+
+    }
+
+    public MissionBuilder setSource(Coordinates source) {
+        this.source = source;
+        return this;
+    }
+
+    private Coordinates source;
+    private Resource resourceToSend;
+
 
     public Fleet getFleet() {
         return fleet;
@@ -109,6 +126,34 @@ public class MissionBuilder {
 
     public MissionBuilder setResourceToSend(Resource resourceToSend) {
         this.resourceToSend = resourceToSend;
+        return this;
+    }
+
+    public MissionBuilder sendFleet() throws IOException {
+        Planet fromPlanet = Initialize.getPlanet(source);
+
+        UIMethods.clickOnAttributeAndValue("id", fromPlanet.getWebElement());
+        UIMethods.clickOnText("Fleet");
+
+        for(Ship ship : fleet.getShips().keySet())
+            UIMethods.typeOnAttributeAndValue("id",
+                    ogame.pages.Fleet.WEB_ID_APPENDER +
+                            Initialize.getBuildableByName(ship.getName()).getWebName(),
+                    fleet.getShips().get(ship)+"");
+
+        UIMethods.clickOnText("Next");
+        System.out.println("Attacking: "+ destination);
+
+        UIMethods.typeOnAttributeAndValue("id","galaxy",destination.getGalaxy()+"");
+        UIMethods.typeOnAttributeAndValue("id","system",destination.getSystem()+"");
+        UIMethods.typeOnAttributeAndValue("id","position",destination.getPlanet()+"");
+
+        UIMethods.clickOnText("Next");
+
+        UIMethods.waitForText("Select mission for target:",1, TimeUnit.MINUTES);
+        UIMethods.clickOnAttributeAndValue("id",getMission());//document.getElementById("missionButton1").click()
+        UIMethods.clickOnText("Send fleet");
+
         return this;
     }
 

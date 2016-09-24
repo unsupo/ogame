@@ -1,5 +1,6 @@
 package objects;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -33,11 +34,16 @@ public class Fleet {
     }
 
     public HashMap<Ship, Integer> getShips() {
-
         return ships;
     }
 
-    public void setShips(HashMap<Ship, Integer> ships) {
+    public Fleet setShips(HashMap<Ship, Integer> ships) {
         this.ships = ships;
+        return this;
+    }
+
+    public Fleet addShip(String shipName, int i) throws IOException {
+        ships.put(new Ship(shipName),i);
+        return this;
     }
 }
