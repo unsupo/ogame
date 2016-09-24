@@ -1,9 +1,13 @@
 package ogame.utility;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import objects.Buildable;
 import objects.Coordinates;
 import objects.Planet;
 import ogame.pages.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,11 +15,11 @@ import utilities.Utility;
 import utilities.filesystem.FileOptions;
 import utilities.selenium.UIMethods;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +38,10 @@ public class Initialize {
     private List<Buildable> buildables = new ArrayList<>();
     private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
     private HashMap<String,Planet> planets = new HashMap<>();//planetName, Planet object
+
+    public static HashMap<String,Planet> getPlanetMap() throws IOException {
+        return getInstance().getPlanets();
+    }
 
     public static Buildable getBuildableByName(String name){
         return getBuildableObjects().stream().filter(a->name.equals(a.getName())).collect(Collectors.toList()).get(0);
@@ -79,10 +87,22 @@ public class Initialize {
 
         new Login().login(universe,username,password);
 
-        getPlanets();
-        getResearch();
+        String[] params = QueueManager.getInstance().getLoginParameters();
+        String fName = params[1]+"_";
+        fName += Utility.getOgniterUniverseNumber(params[0])+"";
+
+        readObject(Utility.PROFILE_DIR+fName);
 
         QueueManager.start();
+    }
+
+    public static Planet getPlanet(Coordinates coords) throws IOException {
+        return getInstance().getPlanetMap().values().stream()
+                .filter(a->a.getCoordinates().equals(coords))
+                .collect(Collectors.toList()).get(0);
+    }
+    public static Planet getPlanet(String name) throws IOException {
+        return getInstance().getPlanetMap().get(name);
     }
 
     private void addBuildingFromFile(String file) throws IOException {
@@ -115,14 +135,16 @@ public class Initialize {
         return map;
     }
 
-    public HashMap<String,Integer> getValues(String ID, String typeName) throws IOException {
+    public HashMap<String,Integer> getValues(String ID, String typeName) throws IOException{
+        return getValues(ID,typeName,"");
+    }public HashMap<String,Integer> getValues(String ID, String typeName, String prepender) throws IOException {
         List<Integer> values = getMappings().get(typeName);
         int v1 = values.get(0), v2 = values.get(1);
         HashMap<String,Integer> map = new HashMap<>();
         List<Buildable> buildableList = buildables.stream()
                 .filter(a -> a.getId() >= v1 && a.getId() <= v2).collect(Collectors.toList());
         for(Buildable b : buildableList) {
-            String v = UIMethods.getTextFromAttributeAndValue(ID, b.getWebName());
+            String v = UIMethods.getTextFromAttributeAndValue(ID, prepender+b.getWebName());
             if(v.contains("(")){
                 String[] split = v.split("\\(");
                 split[0] = split[0].trim();
@@ -137,7 +159,7 @@ public class Initialize {
     public HashMap<String, Planet> getPlanets() throws IOException { //planet name, Planet
         if(!planets.isEmpty())
             return planets;
-
+        
         Elements smallPlanets = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("div.smallplanet");
         for(Element e : smallPlanets){
             String id = e.id();
@@ -157,8 +179,51 @@ public class Initialize {
             getBuildings(name);
         }
 
+
         return planets;
     }
+
+    private DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public void writeObject(Object...obj) throws IOException {
+        String[] params = QueueManager.getInstance().getLoginParameters();
+        JSONArray data = new JSONArray();
+        for(Object o : obj) {
+            String gson = new Gson().toJson(o);
+            JSONObject jsonObj = new JSONObject(gson);
+            data.put(jsonObj);
+        }
+        String fName = params[1]+"_";
+        fName += Utility.getOgniterUniverseNumber(params[0])+"";
+
+        JSONObject jo = new JSONObject().put("data",data).put("timestamp", LocalDateTime.now().format(f));
+        FileOptions.writeToFileOverWrite(Utility.PROFILE_DIR+fName,jo.toString());
+    }
+
+    public void readObject(String src) throws IOException {
+        if(!new File(src).exists()){
+            getResearch();
+            getPlanets();
+            writeObject(planets,researches);
+            return;
+        }
+        String obj = FileOptions.readFileIntoString(src);
+        JSONObject jo = new JSONObject(obj);
+
+        String lastUpdate = jo.getString("timestamp");
+        LocalDateTime dateTime = LocalDateTime.from(f.parse(lastUpdate));
+
+        if(dateTime.plusMinutes(10).isBefore(LocalDateTime.now())){
+            getResearch();
+            getPlanets();
+            writeObject(planets,researches);
+        }else{
+            JSONArray jarr = jo.getJSONArray("data");
+            planets = new Gson().fromJson(jarr.get(0).toString(), new TypeToken<HashMap<String, Planet>>(){}.getType());
+            researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<String, Integer>>(){}.getType());
+        }
+    }
+
 
 
     public static String getType(String name) throws IOException{
