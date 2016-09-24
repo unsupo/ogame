@@ -12,6 +12,7 @@ import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +66,17 @@ public class Utility {
     	requirements = new HashMap<>();
         getAllRequirements(buildableName);
         return requirements;
+    }
+    
+    public static Map<String,Integer> getResearchRequirements(String buildableName){
+    	Map<String, Integer> requirements = getBuildableRequirements(buildableName);
+    	Map<String, Integer> researchReqs = new HashMap<String, Integer>();
+    	for(String key: requirements.keySet()){
+    		if(Arrays.asList(Research.names).contains(key)){
+    			researchReqs.put(key, requirements.get(key));
+    		}
+    	}
+    	return researchReqs;
     }
 
     private static HashMap<String,Integer> requirements;

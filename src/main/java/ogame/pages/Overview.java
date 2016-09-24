@@ -8,5 +8,11 @@ public class Overview extends OGamePage{
     public String getPageLoadedConstant() {
         return "Overview -";
     }
+    
+    public static final String BUILDINGS = "Buildings";
+    
+    public static final String RESEARCH = "Research";
+    
+    public static final String SHIPYARD = "Shipyard";
 
 }

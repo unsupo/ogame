@@ -11,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
 import utilities.OSProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Level;
@@ -232,8 +233,17 @@ public class UIMethods {
     }
 
     public static String getTextFromAttributeAndValue(String attribute, String value){
-        WebElement e = getWebDriver().findElement(By.xpath("//*[@"+attribute+"='"+value+"']"));//.click();
-        return e.getText();
+    	List<String> texts = getTextsFromAttributeAndValue(attribute, value);
+        return texts == null || texts.size() == 0 ? null : texts.get(0);
+    }
+    
+    public static List<String> getTextsFromAttributeAndValue(String attribute, String value){
+        List<WebElement> els = getWebDriver().findElements(By.xpath("//*[@"+attribute+"='"+value+"']"));//.click();
+        List<String> texts = new ArrayList<String>();
+        for(WebElement el : els ){
+        	texts.add(el.getText());
+        }
+        return texts;
     }
 
 }
