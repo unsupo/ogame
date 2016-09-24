@@ -81,6 +81,10 @@ public class Initialize {
     public static HashMap<String,Integer> getResearches(){
         return getInstance().researches;
     }
+    
+    public static Overview justLogin(String universe, String username, String password) throws IOException{
+         return new Login().login(universe,username,password);
+    }
 
     private Initialize(String universe, String username, String password) throws IOException {
         loadFiles();
@@ -150,6 +154,10 @@ public class Initialize {
                 split[0] = split[0].trim();
                 split[1] = split[1].replaceAll("\\)","").replaceAll("\\+", "");
                 v = Integer.parseInt(split[0]) + Integer.parseInt(split[1]) + "";
+                
+            }
+            if(v.contains("\n")){
+            	v = v.split("\n")[1];
             }
             map.put(b.getName(),Integer.parseInt(v));
         }
