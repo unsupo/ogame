@@ -23,12 +23,18 @@ public class Facilities extends OGamePage{
                                 TERRAFORMER         = "Terraformer",
                                 SPACE_DOCK          = "Space Dock";
 
-    public static final String[] names = {ROBOTICS_FACTORY, RESEARCH_LAB, SHIPYARD};
+    public static final String[] names = {ROBOTICS_FACTORY, RESEARCH_LAB, SHIPYARD, ALLIANCE_DEPOT, MISSILE_SILO, NANITE_FACTORY,
+                                        TERRAFORMER,SPACE_DOCK};
     
     public static final Resource[] baseCosts = Resource.convertCosts(new long[] {
-    		400, 120, 200,
-    		200, 400, 200,
-    		200, 400, 200
+    		400, 120, 200,0,
+    		200, 400, 200,0,
+    		200, 400, 200,0,
+            20000, 40000, 0,0,
+            20000, 40000, 1000,0,
+            1000000, 500000, 100000,0,
+            0,50000, 100000,1000,
+            200, 0, 50,50
     });
 
     @Override

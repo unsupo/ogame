@@ -12,6 +12,7 @@ public class Resource {
 	public long metal;
 	public long crystal;
 	public long deuterium;
+	public long energy = 0;
 	
 	private static final String[] names = (String[])ArrayUtils.addAll(Research.names, Facilities.names);
 	private static final Resource[] baseCosts = (Resource[]) ArrayUtils.addAll(Research.baseCosts, Facilities.baseCosts);
@@ -60,9 +61,9 @@ public class Resource {
 	}
 
 	public static Resource[] convertCosts(long[] costs){
-		Resource[] resources = new Resource[costs.length/3];
-		for(int i=0;i<costs.length;i+=3){
-			resources[i/3] = new Resource(costs[i], costs[i+1], costs[i+2]);
+		Resource[] resources = new Resource[costs.length/4];
+		for(int i=0;i<costs.length;i+=4){
+			resources[i/4] = new Resource(costs[i], costs[i+1], costs[i+2], costs[i+3]);
 		}
 		return resources;
 	}
@@ -72,14 +73,19 @@ public class Resource {
 		this.metal = metal;
 		this.crystal = crystal;
 		this.deuterium = deuterium;
+	}public Resource(long metal, long crystal, long deuterium, long energy){
+		this.metal = metal;
+		this.crystal = crystal;
+		this.deuterium = deuterium;
+		this.energy = energy;
 	}
 	
 	public Resource add(Resource other){
-		return new Resource(metal + other.metal, crystal + other.crystal, deuterium + other.deuterium);
+		return new Resource(metal + other.metal, crystal + other.crystal, deuterium + other.deuterium, energy + other.energy);
 	}
 	
 	public Resource subtract(Resource other){
-		return new Resource(metal - other.metal, crystal - other.crystal, deuterium - other.deuterium);
+		return new Resource(metal - other.metal, crystal - other.crystal, deuterium - other.deuterium, energy - other.energy);
 	}
 	
 	public Resource getDeficit(Resource goal){
@@ -87,11 +93,11 @@ public class Resource {
 	}
 	
 	private Resource removeNegative(){
-		return new Resource(Math.max(0, metal), Math.max(0, crystal), Math.max(0, deuterium));
+		return new Resource(Math.max(0, metal), Math.max(0, crystal), Math.max(0, deuterium), Math.max(0, energy));
 	}
 	
 	public boolean isZero(){
-		return metal == 0 && crystal == 0 && deuterium == 0;
+		return metal == 0 && crystal == 0 && deuterium == 0 && energy == 0;
 	}
 	
 	public boolean canAfford(Resource other){
@@ -104,10 +110,10 @@ public class Resource {
 	
 	
 	private Resource multiply(double multiple) {
-		return new Resource((long)(metal * multiple),(long)(crystal * multiple),(long)(deuterium * multiple));
+		return new Resource((long)(metal * multiple),(long)(crystal * multiple),(long)(deuterium * multiple), (long)(energy*multiple));
 	}
 	
 	public String toString(){	
-		return "Metal: " + metal + "\nCrystal: " + crystal + "\nDeuterium: " + deuterium;
+		return "Metal: " + metal + "\nCrystal: " + crystal + "\nDeuterium: " + deuterium + "\nEnergy: " + energy;
 	}
 }
