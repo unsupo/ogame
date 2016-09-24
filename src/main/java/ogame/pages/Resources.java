@@ -16,6 +16,7 @@ public class Resources extends OGamePage{
                                 METAL_STORAGE           = "Metal Storage",
                                 CRYSTAL_STORAGE         = "Crystal Storage",
                                 DUETERIUM_TANK          = "Dueterium Tank";
+
     public static final String[] names = {
             METAL_MINE, CRYSTAL_MINE, DUETERIUM_SYNTHESIZER,
             SOLAR_PLANET, FUSION_REACTOR,
