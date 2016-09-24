@@ -34,22 +34,22 @@ public class Research extends OGamePage{
     		HYPERSPACE_DRIVE, ESPIONAGE, COMPUTER, ASTROPHYSICS, INTERGALACTIC, GRAVITON, WEAPONS, SHIELDING, ARMOUR};
     
     public static final Resource[] baseCosts = Resource.convertCosts(new long[] {
-    	0, 800, 400,
-    	200, 100, 0,
-    	1000, 300, 100,
-    	0, 4000, 2000,
-    	2000, 4000, 1000,
-    	400, 0, 1200,
-    	2000, 4000, 600,
-    	10000, 20000, 6000,
-    	200, 1000, 200,
-    	0, 400, 600,
-    	4000, 8000, 4000,
-    	240000, 400000, 160000,
-    	0, 0, 0,
-    	800, 200, 0,
-    	200, 600, 0,
-    	1000, 0, 0
+    	0, 800, 400,0,
+    	200, 100, 0,0,
+    	1000, 300, 100,0,
+    	0, 4000, 2000,0,
+    	2000, 4000, 1000,0,
+    	400, 0, 1200,0,
+    	2000, 4000, 600,0,
+    	10000, 20000, 6000,0,
+    	200, 1000, 200,0,
+    	0, 400, 600,0,
+    	4000, 8000, 4000,0,
+    	240000, 400000, 160000,0,
+    	0, 0, 0,300000,
+    	800, 200, 0,0,
+    	200, 600, 0,0,
+    	1000, 0, 0,0
     });
     public static final String RESEARCH = "Research";
 
