@@ -116,4 +116,16 @@ public class Resource {
 	public String toString(){	
 		return "Metal: " + metal + "\nCrystal: " + crystal + "\nDeuterium: " + deuterium + "\nEnergy: " + energy;
 	}
+	
+	public long numAffordable(Resource cost){
+		long metalAmount = cost.metal == 0? Long.MAX_VALUE : metal/cost.metal;
+		long crystalAmount = cost.crystal == 0? Long.MAX_VALUE : crystal/cost.crystal;
+		long deuteriumAmount = cost.deuterium == 0? Long.MAX_VALUE : deuterium/cost.deuterium;
+		long energyAmount = cost.energy == 0? Long.MAX_VALUE : energy/cost.energy;
+		return Math.min(energyAmount, Math.min(deuteriumAmount, Math.min(metalAmount, crystalAmount)));
+	}
+	
+	public Resource clone(){
+		return new Resource(metal, crystal, deuterium, energy);
+	}
 }

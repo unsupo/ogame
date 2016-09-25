@@ -87,14 +87,18 @@ public class Task {
 	}
 	
 	public static Task quitTask = new Task();
-
-	public static void research(String nextResearch) throws IOException {
-		new OGamePage().clickOnResearch();
-		String type = Initialize.getType(nextResearch);
+	
+	public static void build(String nextBuild, long num) throws IOException {
+		String type = Initialize.getType(nextBuild);
         UIMethods.clickOnText(type);
-        Utility.clickAction("id", nextResearch);
+        Utility.clickAction("id", nextBuild);
+        UIMethods.typeOnAttributeAndValue("id", "number", num + "");
         new Action().clickOnStartWithDM();
         UIMethods.clickOnAttributeAndValue("class", "build-it");
+	}
+
+	public static void build(String nextBuild) throws IOException {
+		build(nextBuild, 1);
 	}
 
 }
