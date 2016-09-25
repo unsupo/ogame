@@ -69,10 +69,18 @@ public class Utility {
     }
     
     public static Map<String,Integer> getResearchRequirements(String buildableName){
+    	return getSubRequirements(buildableName, Arrays.asList(Research.names));
+    }
+    
+    public static Map<String,Integer> getFacilityRequirements(String buildableName){
+    	return getSubRequirements(buildableName, Arrays.asList(Facilities.names));
+    }
+    
+    private static Map<String, Integer> getSubRequirements(String buildableName, List<String> filter){
     	Map<String, Integer> requirements = getBuildableRequirements(buildableName);
     	Map<String, Integer> researchReqs = new HashMap<String, Integer>();
     	for(String key: requirements.keySet()){
-    		if(Arrays.asList(Research.names).contains(key)){
+    		if(filter.contains(key)){
     			researchReqs.put(key, requirements.get(key));
     		}
     	}

@@ -16,16 +16,23 @@ public class Facilities extends OGamePage{
 
     private static final String ROBOTICS_FACTORY    = "Robotics Factory",
                                 RESEARCH_LAB        = "Research Lab",
-                                SHIPYARD            = "Shipyard",
-                                ALLIANCE_DEPOT      = "Alliance Depot",
-                                MISSILE_SILO        = "Missile Silo",
-                                NANITE_FACTORY      = "Nanite Factory",
-                                TERRAFORMER         = "Terraformer",
-                                SPACE_DOCK          = "Space Dock",
+                                SHIPYARD            = "Shipyard";
 
-                                LUNAR_BASE          = "Lunar Base",
-                                SENSOR_PHALANX      = "Sensor Phalanx",
-                                JUMP_GATE           = "Jump Gate";
+	public static final String ALLIANCE_DEPOT      = "Alliance Depot";
+
+	public static final String MISSILE_SILO        = "Missile Silo";
+
+	public static final String NANITE_FACTORY      = "Nanite Factory";
+
+	public static final String TERRAFORMER         = "Terraformer";
+
+	public static final String SPACE_DOCK          = "Space Dock";
+
+	public static final String LUNAR_BASE          = "Lunar Base";
+
+	public static final String SENSOR_PHALANX      = "Sensor Phalanx";
+
+	public static final String JUMP_GATE           = "Jump Gate";
 
     public static final String[] names = {ROBOTICS_FACTORY, RESEARCH_LAB, SHIPYARD, ALLIANCE_DEPOT, MISSILE_SILO, NANITE_FACTORY,
                                         TERRAFORMER,SPACE_DOCK, LUNAR_BASE, SENSOR_PHALANX, JUMP_GATE};
@@ -41,7 +48,7 @@ public class Facilities extends OGamePage{
             200, 0, 50,50,
             20000,40000,20000,0,
             20000,40000,20000,0,
-            2000000, 4000000, 2000000
+            2000000, 4000000, 2000000,0
     });
 
     @Override

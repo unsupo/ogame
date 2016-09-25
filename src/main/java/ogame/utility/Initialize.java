@@ -128,6 +128,12 @@ public class Initialize {
     }public HashMap<String,Integer> getBuildings(String planetName) throws IOException { //research name, level
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
     }
+    
+
+	public Map<String, Integer> getFacilities(int index) throws IOException {
+		return getFacilities((String)getPlanets().keySet().toArray()[index]);
+	}
+    
     private HashMap<String,Integer> getMapValue(String ID, String name, HashMap<String,Integer> map) throws IOException {
         if(!map.isEmpty())
             return map;
@@ -256,6 +262,5 @@ public class Initialize {
         }
         return null;
     }
-
 
 }
