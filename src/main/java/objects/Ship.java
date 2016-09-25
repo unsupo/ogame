@@ -1,6 +1,5 @@
 package objects;
 
-import ogame.utility.Resource;
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
 
@@ -8,6 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import ogame.utility.Resource;
 
 /**
  * Created by jarndt on 8/8/16.
@@ -35,14 +36,39 @@ public class Ship {
                                 PLASMA_TURRET       = "Plasma Turret",
                                 SMALL_SHIELD_DOME   = "Small Shield Dome",
                                 LARGE_SHIELD_DOME   = "Large Shield Dome";
-
-    static{
-        try {
-            getAllShips();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
+    
+    public static final String[] names = {
+    		SMALL_CARGO,LARGE_CARGO, LIGHT_FIGHTER, HEAVY_FIGHTER, CRUISER, BATTLESHIP, BATTLECRUISER, DESTROYER, DEATHSTAR, BOMBER, 
+    		RECYCLER, ESPIONAGE_PROBE, SOLAR_SATELLITE, COLONY_SHIP, ROCKET_LAUNCHER, LIGHT_LASER, HEAVY_LASER, GAUSS_CANNON, 
+    		ION_CANNON, PLASMA_TURRET, SMALL_SHIELD_DOME, LARGE_SHIELD_DOME
+    };
+    
+    public static final Resource[] baseCosts = Resource.convertCosts(new long[] {
+    		2000,		2000,		0,			0,
+    		6000,		6000,		0,			0,
+    		3000,		1000,		0,			0,
+    		6000,		4000,		0,			0,
+    		20000,		7000,		2000,		0,
+    		45000,		15000,		0,			0,
+    		30000,	 	40000,		15000,		0,
+    		60000,	 	50000,		15000,		0,
+    		5000000,	4000000,	1000000,	0,
+    		50000,		25000,		15000,		0,
+    		10000,		6000,		2000,		0,
+    		0,			1000,		0,			0,
+    		0,			2000,		500,		0,
+    		10000,		20000,		10000,		0,
+    		2000,		0,			0,			0,
+    		1500,		500,		0,			0,
+    		6000,		2000,		0,			0,
+    		2000,		6000,		0,			0,
+    		20000,		15000	,	2000,		0,
+    		50000,		50000,		30000,		0,
+    		10000,		10000,		0,			0,
+    		500000,		50000,		0,			0
+    });
+    
 
     private static List<Ship> allShips;
     public static List<Ship> getAllShips(String...pathToShipFile) throws IOException {
@@ -155,6 +181,10 @@ public class Ship {
     public int getId() {
 
         return id;
+    }
+    
+    public Resource getCost(){
+    	return new Resource(metal_cost, crystal_cost, deuterium_cost, 0);
     }
 
     public int getMetal_cost() {
@@ -342,7 +372,4 @@ public class Ship {
         return this;
     }
 
-    public Resource getCost() {
-        return new Resource(metal_cost,crystal_cost,deuterium_cost);
-    }
 }
