@@ -66,9 +66,9 @@ public class Task {
 		Map<String, Boolean> constructionMap = new HashMap<String, Boolean>();
 		List<String> texts = UIMethods.getTextsFromAttributeAndValue("class", "construction active");
 		if(texts.size() > 2){
-			constructionMap.put(Overview.BUILDINGS, !texts.get(0).contains("No "));
-			constructionMap.put(Overview.RESEARCH, !texts.get(1).contains("no "));
-			constructionMap.put(Overview.SHIPYARD, !texts.get(2).contains("No "));
+			constructionMap.put(Overview.QUEUE_BUILDINGS, !texts.get(0).contains("No "));
+			constructionMap.put(Overview.QUEUE_RESEARCH, !texts.get(1).contains("no "));
+			constructionMap.put(Overview.QUEUE_SHIPYARD, !texts.get(2).contains("No "));
 		}
 		return constructionMap;
 	}
