@@ -16,8 +16,8 @@ public class Resource {
 	public long deuterium;
 	public long energy = 0;
 	
-	private static final String[] names = (String[])ArrayUtils.addAll(Research.names, Facilities.names, Ship.names);
-	private static final Resource[] baseCosts = (Resource[]) ArrayUtils.addAll(Research.baseCosts, Facilities.baseCosts, Ship.baseCosts);
+	private static final String[] names = (String[])ArrayUtils.addAll(ArrayUtils.addAll(Research.names, Facilities.names), Ship.names);
+	private static final Resource[] baseCosts = (Resource[]) ArrayUtils.addAll(ArrayUtils.addAll(Research.baseCosts, Facilities.baseCosts), Ship.baseCosts);
 
 	public static Resource getCost(String name) throws IOException{
 		return getCost(name, 1);
