@@ -188,6 +188,14 @@ public class UIMethods {
             }
         return null;
     }
+    public static boolean doesPageContainText(String text){
+        List<WebElement> e = getWebDriver().findElements(By.xpath("//*[contains(text(),'"+text+"')]"));
+        return !e.isEmpty();
+    }public static boolean doesPageContainAttributeAndValue(String attribute, String value){
+        List<WebElement> e = getWebDriver().findElements(By.xpath("//*[@"+attribute+"='"+value+"']"));//.click();
+        return !e.isEmpty();
+    }
+
 
     public static Select selectFromDropDown(String text, String dropDownValue){
         Select select = new Select(getWebDriver().findElement(By.xpath("//*[text()='"+text+"']")));

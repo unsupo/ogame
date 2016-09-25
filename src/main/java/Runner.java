@@ -14,8 +14,7 @@ public class Runner {
 //        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
 
         Initialize.login();
-        Utility.clickOnNewPage(Facilities.FACILITIES);
-        new Facilities().clickOnResearchLab();
+        Utility.build(Facilities.RESEARCH_LAB);
 
 
 //        System.out.println(Resource.getCumulativeCost(Research.COMBUSTION,2,6));
