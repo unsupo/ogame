@@ -1,5 +1,4 @@
-import ogame.utility.QueueManager;
-import utilities.database._HSQLDB;
+import objects.Ship;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,11 +9,65 @@ import java.sql.SQLException;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
+        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
+
+
+//        System.out.println(Resource.getCumulativeCost(Research.COMBUSTION,2,6));
 //        Initialize.login();
+//        Coordinates yourCoordinates = new Coordinates(5,400,1);
+//
+//        _HSQLDB.setDbName(572);
+//        List<Map<String, Object>> results = _HSQLDB.executeQuery(
+//                "select coordinates from player p JOIN planet t ON p.player_name = t.player_name " +
+//                        "where player_status in ('I','i') and " +
+//                        "regexp_substring(coordinates,'[0-9]+')='" + yourCoordinates.getGalaxy() + "'");
+//
+//        List<Coordinates> coords = results.stream().map(a->new Coordinates(a.get("COORDINATES").toString()))
+//                .collect(Collectors.toList());
+//        Collections.sort(coords,(a, b)->Integer.compare(yourCoordinates.getDistance(a),yourCoordinates.getDistance(b)));
+//
+//        System.out.println(coords);
+
+//        Initialize.login();
+//        Coordinates coords = Utility.getActivePlanet().getCoordinates();
+//        List<Coordinates> targets = Utility.getInactiveTargets(coords);
+//        new MissionBuilder().setDestination(targets.get(0))
+//                .setSource(coords).setFleet(new Fleet().addShip(Ship.SMALL_CARGO,9999)).setMission(MissionBuilder.ATTACK).sendFleet();
 
 
-        _HSQLDB.setDbName(645);
-        QueueManager.getInstance().parseUniverse();
+        /*
+        Initialize.login();
+//        UIMethods.clickOnText("Overview");
+        UIMethods.clickOnText("Fleet");
+        UIMethods.typeOnAttributeAndValue("id", "ship_202","9999");
+        UIMethods.clickOnText("Next");
+
+        Coordinates coordinates = Initialize.getPlanetMap().get("Homeworld").getCoordinates();
+        List<Map<String, Object>> results = _HSQLDB.executeQuery(
+                "select coordinates from player p JOIN planet t ON p.player_name = t.player_name " +
+                    "where player_status in ('I','i') and " +
+                        "regexp_substring(coordinates,'[0-9]+')='" + coordinates.getGalaxy() + "'");
+
+        System.out.println("Attacking: "+results.get(0));
+        Coordinates attackTarget = new Coordinates(results.get(0).get("COORDINATES").toString());
+
+        UIMethods.typeOnAttributeAndValue("id","galaxy",attackTarget.getGalaxy()+"");
+        UIMethods.typeOnAttributeAndValue("id","system",attackTarget.getSystem()+"");
+        UIMethods.typeOnAttributeAndValue("id","position",attackTarget.getPlanet()+"");
+
+        UIMethods.clickOnText("Next");
+
+//        ((JavascriptExecutor)UIMethods.getWebDriver()).executeScript("document.getElementById(\"missionButton1\").click()");
+        UIMethods.waitForText("Select mission for target:",1, TimeUnit.MINUTES);
+        UIMethods.clickOnText("Attack");//document.getElementById("missionButton1").click()
+        UIMethods.clickOnText("Send fleet");
+*/
+
+//        QueueManager.getInstance();
+
+
+//        _HSQLDB.setDbName(572);
+//        QueueManager.getInstance().parseUniverse();
     }
 
 
@@ -32,6 +85,14 @@ public class Runner {
 //        o.clickOnResearchByName(name).clickOnStartWithDM();
 //    }
 
+
+    //        _HSQLDB.setDbName(572);
+//        List<Map<String, Object>> results = _HSQLDB.executeQuery(
+//                "select * from player p JOIN planet t ON p.player_name = t.player_name " +
+//                        "where player_status in ('I','i') and " +
+//                        "regexp_substring(coordinates,'[0-9]+')='" + "4" + "'");
+//
+//        System.out.println(results);
 //        Overview o = Initialize.login("s129-en.ogame.gameforge.com", "<username>", "<password>");
 //        o.clickOnResearch().clickOnCombustionDrive().clickOnStartWithDM();
 //        new Shipyard().clickOnSmallCargo();

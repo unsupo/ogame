@@ -11,10 +11,11 @@ import java.util.Map;
  * Created by jarndt on 9/21/16.
  */
 public class _HSQLDB {
-    private static String dbName = "ogniterDB";
+    private static String defaultName = "ogniterDB";
+    private static String dbName = "";
     private HSQLDB db = null;
     private _HSQLDB() throws IOException, SQLException {
-        db = new HSQLDB("ogniterDB");
+        db = new HSQLDB(dbName);
         db.executeQuery(
                 "CREATE TABLE IF NOT EXISTS PLAYER (" +
                         "player_name VARCHAR(50), " +
@@ -47,7 +48,7 @@ public class _HSQLDB {
     }
 
     public static void setDbName(int dbNameNumber){
-        dbName+=dbNameNumber;
+        dbName=defaultName+dbNameNumber;
     }
 
     public static List<Map<String, Object>> executeQuery(String query) throws IOException, SQLException {

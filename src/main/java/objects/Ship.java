@@ -1,5 +1,6 @@
 package objects;
 
+import ogame.utility.Resource;
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
 
@@ -34,6 +35,14 @@ public class Ship {
                                 PLASMA_TURRET       = "Plasma Turret",
                                 SMALL_SHIELD_DOME   = "Small Shield Dome",
                                 LARGE_SHIELD_DOME   = "Large Shield Dome";
+
+    static{
+        try {
+            getAllShips();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static List<Ship> allShips;
     public static List<Ship> getAllShips(String...pathToShipFile) throws IOException {
@@ -333,4 +342,7 @@ public class Ship {
         return this;
     }
 
+    public Resource getCost() {
+        return new Resource(metal_cost,crystal_cost,deuterium_cost);
+    }
 }

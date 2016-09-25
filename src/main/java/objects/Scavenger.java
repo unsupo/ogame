@@ -1,14 +1,11 @@
 package objects;
 
-import java.io.IOException;
-
-import ogame.pages.Facilities;
-import ogame.pages.OGamePage;
 import ogame.pages.Overview;
-import ogame.pages.Research;
 import ogame.utility.Initialize;
 import utilities.Utility;
 import utilities.selenium.Task;
+
+import java.io.IOException;
 
 public class Scavenger implements AI {
 	
@@ -31,8 +28,8 @@ public class Scavenger implements AI {
 			login = true;
 		}
 		buildMissing(Ship.SMALL_CARGO);
-		if(Player.self.canAfford(new Ship().getCost())){
-			Task.build(Ship.SMALL_CARGO, Player.self.numAffordable(new Ship().getCost()));
+		if(Player.self.canAfford(new Ship(Ship.SMALL_CARGO).getCost())){
+			Task.build(Ship.SMALL_CARGO, Player.self.numAffordable(new Ship(Ship.SMALL_CARGO).getCost()));
 		}
 
 		return null;

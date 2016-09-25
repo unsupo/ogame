@@ -233,6 +233,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/objects/Fleet.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/objects/Planet.java">
           <value>
             <set />
@@ -249,6 +254,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/objects/Round.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/objects/Scavenger.java">
           <value>
             <set />
           </value>
@@ -353,6 +363,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ogame/utility/QueuedJob.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/ogame/utility/WatchService.java">
           <value>
             <set />
@@ -423,6 +443,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/utilities/selenium/Task.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/utilities/selenium/UIMethods.java">
           <value>
             <set />
@@ -439,6 +469,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB.script">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB572.log">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB572.script">
           <value>
             <set />
           </value>
@@ -479,6 +519,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/ogame_ship_info.cvs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/profile/unsupo_572">
           <value>
             <set />
           </value>
