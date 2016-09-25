@@ -94,8 +94,9 @@ public class Resource {
 	}
 	
 	public Resource getDeficit(Resource goal){
-		return goal.subtract(this).removeNegative();
+		return goal.removeNegative().subtract(this.removeNegative()).removeNegative();
 	}
+	
 	
 	private Resource removeNegative(){
 		return new Resource(Math.max(0, metal), Math.max(0, crystal), Math.max(0, deuterium), Math.max(0, energy));
