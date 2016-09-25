@@ -2,6 +2,7 @@ package objects;
 
 import ogame.pages.Overview;
 import ogame.utility.Initialize;
+import ogame.utility.Resource;
 import utilities.Utility;
 import utilities.selenium.Task;
 
@@ -27,12 +28,16 @@ public class Scavenger implements AI {
 			Player.self.darkMatter = Task.readDarkMatter();
 			login = true;
 		}
-		buildMissing(Ship.SMALL_CARGO);
-		if(Player.self.canAfford(new Ship(Ship.SMALL_CARGO).getCost())){
-			Task.build(Ship.SMALL_CARGO, Player.self.numAffordable(new Ship(Ship.SMALL_CARGO).getCost()));
-		}
+		developAndBuild(Ship.SMALL_CARGO);
 
 		return null;
+	}
+	
+	public void developAndBuild(String goal) throws IOException{
+		buildMissing(goal);
+		if(Player.self.canMake(goal)){
+			Task.build(goal, Player.self.numAffordable(Resource.getCost(goal)));
+		}
 	}
 	
 	public void buildMissingType(String goal, String type, String queueType) throws IOException{

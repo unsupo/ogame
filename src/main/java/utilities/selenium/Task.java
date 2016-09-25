@@ -1,16 +1,16 @@
 package utilities.selenium;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ogame.pages.Action;
 import ogame.pages.OGamePage;
 import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import ogame.utility.Resource;
 import utilities.Utility;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Task {
 
@@ -87,8 +87,7 @@ public class Task {
 	}
 	
 	public static Task quitTask = new Task();
-
-//	public static void build(String nextBuild) throws
+	
 	public static void build(String nextBuild, long num) throws IOException {
 		String type = Initialize.getType(nextBuild);
         UIMethods.clickOnText(type);

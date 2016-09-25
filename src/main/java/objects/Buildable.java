@@ -5,7 +5,9 @@ import utilities.Utility;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -129,4 +131,24 @@ public class Buildable {
     public Buildable clone(){
         return new Buildable(this.line);
     }
+    
+    public static Map<String, Integer> getMissing(String goal, Map<String, Integer> current){
+    	return getMissing(Utility.getBuildableRequirements(goal), current);
+    }
+    
+    public static Map<String, Integer> getMissing(Map<String, Integer> requirements, Map<String, Integer> current){
+		HashMap<String, Integer> missingMap = new HashMap<String, Integer>();
+		for(String requirement: requirements.keySet()){
+			Integer cur = current.get(requirement);
+			if(cur == null){
+				cur = 0;
+			}
+			int missing = requirements.get(requirement) - cur;
+			if(missing > 0){
+				missingMap.put(requirement, missing);
+			}
+		}
+		return missingMap;
+	}
+
 }

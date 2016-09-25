@@ -34,31 +34,30 @@ public class Player {
 	}
 	
 	
+	
+	
 	public boolean isBusy(String constructionType){
 		return curConstruction.get(constructionType);
 	}
 	
-	private Map<String, Integer> getMissing(Map<String, Integer> requirements, Map<String, Integer> current){
-		HashMap<String, Integer> missingMap = new HashMap<String, Integer>();
-		for(String requirement: requirements.keySet()){
-			Integer cur = current.get(requirement);
-			if(cur == null){
-				cur = 0;
-			}
-			int missing = requirements.get(requirement) - cur;
-			if(missing > 0){
-				missingMap.put(requirement, missing);
+	private Map<String,Integer> getBuildablesAsSimpleMap(){
+		HashMap<String, Integer> simpleMap = new HashMap<String,Integer>();
+		for(String key : buildables.keySet()){
+			Map<String, Integer> buildablesSubMap = buildables.get(key);
+			for(String subKey : buildablesSubMap.keySet()){
+				simpleMap.put(subKey, buildablesSubMap.get(subKey));
 			}
 		}
-		return missingMap;
+		return simpleMap;
 	}
 	
+	
 	public Map<String, Integer> getMissingFacilities(Map<String, Integer> requirements){
-		return getMissing(requirements, facilities);
+		return Buildable.getMissing(requirements, facilities);
 	}
 	
 	public Map<String, Integer> getMissingResearch(Map<String, Integer> requirements){
-		return getMissing(requirements, researches);
+		return Buildable.getMissing(requirements, researches);
 	}
 	
 	public boolean hasResearch(Map<String, Integer> requirements){
@@ -67,6 +66,10 @@ public class Player {
 	
 	public String getNextResearchFor(String buildable) throws IOException{
 		return getNextFor(buildable, Utility.getResearchRequirements(buildable), researches);
+	}
+	
+	public Map<String, Integer> getMissing(String goal){
+		return Buildable.getMissing(Utility.getBuildableRequirements(goal), getBuildablesAsSimpleMap());
 	}
 	
 	public String getNextBuildableFor(String buildable) throws IOException{
@@ -81,7 +84,7 @@ public class Player {
 		if(current == null){
 			return null;
 		}
-		Map<String, Integer> missing = getMissing(requirements, current);
+		Map<String, Integer> missing = Buildable.getMissing(requirements, current);
 		for(String requirement : missing.keySet()){
 			Resource cost = Resource.getCost(requirement, current.get(requirement)+1);
 			if(resources.canAfford(cost)){
@@ -95,8 +98,17 @@ public class Player {
 		return getNextFor(buildable, Utility.getFacilityRequirements(buildable), facilities);
 	}
 	
+	public boolean canAfford(String goal) throws IOException{
+		return resources.canAfford(Resource.getCost(goal));
+	}
+	
 	public boolean canAfford(Resource cost){
 		return resources.canAfford(cost);
+	}
+	
+	
+	public boolean canMake(String goal) throws IOException{
+		return getMissing(goal).isEmpty() && canAfford(goal);
 	}
 	
 	public long numAffordable(Resource cost){
