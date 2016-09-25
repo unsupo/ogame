@@ -1,12 +1,12 @@
 package objects;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import ogame.pages.Overview;
 import ogame.utility.Resource;
 import utilities.Utility;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -37,7 +37,7 @@ public class Player {
 	
 	
 	public boolean isBusy(String constructionType){
-		return curConstruction.get(constructionType);
+		return curConstruction.containsKey(constructionType);
 	}
 	
 	private Map<String,Integer> getBuildablesAsSimpleMap(){

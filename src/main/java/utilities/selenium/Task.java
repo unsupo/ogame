@@ -1,16 +1,15 @@
 package utilities.selenium;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ogame.pages.Action;
-import ogame.pages.OGamePage;
 import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import ogame.utility.Resource;
 import utilities.Utility;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Task {
 
@@ -61,8 +60,8 @@ public class Task {
 	}
 	
 	//TODO: only safe in overview page for now, need to fix
-	public static Map<String, Boolean> checkCurrentConstruction(){
-		new OGamePage().clickOnOverview();
+	public static Map<String, Boolean> checkCurrentConstruction() throws IOException {
+		Utility.clickOnNewPage(Overview.OVERVIEW);
 		Map<String, Boolean> constructionMap = new HashMap<String, Boolean>();
 		List<String> texts = UIMethods.getTextsFromAttributeAndValue("class", "construction active");
 		if(texts.size() > 2){
