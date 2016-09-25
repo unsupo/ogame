@@ -27,16 +27,25 @@ public class Utility {
     public static final int MAX_THREAD_COUNT = 200;
 
     public static final String  DIR             = System.getProperty("user.dir"),
-                                RESOURCE_DIR    = DIR+"/src/main/resources/",
-                                PROFILE_DIR     = RESOURCE_DIR+"/profile/",
-                                SHIP_INFO       = RESOURCE_DIR+"ogame_ship_info.cvs",
-                                BATTLE_INFO     = RESOURCE_DIR+"battle_info",
-                                RESEARCH_INFO   = RESOURCE_DIR+"research_info.cvs",
-                                FACILITIES_INFO = RESOURCE_DIR+"facilities_info.cvs",
-                                BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs",
-                                SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs",
-                                MAPPINGS        = RESOURCE_DIR+"mapper.cvs",
-                                LAST_UPDATE     = RESOURCE_DIR+"last_update";
+            RESOURCE_DIR    = DIR+"/src/main/resources/",
+            PROFILE_DIR     = RESOURCE_DIR+"/profile/",
+            SHIP_INFO       = RESOURCE_DIR+"ogame_ship_info.cvs",
+            BATTLE_INFO     = RESOURCE_DIR+"battle_info",
+            RESEARCH_INFO   = RESOURCE_DIR+"research_info.cvs",
+            FACILITIES_INFO = RESOURCE_DIR+"facilities_info.cvs",
+            BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs",
+            SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs",
+            MAPPINGS        = RESOURCE_DIR+"mapper.cvs",
+            LAST_UPDATE     = RESOURCE_DIR+"last_update";
+
+    public static HashMap<String,String> idFromType = new HashMap();
+
+    static{ //put the page name constant and the id of the items in the page
+        idFromType.put(Facilities.FACILITIES,Facilities.ID);
+        idFromType.put(Research.RESEARCH,Research.ID);
+        idFromType.put(Resources.RESOURCES,Resources.ID);
+        idFromType.put(Shipyard.SHIPYARD,Shipyard.ID);
+    }
 
     public static long getInProgressTime(){
         String time;
@@ -62,33 +71,33 @@ public class Utility {
         return timeLeft;
     }
 
-    public static Map<String,Integer> getBuildableRequirements(String buildableName){
-    	requirements = new HashMap<>();
+    public static HashMap<String,Integer> getBuildableRequirements(String buildableName){
+        requirements = new HashMap<>();
         getAllRequirements(buildableName);
         return requirements;
     }
-    
+
     public static Map<String,Integer> getResearchRequirements(String buildableName){
-    	return getSubRequirements(buildableName, Arrays.asList(Research.names));
+        return getSubRequirements(buildableName, Arrays.asList(Research.names));
     }
-    
+
     public static Map<String,Integer> getFacilityRequirements(String buildableName){
-    	return getSubRequirements(buildableName, Arrays.asList(Facilities.names));
+        return getSubRequirements(buildableName, Arrays.asList(Facilities.names));
     }
-    
+
     private static Map<String, Integer> getSubRequirements(String buildableName, List<String> filter){
-    	Map<String, Integer> requirements = getBuildableRequirements(buildableName);
-    	Map<String, Integer> researchReqs = new HashMap<String, Integer>();
-    	for(String key: requirements.keySet()){
-    		if(filter.contains(key)){
-    			researchReqs.put(key, requirements.get(key));
-    		}
-    	}
-    	return researchReqs;
+        Map<String, Integer> requirements = getBuildableRequirements(buildableName);
+        Map<String, Integer> researchReqs = new HashMap<String, Integer>();
+        for(String key: requirements.keySet()){
+            if(filter.contains(key)){
+                researchReqs.put(key, requirements.get(key));
+            }
+        }
+        return researchReqs;
     }
 
     private static HashMap<String,Integer> requirements;
-    
+
     private static void getAllRequirements(String buildable){
         for(Buildable b : Initialize.getBuildableByName(buildable).getRequires()){
             if(!requirements.containsKey(b.getName()) ||
@@ -97,26 +106,31 @@ public class Utility {
             getAllRequirements(b.getName());
         }
     }
-    
+
     public static Action clickAction(String ID, String constant){
         String webName = Initialize.getBuildableByName(constant).getWebName();
         UIMethods.clickOnAttributeAndValue(ID,webName);
         UIMethods.waitForText(constant,30, TimeUnit.SECONDS);
         try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return new Action();
     }
-    
-    
+
+    public static void build(String name) throws IOException{
+        build(name, 0);
+    }
     public static void build(String name, int number) throws IOException{
-    	String type = Initialize.getType(name);
-        UIMethods.clickOnText(type);
-        clickAction("id", name);
-        UIMethods.typeOnAttributeAndValue("id", "number", number + "");
+        String type = Initialize.getType(name);
+        clickOnNewPage(type);
+        String id = "id";
+        if(idFromType.containsKey(type))
+            id = idFromType.get(type);
+        clickAction(id, name);
+        UIMethods.typeOnAttributeAndValue(id, "number", number + "");
         new Action().clickOnStartWithDM();
         UIMethods.clickOnAttributeAndValue("class", "build-it");
     }
