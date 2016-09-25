@@ -1,3 +1,9 @@
+import objects.ai.AI;
+import objects.ai.DefaultAI;
+import ogame.pages.Overview;
+import utilities.Utility;
+import utilities.selenium.Task;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -8,6 +14,28 @@ public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 
+    }
+
+    public static void runAI(AI ai) throws IOException {
+        while(true){
+            Task    defaultTask     = ai.getDefaultTask(),
+                    task            = ai.getTask(),
+                    attackedTask    = ai.getAttackedTask();
+
+            if(Utility.isBeingAttack())
+                if(attackedTask == null)
+                    DefaultAI.attackedTask();
+                else
+                    attackedTask.execute();
+
+            if(task != null)
+                task.execute();
+
+            if(defaultTask != null)
+                defaultTask.execute();
+
+            Utility.clickOnNewPage(Overview.OVERVIEW);
+        }
     }
 
 

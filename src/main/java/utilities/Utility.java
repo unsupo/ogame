@@ -186,4 +186,8 @@ public class Utility {
                 planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID,Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
         }
     }
+
+    public static boolean isBeingAttack(){
+        return UIMethods.doesPageContainAttributeAndValue("id","attack_alert");
+    }
 }

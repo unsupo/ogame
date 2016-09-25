@@ -278,6 +278,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/objects/ai/DefaultAI.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java">
           <value>
             <set />
