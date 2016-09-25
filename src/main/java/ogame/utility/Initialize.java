@@ -129,6 +129,17 @@ public class Initialize {
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
     }
     
+    public HashMap<String, Integer> getBuildables(String type) throws IOException{
+    	return getMapValue(getIdMap().get(type), type, new HashMap<String, Integer>());
+    }
+    
+    private Map<String, String> getIdMap(){
+    	Map<String, String> idMap = new HashMap<String, String>();
+    	idMap.put(Overview.RESEARCH, Research.ID);
+    	idMap.put(Overview.FACILITIES, Facilities.ID);
+    	idMap.put(Overview.RESOURCES, Resources.ID);
+    	return idMap;
+    }
 
 	public Map<String, Integer> getFacilities(int index) throws IOException {
 		return getFacilities((String)getPlanets().keySet().toArray()[index]);

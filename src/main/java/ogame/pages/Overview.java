@@ -9,7 +9,15 @@ public class Overview extends OGamePage{
         return "Overview -";
     }
     
-    public static final String BUILDINGS = "Buildings";
+    public static final String QUEUE_BUILDINGS = "Buildings";
+    
+    public static final String QUEUE_RESEARCH = "Research";
+    
+    public static final String QUEUE_SHIPYARD = "Shipyard";
+    
+    public static final String FACILITIES = "Facilities";
+    
+    public static final String RESOURCES = "Resources";
     
     public static final String RESEARCH = "Research";
     

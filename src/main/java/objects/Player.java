@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import ogame.pages.Overview;
 import ogame.utility.Resource;
 import utilities.Utility;
 
@@ -18,6 +19,7 @@ public class Player {
 	
 	public Map<String, Integer> facilities;
 	
+	public Map<String, Map<String, Integer>> buildables;
 	
 	public Map<String, Boolean> curConstruction;
 	
@@ -25,6 +27,12 @@ public class Player {
 	
 	public int darkMatter = 0;
 
+	public Player(){
+		buildables = new HashMap<String, Map<String, Integer>>();
+		buildables.put(Overview.RESEARCH, researches);
+		buildables.put(Overview.FACILITIES, facilities);
+	}
+	
 	
 	public boolean isBusy(String constructionType){
 		return curConstruction.get(constructionType);
@@ -59,6 +67,14 @@ public class Player {
 	
 	public String getNextResearchFor(String buildable) throws IOException{
 		return getNextFor(buildable, Utility.getResearchRequirements(buildable), researches);
+	}
+	
+	public String getNextBuildableFor(String buildable) throws IOException{
+		String res = getNextResearchFor(buildable);
+		if(res == null){
+			return getNextFacilityFor(buildable);
+		}
+		return res;
 	}
 	
 	private String getNextFor(String buildable, Map<String,Integer> requirements, Map<String, Integer> current) throws IOException{

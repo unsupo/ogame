@@ -30,44 +30,35 @@ public class Scavenger implements AI {
 			Player.self.darkMatter = Task.readDarkMatter();
 			login = true;
 		}
-		Player.self.curConstruction = Task.checkCurrentConstruction();
-		//check research requirments if not already researching
-//		if(!Player.self.isBusy(Overview.RESEARCH)){
-//			new OGamePage().clickOnResearch();
-//			if(Player.self.researches == null){
-//				Player.self.researches = Initialize.getInstance().getResearch();
-//				System.out.println("Researches : " + Player.self.researches);
-//			}
-////			//check if research needed
-//			if(!Player.self.hasResearch(Utility.getResearchRequirements(Ship.SMALL_CARGO))){
-//				String nextResearch = Player.self.getNextResearchFor(Ship.SMALL_CARGO);
-//				if(nextResearch != null){
-//					Task.build(nextResearch);
-//					new OGamePage().clickOnOverview();
-//				}
-//			}
-//
-//		}
-		if(!Player.self.isBusy(Overview.BUILDINGS)){
-			new OGamePage().clickOnFacilities();
-			if(Player.self.facilities == null){
-//				Player.self.facilities = Initialize.getInstance().getFacilities("Captain Planet");
-				System.out.println("Facilities: " + Player.self.facilities);
-			}
-			String nextFacility = Player.self.getNextFacilityFor(Ship.SMALL_CARGO);
-			System.out.println(nextFacility);
-			if(nextFacility != null){
-				Task.build(nextFacility);
-				return null;
-			}
-			Task.build(Facilities.NANITE_FACTORY);
-			new OGamePage().clickOnOverview();
-		}
+		buildMissing(Ship.SMALL_CARGO);
 		if(Player.self.canAfford(new Ship().getCost())){
 			Task.build(Ship.SMALL_CARGO, Player.self.numAffordable(new Ship().getCost()));
 		}
 
 		return null;
+	}
+	
+	public void buildMissingType(String goal, String type, String queueType) throws IOException{
+		if(!Player.self.isBusy(queueType)){
+			Utility.clickOnNewPage(type);
+			if(Player.self.buildables.get(type) == null){
+				Player.self.buildables.put(type, Initialize.getInstance().getBuildables(type));
+				System.out.println(type + " buildables: " + Player.self.buildables.get(type));
+			}
+			String nextBuildable = Player.self.getNextBuildableFor(goal);
+			System.out.println(nextBuildable);
+			if(nextBuildable != null){
+				Task.build(nextBuildable);
+			}
+		}
+	}
+	
+	
+	public void buildMissing(String goal) throws IOException{
+		Utility.clickOnNewPage("Overview");
+		Player.self.curConstruction = Task.checkCurrentConstruction();
+		buildMissingType(goal, Overview.RESEARCH, Overview.QUEUE_RESEARCH);
+		buildMissingType(goal, Overview.FACILITIES, Overview.QUEUE_BUILDINGS);
 	}
 	
 
