@@ -1,4 +1,6 @@
-import objects.Ship;
+import ogame.pages.Facilities;
+import ogame.utility.Initialize;
+import utilities.Utility;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,7 +11,11 @@ import java.sql.SQLException;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
+//        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
+
+        Initialize.login();
+        Utility.clickOnNewPage(Facilities.FACILITIES);
+        new Facilities().clickOnResearchLab();
 
 
 //        System.out.println(Resource.getCumulativeCost(Research.COMBUSTION,2,6));
