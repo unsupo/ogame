@@ -14,7 +14,7 @@ public class Facilities extends OGamePage{
 
     public static final String FACILITIES = "Facilities";
 
-    private static final String ROBOTICS_FACTORY    = "Robotics Factory",
+    public static final String ROBOTICS_FACTORY    = "Robotics Factory",
                                 RESEARCH_LAB        = "Research Lab",
                                 SHIPYARD            = "Shipyard";
 

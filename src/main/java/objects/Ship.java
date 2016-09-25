@@ -1,5 +1,6 @@
 package objects;
 
+import ogame.utility.Resource;
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
 
@@ -8,12 +9,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ogame.utility.Resource;
-
 /**
  * Created by jarndt on 8/8/16.
  */
 public class Ship {
+
+    static{
+        try {
+            getAllShips();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static final String  SMALL_CARGO         = "Small Cargo",
                                 CRUISER             = "Cruiser",
                                 LIGHT_FIGHTER       = "Light Fighter",

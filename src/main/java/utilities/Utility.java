@@ -12,11 +12,7 @@ import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -111,8 +107,8 @@ public class Utility {
         String webName = Initialize.getBuildableByName(constant).getWebName();
         UIMethods.clickOnAttributeAndValue(ID,webName);
         UIMethods.waitForText(constant,30, TimeUnit.SECONDS);
-        try {
-            Thread.sleep(1000);
+        try {  //DON't think this is required
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -130,9 +126,12 @@ public class Utility {
         if(idFromType.containsKey(type))
             id = idFromType.get(type);
         clickAction(id, name);
-        UIMethods.typeOnAttributeAndValue(id, "number", number + "");
-        new Action().clickOnStartWithDM();
-        UIMethods.clickOnAttributeAndValue("class", "build-it");
+        if(UIMethods.doesPageContainAttributeAndValue(id,"number"))
+            UIMethods.typeOnAttributeAndValue(id, "number", number + "");
+        if(UIMethods.doesPageContainAttributeAndValue("class",Action.startWithDM))
+            new Action().clickOnStartWithDM();
+        else
+            UIMethods.clickOnAttributeAndValue("class", "build-it");
     }
 
     public static int getOgniterUniverseNumber(String universe) {

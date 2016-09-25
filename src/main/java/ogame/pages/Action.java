@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  * Created by jarndt on 9/19/16.
  */
 public class Action {
-    public String purchase = "Purchase Dark Matter", tearDown = "Tear down", improve = "Improve", startWithDM = "build-it_premium", premiumConfirm = "premiumConfirmButton";
+    public static String purchase = "Purchase Dark Matter", tearDown = "Tear down", improve = "Improve", startWithDM = "build-it_premium", premiumConfirm = "premiumConfirmButton";
 
     public void clickOnPurchase() {
         UIMethods.clickOnText(purchase);
