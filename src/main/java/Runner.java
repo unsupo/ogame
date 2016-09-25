@@ -1,7 +1,3 @@
-import ogame.pages.Facilities;
-import ogame.utility.Initialize;
-import utilities.Utility;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -11,10 +7,17 @@ import java.sql.SQLException;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-//        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
 
-        Initialize.login();
-        Utility.build(Facilities.RESEARCH_LAB);
+    }
+
+
+
+    //EXAMPLES
+
+    //        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
+
+//        Initialize.login();
+//        Utility.build(Facilities.RESEARCH_LAB);
 
 
 //        System.out.println(Resource.getCumulativeCost(Research.COMBUSTION,2,6));
@@ -73,11 +76,7 @@ public class Runner {
 
 //        _HSQLDB.setDbName(572);
 //        QueueManager.getInstance().parseUniverse();
-    }
 
-
-
-    //EXAMPLES
 //    Research o = Initialize.login("s129-en.ogame.gameforge.com", "<username>", "<password>")
 //            .clickOnResearch();
 //    HashMap<String, Integer> requirements = Utility.getBuildableRequirements("Small Cargo Ship");

@@ -1,7 +1,7 @@
 import java.io.IOException;
 
-import objects.AI;
-import objects.Scavenger;
+import objects.ai.AI;
+import objects.ai.Scavenger;
 import utilities.selenium.Task;
 
 public class MyRunner {
