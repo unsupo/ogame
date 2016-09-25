@@ -62,7 +62,7 @@ public class Utility {
         return timeLeft;
     }
 
-    public static HashMap<String,Integer> getBuildableRequirements(String buildableName){
+    public static Map<String,Integer> getBuildableRequirements(String buildableName){
     	requirements = new HashMap<>();
         getAllRequirements(buildableName);
         return requirements;
