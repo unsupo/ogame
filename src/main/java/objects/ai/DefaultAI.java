@@ -8,4 +8,9 @@ public class DefaultAI {
 
 
     }
+
+
+    public static void getMerchantDailyItem(){
+
+    }
 }

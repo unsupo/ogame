@@ -32,7 +32,7 @@ public class ProfileFollower implements AI {
 
     @Override
     public Task getDefaultTask() {
-        return new Task(new Runnable() {
+        return new Task(new Runnable() { //TODO Merchant
             @Override
             public void run() {
                 try {
@@ -112,7 +112,7 @@ public class ProfileFollower implements AI {
             @Override
             public void run() {
                 try {
-                    Utility.build(buildName,Integer.parseInt(buildAndQuantity[1]));
+                    Utility.build(buildName,Integer.parseInt(buildAndQuantity[1].trim()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

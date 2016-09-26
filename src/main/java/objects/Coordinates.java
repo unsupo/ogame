@@ -4,8 +4,20 @@ package objects;
  * Created by jarndt on 8/8/16.
  */
 public class Coordinates implements Comparable<Coordinates>{
-    String universe;
-    int galaxy, system, planet, type;
+    private String universe;
+    private int galaxy;
+    private int system;
+    private int planet;
+    private int type = PLANET;
+
+    public int getType() {
+        return type;
+    }
+
+    public Coordinates setType(int type) {
+        this.type = type;
+        return this;
+    }
     
     public static final int PLANET = 0, MOON = 1, DEBRIS_FIELD = 2;
 
@@ -15,6 +27,18 @@ public class Coordinates implements Comparable<Coordinates>{
         galaxy = Integer.parseInt(split[0]);
         system = Integer.parseInt(split[1]);
         planet = Integer.parseInt(split[2]);
+    }
+
+    public Coordinates(Coordinates coordinates) {
+        this.universe = coordinates.getUniverse();
+        this.galaxy = coordinates.getGalaxy();
+        this.system = coordinates.getSystem();
+        this.planet = coordinates.getPlanet();
+        this.type = coordinates.getType();
+    }
+
+    public Coordinates clone(){
+        return new Coordinates(this);
     }
 
     @Override
@@ -131,4 +155,8 @@ public class Coordinates implements Comparable<Coordinates>{
 		int distance = Math.abs(one - two);
 		return Math.min(distance, loop - distance);
 	}
+
+    public boolean isMoon() {
+        return type == MOON;
+    }
 }
