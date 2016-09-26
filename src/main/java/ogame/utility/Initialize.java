@@ -225,7 +225,14 @@ public class Initialize {
 
         for(Coordinates coordinates : planets.keySet()){
             UIMethods.clickOnAttributeAndValue("id",planets.get(coordinates).getWebElement());
-            Utility.clickOnNewPage(Overview.OVERVIEW);
+            UIMethods.clickOnText(Overview.OVERVIEW);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             planets.get(coordinates).setPlanetName(UIMethods.getTextFromAttributeAndValue("id","planetNameHeader").trim());
             planets.get(coordinates).setPlanetProperties(new PlanetProperties());
 
@@ -237,7 +244,7 @@ public class Initialize {
         return planets;
     }
 
-    private DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    static public DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void writeObject(Object...obj) throws IOException {
         String[] params = QueueManager.getInstance().getLoginParameters();
@@ -251,6 +258,7 @@ public class Initialize {
         fName += Utility.getOgniterUniverseNumber(params[0])+"";
 
         JSONObject jo = new JSONObject().put("data",data).put("timestamp", LocalDateTime.now().format(f));
+        new File(Utility.PROFILE_DIR).mkdirs();
         FileOptions.writeToFileOverWrite(Utility.PROFILE_DIR+fName,jo.toString());
     }
 
@@ -273,8 +281,8 @@ public class Initialize {
             writeObject(planets,researches);
         }else{
             JSONArray jarr = jo.getJSONArray("data");
-            planets = new Gson().fromJson(jarr.get(0).toString(), new TypeToken<HashMap<String, Planet>>(){}.getType());
-            researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<String, Integer>>(){}.getType());
+            planets = new Gson().fromJson(jarr.get(0).toString(), new TypeToken<HashMap<Coordinates, Planet>>(){}.getType());
+            researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<Coordinates, Integer>>(){}.getType());
         }
     }
 

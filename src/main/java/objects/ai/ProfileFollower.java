@@ -4,6 +4,7 @@ import objects.Buildable;
 import objects.Coordinates;
 import objects.Fleet;
 import objects.Ship;
+import ogame.pages.Merchant;
 import ogame.utility.Initialize;
 import ogame.utility.QueueManager;
 import utilities.Utility;
@@ -36,6 +37,8 @@ public class ProfileFollower implements AI {
             @Override
             public void run() {
                 try {
+                    Merchant.getItemOfDay();
+
                     if(targets == null)
                         targets = Utility.getInactiveTargets(Utility.getActivePlanet().getCoordinates());
 
