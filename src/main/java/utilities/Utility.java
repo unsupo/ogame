@@ -201,14 +201,19 @@ public class Utility {
 
 
     public static void clickOnNewPage(String pageName) throws IOException {
-        UIMethods.clickOnText(pageName);
+        if(Overview.MESSAGES.equals(pageName))
+            UIMethods.clickOnAttributeAndValue("class","messages");
+        else
+            UIMethods.clickOnText(pageName);
 
         if(getInProgressTime() != 0)
             return;
 
         if(Research.RESEARCH.equals(pageName))
             Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
-        else {
+        else if(Overview.MESSAGES.equals(pageName)) {
+            Message.parseAllMessages();
+        }else {
             Coordinates planetCoordinates = getActivePlanetCoordinates();
             HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
 
@@ -240,6 +245,10 @@ public class Utility {
                 planet.getShips().putAll(Initialize.getInstance().getValues(Fleet.ID, Shipyard.SHIPYARD, Fleet.BUTTON_ID_WEB_APPENDER));
             }
         }
+    }
+
+    public static int getMessageCount(){
+        return Message.getMessageCount();
     }
 
     public static boolean isBeingAttack(){
