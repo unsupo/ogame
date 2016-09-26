@@ -1,6 +1,7 @@
 import objects.ai.AI;
 import objects.ai.DefaultAI;
 import objects.ai.ProfileFollower;
+import ogame.pages.Merchant;
 import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import utilities.Utility;
@@ -23,6 +24,8 @@ public class Runner {
             Task    defaultTask     = ai.getDefaultTask(),
                     task            = ai.getTask(),
                     attackedTask    = ai.getAttackedTask();
+
+            Merchant.getItemOfDay();
 
             if(Utility.isBeingAttack())
                 if(attackedTask == null)
