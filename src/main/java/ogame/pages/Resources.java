@@ -17,17 +17,17 @@ public class Resources extends OGamePage{
                                 CRYSTAL_STORAGE         = "Crystal Storage",
                                 DUETERIUM_TANK          = "Dueterium Tank";
 
-    public static final String[] names = {
+    public static String[] names = {
             METAL_MINE, CRYSTAL_MINE, DUETERIUM_SYNTHESIZER,
             SOLAR_PLANET, FUSION_REACTOR,
             METAL_STORAGE, CRYSTAL_STORAGE,DUETERIUM_TANK
     };
 
-    public static final Resource[] baseCosts = Resource.convertCosts(new long[] {
-            60, 15, 0,0,
-            48, 24, 0,0,
-            225, 75, 0,0,
-            75, 30, 0,0,
+    public static Resource[] baseCosts = Resource.convertCosts(new long[] {
+    		60,15,0,10,
+    		48,24,0,10,
+    		225,75,0,20,
+    		75, 30, 0,0,
             900, 360, 180,0,
             1000, 0, 0,0,
             1000,500, 0,0,

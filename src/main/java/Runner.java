@@ -1,13 +1,8 @@
 import objects.ai.AI;
 import objects.ai.DefaultAI;
-import objects.ai.ProfileFollower;
-import ogame.pages.Merchant;
 import ogame.pages.Overview;
-import ogame.utility.Initialize;
-import ogame.utility.QueueManager;
 import utilities.Utility;
 import utilities.selenium.Task;
-import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,40 +13,28 @@ import java.sql.SQLException;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-        runAI(new ProfileFollower());
+
     }
 
     public static void runAI(AI ai) throws IOException {
         while(true){
-            try {
-                Task defaultTask = ai.getDefaultTask(),
-                        task = ai.getTask(),
-                        attackedTask = ai.getAttackedTask();
+            Task    defaultTask     = ai.getDefaultTask(),
+                    task            = ai.getTask(),
+                    attackedTask    = ai.getAttackedTask();
 
-                Merchant.getItemOfDay();
+            if(Utility.isBeingAttack())
+                if(attackedTask == null)
+                    DefaultAI.attackedTask();
+                else
+                    attackedTask.execute();
 
-                if (Utility.isBeingAttack())
-                    if (attackedTask == null)
-                        DefaultAI.attackedTask();
-                    else
-                        attackedTask.execute();
+            if(task != null)
+                task.execute();
 
-                if (task != null)
-                    task.execute();
+            if(defaultTask != null)
+                defaultTask.execute();
 
-                if (defaultTask != null)
-                    defaultTask.execute();
-
-                Utility.clickOnNewPage(Overview.OVERVIEW);
-                Initialize.writeToJSON();
-            }catch (Exception e){
-                e.printStackTrace();
-                //you got logged out
-                if(UIMethods.doesPageContainAttributeAndValue("id","loginSubmit")){
-                    String[] params = QueueManager.getLoginParams();
-                    Initialize.justLogin(params[0],params[1],params[2]);
-                }
-            }
+            Utility.clickOnNewPage(Overview.OVERVIEW);
         }
     }
 

@@ -23,18 +23,8 @@ public class QueueManager {
     private PriorityBlockingQueue<QueuedJob> queuedJobs = new PriorityBlockingQueue<>();
     private HashMap<File,List<String>> fileContents = new HashMap<>();
 
-    public static List<String> getProfileFileContents() throws IOException {
-        return getInstance()._getProfileFileContents();
-    }
-
-    public HashMap<File,List<String>> _getFileContents() throws IOException {
-        while (fileContents.isEmpty())
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        return fileContents;
+    public static HashMap<File,List<String>> getFileContents() throws IOException {
+        return getInstance().fileContents;
     }
 
     public static QueueManager getInstance() throws IOException {
@@ -50,7 +40,7 @@ public class QueueManager {
     private QueueManager() throws IOException {
         WatchServiceCreator.start();
         startFileContentReader();
-        _HSQLDB.setDbName(Utility.getOgniterUniverseNumber(_getLoginParameters()[0]));
+        _HSQLDB.setDbName(Utility.getOgniterUniverseNumber(getLoginParameters()[0]));
         parseUniverse();
     }
 
@@ -59,11 +49,11 @@ public class QueueManager {
             @Override
             public void run() {
                 while(true){
-                    try {
-                        OgniterGalaxyParser.parseEntireUniverse(Utility.getOgniterUniverseNumber(_getLoginParameters()[0]));
-                        Thread.sleep(1000*3600*24);
+                    OgniterGalaxyParser.parseEntireUniverse(Utility.getOgniterUniverseNumber(getLoginParameters()[0]));
 
-                    } catch (InterruptedException | IOException e) {
+                    try {
+                        Thread.sleep(1000*3600*24);
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -71,9 +61,8 @@ public class QueueManager {
         }).start();
     }
 
-    private Thread fileReaderThread;
     private void startFileContentReader() {
-        fileReaderThread = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true) {
@@ -92,26 +81,25 @@ public class QueueManager {
                     }
                 }
             }
-        });
-        if(!fileReaderThread.isAlive())
-            fileReaderThread.start();
+        }).start();
     }
 
     String[] loginParams;
 
     public static String[] getLoginParams() throws IOException {
-        return getInstance()._getLoginParameters();
+        return getInstance().getLoginParameters();
     }
 
-    private List<String> _getProfileFileContents() throws IOException {
-        List<String> values = new ArrayList<>();
-        _getFileContents().values().forEach(a->values.addAll(a));
-        return values;
-    }
-
-    private String[] _getLoginParameters() throws IOException {
+    public String[] getLoginParameters() {
         if(loginParams == null) {
-            List<String> values = _getProfileFileContents();
+            List<String> values = new ArrayList<>();
+            while (fileContents.isEmpty())
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            fileContents.values().forEach(a->values.addAll(a));
             String loginInfo = values.stream().filter(a->a.contains(LOGIN)).collect(Collectors.toList()).get(0);
             loginParams = loginInfo.split(":")[1].trim().split(",");
         }
@@ -120,13 +108,5 @@ public class QueueManager {
 
     public static void start() throws IOException {
         getInstance();
-    }
-
-    public static HashMap<File,List<String>> getFileContents() throws IOException {
-        return getInstance()._getFileContents();
-    }
-
-    public String[] getLoginParameters() throws IOException {
-        return getInstance()._getLoginParameters();
     }
 }

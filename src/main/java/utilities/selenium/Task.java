@@ -73,11 +73,16 @@ public class Task {
 	}
 	
 	public static Resource readResource(){
-		return Utility.readResource();
+		Integer metal = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_metal").replaceAll("\\.", ""));
+		Integer crystal = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_crystal").replaceAll("\\.", ""));
+		Integer deuterium = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_deuterium").replaceAll("\\.", ""));
+		Integer energy = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_energy").replaceAll("\\.", ""));
+		return new Resource(metal, crystal, deuterium, energy);
 	}
 	
 	public static int readDarkMatter(){
-		return Utility.readDarkMatter();
+		return Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_darkmatter").replaceAll("\\.", ""));
+
 	}
 	
 	public static Task quitTask = new Task();
