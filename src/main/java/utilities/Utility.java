@@ -142,6 +142,8 @@ public class Utility {
     public static void build(String name, int number) throws IOException{
         String type = Initialize.getType(name);
         clickOnNewPage(type);
+        if(Utility.getInProgressTime() != 0)
+            return;
         String id = "id";
         if(idFromType.containsKey(type))
             id = idFromType.get(type);

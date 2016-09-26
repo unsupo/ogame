@@ -104,7 +104,7 @@ public class ProfileFollower implements AI {
 
         if(!researchRequired.isEmpty())
             for(String key : researchRequired.keySet())
-                if(Utility.canAfford(key)) //TODO check for dark matter
+//                if(Utility.canAfford(key)) //TODO check for dark matter
                     build = Initialize.getBuildableByName(key);
 
 //        if (researchRequired.isEmpty() && facilitiesRequired.isEmpty())

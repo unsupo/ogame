@@ -296,7 +296,15 @@ public class Initialize {
             HashMap<String, Planet> tempPlanets = new Gson()
                     .fromJson(jarr.get(0).toString(), new TypeToken<HashMap<String, Planet>>(){}.getType());
             tempPlanets.forEach((coordinate,planet)->{
-                planets.put(new Gson().fromJson(coordinate, new TypeToken<Coordinates>(){}.getType()),planet);
+                JSONObject joCoords = new JSONObject(coordinate).getJSONObject("Coordinates");
+                String universe = joCoords.getString("universe");
+                if(universe.equals("null"))
+                    universe = null;
+                planets.put(new Coordinates(universe,
+                                            joCoords.getInt("galaxy"),
+                                            joCoords.getInt("system"),
+                                            joCoords.getInt("planet"),
+                                            joCoords.getInt("type")),planet);
             });
 
             researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<String, Integer>>(){}.getType());
