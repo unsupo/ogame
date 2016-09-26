@@ -57,7 +57,7 @@ public class Resource {
 	
 	private static int getIndexOf(String name){
 		for(int i =0;i< names.length;i++){
-			if(names[i] == name){
+			if(names[i].equals(name)){
 				return i;
 			}
 		}
