@@ -104,11 +104,14 @@ public class Utility {
     }
 
     public static Action clickAction(String ID, String constant){
-        String webName = Initialize.getBuildableByName(constant).getWebName();
+        return clickAction(ID,constant,"");
+    }
+    public static Action clickAction(String ID, String constant, String appender){
+        String webName = appender+Initialize.getBuildableByName(constant).getWebName();
         UIMethods.clickOnAttributeAndValue(ID,webName);
-        UIMethods.waitForText(constant,30, TimeUnit.SECONDS);
+        UIMethods.waitForText(constant,1, TimeUnit.MINUTES);
         try {  //DON't think this is required
-            Thread.sleep(500);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -141,7 +144,10 @@ public class Utility {
         String id = "id";
         if(idFromType.containsKey(type))
             id = idFromType.get(type);
-        clickAction(id, name);
+        String v = "";
+        if(Shipyard.SHIPYARD.equals(type))
+            v = Shipyard.WEB_ID_APPENDER;
+        clickAction(id, name, v);
         if(UIMethods.doesPageContainAttributeAndValue(id,"number"))
             UIMethods.typeOnAttributeAndValue(id, "number", number + "");
         if(UIMethods.doesPageContainAttributeAndValue("class",Action.startWithDM))
