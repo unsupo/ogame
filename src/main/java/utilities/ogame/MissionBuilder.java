@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Created by jarndt on 9/23/16.
  */
 public class MissionBuilder {
+
     public static final String  EXPEDITION              = "missionButton15",
                                 COLONIZATION            = "missionButton7",
                                 RECYCLE_DEBRIS_FIELD    = "missionButton8",
@@ -31,6 +32,8 @@ public class MissionBuilder {
     private String mission;
     private int speed = 100;
     private Coordinates destination;
+
+
 
     @Override
     public String toString() {
