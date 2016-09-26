@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import objects.Buildable;
 import objects.Coordinates;
 import objects.Planet;
+import objects.PlanetProperties;
 import ogame.pages.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,11 +34,13 @@ public class Initialize {
                             MAPPINGS    = Utility.MAPPINGS;
 
     private static Initialize instance;
+    private long points;
 
     private static HashMap<String,List<Integer>> mappings = new HashMap<>();
     private List<Buildable> buildables = new ArrayList<>();
     private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
-    private HashMap<String,Planet> planets = new HashMap<>();//planetName, Planet object
+
+    private HashMap<Coordinates,Planet> planets = new HashMap<>();//planetName, Planet object
 
     public int getFleetSlotsAvailable() {
         return fleetSlotsAvailable;
@@ -49,7 +52,7 @@ public class Initialize {
 
     private int fleetSlotsAvailable;
 
-    public static HashMap<String,Planet> getPlanetMap() throws IOException {
+    public static HashMap<Coordinates, Planet> getPlanetMap() throws IOException {
         return getInstance().getPlanets();
     }
 
@@ -133,9 +136,9 @@ public class Initialize {
 
     public HashMap<String,Integer> getResearch() throws IOException { //research name, level
         return getMapValue(Research.ID,"Research",researches);
-    }public HashMap<String,Integer> getFacilities(String planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getFacilities(Coordinates planetName) throws IOException { //research name, level
         return getMapValue(Facilities.ID,"Facilities",getPlanets().get(planetName).getFacilities());
-    }public HashMap<String,Integer> getBuildings(String planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getBuildings(Coordinates planetName) throws IOException { //research name, level
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
     }
     
@@ -152,7 +155,7 @@ public class Initialize {
     }
 
 	public Map<String, Integer> getFacilities(int index) throws IOException {
-		return getFacilities((String)getPlanets().keySet().toArray()[index]);
+		return getFacilities((Coordinates) getPlanets().keySet().toArray()[index]);
 	}
     
     private HashMap<String,Integer> getMapValue(String ID, String name, HashMap<String,Integer> map) throws IOException {
@@ -193,7 +196,7 @@ public class Initialize {
         return map;
     }
 
-    public HashMap<String, Planet> getPlanets() throws IOException { //planet name, Planet
+    public HashMap<Coordinates, Planet> getPlanets() throws IOException { //planet name, Planet
         if(!planets.isEmpty())
             return planets;
         
@@ -205,15 +208,29 @@ public class Initialize {
 
             Planet p = new Planet();
             p.setWebElement(id);
+            p.setAttributeAndValue("id",id);
             p.setCoordinates(new Coordinates(coordinates));
 
-            planets.put(planetName,p);
+            //FOR MOONS
+            Elements el = e.select("a.moonlink");
+            if(el != null && el.size() > 0){
+                Planet m = new Planet();
+                m.setAttributeAndValue("href",el.get(0).attr("href"));
+                p.setMoon(m);
+                planets.put(p.getCoordinates().clone().setType(Coordinates.MOON),m);
+            }
+
+            planets.put(p.getCoordinates(),p);
         }
 
-        for(String name : planets.keySet()){
-            UIMethods.clickOnAttributeAndValue("id",planets.get(name).getWebElement());
-            getFacilities(name);
-            getBuildings(name);
+        for(Coordinates coordinates : planets.keySet()){
+            UIMethods.clickOnAttributeAndValue("id",planets.get(coordinates).getWebElement());
+            Utility.clickOnNewPage(Overview.OVERVIEW);
+            planets.get(coordinates).setPlanetName(UIMethods.getTextFromAttributeAndValue("id","planetNameHeader").trim());
+            planets.get(coordinates).setPlanetProperties(new PlanetProperties());
+
+            getFacilities(coordinates);
+            getBuildings(coordinates);
         }
 
 

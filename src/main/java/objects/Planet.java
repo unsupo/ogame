@@ -6,23 +6,23 @@ import java.util.HashMap;
  * Created by jarndt on 9/19/16.
  */
 public class Planet {
-    private String planetName, webElement;
+    public PlanetProperties getPlanetSize() {
+        return planetSize;
+    }
 
-    private Coordinates coordinates;
-
-    private HashMap<String, Integer>    buildings   = new HashMap<>(), //building name, level, facilities are included
-                                        facilities  = new HashMap<>(),
-                                        defense     = new HashMap<>(), //defense name, count
-                                        ships       = new HashMap<>(); //ship name, count
-
-    private long currentMetal, currentCrystal, currentDueterium,
-                metalProduction, crystalProduction, dueteriumProduction;
+    public void setPlanetProperties(PlanetProperties planetSize) {
+        this.planetSize = planetSize;
+    }
 
     @Override
     public String toString() {
         return "Planet{" +
-                "planetName='" + planetName + '\'' +
+                "planetSize=" + planetSize +
+                ", planetName='" + planetName + '\'' +
                 ", webElement='" + webElement + '\'' +
+                ", attribute='" + attribute + '\'' +
+                ", value='" + value + '\'' +
+                ", moon=" + moon +
                 ", coordinates=" + coordinates +
                 ", buildings=" + buildings +
                 ", facilities=" + facilities +
@@ -50,8 +50,12 @@ public class Planet {
         if (metalProduction != planet.metalProduction) return false;
         if (crystalProduction != planet.crystalProduction) return false;
         if (dueteriumProduction != planet.dueteriumProduction) return false;
+        if (planetSize != null ? !planetSize.equals(planet.planetSize) : planet.planetSize != null) return false;
         if (planetName != null ? !planetName.equals(planet.planetName) : planet.planetName != null) return false;
         if (webElement != null ? !webElement.equals(planet.webElement) : planet.webElement != null) return false;
+        if (attribute != null ? !attribute.equals(planet.attribute) : planet.attribute != null) return false;
+        if (value != null ? !value.equals(planet.value) : planet.value != null) return false;
+        if (moon != null ? !moon.equals(planet.moon) : planet.moon != null) return false;
         if (coordinates != null ? !coordinates.equals(planet.coordinates) : planet.coordinates != null) return false;
         if (buildings != null ? !buildings.equals(planet.buildings) : planet.buildings != null) return false;
         if (facilities != null ? !facilities.equals(planet.facilities) : planet.facilities != null) return false;
@@ -62,8 +66,12 @@ public class Planet {
 
     @Override
     public int hashCode() {
-        int result = planetName != null ? planetName.hashCode() : 0;
+        int result = planetSize != null ? planetSize.hashCode() : 0;
+        result = 31 * result + (planetName != null ? planetName.hashCode() : 0);
         result = 31 * result + (webElement != null ? webElement.hashCode() : 0);
+        result = 31 * result + (attribute != null ? attribute.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (moon != null ? moon.hashCode() : 0);
         result = 31 * result + (coordinates != null ? coordinates.hashCode() : 0);
         result = 31 * result + (buildings != null ? buildings.hashCode() : 0);
         result = 31 * result + (facilities != null ? facilities.hashCode() : 0);
@@ -77,6 +85,36 @@ public class Planet {
         result = 31 * result + (int) (dueteriumProduction ^ (dueteriumProduction >>> 32));
         return result;
     }
+
+    private PlanetProperties planetSize;
+    private String planetName, webElement, attribute, value;
+    private Planet moon;
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public Planet getMoon() {
+        return moon;
+    }
+
+    public void setMoon(Planet moon) {
+        this.moon = moon;
+    }
+
+    private Coordinates coordinates;
+
+    private HashMap<String, Integer>    buildings   = new HashMap<>(), //building name, level, facilities are included
+                                        facilities  = new HashMap<>(),
+                                        defense     = new HashMap<>(), //defense name, count
+                                        ships       = new HashMap<>(); //ship name, count
+
+    private long currentMetal, currentCrystal, currentDueterium,
+                metalProduction, crystalProduction, dueteriumProduction;
 
     public String getPlanetName() {
 
@@ -183,4 +221,8 @@ public class Planet {
         this.dueteriumProduction = dueteriumProduction;
     }
 
+    public void setAttributeAndValue(String attribute, String value) {
+        this.attribute = attribute;
+        this.value = value;
+    }
 }
