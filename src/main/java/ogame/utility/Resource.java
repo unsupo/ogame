@@ -1,26 +1,64 @@
 package ogame.utility;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import objects.Ship;
 import ogame.pages.Facilities;
 import ogame.pages.Research;
 import ogame.pages.Resources;
-import org.apache.commons.lang3.ArrayUtils;
-
-import objects.Ship;
-
-import java.io.IOException;
 
 public class Resource {
+	
+	public static final String METAL = "metal";
+	public static final String CRYSTAL = "crystal";
+	public static final String DEUTERIUM = "deuterium";
+	public static final String ENERGY = "energy";
 
 	public long metal;
 	public long crystal;
 	public long deuterium;
 	public long energy = 0;
 	
-	private static final String[] names = (String[])ArrayUtils.addAll(ArrayUtils.addAll(Research.names, Facilities.names), Ship.names);
-	private static final Resource[] baseCosts = (Resource[]) ArrayUtils.addAll(ArrayUtils.addAll(Research.baseCosts, Facilities.baseCosts), Ship.baseCosts);
+	private static List<String> names;
+	private static final List<Resource> baseCosts;
+	
+	static{
+		names = new ArrayList<String>();
+		names.addAll(Arrays.asList(Research.names));
+		names.addAll(Arrays.asList(Facilities.names));
+		names.addAll(Arrays.asList(Ship.names));
+		names.addAll(Arrays.asList(Resources.names));
+	}
+	
+	static{
+		baseCosts = new ArrayList<Resource>();
+		baseCosts.addAll(Arrays.asList(Research.baseCosts));
+		baseCosts.addAll(Arrays.asList(Facilities.baseCosts));
+		baseCosts.addAll(Arrays.asList(Ship.baseCosts));
+		baseCosts.addAll(Arrays.asList(Resources.baseCosts));
+	}
 
 	public static Resource getCost(String name) throws IOException{
 		return getCost(name, 1);
+	}
+	
+	public static Resource getMonoResource(String type, int amount){
+		if(type == METAL || type == Resources.METAL_MINE){
+			return new Resource(amount,0,0);
+		}
+		if(type == CRYSTAL || type == Resources.CRYSTAL_MINE){
+			return new Resource(0,amount,0);
+		}
+		if(type == DEUTERIUM || type == Resources.DUETERIUM_SYNTHESIZER){
+			return new Resource(0,0,amount);
+		}
+		if(type.equals(ENERGY)){
+			return new Resource(0,0,0,amount);
+		}
+		return null;
 	}
 	
 	public static Resource getCost(String name, int level) throws IOException{
@@ -43,21 +81,22 @@ public class Resource {
 		}
 		return getCumulativeCost(getBaseCost(name), min, max, multiplier);
 	}
-	
-	private static Resource getCumulativeCost(Resource base, int min, int max){
-		return base.multiply(Math.pow(2, max)-Math.pow(2, min -1));
-	}
 	private static Resource getCumulativeCost(Resource base, int min, int max, double power){
-		return base.multiply(Math.pow(power, max)-Math.pow(power, min -1));
+		min--;
+		Resource cost = base.multiply((Math.pow(power, max)-Math.pow(power, min))/(power-1));
+		if(cost.energy > 0){
+			cost.energy = (long) Math.ceil(base.energy*(max*Math.pow(1.1, max) - Math.pow(1.1, min)*min));
+		}
+		return cost;
 	}
 	
 	public static Resource getBaseCost(String name) {
-		return baseCosts[getIndexOf(name)];
+		return baseCosts.get(getIndexOf(name));
 	}
 	
 	private static int getIndexOf(String name){
-		for(int i =0;i< names.length;i++){
-			if(names[i].equals(name)){
+		for(int i =0;i< names.size();i++){
+			if(names.get(i) == name){
 				return i;
 			}
 		}

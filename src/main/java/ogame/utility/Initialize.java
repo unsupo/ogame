@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import objects.Buildable;
 import objects.Coordinates;
 import objects.Planet;
-import objects.PlanetProperties;
 import ogame.pages.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,25 +33,13 @@ public class Initialize {
                             MAPPINGS    = Utility.MAPPINGS;
 
     private static Initialize instance;
-    private long points;
 
     private static HashMap<String,List<Integer>> mappings = new HashMap<>();
     private List<Buildable> buildables = new ArrayList<>();
     private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
+    private HashMap<String,Planet> planets = new HashMap<>();//planetName, Planet object
 
-    private HashMap<Coordinates,Planet> planets = new HashMap<>();//planetName, Planet object
-
-    public int getFleetSlotsAvailable() {
-        return fleetSlotsAvailable;
-    }
-
-    public void setFleetSlotsAvailable(int fleetSlotsAvailable) {
-        this.fleetSlotsAvailable = fleetSlotsAvailable;
-    }
-
-    private int fleetSlotsAvailable;
-
-    public static HashMap<Coordinates, Planet> getPlanetMap() throws IOException {
+    public static HashMap<String,Planet> getPlanetMap() throws IOException {
         return getInstance().getPlanets();
     }
 
@@ -114,12 +101,12 @@ public class Initialize {
     }
 
     public static Planet getPlanet(Coordinates coords) throws IOException {
-        return getInstance().getPlanetMap().get(coords);
+        return getInstance().getPlanetMap().values().stream()
+                .filter(a->a.getCoordinates().equals(coords))
+                .collect(Collectors.toList()).get(0);
     }
     public static Planet getPlanet(String name) throws IOException {
-        return getInstance().getPlanetMap().values().stream()
-                .filter(a->a.getPlanetName().equals(name))
-                .collect(Collectors.toList()).get(0);
+        return getInstance().getPlanetMap().get(name);
     }
 
     private void addBuildingFromFile(String file) throws IOException {
@@ -136,12 +123,10 @@ public class Initialize {
 
     public HashMap<String,Integer> getResearch() throws IOException { //research name, level
         return getMapValue(Research.ID,"Research",researches);
-    }public HashMap<String,Integer> getFacilities(Coordinates planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getFacilities(String planetName) throws IOException { //research name, level
         return getMapValue(Facilities.ID,"Facilities",getPlanets().get(planetName).getFacilities());
-    }public HashMap<String,Integer> getBuildings(Coordinates planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getBuildings(String planetName) throws IOException { //research name, level
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
-    }public HashMap<String,Integer> getShips(Coordinates planetName) throws IOException { //research name, level
-        return getMapValue(Shipyard.ID,Shipyard.SHIPYARD,getPlanets().get(planetName).getShips());
     }
     
     public HashMap<String, Integer> getBuildables(String type) throws IOException{
@@ -157,7 +142,7 @@ public class Initialize {
     }
 
 	public Map<String, Integer> getFacilities(int index) throws IOException {
-		return getFacilities((Coordinates) getPlanets().keySet().toArray()[index]);
+		return getFacilities((String)getPlanets().keySet().toArray()[index]);
 	}
     
     private HashMap<String,Integer> getMapValue(String ID, String name, HashMap<String,Integer> map) throws IOException {
@@ -172,10 +157,7 @@ public class Initialize {
     }
 
     public HashMap<String,Integer> getValues(String ID, String typeName) throws IOException{
-        String preappender = "";
-        if(Shipyard.SHIPYARD.equals(typeName))
-            preappender = Shipyard.WEB_ID_APPENDER;
-        return getValues(ID,typeName,preappender);
+        return getValues(ID,typeName,"");
     }public HashMap<String,Integer> getValues(String ID, String typeName, String prepender) throws IOException {
         List<Integer> values = getMappings().get(typeName);
         int v1 = values.get(0), v2 = values.get(1);
@@ -184,8 +166,6 @@ public class Initialize {
                 .filter(a -> a.getId() >= v1 && a.getId() <= v2).collect(Collectors.toList());
         for(Buildable b : buildableList) {
             String v = UIMethods.getTextFromAttributeAndValue(ID, prepender+b.getWebName());
-            if(v == null)
-                v = 0+"";
             if(v.contains("(")){
                 String[] split = v.split("\\(");
                 split[0] = split[0].trim();
@@ -201,7 +181,7 @@ public class Initialize {
         return map;
     }
 
-    public HashMap<Coordinates, Planet> getPlanets() throws IOException { //planet name, Planet
+    public HashMap<String, Planet> getPlanets() throws IOException { //planet name, Planet
         if(!planets.isEmpty())
             return planets;
         
@@ -213,45 +193,22 @@ public class Initialize {
 
             Planet p = new Planet();
             p.setWebElement(id);
-            p.setAttributeAndValue("id",id);
             p.setCoordinates(new Coordinates(coordinates));
 
-            //FOR MOONS
-            Elements el = e.select("a.moonlink");
-            if(el != null && el.size() > 0){
-                Planet m = new Planet();
-                m.setAttributeAndValue("href",el.get(0).attr("href"));
-                p.setMoon(m);
-                planets.put(p.getCoordinates().clone().setType(Coordinates.MOON),m);
-            }
-
-            planets.put(p.getCoordinates(),p);
+            planets.put(planetName,p);
         }
 
-        for(Coordinates coordinates : planets.keySet()){
-            UIMethods.clickOnAttributeAndValue("id",planets.get(coordinates).getWebElement());
-            UIMethods.clickOnText(Overview.OVERVIEW);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            planets.get(coordinates).setPlanetName(UIMethods.getTextFromAttributeAndValue("id","planetNameHeader").trim());
-            planets.get(coordinates).setPlanetProperties(new PlanetProperties().parseProperties());
-
-            getFacilities(coordinates);
-            getBuildings(coordinates);
-            getShips(coordinates);
-//            Utility.clickOnNewPage(Shipyard.SHIPYARD); //TODO defense page
+        for(String name : planets.keySet()){
+            UIMethods.clickOnAttributeAndValue("id",planets.get(name).getWebElement());
+            getFacilities(name);
+            getBuildings(name);
         }
 
 
         return planets;
     }
 
-    static public DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void writeObject(Object...obj) throws IOException {
         String[] params = QueueManager.getInstance().getLoginParameters();
@@ -265,13 +222,7 @@ public class Initialize {
         fName += Utility.getOgniterUniverseNumber(params[0])+"";
 
         JSONObject jo = new JSONObject().put("data",data).put("timestamp", LocalDateTime.now().format(f));
-        new File(Utility.PROFILE_DIR).mkdirs();
         FileOptions.writeToFileOverWrite(Utility.PROFILE_DIR+fName,jo.toString());
-    }
-
-
-    public static void writeToJSON() throws IOException {
-        getInstance().writeObject(getPlanetMap(),getResearches());
     }
 
     public void readObject(String src) throws IOException {
@@ -293,20 +244,7 @@ public class Initialize {
             writeObject(planets,researches);
         }else{
             JSONArray jarr = jo.getJSONArray("data");
-            HashMap<String, Planet> tempPlanets = new Gson()
-                    .fromJson(jarr.get(0).toString(), new TypeToken<HashMap<String, Planet>>(){}.getType());
-            tempPlanets.forEach((coordinate,planet)->{
-                JSONObject joCoords = new JSONObject(coordinate).getJSONObject("Coordinates");
-                String universe = joCoords.getString("universe");
-                if(universe.equals("null"))
-                    universe = null;
-                planets.put(new Coordinates(universe,
-                                            joCoords.getInt("galaxy"),
-                                            joCoords.getInt("system"),
-                                            joCoords.getInt("planet"),
-                                            joCoords.getInt("type")),planet);
-            });
-
+            planets = new Gson().fromJson(jarr.get(0).toString(), new TypeToken<HashMap<String, Planet>>(){}.getType());
             researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<String, Integer>>(){}.getType());
         }
     }
