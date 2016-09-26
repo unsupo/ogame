@@ -6,5 +6,6 @@ package objects.ai;
 public class DefaultAI {
     public static void attackedTask(){
 
+
     }
 }

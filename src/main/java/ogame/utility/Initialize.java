@@ -39,6 +39,16 @@ public class Initialize {
     private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
     private HashMap<String,Planet> planets = new HashMap<>();//planetName, Planet object
 
+    public int getFleetSlotsAvailable() {
+        return fleetSlotsAvailable;
+    }
+
+    public void setFleetSlotsAvailable(int fleetSlotsAvailable) {
+        this.fleetSlotsAvailable = fleetSlotsAvailable;
+    }
+
+    private int fleetSlotsAvailable;
+
     public static HashMap<String,Planet> getPlanetMap() throws IOException {
         return getInstance().getPlanets();
     }
@@ -166,6 +176,8 @@ public class Initialize {
                 .filter(a -> a.getId() >= v1 && a.getId() <= v2).collect(Collectors.toList());
         for(Buildable b : buildableList) {
             String v = UIMethods.getTextFromAttributeAndValue(ID, prepender+b.getWebName());
+            if(v == null)
+                v = 0+"";
             if(v.contains("(")){
                 String[] split = v.split("\\(");
                 split[0] = split[0].trim();

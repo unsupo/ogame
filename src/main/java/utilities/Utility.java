@@ -1,10 +1,10 @@
 package utilities;
 
-import objects.Buildable;
-import objects.Coordinates;
-import objects.Planet;
+import objects.*;
 import ogame.pages.*;
+import ogame.pages.Fleet;
 import ogame.utility.Initialize;
+import ogame.utility.Resource;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import utilities.database._HSQLDB;
@@ -116,6 +116,22 @@ public class Utility {
         return new Action();
     }
 
+    public static Resource readResource(){
+        Integer metal = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_metal").replaceAll("\\.", ""));
+        Integer crystal = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_crystal").replaceAll("\\.", ""));
+        Integer deuterium = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_deuterium").replaceAll("\\.", ""));
+        Integer energy = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_energy").replaceAll("\\.", ""));
+        return new Resource(metal, crystal, deuterium, energy);
+    }
+
+    public static int readDarkMatter(){
+        return Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_darkmatter").replaceAll("\\.", ""));
+    }
+
+    public static boolean canAfford(String name){
+        return Resource.getBaseCost(name).canAfford(readResource());
+    }
+
     public static void build(String name) throws IOException{
         build(name, 0);
     }
@@ -172,18 +188,29 @@ public class Utility {
 
         if(Research.RESEARCH.equals(pageName))
             Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
-        else{
+        else {
             String planetName = getActivePlanetName();
             HashMap<String, Planet> planetMap = Initialize.getPlanetMap();
-            if(!planetMap.containsKey(planetName))
-                planetMap.put(planetName,new Planet());
+            if (!planetMap.containsKey(planetName))
+                planetMap.put(planetName, new Planet());
             Planet planet = planetMap.get(planetName);
-            if(Facilities.FACILITIES.equals(pageName))
-                planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID,Facilities.FACILITIES));
-            if(Resources.RESOURCES.equals(pageName))
-                planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID,Resources.RESOURCES));
-            if(Shipyard.SHIPYARD.equals(pageName))
-                planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID,Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
+            if (Facilities.FACILITIES.equals(pageName))
+                planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID, Facilities.FACILITIES));
+            if (Resources.RESOURCES.equals(pageName))
+                planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID, Resources.RESOURCES));
+            if (Shipyard.SHIPYARD.equals(pageName))
+                planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID, Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
+            if (Fleet.FLEET.equals(pageName)) {
+                String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
+                String[] totes = fleets.split(":")[1].split("\\/");
+                int used = Integer.parseInt(totes[0].trim());
+                int possible = Integer.parseInt(totes[1].trim());
+                int available = possible - used;
+
+                Initialize.getInstance().setFleetSlotsAvailable(available);
+
+                planet.getShips().putAll(Initialize.getInstance().getValues(Fleet.ID, Shipyard.SHIPYARD, Fleet.BUTTON_ID_WEB_APPENDER));
+            }
         }
     }
 

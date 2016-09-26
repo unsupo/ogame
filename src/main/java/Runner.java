@@ -1,5 +1,6 @@
 import objects.ai.AI;
 import objects.ai.DefaultAI;
+import objects.ai.ProfileFollower;
 import ogame.pages.Overview;
 import utilities.Utility;
 import utilities.selenium.Task;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-
+        runAI(new ProfileFollower());
     }
 
     public static void runAI(AI ai) throws IOException {
