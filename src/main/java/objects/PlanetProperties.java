@@ -89,7 +89,18 @@ public class PlanetProperties {
         this.size = size;
     }
 
+    public PlanetProperties(int totalFields, int usedFields, int size, int minTemp, int maxTemp) {
+        this.totalFields = totalFields;
+        this.usedFields = usedFields;
+        this.size = size;
+        this.minTemp = minTemp;
+        this.maxTemp = maxTemp;
+    }
+
     public PlanetProperties(){
+    }
+
+    public PlanetProperties parseProperties(){
         String tempSpan = UIMethods.getTextFromAttributeAndValue("id","temperatureContentField");//.split(" to ");
         Matcher r = Pattern.compile("[0-9-]+").matcher(tempSpan);
         if(r.find())
@@ -102,5 +113,6 @@ public class PlanetProperties {
         String[] el = e[1].replace("(", "").replace(")", "").split("\\/");
         usedFields = Integer.parseInt(el[0].trim());
         totalFields = Integer.parseInt(el[1].trim());
+        return this;
     }
 }
