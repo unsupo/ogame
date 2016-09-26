@@ -1,10 +1,10 @@
 package utilities;
 
-import objects.Buildable;
-import objects.Coordinates;
-import objects.Planet;
+import objects.*;
 import ogame.pages.*;
+import ogame.pages.Fleet;
 import ogame.utility.Initialize;
+import ogame.utility.Resource;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import utilities.database._HSQLDB;
@@ -45,12 +45,13 @@ public class Utility {
 
     public static long getInProgressTime(){
         String time;
+        String[] v;
         try {
             time = UIMethods.getTextFromAttributeAndValue("class", "time");
+            v = time.split(" ");
         }catch (Exception e){
             return 0;
         }
-        String[] v = time.split(" ");
         long timeLeft = 100;
         for(String s : v)
             if(s.contains("s"))
@@ -104,16 +105,35 @@ public class Utility {
     }
 
     public static Action clickAction(String ID, String constant){
-        String webName = Initialize.getBuildableByName(constant).getWebName();
+        return clickAction(ID,constant,"");
+    }
+    public static Action clickAction(String ID, String constant, String appender){
+        String webName = appender+Initialize.getBuildableByName(constant).getWebName();
         UIMethods.clickOnAttributeAndValue(ID,webName);
-        UIMethods.waitForText(constant,30, TimeUnit.SECONDS);
+        UIMethods.waitForText(constant,1, TimeUnit.MINUTES);
         try {  //DON't think this is required
-            Thread.sleep(500);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return new Action();
+    }
+
+    public static Resource readResource(){
+        Integer metal = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_metal").replaceAll("\\.", ""));
+        Integer crystal = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_crystal").replaceAll("\\.", ""));
+        Integer deuterium = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_deuterium").replaceAll("\\.", ""));
+        Integer energy = Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_energy").replaceAll("\\.", ""));
+        return new Resource(metal, crystal, deuterium, energy);
+    }
+
+    public static int readDarkMatter(){
+        return Integer.parseInt(UIMethods.getTextFromAttributeAndValue("id", "resources_darkmatter").replaceAll("\\.", ""));
+    }
+
+    public static boolean canAfford(String name){
+        return Resource.getBaseCost(name).canAfford(readResource());
     }
 
     public static void build(String name) throws IOException{
@@ -122,10 +142,15 @@ public class Utility {
     public static void build(String name, int number) throws IOException{
         String type = Initialize.getType(name);
         clickOnNewPage(type);
+        if(Utility.getInProgressTime() != 0)
+            return;
         String id = "id";
         if(idFromType.containsKey(type))
             id = idFromType.get(type);
-        clickAction(id, name);
+        String v = "";
+        if(Shipyard.SHIPYARD.equals(type))
+            v = Shipyard.WEB_ID_APPENDER;
+        clickAction(id, name, v);
         if(UIMethods.doesPageContainAttributeAndValue(id,"number"))
             UIMethods.typeOnAttributeAndValue(id, "number", number + "");
         if(UIMethods.doesPageContainAttributeAndValue("class",Action.startWithDM))
@@ -161,29 +186,59 @@ public class Utility {
         if(v.size() > 1)
             v = v.select("a.active");
         Elements vv = v.get(0).select("span.planet-name  ");
-        return vv.text();
-    }public static Planet getActivePlanet() throws IOException {
-        return Initialize.getPlanet(getActivePlanetName());
+        return vv.text().trim();
+    }public static Coordinates getActivePlanetCoordinates(){
+        Elements v = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("div.smallplanet");
+        if(v.size() > 1)
+            v = v.select("a.active");
+        Elements vv = v.get(0).select("span.planet-koords");
+        return new Coordinates(vv.text().trim());
+    }
+
+    public static Planet getActivePlanet() throws IOException {
+        return Initialize.getPlanet(getActivePlanetCoordinates());
     }
 
 
     public static void clickOnNewPage(String pageName) throws IOException {
         UIMethods.clickOnText(pageName);
 
+        if(getInProgressTime() != 0)
+            return;
+
         if(Research.RESEARCH.equals(pageName))
             Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
-        else{
-            String planetName = getActivePlanetName();
-            HashMap<String, Planet> planetMap = Initialize.getPlanetMap();
-            if(!planetMap.containsKey(planetName))
-                planetMap.put(planetName,new Planet());
-            Planet planet = planetMap.get(planetName);
-            if(Facilities.FACILITIES.equals(pageName))
-                planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID,Facilities.FACILITIES));
-            if(Resources.RESOURCES.equals(pageName))
-                planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID,Resources.RESOURCES));
-            if(Shipyard.SHIPYARD.equals(pageName))
-                planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID,Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
+        else {
+            Coordinates planetCoordinates = getActivePlanetCoordinates();
+            HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
+
+            if (!planetMap.containsKey(planetCoordinates))
+                planetMap.put(planetCoordinates, new Planet());
+            Planet planet = planetMap.get(planetCoordinates);
+
+            int dm = readDarkMatter();
+            Resource res = readResource();
+
+            planet.setCurrentResources(res);
+            planet.setCurrentDarkMatter(dm);
+
+            if (Facilities.FACILITIES.equals(pageName))
+                planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID, Facilities.FACILITIES));
+            else if (Resources.RESOURCES.equals(pageName))
+                planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID, Resources.RESOURCES));
+            else if (Shipyard.SHIPYARD.equals(pageName))
+                planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID, Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
+            else if (Fleet.FLEET.equals(pageName)) {
+                String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
+                String[] totes = fleets.split(":")[1].split("\\/");
+                int used = Integer.parseInt(totes[0].trim());
+                int possible = Integer.parseInt(totes[1].trim());
+                int available = possible - used;
+
+                Initialize.getInstance().setFleetSlotsAvailable(available);
+
+                planet.getShips().putAll(Initialize.getInstance().getValues(Fleet.ID, Shipyard.SHIPYARD, Fleet.BUTTON_ID_WEB_APPENDER));
+            }
         }
     }
 
