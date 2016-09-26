@@ -42,21 +42,39 @@ public class Coordinates implements Comparable<Coordinates>{
     }
 
     @Override
-    public String toString() {
-        return "Coordinates{" +
-                (universe == null? "" : "universe='" + universe + '\'') +
-                ", [ " + galaxy +
-                " : " + system +
-                " : " + planet +
-                " ] }";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordinates that = (Coordinates) o;
+
+        if (galaxy != that.galaxy) return false;
+        if (system != that.system) return false;
+        if (planet != that.planet) return false;
+        if (type != that.type) return false;
+        return universe != null ? universe.equals(that.universe) : that.universe == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = galaxy;
+        int result = universe != null ? universe.hashCode() : 0;
+        result = 31 * result + galaxy;
         result = 31 * result + system;
         result = 31 * result + planet;
+        result = 31 * result + type;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "{'Coordinates':{" +
+                "'universe':'" + universe + '\'' +
+                ", 'galaxy':" + galaxy +
+                ", 'system':" + system +
+                ", 'planet':" + planet +
+                ", 'type':" + type +
+                "}}";
     }
 
     public Coordinates(String universe, int galaxy, int system, int planet) {
@@ -108,21 +126,8 @@ public class Coordinates implements Comparable<Coordinates>{
     public String getCoordinates() {
         return galaxy+":"+system+":"+planet;
     }
-    
-    @Override
-    public boolean equals(Object other){
-    	if(other instanceof Coordinates){
-    		Coordinates oc = (Coordinates)other;
-    		if(universe != null && oc.universe != null && !universe.equals(oc.universe)){
-    			return false;
-    		}
-    		return galaxy == oc.galaxy && planet == oc.planet && system == oc.system;
-    	}
-    	return false;
-    
-    }
 
-	@Override
+    @Override
 	public int compareTo(Coordinates o) {
         return Integer.compare(galaxy,o.galaxy)*8+
                 Integer.compare(system,o.system)*4+
