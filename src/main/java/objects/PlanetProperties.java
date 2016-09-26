@@ -1,8 +1,5 @@
 package objects;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import utilities.selenium.UIMethods;
 
 import java.util.regex.Matcher;
@@ -20,6 +17,8 @@ public class PlanetProperties {
                 "totalFields=" + totalFields +
                 ", remainingFields=" + remainingFields +
                 ", size=" + size +
+                ", minTemp=" + minTemp +
+                ", maxTemp=" + maxTemp +
                 '}';
     }
 
@@ -32,7 +31,9 @@ public class PlanetProperties {
 
         if (totalFields != that.totalFields) return false;
         if (remainingFields != that.remainingFields) return false;
-        return size == that.size;
+        if (size != that.size) return false;
+        if (minTemp != that.minTemp) return false;
+        return maxTemp == that.maxTemp;
 
     }
 
@@ -41,7 +42,26 @@ public class PlanetProperties {
         int result = totalFields;
         result = 31 * result + remainingFields;
         result = 31 * result + size;
+        result = 31 * result + minTemp;
+        result = 31 * result + maxTemp;
         return result;
+    }
+
+    public int getMinTemp() {
+
+        return minTemp;
+    }
+
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public int getMaxTemp() {
+        return maxTemp;
+    }
+
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
     }
 
     public int getTotalFields() {
@@ -70,16 +90,17 @@ public class PlanetProperties {
     }
 
     public PlanetProperties(){
-        Element details = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("#planetDetails").get(0);
-        String tempSpan = details.select("#temperatureContentField").get(0).text().trim();//.split(" to ");
+        String tempSpan = UIMethods.getTextFromAttributeAndValue("id","temperatureContentField");//.split(" to ");
         Matcher r = Pattern.compile("[0-9-]+").matcher(tempSpan);
-        minTemp = Integer.parseInt(r.group(0));
-        maxTemp = Integer.parseInt(r.group(1));
+        if(r.find())
+            minTemp = Integer.parseInt(r.group());
+        if(r.find())
+            maxTemp = Integer.parseInt(r.group());
 
-        Element e = details.select("#diameterContentField").get(0);
-        size = Integer.parseInt(e.text().split("km")[0].trim());
-        Elements el  =  e.select("span");
-        totalFields = Integer.parseInt(el.get(0).text().trim());
-        totalFields = Integer.parseInt(el.get(1).text().trim());
+        String[] e = UIMethods.getTextFromAttributeAndValue("id","diameterContentField").split("km");
+        size = Integer.parseInt(e[0].replace(".","").trim());
+        String[] el = e[1].replace("(", "").replace(")", "").split("\\/");
+        totalFields = Integer.parseInt(el[0].trim());
+        totalFields = Integer.parseInt(el[1].trim());
     }
 }

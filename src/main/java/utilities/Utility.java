@@ -183,9 +183,17 @@ public class Utility {
         if(v.size() > 1)
             v = v.select("a.active");
         Elements vv = v.get(0).select("span.planet-name  ");
-        return vv.text();
-    }public static Planet getActivePlanet() throws IOException {
-        return Initialize.getPlanet(getActivePlanetName());
+        return vv.text().trim();
+    }public static Coordinates getActivePlanetCoordinates(){
+        Elements v = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("div.smallplanet");
+        if(v.size() > 1)
+            v = v.select("a.active");
+        Elements vv = v.get(0).select("span.planet-koords");
+        return new Coordinates(vv.text().trim());
+    }
+
+    public static Planet getActivePlanet() throws IOException {
+        return Initialize.getPlanet(getActivePlanetCoordinates());
     }
 
 
@@ -195,18 +203,18 @@ public class Utility {
         if(Research.RESEARCH.equals(pageName))
             Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
         else {
-            String planetName = getActivePlanetName();
-            HashMap<String, Planet> planetMap = Initialize.getPlanetMap();
-            if (!planetMap.containsKey(planetName))
-                planetMap.put(planetName, new Planet());
-            Planet planet = planetMap.get(planetName);
+            Coordinates planetCoordinates = getActivePlanetCoordinates();
+            HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
+            if (!planetMap.containsKey(planetCoordinates))
+                planetMap.put(planetCoordinates, new Planet());
+            Planet planet = planetMap.get(planetCoordinates);
             if (Facilities.FACILITIES.equals(pageName))
                 planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID, Facilities.FACILITIES));
-            if (Resources.RESOURCES.equals(pageName))
+            else if (Resources.RESOURCES.equals(pageName))
                 planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID, Resources.RESOURCES));
-            if (Shipyard.SHIPYARD.equals(pageName))
+            else if (Shipyard.SHIPYARD.equals(pageName))
                 planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID, Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
-            if (Fleet.FLEET.equals(pageName)) {
+            else if (Fleet.FLEET.equals(pageName)) {
                 String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
                 String[] totes = fleets.split(":")[1].split("\\/");
                 int used = Integer.parseInt(totes[0].trim());
