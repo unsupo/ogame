@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
  * Created by jarndt on 9/25/16.
  */
 public class PlanetProperties {
-    private int totalFields, remainingFields, size, minTemp, maxTemp;
+    private int totalFields, usedFields, size, minTemp, maxTemp;
 
     @Override
     public String toString() {
         return "PlanetProperties{" +
                 "totalFields=" + totalFields +
-                ", remainingFields=" + remainingFields +
+                ", usedFields=" + usedFields +
                 ", size=" + size +
                 ", minTemp=" + minTemp +
                 ", maxTemp=" + maxTemp +
@@ -30,7 +30,7 @@ public class PlanetProperties {
         PlanetProperties that = (PlanetProperties) o;
 
         if (totalFields != that.totalFields) return false;
-        if (remainingFields != that.remainingFields) return false;
+        if (usedFields != that.usedFields) return false;
         if (size != that.size) return false;
         if (minTemp != that.minTemp) return false;
         return maxTemp == that.maxTemp;
@@ -40,7 +40,7 @@ public class PlanetProperties {
     @Override
     public int hashCode() {
         int result = totalFields;
-        result = 31 * result + remainingFields;
+        result = 31 * result + usedFields;
         result = 31 * result + size;
         result = 31 * result + minTemp;
         result = 31 * result + maxTemp;
@@ -73,12 +73,12 @@ public class PlanetProperties {
         this.totalFields = totalFields;
     }
 
-    public int getRemainingFields() {
-        return remainingFields;
+    public int getUsedFields() {
+        return usedFields;
     }
 
-    public void setRemainingFields(int remainingFields) {
-        this.remainingFields = remainingFields;
+    public void setUsedFields(int usedFields) {
+        this.usedFields = usedFields;
     }
 
     public int getSize() {
@@ -100,7 +100,7 @@ public class PlanetProperties {
         String[] e = UIMethods.getTextFromAttributeAndValue("id","diameterContentField").split("km");
         size = Integer.parseInt(e[0].replace(".","").trim());
         String[] el = e[1].replace("(", "").replace(")", "").split("\\/");
-        totalFields = Integer.parseInt(el[0].trim());
+        usedFields = Integer.parseInt(el[0].trim());
         totalFields = Integer.parseInt(el[1].trim());
     }
 }

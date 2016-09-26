@@ -2,6 +2,7 @@ import objects.ai.AI;
 import objects.ai.DefaultAI;
 import objects.ai.ProfileFollower;
 import ogame.pages.Overview;
+import ogame.utility.Initialize;
 import utilities.Utility;
 import utilities.selenium.Task;
 
@@ -36,6 +37,7 @@ public class Runner {
                 defaultTask.execute();
 
             Utility.clickOnNewPage(Overview.OVERVIEW);
+            Initialize.writeToJSON();
         }
     }
 

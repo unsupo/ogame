@@ -200,6 +200,9 @@ public class Utility {
     public static void clickOnNewPage(String pageName) throws IOException {
         UIMethods.clickOnText(pageName);
 
+        if(getInProgressTime() != 0)
+            return;
+
         if(Research.RESEARCH.equals(pageName))
             Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
         else {

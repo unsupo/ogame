@@ -140,6 +140,8 @@ public class Initialize {
         return getMapValue(Facilities.ID,"Facilities",getPlanets().get(planetName).getFacilities());
     }public HashMap<String,Integer> getBuildings(Coordinates planetName) throws IOException { //research name, level
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
+    }public HashMap<String,Integer> getShips(Coordinates planetName) throws IOException { //research name, level
+        return getMapValue(Shipyard.ID,Shipyard.SHIPYARD,getPlanets().get(planetName).getShips());
     }
     
     public HashMap<String, Integer> getBuildables(String type) throws IOException{
@@ -170,7 +172,10 @@ public class Initialize {
     }
 
     public HashMap<String,Integer> getValues(String ID, String typeName) throws IOException{
-        return getValues(ID,typeName,"");
+        String preappender = "";
+        if(Shipyard.SHIPYARD.equals(typeName))
+            preappender = Shipyard.WEB_ID_APPENDER;
+        return getValues(ID,typeName,preappender);
     }public HashMap<String,Integer> getValues(String ID, String typeName, String prepender) throws IOException {
         List<Integer> values = getMappings().get(typeName);
         int v1 = values.get(0), v2 = values.get(1);
@@ -238,6 +243,8 @@ public class Initialize {
 
             getFacilities(coordinates);
             getBuildings(coordinates);
+            getShips(coordinates);
+//            Utility.clickOnNewPage(Shipyard.SHIPYARD); //TODO defense page
         }
 
 
@@ -260,6 +267,11 @@ public class Initialize {
         JSONObject jo = new JSONObject().put("data",data).put("timestamp", LocalDateTime.now().format(f));
         new File(Utility.PROFILE_DIR).mkdirs();
         FileOptions.writeToFileOverWrite(Utility.PROFILE_DIR+fName,jo.toString());
+    }
+
+
+    public static void writeToJSON() throws IOException {
+        getInstance().writeObject(getPlanetMap(),getResearches());
     }
 
     public void readObject(String src) throws IOException {
