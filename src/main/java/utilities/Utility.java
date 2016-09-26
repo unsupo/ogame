@@ -211,9 +211,17 @@ public class Utility {
         else {
             Coordinates planetCoordinates = getActivePlanetCoordinates();
             HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
+
             if (!planetMap.containsKey(planetCoordinates))
                 planetMap.put(planetCoordinates, new Planet());
             Planet planet = planetMap.get(planetCoordinates);
+
+            int dm = readDarkMatter();
+            Resource res = readResource();
+
+            planet.setCurrentResources(res);
+            planet.setCurrentDarkMatter(dm);
+
             if (Facilities.FACILITIES.equals(pageName))
                 planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID, Facilities.FACILITIES));
             else if (Resources.RESOURCES.equals(pageName))

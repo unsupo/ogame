@@ -1,6 +1,7 @@
 package ogame.pages;
 
 import ogame.utility.QueueManager;
+import org.openqa.selenium.JavascriptExecutor;
 import utilities.Utility;
 import utilities.filesystem.FileOptions;
 import utilities.selenium.UIMethods;
@@ -36,17 +37,18 @@ public class Merchant extends OGamePage{
         String merchantFile = Utility.PROFILE_DIR+fName+"_merchant";
 
         String dateValue = LocalDateTime.now().minusMonths(1).format(f);
-        if(new File(fName).exists())
-            dateValue = FileOptions.readFileIntoString(fName).trim();
+        if(new File(merchantFile).exists())
+            dateValue = FileOptions.readFileIntoString(merchantFile).trim();
         LocalDateTime dateTime = LocalDateTime.from(f.parse(dateValue));
-        if(dateTime.plusDays(1).isBefore(LocalDateTime.now()))
+        if(LocalDateTime.now().isBefore(dateTime.plusDays(1)))
             return;
 
         Utility.clickOnNewPage(MERCHANT);
         UIMethods.clickOnAttributeAndValue("id",IMPORT_EXPORT);
-        UIMethods.waitForText("Import / Export", 1 , TimeUnit.MINUTES);
+        UIMethods.waitForText("Containers with unknown contents are sold here for resources every day.", 1 , TimeUnit.MINUTES);
         UIMethods.clickOnAttributeAndValue("class","detail_button");
-        UIMethods.clickOnAttributeAndValue("class","js_sliderMetalMax");
+//        UIMethods.clickOnAttributeAndValue("class","js_sliderMetalMax");
+        ((JavascriptExecutor)UIMethods.getWebDriver()).executeScript("document.getElementsByClassName(\"js_sliderMetalMax\")[0].click()");
         UIMethods.clickOnAttributeAndValue("class","pay");
         UIMethods.waitForText("Take item", 1 , TimeUnit.MINUTES);
         UIMethods.clickOnText("Take item");

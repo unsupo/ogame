@@ -1,5 +1,7 @@
 package objects;
 
+import ogame.utility.Resource;
+
 import java.util.HashMap;
 
 /**
@@ -14,10 +16,44 @@ public class Planet {
         this.planetSize = planetSize;
     }
 
+    public Resource getCurrentResources() {
+        return currentResources;
+    }
+
+    public void setCurrentResources(Resource currentResources) {
+        this.currentResources = currentResources;
+    }
+
+    public void setPlanetSize(PlanetProperties planetSize) {
+        this.planetSize = planetSize;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    private Resource currentResources;
+
+    public long getCurrentDarkMatter() {
+        return currentDarkMatter;
+    }
+
+    public void setCurrentDarkMatter(long currentDarkMatter) {
+        this.currentDarkMatter = currentDarkMatter;
+    }
+
+    private long currentDarkMatter;
+
     @Override
     public String toString() {
         return "Planet{" +
-                "planetSize=" + planetSize +
+                "currentResources=" + currentResources +
+                ", currentDarkMatter=" + currentDarkMatter +
+                ", planetSize=" + planetSize +
                 ", planetName='" + planetName + '\'' +
                 ", webElement='" + webElement + '\'' +
                 ", attribute='" + attribute + '\'' +
@@ -28,9 +64,6 @@ public class Planet {
                 ", facilities=" + facilities +
                 ", defense=" + defense +
                 ", ships=" + ships +
-                ", currentMetal=" + currentMetal +
-                ", currentCrystal=" + currentCrystal +
-                ", currentDueterium=" + currentDueterium +
                 ", metalProduction=" + metalProduction +
                 ", crystalProduction=" + crystalProduction +
                 ", dueteriumProduction=" + dueteriumProduction +
@@ -44,12 +77,12 @@ public class Planet {
 
         Planet planet = (Planet) o;
 
-        if (currentMetal != planet.currentMetal) return false;
-        if (currentCrystal != planet.currentCrystal) return false;
-        if (currentDueterium != planet.currentDueterium) return false;
+        if (currentDarkMatter != planet.currentDarkMatter) return false;
         if (metalProduction != planet.metalProduction) return false;
         if (crystalProduction != planet.crystalProduction) return false;
         if (dueteriumProduction != planet.dueteriumProduction) return false;
+        if (currentResources != null ? !currentResources.equals(planet.currentResources) : planet.currentResources != null)
+            return false;
         if (planetSize != null ? !planetSize.equals(planet.planetSize) : planet.planetSize != null) return false;
         if (planetName != null ? !planetName.equals(planet.planetName) : planet.planetName != null) return false;
         if (webElement != null ? !webElement.equals(planet.webElement) : planet.webElement != null) return false;
@@ -66,7 +99,9 @@ public class Planet {
 
     @Override
     public int hashCode() {
-        int result = planetSize != null ? planetSize.hashCode() : 0;
+        int result = currentResources != null ? currentResources.hashCode() : 0;
+        result = 31 * result + (int) (currentDarkMatter ^ (currentDarkMatter >>> 32));
+        result = 31 * result + (planetSize != null ? planetSize.hashCode() : 0);
         result = 31 * result + (planetName != null ? planetName.hashCode() : 0);
         result = 31 * result + (webElement != null ? webElement.hashCode() : 0);
         result = 31 * result + (attribute != null ? attribute.hashCode() : 0);
@@ -77,9 +112,6 @@ public class Planet {
         result = 31 * result + (facilities != null ? facilities.hashCode() : 0);
         result = 31 * result + (defense != null ? defense.hashCode() : 0);
         result = 31 * result + (ships != null ? ships.hashCode() : 0);
-        result = 31 * result + (int) (currentMetal ^ (currentMetal >>> 32));
-        result = 31 * result + (int) (currentCrystal ^ (currentCrystal >>> 32));
-        result = 31 * result + (int) (currentDueterium ^ (currentDueterium >>> 32));
         result = 31 * result + (int) (metalProduction ^ (metalProduction >>> 32));
         result = 31 * result + (int) (crystalProduction ^ (crystalProduction >>> 32));
         result = 31 * result + (int) (dueteriumProduction ^ (dueteriumProduction >>> 32));
@@ -113,8 +145,7 @@ public class Planet {
                                         defense     = new HashMap<>(), //defense name, count
                                         ships       = new HashMap<>(); //ship name, count
 
-    private long currentMetal, currentCrystal, currentDueterium,
-                metalProduction, crystalProduction, dueteriumProduction;
+    private long metalProduction, crystalProduction, dueteriumProduction;
 
     public String getPlanetName() {
 
@@ -171,30 +202,6 @@ public class Planet {
 
     public void setShips(HashMap<String, Integer> ships) {
         this.ships = ships;
-    }
-
-    public long getCurrentMetal() {
-        return currentMetal;
-    }
-
-    public void setCurrentMetal(long currentMetal) {
-        this.currentMetal = currentMetal;
-    }
-
-    public long getCurrentCrystal() {
-        return currentCrystal;
-    }
-
-    public void setCurrentCrystal(long currentCrystal) {
-        this.currentCrystal = currentCrystal;
-    }
-
-    public long getCurrentDueterium() {
-        return currentDueterium;
-    }
-
-    public void setCurrentDueterium(long currentDueterium) {
-        this.currentDueterium = currentDueterium;
     }
 
     public long getMetalProduction() {
