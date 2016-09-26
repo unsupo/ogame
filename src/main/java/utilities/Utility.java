@@ -45,12 +45,13 @@ public class Utility {
 
     public static long getInProgressTime(){
         String time;
+        String[] v;
         try {
             time = UIMethods.getTextFromAttributeAndValue("class", "time");
+            v = time.split(" ");
         }catch (Exception e){
             return 0;
         }
-        String[] v = time.split(" ");
         long timeLeft = 100;
         for(String s : v)
             if(s.contains("s"))

@@ -114,12 +114,12 @@ public class Initialize {
     }
 
     public static Planet getPlanet(Coordinates coords) throws IOException {
-        return getInstance().getPlanetMap().values().stream()
-                .filter(a->a.getCoordinates().equals(coords))
-                .collect(Collectors.toList()).get(0);
+        return getInstance().getPlanetMap().get(coords);
     }
     public static Planet getPlanet(String name) throws IOException {
-        return getInstance().getPlanetMap().get(name);
+        return getInstance().getPlanetMap().values().stream()
+                .filter(a->a.getPlanetName().equals(name))
+                .collect(Collectors.toList()).get(0);
     }
 
     private void addBuildingFromFile(String file) throws IOException {
@@ -239,7 +239,7 @@ public class Initialize {
             }
 
             planets.get(coordinates).setPlanetName(UIMethods.getTextFromAttributeAndValue("id","planetNameHeader").trim());
-            planets.get(coordinates).setPlanetProperties(new PlanetProperties());
+            planets.get(coordinates).setPlanetProperties(new PlanetProperties().parseProperties());
 
             getFacilities(coordinates);
             getBuildings(coordinates);
@@ -293,8 +293,13 @@ public class Initialize {
             writeObject(planets,researches);
         }else{
             JSONArray jarr = jo.getJSONArray("data");
-            planets = new Gson().fromJson(jarr.get(0).toString(), new TypeToken<HashMap<Coordinates, Planet>>(){}.getType());
-            researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<Coordinates, Integer>>(){}.getType());
+            HashMap<String, Planet> tempPlanets = new Gson()
+                    .fromJson(jarr.get(0).toString(), new TypeToken<HashMap<String, Planet>>(){}.getType());
+            tempPlanets.forEach((coordinate,planet)->{
+                planets.put(new Gson().fromJson(coordinate, new TypeToken<Coordinates>(){}.getType()),planet);
+            });
+
+            researches = new Gson().fromJson(jarr.get(1).toString(), new TypeToken<HashMap<String, Integer>>(){}.getType());
         }
     }
 
