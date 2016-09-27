@@ -5,6 +5,7 @@ package ogame.pages;
  */
 public class Overview extends OGamePage{
     public static final String OVERVIEW = "Overview";
+    public static final String MESSAGES = "Messages";
 
     @Override
     public String getPageLoadedConstant() {

@@ -16,7 +16,16 @@ import static java.nio.file.StandardWatchEventKinds.*;
  * Created by jarndt on 9/22/16.
  */
 public class WatchServiceCreator {
-    static PriorityBlockingQueue<File> fileChanges = new PriorityBlockingQueue<>();
+    static {
+        try {
+            fileChanges = new PriorityBlockingQueue<>();
+            getInstance();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static PriorityBlockingQueue<File> fileChanges;
 
     private static WatchServiceCreator instance;
 
@@ -27,7 +36,8 @@ public class WatchServiceCreator {
         return instance;
     }
     public static void start() throws IOException {
-        getInstance().thread.start();;
+        if(!getInstance().thread.isAlive())
+            getInstance().thread.start();
     }
 
     private WatchServiceCreator() throws IOException {
