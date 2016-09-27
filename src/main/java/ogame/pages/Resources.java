@@ -23,16 +23,20 @@ public class Resources extends OGamePage{
             METAL_STORAGE, CRYSTAL_STORAGE,DUETERIUM_TANK
     };
 
-    public static Resource[] baseCosts = Resource.convertCosts(new long[] {
-    		60,15,0,10,
-    		48,24,0,10,
-    		225,75,0,20,
-    		75, 30, 0,0,
-            900, 360, 180,0,
-            1000, 0, 0,0,
-            1000,500, 0,0,
-            1000, 1000, 0,0
-    });
+    static {
+        baseCosts = Resource.convertCosts(new long[] {
+                60,15,0,10,
+                48,24,0,10,
+                225,75,0,20,
+                75, 30, 0,0,
+                900, 360, 180,0,
+                1000, 0, 0,0,
+                1000,500, 0,0,
+                1000, 1000, 0,0
+        });
+    }
+
+    public static Resource[] baseCosts;
 
 
     @Override

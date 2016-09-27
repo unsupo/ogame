@@ -6,12 +6,16 @@ import ogame.pages.Fleet;
 import ogame.utility.Initialize;
 import ogame.utility.Resource;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import utilities.database._HSQLDB;
 import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -44,28 +48,18 @@ public class Utility {
     }
 
     public static long getInProgressTime(){
+        return getInProgressTime("class","time");
+    }
+    public static long getInProgressTime(String attribute, String value){
         String time;
         String[] v;
         try {
-            time = UIMethods.getTextFromAttributeAndValue("class", "time");
+            time = UIMethods.getTextFromAttributeAndValue(attribute,value);//"class", "time");
             v = time.split(" ");
         }catch (Exception e){
             return 0;
         }
-        long timeLeft = 100;
-        for(String s : v)
-            if(s.contains("s"))
-                timeLeft+=Long.parseLong(s.replace("s",""))*1000;
-            else if(s.contains("m"))
-                timeLeft+=Long.parseLong(s.replace("m",""))*1000*60;
-            else if(s.contains("h"))
-                timeLeft+=Long.parseLong(s.replace("h",""))*1000*60*60;
-            else if(s.contains("d"))
-                timeLeft+=Long.parseLong(s.replace("d",""))*1000*60*60*24;
-            else if(s.contains("w"))
-                timeLeft+=Long.parseLong(s.replace("w",""))*1000*60*60*24*7;
-
-        return timeLeft;
+        return getTimeConversion(v);
     }
 
     public static HashMap<String,Integer> getBuildableRequirements(String buildableName){
@@ -142,7 +136,7 @@ public class Utility {
     public static void build(String name, int number) throws IOException{
         String type = Initialize.getType(name);
         clickOnNewPage(type);
-        if(Utility.getInProgressTime() != 0)
+        if(Utility.getInProgressTime() != 0 && !type.equals(Shipyard.SHIPYARD))
             return;
         String id = "id";
         if(idFromType.containsKey(type))
@@ -157,6 +151,10 @@ public class Utility {
             new Action().clickOnStartWithDM();
         else
             UIMethods.clickOnAttributeAndValue("class", "build-it");
+    }
+
+    public static String getCurrentPage(){
+        return UIMethods.getTextFromAttributeAndValue("class","selected").trim();
     }
 
     public static int getOgniterUniverseNumber(String universe) {
@@ -206,12 +204,19 @@ public class Utility {
         else
             UIMethods.clickOnText(pageName);
 
+//        if(!getCurrentPage().equals(pageName) && !Overview.MESSAGES.equals(pageName)) {
+//            clickOnNewPage(pageName);
+//            return;
+//        } //TODO if not on the page try again
+        boolean initialize = true;
         if(getInProgressTime() != 0)
-            return;
+            initialize = false;
 
-        if(Research.RESEARCH.equals(pageName))
-            Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
-        else {
+        if(Research.RESEARCH.equals(pageName)) {
+            if(initialize)
+                Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID, Research.RESEARCH));
+            setBuildTime(Initialize.getCurrentResearch());
+        }else {
             Coordinates planetCoordinates = getActivePlanetCoordinates();
             HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
 
@@ -225,13 +230,19 @@ public class Utility {
             planet.setCurrentResources(res);
             planet.setCurrentDarkMatter(dm);
 
-            if (Facilities.FACILITIES.equals(pageName))
-                planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID, Facilities.FACILITIES));
-            else if (Resources.RESOURCES.equals(pageName))
-                planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID, Resources.RESOURCES));
-            else if (Shipyard.SHIPYARD.equals(pageName))
+            //TODO Overview
+            if (Facilities.FACILITIES.equals(pageName)) {
+                if(initialize)
+                    planet.getFacilities().putAll(Initialize.getInstance().getValues(Facilities.ID, Facilities.FACILITIES));
+                setBuildTime(planet.getCurrentFacilityBeingBuild());
+            }else if (Resources.RESOURCES.equals(pageName)) {
+                if(initialize)
+                    planet.getBuildings().putAll(Initialize.getInstance().getValues(Resources.ID, Resources.RESOURCES));
+                setBuildTime(planet.getCurrentBuildingBeingBuild());
+            }else if (Shipyard.SHIPYARD.equals(pageName)) {
                 planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID, Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
-            else if (Fleet.FLEET.equals(pageName)) {
+                setBuildTime(planet.getCurrentShipyardBeingBuild().stream().collect(Collectors.toList()));
+            }else if (Fleet.FLEET.equals(pageName)) {
                 String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
                 String[] totes = fleets.split(":")[1].split("\\/");
                 int used = Integer.parseInt(totes[0].trim());
@@ -250,6 +261,63 @@ public class Utility {
     }
 
     public static boolean isBeingAttack(){
-        return UIMethods.doesPageContainAttributeAndValue("id","attack_alert");
+        return !UIMethods.doesPageContainAttributeAndValue("class","noAttack");
+    }
+
+    public static BuildTask setBuildTime(BuildTask buildTime) {
+        Elements activeTable = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("table.construction.active");
+        if(activeTable.size() == 0 || activeTable.select("td > a").text().trim().contains("No buildings in construction.")
+                || activeTable.select("td > a").text().trim().contains("There is no research in progress at the moment."))
+            return null;
+        Buildable buildable = Initialize.getBuildableByNameIgnoreCase(activeTable.select("th").text().trim());
+        int level;
+        try {
+            level = Integer.parseInt(activeTable.select("span.level").text().split(" ")[1].trim());
+        }catch (ArrayIndexOutOfBoundsException e){
+            level = Integer.parseInt(activeTable.select("div.shipSumCount").text().trim());
+        }
+
+        long millis = getInProgressTime("id", "Countdown")+System.currentTimeMillis();
+        LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+        buildTime = new BuildTask(buildable,done,level);
+        return buildTime;
+    }
+
+    public static void setBuildTime(List<BuildTask> buildTime) {
+        buildTime.add(setBuildTime(new BuildTask()));
+        Elements table = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("#pqueue").select("li");
+        for(Element e : table) {
+            String[] contents = e.attr("title").split("<br>");
+            String[] quantityName = contents[0].split(" ");
+            String name = quantityName[1];
+            Buildable buildable = Initialize.getBuildableByName(name);
+            int level = Integer.parseInt(quantityName[0]);
+            String time = contents[1].replace("Building duraiton ","");
+            long millis = getTimeConversion(time.split(" "))+System.currentTimeMillis();
+            LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+            buildTime.add(new BuildTask(buildable,done,level));
+        }
+    }
+
+    public static long getTimeConversion(String v){ return getTimeConversion(v.split(" ")); }
+    public static long getTimeConversion(String[] v) {
+        long timeLeft = 100;
+        for(String s : v)
+            if(s.contains("s"))
+                timeLeft+=Long.parseLong(s.replace("s",""))*1000;
+            else if(s.contains("m"))
+                timeLeft+=Long.parseLong(s.replace("m",""))*1000*60;
+            else if(s.contains("h"))
+                timeLeft+=Long.parseLong(s.replace("h",""))*1000*60*60;
+            else if(s.contains("d"))
+                timeLeft+=Long.parseLong(s.replace("d",""))*1000*60*60*24;
+            else if(s.contains("w"))
+                timeLeft+=Long.parseLong(s.replace("w",""))*1000*60*60*24*7;
+
+        return timeLeft;
+    }
+
+    public static List<Mission> getFleetInformation() {
+        return Mission.getActiveMissions();
     }
 }

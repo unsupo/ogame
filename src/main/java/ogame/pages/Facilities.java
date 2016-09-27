@@ -1,7 +1,6 @@
 package ogame.pages;
 
 import ogame.utility.Initialize;
-import ogame.utility.Resource;
 import utilities.selenium.UIMethods;
 
 import java.util.concurrent.TimeUnit;
@@ -36,20 +35,7 @@ public class Facilities extends OGamePage{
 
     public static final String[] names = {ROBOTICS_FACTORY, RESEARCH_LAB, SHIPYARD, ALLIANCE_DEPOT, MISSILE_SILO, NANITE_FACTORY,
                                         TERRAFORMER,SPACE_DOCK, LUNAR_BASE, SENSOR_PHALANX, JUMP_GATE};
-    
-    public static final Resource[] baseCosts = Resource.convertCosts(new long[] {
-    		400, 120, 200,0,
-    		200, 400, 200,0,
-    		200, 400, 200,0,
-            20000, 40000, 0,0,
-            20000, 40000, 1000,0,
-            1000000, 500000, 100000,0,
-            0,50000, 100000,1000,
-            200, 0, 50,50,
-            20000,40000,20000,0,
-            20000,40000,20000,0,
-            2000000, 4000000, 2000000,0
-    });
+
 
     @Override
     public String getPageLoadedConstant() {

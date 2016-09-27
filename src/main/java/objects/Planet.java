@@ -2,12 +2,54 @@ package objects;
 
 import ogame.utility.Resource;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by jarndt on 9/19/16.
  */
 public class Planet {
+
+    private PlanetProperties planetSize;
+    private String planetName, webElement, attribute, value;
+    private Planet moon;
+
+    private BuildTask currentFacilityBeingBuild, currentBuildingBeingBuild;
+    private Set<BuildTask> currentShipyardBeingBuild = new HashSet<>();
+
+    private HashMap<String, Integer>
+            buildings   = new HashMap<>(), //building name, level, facilities are included
+            facilities  = new HashMap<>(),
+            defense     = new HashMap<>(), //defense name, count
+            ships       = new HashMap<>(); //ship name, count
+
+    private long metalProduction, crystalProduction, dueteriumProduction;
+
+    private Coordinates coordinates;
+
+    public BuildTask getCurrentFacilityBeingBuild() {
+        return currentFacilityBeingBuild;
+    }
+
+    public void setCurrentFacilityBeingBuild(BuildTask currentFacilityBeingBuild) {
+        this.currentFacilityBeingBuild = currentFacilityBeingBuild;
+    }
+
+    public BuildTask getCurrentBuildingBeingBuild() {
+        return currentBuildingBeingBuild;
+    }
+
+    public void setCurrentBuildingBeingBuild(BuildTask currentBuildingBeingBuild) {
+        this.currentBuildingBeingBuild = currentBuildingBeingBuild;
+    }
+
+    public Set<BuildTask> getCurrentShipyardBeingBuild() {
+        return currentShipyardBeingBuild;
+    }
+
+    public void setCurrentShipyardBeingBuild(Set<BuildTask> currentShipyardBeingBuild) {
+        this.currentShipyardBeingBuild = currentShipyardBeingBuild;
+    }
+
     public PlanetProperties getPlanetSize() {
         return planetSize;
     }
@@ -118,10 +160,6 @@ public class Planet {
         return result;
     }
 
-    private PlanetProperties planetSize;
-    private String planetName, webElement, attribute, value;
-    private Planet moon;
-
     public String getAttribute() {
         return attribute;
     }
@@ -137,15 +175,6 @@ public class Planet {
     public void setMoon(Planet moon) {
         this.moon = moon;
     }
-
-    private Coordinates coordinates;
-
-    private HashMap<String, Integer>    buildings   = new HashMap<>(), //building name, level, facilities are included
-                                        facilities  = new HashMap<>(),
-                                        defense     = new HashMap<>(), //defense name, count
-                                        ships       = new HashMap<>(); //ship name, count
-
-    private long metalProduction, crystalProduction, dueteriumProduction;
 
     public String getPlanetName() {
 

@@ -1,17 +1,74 @@
 package ogame.utility;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import objects.Ship;
 import ogame.pages.Facilities;
 import ogame.pages.Research;
 import ogame.pages.Resources;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Resource {
-	
+	public static final Resource[] shipBaseCost = Resource.convertCosts(new long[] {
+			2000L,		2000L,		0L,			0L,
+			6000L,		6000L,		0L,			0L,
+			3000L,		1000L,		0L,			0L,
+			6000L,		4000L,		0L,			0L,
+			20000L,		7000L,		2000L,		0L,
+			45000L,		15000L,		0L,			0L,
+			30000L,	 	40000L,		15000L,		0L,
+			60000L,	 	50000L,		15000L,		0L,
+			5000000L,	4000000L,	1000000L,	0L,
+			50000L,		25000L,		15000L,		0L,
+			10000L,		6000L,		2000L,		0L,
+			0L,			1000L,		0L,			0L,
+			0L,			2000L,		500L,		0L,
+			10000L,		20000L,		10000L,		0L,
+			2000L,		0L,			0L,			0L,
+			1500L,		500L,		0L,			0L,
+			6000L,		2000L,		0L,			0L,
+			2000L,		6000L,		0L,			0L,
+			20000L,		15000L, 	2000L,		0L,
+			50000L,		50000L,		30000L,		0L,
+			10000L,		10000L,		0L,			0L,
+			500000L,	50000L,		0L,			0L
+	});
+
+	public static final Resource[] researchBaseCosts = Resource.convertCosts(new long[] {
+			0, 800, 400,0,
+			200, 100, 0,0,
+			1000, 300, 100,0,
+			0, 4000, 2000,0,
+			2000, 4000, 1000,0,
+			400, 0, 1200,0,
+			2000, 4000, 600,0,
+			10000, 20000, 6000,0,
+			200, 1000, 200,0,
+			0, 400, 600,0,
+			4000, 8000, 4000,0,
+			240000, 400000, 160000,0,
+			0, 0, 0,300000,
+			800, 200, 0,0,
+			200, 600, 0,0,
+			1000, 0, 0,0
+	});
+
+	public static final Resource[] facilitiesBaseCosts = Resource.convertCosts(new long[] {
+			400,        120,    200,0,
+			200,        400,    200,0,
+			200,        400,    200,0,
+			20000,      40000,  0,0,
+			20000,      40000,  1000,0,
+			1000000,    500000, 100000,0,
+			0,          50000,  100000,1000,
+			200,        0,      50,50,
+			20000,      40000,  20000,0,
+			20000,      40000,  20000,0,
+			2000000,    4000000,2000000,0
+	});
+
 	public static final String METAL = "metal";
 	public static final String CRYSTAL = "crystal";
 	public static final String DEUTERIUM = "deuterium";
@@ -35,9 +92,9 @@ public class Resource {
 	
 	static{
 		baseCosts = new ArrayList<Resource>();
-		baseCosts.addAll(Arrays.asList(Research.baseCosts));
-		baseCosts.addAll(Arrays.asList(Facilities.baseCosts));
-		baseCosts.addAll(Arrays.asList(Ship.baseCosts));
+		baseCosts.addAll(Arrays.asList(shipBaseCost));
+		baseCosts.addAll(Arrays.asList(researchBaseCosts));
+		baseCosts.addAll(Arrays.asList(facilitiesBaseCosts));
 		baseCosts.addAll(Arrays.asList(Resources.baseCosts));
 	}
 
@@ -173,4 +230,5 @@ public class Resource {
 	public Resource clone(){
 		return new Resource(metal, crystal, deuterium, energy);
 	}
+
 }
