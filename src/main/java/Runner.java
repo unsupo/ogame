@@ -1,8 +1,13 @@
 import objects.ai.AI;
 import objects.ai.DefaultAI;
+import objects.ai.ProfileFollower;
+import ogame.pages.Merchant;
 import ogame.pages.Overview;
+import ogame.utility.Initialize;
+import ogame.utility.QueueManager;
 import utilities.Utility;
 import utilities.selenium.Task;
+import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,28 +18,45 @@ import java.sql.SQLException;
 public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
+//        String v = FileOptions.readFileIntoString(Utility.RESOURCE_DIR+"test");
+//        Jsoup.parse(v).select("li.list_item > a").stream().filter(e->!e.select("span").isEmpty() && e.select("span").text().contains("("))
+//                .map(e->e.text())
+//        System.out.println(Jsoup.parse(v).select("a.tb_universe"));
 
+        runAI(new ProfileFollower());
     }
 
     public static void runAI(AI ai) throws IOException {
         while(true){
-            Task    defaultTask     = ai.getDefaultTask(),
-                    task            = ai.getTask(),
-                    attackedTask    = ai.getAttackedTask();
+            try {
+                Task defaultTask = ai.getDefaultTask(),
+                        task = ai.getTask(),
+                        attackedTask = ai.getAttackedTask();
 
-            if(Utility.isBeingAttack())
-                if(attackedTask == null)
-                    DefaultAI.attackedTask();
-                else
-                    attackedTask.execute();
+                Merchant.getItemOfDay();
 
-            if(task != null)
-                task.execute();
+                if (Utility.isBeingAttack())
+                    if (attackedTask == null)
+                        DefaultAI.attackedTask();
+                    else
+                        attackedTask.execute();
 
-            if(defaultTask != null)
-                defaultTask.execute();
+                if (task != null)
+                    task.execute();
 
-            Utility.clickOnNewPage(Overview.OVERVIEW);
+                if (defaultTask != null)
+                    defaultTask.execute();
+
+                Utility.clickOnNewPage(Overview.OVERVIEW);
+                Initialize.writeToJSON();
+            }catch (Exception e){
+                e.printStackTrace();
+                //you got logged out
+                if(UIMethods.doesPageContainAttributeAndValue("id","loginSubmit")){
+                    String[] params = QueueManager.getLoginParams();
+                    Initialize.justLogin(params[0],params[1],params[2]);
+                }
+            }
         }
     }
 

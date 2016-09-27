@@ -211,9 +211,7 @@ public class Utility {
 
         if(Research.RESEARCH.equals(pageName))
             Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID,Research.RESEARCH));
-        else if(Overview.MESSAGES.equals(pageName)) {
-            Message.parseAllMessages();
-        }else {
+        else {
             Coordinates planetCoordinates = getActivePlanetCoordinates();
             HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
 

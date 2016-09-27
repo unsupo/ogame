@@ -243,6 +243,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/objects/MessageObj.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/objects/Planet.java">
           <value>
             <set />
@@ -339,6 +344,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/ogame/pages/Merchant.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ogame/pages/Message.java">
           <value>
             <set />
           </value>
@@ -579,6 +589,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/shipyard_info.cvs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/test">
           <value>
             <set />
           </value>
