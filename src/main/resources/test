@@ -1,0 +1,1641 @@
+<html><head>
+        <link rel="apple-touch-icon" href="https://gf1.geo.gfsrv.net/cdn68/20da7e6c416e6cd5f8544a73f588e5.png">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Language" content="en">
+<meta name="ogame-session" content="f357a1eb7a2fbe2e85052b2a0cb494a98f0d3684">
+<meta name="ogame-version" content="6.3.2">
+<meta name="ogame-timestamp" content="1474944393">
+<meta name="ogame-universe" content="s117-en.ogame.gameforge.com">
+<meta name="ogame-universe-name" content="Quantum">
+<meta name="ogame-universe-speed" content="5">
+<meta name="ogame-universe-speed-fleet" content="5">
+<meta name="ogame-language" content="en">
+<meta name="ogame-donut-galaxy" content="1">
+<meta name="ogame-donut-system" content="1">
+<meta name="ogame-player-id" content="251493">
+<meta name="ogame-player-name" content="unsupo">
+<meta name="ogame-alliance-id" content="">
+<meta name="ogame-alliance-name" content="">
+<meta name="ogame-alliance-tag" content="">
+<meta name="ogame-planet-id" content="34935091">
+<meta name="ogame-planet-name" content="Triton">
+<meta name="ogame-planet-coordinates" content="5:380:7">
+<meta name="ogame-planet-type" content="moon">
+<!--[if (gt IE 9)|!(IE)]><!-->
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdn34/3bf14c1b5ddc7a105947b93896e958.css" media="screen">
+<!--<![endif]-->
+<!--[if lt IE 10]>
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdn34/e48c53ef6ca50cbde708f4cbcc2345.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf3.geo.gfsrv.net/cdn2e/fef1fc84f944222fede78376966369.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf3.geo.gfsrv.net/cdn8e/9a111b0209f44edde46ca7dd9d303c.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdn6d/e81fd1c9005e83f852dd9a0560e3f7.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf2.geo.gfsrv.net/cdn4b/da5d31cd0a99fc43fbbd9a06b52899.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdnf9/03c743bf6a5d000f8286604ccdd66c.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf2.geo.gfsrv.net/cdn11/d1c73d6ee5ca1d3e69fa304e7e6343.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdn38/7984ba69b91c6e9ca0921fd12a3389.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf2.geo.gfsrv.net/cdna9/fc8da4f155ca2eac0cd2e83a822533.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf2.geo.gfsrv.net/cdnd6/1ce6a19e2246ca69b7332d940704ea.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf2.geo.gfsrv.net/cdn70/396d36c480a528e736ca37e5ad4099.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdnce/4633a3895446133a62a64ef54bc986.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf3.geo.gfsrv.net/cdn8c/4b46399f46a1b56773041f1f1abfdb.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf2.geo.gfsrv.net/cdndb/32b054a20d0f9aa3578a28af00096d.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf3.geo.gfsrv.net/cdnee/2f27494cae09897090652b0f91bef0.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="https://gf1.geo.gfsrv.net/cdnce/690e2e8af0510b9534f82a791da6cd.css" media="screen" />
+<![endif]-->
+<!--[if IE 8]>
+<link rel="stylesheet" type="text/css" href="https://gf3.geo.gfsrv.net/cdnb3/0db2335aa04275bf3d33e76a35aafd.css" media="screen" />
+<![endif]-->
+
+        <title>Quantum OGame</title>
+
+
+            <script type="text/javascript" src="https://s117-en.ogame.gameforge.com:19115/socket.io/socket.io.js"></script></head>
+
+    <body id="overview" class="ogame lang-en no-touch">
+        <div class="contentBoxBody">
+            <noscript>
+                &lt;div id="messagecenter"&gt;
+                    &lt;div id="javamessagebox"&gt;
+                        &lt;span class="overmark"&gt;
+                            &lt;strong&gt;Please activate JavaScript to continue with the game.&lt;/strong&gt;
+                        &lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            </noscript>
+            <div id="ie_message">
+                <p><img src="https://gf2.geo.gfsrv.net/cdn73/e621aa80dbd4746a9f4f114c8d3853.gif" height="16" width="16">Your currently used browser is outdated and may cause display errors on this website. Please update your browser to a newer version: <a href="http://www.microsoft.com/upgrade/">Internet Explorer</a> or <a href="http://www.mozilla-europe.org/de/firefox/">Mozilla Firefox</a></p>
+            </div>
+            <script type="text/javascript">isIE = false;</script>
+            <!--[IF IE]>
+                <script type="text/javascript">
+                    isIE = true;
+                </script>
+            <![endif]-->
+
+            <!-- HEADER -->
+            <!-- ONET 4 POLAND -->
+
+<div id="boxBG">
+<div id="box">
+	<a name="anchor"></a>
+        <div id="info" class="header normal">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview"><img src="/cdn/img/layout/pixel.gif" id="logoLink"></a>
+	<div id="star"></div>
+	<div id="star1"></div>
+	<div id="star2"></div>
+		<div id="clearAdvice"></div>
+        <div id="bar">
+            <ul>
+                <li id="playerName">
+                    Player:
+                                                                <span class="textBeefy">
+                            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=changenick" class="overlay textBeefy" data-overlay-title="Change player name" data-overlay-popup-width="400" data-overlay-popup-height="200">unsupo</a>
+                        </span>
+                                    </li>
+                <li>
+                    <a class="" accesskey="" href="https://s117-en.ogame.gameforge.com/game/index.php?page=buddies">
+                       Buddies</a>
+                                 </li>
+				<li>
+				    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=notices" class="overlay" data-overlay-title="My notes" data-overlay-class="notices" data-overlay-popup-width="750" data-overlay-popup-height="480" accesskey="">
+                        Notes</a>
+                </li>
+                <li>
+                	<a href="https://s117-en.ogame.gameforge.com/game/index.php?page=highscore" accesskey="">Highscore</a>
+    (1749)                </li>
+                <li><a class="overlay" href="https://s117-en.ogame.gameforge.com/game/index.php?page=search&amp;ajax=1" data-overlay-title="Search Universe" data-overlay-close="__default closeSearch" data-overlay-class="search" accesskey="">Search</a>
+                </li>
+                <li><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=preferences" accesskey="">Options</a></li>
+                <li><a href="http://support.en.ogame.gameforge.com/" target="_blank">Support</a></li>
+                                    <li><a href="http://www.onlinegamesnet.net/javaChat.php?game=ogame&amp;cc=org" target="_blank">Chat</a></li>
+                                <li><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=logout">Log out</a></li>
+                <li class="OGameClock">27.09.2016 <span>06:02:57</span></li>
+			</ul>
+
+        </div>    	<ul id="resources">
+        	<li id="metal_box" class="metal tooltipHTML" title="">
+                <div class="resourceIcon metal"></div>
+                <span class="value">
+                    <span id="resources_metal" class="">0</span>
+                </span>
+            </li>
+        	<li id="crystal_box" class="crystal tooltipHTML" title="">
+                <div class="resourceIcon crystal"></div>
+                <span class="value">
+                    <span id="resources_crystal" class="">0</span>
+                </span>
+            </li>
+        	<li id="deuterium_box" class="deuterium tooltipHTML" title="">
+                <div class="resourceIcon deuterium"></div>
+                <span class="value">
+                    <span id="resources_deuterium" class="">0</span>
+               	</span>
+            </li>
+        	<li id="energy_box" class="energy tooltipHTML" title="">
+                <div class="resourceIcon energy"></div>
+                <span class="value">
+                    <span id="resources_energy" class="">0</span>
+                    </span>
+            </li>
+        	<li id="darkmatter_box" class="darkmatter dark_highlight_tablet tooltipHTML" title="" data-tooltip-button="Purchase Dark Matter">
+                <a class="overlay" href="https://s117-en.ogame.gameforge.com/game/index.php?page=payment">
+                    <img src="https://gf1.geo.gfsrv.net/cdnc5/401d1a91ff40dc7c8acfa4377d3d65.gif">
+                    <span class="value">
+                        <span id="resources_darkmatter" class="">276</span>
+                    </span>
+                </a>
+            </li>
+      </ul>
+
+
+
+      	<div id="officers" class="all">
+
+      	        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium&amp;openDetail=2" class="tooltipHTML  on commander js_hideTipOnMobile" title="Hire Commander|Still active for more than 56 days">
+            <img src="https://gf2.geo.gfsrv.net/cdndf/3e567d6f16d040326c7a0ea29a4f41.gif" width="30" height="30">
+        </a>
+
+
+
+      				<a href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium&amp;openDetail=3" class="tooltipHTML on  admiral js_hideTipOnMobile" title="Hire Admiral|Still active for more than 56 days">
+            	<img src="https://gf2.geo.gfsrv.net/cdndf/3e567d6f16d040326c7a0ea29a4f41.gif" width="30" height="30">
+            </a>
+      				<a href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium&amp;openDetail=4" class="tooltipHTML on  engineer js_hideTipOnMobile" title="">
+            	<img src="https://gf2.geo.gfsrv.net/cdndf/3e567d6f16d040326c7a0ea29a4f41.gif" width="30" height="30">
+            </a>
+      				<a href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium&amp;openDetail=5" class="tooltipHTML on  geologist js_hideTipOnMobile" title="">
+            	<img src="https://gf2.geo.gfsrv.net/cdndf/3e567d6f16d040326c7a0ea29a4f41.gif" width="30" height="30">
+            </a>
+      				<a href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium&amp;openDetail=6" class="tooltipHTML on  technocrat js_hideTipOnMobile" title="">
+            	<img src="https://gf2.geo.gfsrv.net/cdndf/3e567d6f16d040326c7a0ea29a4f41.gif" width="30" height="30">
+            </a>
+        </div>
+        <div id="message-wrapper">
+        	<!-- Neue Nachrichten-Zähler -->
+            <a class=" comm_menu messages tooltip js_hideTipOnMobile" href="https://s117-en.ogame.gameforge.com/game/index.php?page=messages" title="0 unread message(s)">
+                <span class="new_msg_count totalMessages noMessage news" data-new-messages="0">
+                    0                </span>
+            </a>
+            <!-- Neue Chatnachrichten-Zähler -->
+            <a class=" comm_menu chat tooltip js_hideTipOnMobile" href="https://s117-en.ogame.gameforge.com/game/index.php?page=chat" title="">
+               	<!-- js modification !-->
+                <span class="new_msg_count totalChatMessages noMessage" data-new-messages="0">
+                    0                </span>
+            </a>
+            <div id="messages_collapsed">
+                <div id="eventboxFilled" class="eventToggle eventboxHover" style=""><p class="event_list">8 Missions: <span class="undermark">8 own</span><p class="event_list"><span class="next_event">Next: <span class="countdown" id="tempcounter" name="countdown">2h 57m 34s</span></span><span class="next_event">Type: <span class="undermark">Transport (R)</span></span></p></p>
+    <a id="js_eventDetailsClosed" class="tooltipRight js_hideTipOnMobile" href="javascript:void(0);" title="More details" style="display: none;"></a>
+    <a id="js_eventDetailsOpen" class="tooltipRight open js_hideTipOnMobile" href="javascript:void(0);" title="Less detail" style="display: block;"></a>
+
+
+	</div>
+<div id="eventboxLoading" class="textCenter textBeefy" style="display: none;">
+	<img height="16" width="16" src="https://gf3.geo.gfsrv.net/cdne3/3f9884806436537bdec305aa26fc60.gif">load...</div>
+<div id="eventboxBlank" class="textCenter" style="display: none;">
+No fleet movement</div>            </div>
+                        <div id="attack_alert" class="tooltip eventToggle noAttack" title="">
+              <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=eventList"></a>
+                            </div>
+            <br class="clearfloat">
+        </div><!-- #message-wrapper -->
+
+        <div id="helper">
+                    <a class="new_helper tooltip" href="https://s117-en.ogame.gameforge.com/game/index.php?page=tutorial&amp;displayNew=1" title="Tutorial overview">
+            </a>
+
+        </div>
+
+        <div id="selectedPlanetName" class="textCenter">Triton</div>
+ </div><!-- Info -->
+            <!-- END HEADER -->
+
+            <!-- LEFTMENU -->
+            <div id="links">
+
+    <ul id="menuTable" class="leftmenu">
+
+        <li>
+            <span class="menu_icon">
+                                    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=rewards" class="tooltipRight js_hideTipOnMobile " target="_self" title="Rewards">
+                        <div class="menuImage overview highlighted"></div>
+              	    </a>
+              	            </span>
+                            <a class="menubutton  selected" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview" accesskey="" target="_self">
+
+                    <span class="textlabel">Overview</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=resourceSettings" class="tooltipRight js_hideTipOnMobile " target="_self" title="Resource settings">
+                        <div class="menuImage resources"></div>
+              	    </a>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=resources" accesskey="" target="_self">
+
+                    <span class="textlabel">Resources</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage station"></div>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=station" accesskey="" target="_self">
+
+                    <span class="textlabel">Facilities</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=traderOverview#page=traderResources&amp;animation=false" class="trader tooltipRight js_hideTipOnMobile " target="_self" title="Resource Market">
+                        <div class="menuImage traderOverview"></div>
+              	    </a>
+              	            </span>
+                            <a class="menubutton premiumHighligt" href="https://s117-en.ogame.gameforge.com/game/index.php?page=traderOverview" accesskey="" target="_self">
+
+                    <span class="textlabel">Merchant</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=techtree&amp;tab=3&amp;open=all" class="overlay tooltipRight js_hideTipOnMobile " target="_blank" title="Technology">
+                        <div class="menuImage research"></div>
+              	    </a>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=research" accesskey="" target="_self">
+
+                    <span class="textlabel">Research</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage shipyard"></div>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard" accesskey="" target="_self">
+
+                    <span class="textlabel">Shipyard</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage defense"></div>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=defense" accesskey="" target="_self">
+
+                    <span class="textlabel">Defence</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <a href="index.php?page=movement" class="tooltipRight js_hideTipOnMobile " target="_self" title="Fleet movement">
+                        <div class="menuImage fleet1 active"></div>
+              	    </a>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1" accesskey="" target="_self">
+
+                    <span class="textlabel">Fleet</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage galaxy"></div>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy" accesskey="" target="_self">
+
+                    <span class="textlabel">Galaxy</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage empire"></div>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=empire" accesskey="" target="_blank">
+
+                    <span class="textlabel">Empire</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage alliance"></div>
+              	            </span>
+                            <a class="menubutton " href="https://s117-en.ogame.gameforge.com/game/index.php?page=alliance" accesskey="" target="_self">
+
+                    <span class="textlabel">Alliance</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <div class="menuImage premium"></div>
+              	            </span>
+                            <a class="menubutton premiumHighligt officers" href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium" accesskey="" target="_self">
+
+                    <span class="textlabel">Recruit Officers</span>
+                </a>
+
+        </li>
+
+        <li>
+            <span class="menu_icon">
+                                    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=shop#page=inventory&amp;category=d8d49c315fa620d9c7f1f19963970dea59a0e3be" class="tooltipRight js_hideTipOnMobile " target="_self" title="Inventory">
+                        <div class="menuImage shop"></div>
+              	    </a>
+              	            </span>
+                            <a class="menubutton premiumHighligt" href="https://s117-en.ogame.gameforge.com/game/index.php?page=shop" accesskey="" target="_self">
+
+                    <span class="textlabel">Shop</span>
+                </a>
+
+        </li>
+
+    </ul>
+
+
+    <div class="adviceWrapper">
+                <div id="advice-bar">
+
+
+
+
+
+    </div>
+    </div>
+    <div id="toolLinksWrapper"><ul id="menuTableTools" class="leftmenu"></ul></div>
+    <br class="clearfloat">
+</div>
+            <!-- END LEFTMENU -->
+
+            <!-- CONTENT AREA -->
+            <div id="contentWrapper" class="with_chat_bar">
+                                                    <div id="eventboxContent" style="display: block;">
+
+<div id="eventListWrap">
+    <div id="eventHeader">
+        <a class="close_details eventToggle" href="javascript:void(0);">
+            <img src="https://gf2.geo.gfsrv.net/cdndf/3e567d6f16d040326c7a0ea29a4f41.gif" height="16" width="16">
+        </a>
+        <h2>Events</h2>
+    </div>    <table id="eventContent">
+        <tbody>
+
+<tr class="eventFleet" id="eventRow-166167025" data-mission-type="3" data-return-flight="true" data-arrival-time="1474963232">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166167025">2h 57m 34s</td>
+            <td class="arrivalTime">09:00:32 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf1.geo.gfsrv.net/cdn38/2af2939219d8227a11a50ff4df7b51.gif" class="tooltipHTML" title="">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon planet"></figure>Mercury                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=6&amp;system=18" target="_top">
+                [6:18:1]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>401</span>
+            </td>
+    <td class="icon_movement_reserve">
+                <span class="tooltip tooltipRight tooltipClose" title="" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Moon    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=414" target="_top">
+            [5:414:12]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet odd" id="eventRow-166240342" data-mission-type="4" data-return-flight="false" data-arrival-time="1474969534">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166240342">4h 42m 36s</td>
+            <td class="arrivalTime">10:45:34 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Moon                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=375" target="_top">
+                [5:375:7]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>186</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Moon    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=414" target="_top">
+            [5:414:12]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet" id="eventRow-166240243" data-mission-type="4" data-return-flight="false" data-arrival-time="1474988540">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166240243">9h 59m 22s</td>
+            <td class="arrivalTime">16:02:20 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Ganymede                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=2&amp;system=256" target="_top">
+                [2:256:12]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>315</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="<div class=&quot;htmlTooltip&quot;>
+    <h1>Fleet details:</h1>
+    <div class=&quot;splitLine&quot;></div>
+<table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;fleetinfo&quot;>
+    <tr>
+        <th colspan=&quot;2&quot;>Ships:</th>
+    </tr>
+            <tr>
+        <td>Large Cargo:</td>
+        <td class=&quot;value&quot;>216</td>
+    </tr>
+        <tr>
+        <td>Recycler:</td>
+        <td class=&quot;value&quot;>99</td>
+    </tr>
+                <tr>
+        <td colspan=&quot;2&quot;>&amp;nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan=&quot;2&quot;>Shipment:</th>
+    </tr>
+    <tr>
+        <td>Metal:</td>
+        <td class=&quot;value&quot;>1.533.635</td>
+    </tr>
+    <tr>
+        <td>Crystal:</td>
+        <td class=&quot;value&quot;>497.049</td>
+    </tr>
+    <tr>
+        <td>Deuterium:</td>
+        <td class=&quot;value&quot;>1.017.811</td>
+    </tr>
+    </table>
+</div>
+" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Cupid    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=1&amp;system=258" target="_top">
+            [1:258:12]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet odd" id="eventRow-166240329" data-mission-type="4" data-return-flight="false" data-arrival-time="1474989032">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166240329">10h 7m 34s</td>
+            <td class="arrivalTime">16:10:32 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Cupid                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=1&amp;system=258" target="_top">
+                [1:258:12]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>71</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="<div class=&quot;htmlTooltip&quot;>
+    <h1>Fleet details:</h1>
+    <div class=&quot;splitLine&quot;></div>
+<table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;fleetinfo&quot;>
+    <tr>
+        <th colspan=&quot;2&quot;>Ships:</th>
+    </tr>
+            <tr>
+        <td>Recycler:</td>
+        <td class=&quot;value&quot;>71</td>
+    </tr>
+                <tr>
+        <td colspan=&quot;2&quot;>&amp;nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan=&quot;2&quot;>Shipment:</th>
+    </tr>
+    <tr>
+        <td>Metal:</td>
+        <td class=&quot;value&quot;>361.870</td>
+    </tr>
+    <tr>
+        <td>Crystal:</td>
+        <td class=&quot;value&quot;>109.877</td>
+    </tr>
+    <tr>
+        <td>Deuterium:</td>
+        <td class=&quot;value&quot;>136.513</td>
+    </tr>
+    </table>
+</div>
+" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Ganymede    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=2&amp;system=256" target="_top">
+            [2:256:12]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet" id="eventRow-166240331" data-mission-type="4" data-return-flight="false" data-arrival-time="1474989079">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166240331">10h 8m 21s</td>
+            <td class="arrivalTime">16:11:19 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Titania                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=3&amp;system=273" target="_top">
+                [3:273:8]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>135</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="<div class=&quot;htmlTooltip&quot;>
+    <h1>Fleet details:</h1>
+    <div class=&quot;splitLine&quot;></div>
+<table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;fleetinfo&quot;>
+    <tr>
+        <th colspan=&quot;2&quot;>Ships:</th>
+    </tr>
+            <tr>
+        <td>Large Cargo:</td>
+        <td class=&quot;value&quot;>51</td>
+    </tr>
+        <tr>
+        <td>Cruiser:</td>
+        <td class=&quot;value&quot;>3</td>
+    </tr>
+        <tr>
+        <td>Recycler:</td>
+        <td class=&quot;value&quot;>81</td>
+    </tr>
+                <tr>
+        <td colspan=&quot;2&quot;>&amp;nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan=&quot;2&quot;>Shipment:</th>
+    </tr>
+    <tr>
+        <td>Metal:</td>
+        <td class=&quot;value&quot;>1.113.503</td>
+    </tr>
+    <tr>
+        <td>Crystal:</td>
+        <td class=&quot;value&quot;>1.036</td>
+    </tr>
+    <tr>
+        <td>Deuterium:</td>
+        <td class=&quot;value&quot;>145.236</td>
+    </tr>
+    </table>
+</div>
+" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Ganymede    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=2&amp;system=256" target="_top">
+            [2:256:12]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet odd" id="eventRow-166240334" data-mission-type="4" data-return-flight="false" data-arrival-time="1474991905">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166240334">10h 55m 27s</td>
+            <td class="arrivalTime">16:58:25 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Phobos                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=85" target="_top">
+                [5:85:12]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>196</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Moon    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=375" target="_top">
+            [5:375:7]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet" id="eventRow-166240493" data-mission-type="4" data-return-flight="false" data-arrival-time="1475008292">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166240493">15h 28m 34s</td>
+            <td class="arrivalTime">21:31:32 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Triton                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=380" target="_top">
+                [5:380:7]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>490</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="<div class=&quot;htmlTooltip&quot;>
+    <h1>Fleet details:</h1>
+    <div class=&quot;splitLine&quot;></div>
+<table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;fleetinfo&quot;>
+    <tr>
+        <th colspan=&quot;2&quot;>Ships:</th>
+    </tr>
+            <tr>
+        <td>Cruiser:</td>
+        <td class=&quot;value&quot;>7</td>
+    </tr>
+        <tr>
+        <td>Recycler:</td>
+        <td class=&quot;value&quot;>483</td>
+    </tr>
+                <tr>
+        <td colspan=&quot;2&quot;>&amp;nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan=&quot;2&quot;>Shipment:</th>
+    </tr>
+    <tr>
+        <td>Metal:</td>
+        <td class=&quot;value&quot;>5.904.215</td>
+    </tr>
+    <tr>
+        <td>Crystal:</td>
+        <td class=&quot;value&quot;>610.704</td>
+    </tr>
+    <tr>
+        <td>Deuterium:</td>
+        <td class=&quot;value&quot;>141.401</td>
+    </tr>
+    </table>
+</div>
+" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Titania    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=3&amp;system=273" target="_top">
+            [3:273:8]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+
+<tr class="eventFleet odd" id="eventRow-166223208" data-mission-type="4" data-return-flight="false" data-arrival-time="1475013807">
+
+    <td class="countDown friendly textBeefy" id="counter-eventlist-166223208">17h 29s</td>
+            <td class="arrivalTime">23:03:27 Clock</td>
+
+    <td class="missionFleet">
+        <img src="https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif" class="tooltipHTML" title="Own fleet|Deployment">
+    </td>
+
+            <td class="originFleet">
+                            <figure class="planetIcon moon"></figure>Triton                                    </td>
+        <td class="coordsOrigin">
+            <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=380" target="_top">
+                [5:380:7]            </a>
+        </td>
+
+
+    <td class="detailsFleet">
+                    <span>5.709</span>
+            </td>
+    <td class="icon_movement">
+                <span class="tooltip tooltipRight tooltipClose" title="<div class=&quot;htmlTooltip&quot;>
+    <h1>Fleet details:</h1>
+    <div class=&quot;splitLine&quot;></div>
+<table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;fleetinfo&quot;>
+    <tr>
+        <th colspan=&quot;2&quot;>Ships:</th>
+    </tr>
+            <tr>
+        <td>Small Cargo:</td>
+        <td class=&quot;value&quot;>1.000</td>
+    </tr>
+        <tr>
+        <td>Large Cargo:</td>
+        <td class=&quot;value&quot;>2.218</td>
+    </tr>
+        <tr>
+        <td>Light Fighter:</td>
+        <td class=&quot;value&quot;>499</td>
+    </tr>
+        <tr>
+        <td>Heavy Fighter:</td>
+        <td class=&quot;value&quot;>14</td>
+    </tr>
+        <tr>
+        <td>Cruiser:</td>
+        <td class=&quot;value&quot;>1.053</td>
+    </tr>
+        <tr>
+        <td>Battleship:</td>
+        <td class=&quot;value&quot;>27</td>
+    </tr>
+        <tr>
+        <td>Recycler:</td>
+        <td class=&quot;value&quot;>2</td>
+    </tr>
+        <tr>
+        <td>Espionage Probe:</td>
+        <td class=&quot;value&quot;>71</td>
+    </tr>
+        <tr>
+        <td>Bomber:</td>
+        <td class=&quot;value&quot;>201</td>
+    </tr>
+        <tr>
+        <td>Destroyer:</td>
+        <td class=&quot;value&quot;>27</td>
+    </tr>
+        <tr>
+        <td>Deathstar:</td>
+        <td class=&quot;value&quot;>4</td>
+    </tr>
+        <tr>
+        <td>Battlecruiser:</td>
+        <td class=&quot;value&quot;>593</td>
+    </tr>
+                <tr>
+        <td colspan=&quot;2&quot;>&amp;nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan=&quot;2&quot;>Shipment:</th>
+    </tr>
+    <tr>
+        <td>Metal:</td>
+        <td class=&quot;value&quot;>25.200.281</td>
+    </tr>
+    <tr>
+        <td>Crystal:</td>
+        <td class=&quot;value&quot;>3.145.170</td>
+    </tr>
+    <tr>
+        <td>Deuterium:</td>
+        <td class=&quot;value&quot;>9.487.805</td>
+    </tr>
+    </table>
+</div>
+" data-federation-user-id="">&nbsp;</span>
+            </td>
+    <td class="destFleet">
+        <figure class="planetIcon moon"></figure>Moon    </td>
+
+    <td class="destCoords">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=414" target="_top">
+            [5:414:12]        </a>
+    </td>
+
+
+    <td class="sendProbe">
+            </td>
+    <td class="sendMail">
+            </td>
+</tr>
+
+                                    </tbody>
+    </table>    <div id="eventFooter"></div>
+</div>                    </div>
+
+<div id="inhalt">
+    <div id="planet" style="background-image:url(https://gf3.geo.gfsrv.net/cdneb/8e9686ca04e59446cbb4918a4cc810.jpg);">
+
+    <div id="detailWrapper">
+        <div id="header_text">
+            <h2>
+                                    <a href="javascript:void(0);" class="openPlanetRenameGiveupBox">
+                        <p class="planetNameOverview">Overview -</p>
+                        <span id="planetNameHeader">
+                            Triton                        </span>
+                        <img class="tooltip hinted" title="Abandon/Rename Moon" src="https://gf3.geo.gfsrv.net/cdne7/1f57d944fff38ee51d49c027f574ef.gif" width="16" height="16">
+                    </a>
+                            </h2>
+        </div>
+        <div id="detail" class="detail_screen">
+            <div id="techDetailLoading"></div>
+        </div>
+        <div id="planetdata">
+                        <div class="overlay"></div>
+                        <div id="planetDetails">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tbody><tr>
+                        <td class="desc">
+                            <span id="diameterField">Diameter:</span>
+                        </td>
+                        <td class="data">
+                            <span id="diameterContentField">8.717km (<span>0</span>/<span>1</span>)</span>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td class="desc">
+                            <span id="temperatureField">Temperature:</span>
+                        </td>
+                        <td class="data">
+                            <span id="temperatureContentField">-2°C to 38°C</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="desc">
+                            <span id="positionField">Position:</span>
+                        </td>
+                        <td class="data">
+                            <span id="positionContentField"><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;galaxy=5&amp;system=380&amp;position=7">[5:380:7]</a></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="desc">
+                            <span id="scoreField">Points:</span></td>
+                        <td class="data">
+                            <span id="scoreContentField"><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=highscore">1.016.096 (Place 1.749 of 3.925)</a></span>
+                        </td>
+                    </tr>
+
+                                        <tr>
+                        <td class="desc">
+                            <span id="honorField">Honour points:</span></td>
+                        <td class="data undermark">
+                            <span id="honorContentField">1.455</span>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+
+        <div id="planetOptions">
+
+
+            <span class="tooltip planetMoveIcons planetMoveInactive icon" title="The relocation cannot occur from a moon."></span>
+            <span class="tooltip status_abbr_longinactive planetMoveOverviewMoveLink" title="The relocation cannot occur from a moon.">
+                Relocate            </span>
+
+         <div class="planetMoveStart fleft" style="display: none;">
+            <a class="tooltipLeft dark_highlight_tablet fleft" href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy" title="The relocation allows you to move your planets to another position in a distant system of your choosing.<br /><br />
+The actual relocation first takes place 24 hours after activation. In this time, you can use your planets as normal. A countdown shows you how much time remains prior to the relocation.<br /><br />
+Once the countdown has run down and the planet is to be moved, none of your fleets that are stationed there can be active. At this time, there should also be nothing in construction, nothing being repaired and nothing researched. If there is a construction task, a repair task or a fleet still active upon the countdown`s expiry, the relocation will be cancelled.<br /><br />
+If the relocation is successful, you will be charged 240.000 Dark Matter. The planets, the buildings and the stored resources including moon will be moved immediately. Your fleets travel to the new coordinates automatically with the speed of the slowest ship. The jump gate to a relocated moon is deactivated for 24 hours." data-tooltip-button="To galaxy">
+                <span class="planetMoveIcons settings planetMoveDefault icon fleft"></span>
+                <span class="planetMoveOverviewMoveLink">Relocate</span>
+                                        </a>
+
+         </div>
+
+         <a class="dark_highlight_tablet float_right openPlanetRenameGiveupBox" href="javascript:void(0);">
+             <span class="planetMoveOverviewGivUpLink">Abandon/Rename</span>
+             <span class="planetMoveIcons settings planetMoveGiveUp icon"></span>
+         </a>
+        </div>
+    </div>
+    </div>
+
+        <div id="buffBar" class="sliderWrapper">
+        <div data-uuid="" data-id="" class="add_item">
+            <a class="activate_item border3px" href="javascript:void(0);" ref="1"></a>
+        </div>
+
+        <div class="anythingSlider anythingSlider-default activeSlider" style="width: 532px; height: 36px;"><div class="anythingWindow"><ul class="active_items anythingBase horizontal" style="width: 532px; left: 0px;">
+            <li class="panel activePage" style="width: 532px; height: 36px;">
+                            </li>
+        </ul></div><span class="arrow back disabled" style="display: none;"><a href="#"><span>«</span></a></span><span class="arrow forward disabled" style="display: none;"><a href="#"><span>»</span></a></span></div>
+    </div>
+
+
+
+        <div id="planet_as_moon">
+        	<a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34890027" class="tooltipBottom js_hideTipOnMobile" title="Switch to Planet  Neptune">
+            	<img alt="Neptune" src="https://gf3.geo.gfsrv.net/cdn82/1669b8f0ad16eaab1a73e6081e7e85.jpg">
+            </a>
+        </div>
+    </div>    <div class="c-left"></div>
+    <div class="c-right"></div>
+    <div id="overviewBottom">
+
+<div class="content-box-s">
+	<div class="header">
+    	<h3>Buildings</h3>
+    </div>
+		<div class="content">
+			<table cellpadding="0" cellspacing="0" class="construction active">
+				<tbody><tr>
+					<td colspan="2" class="idle">
+                                                    <a class="tooltip js_hideTipOnMobile
+                               " title="At the moment there is no building being built on this planet. Click here to get to resources." href="https://s117-en.ogame.gameforge.com/game/index.php?page=resources">
+                               No buildings in construction.<br>(To resources)                            </a>
+                                            </td>
+				</tr>
+			</tbody></table>
+		</div>
+	<div class="footer"></div>
+</div>
+
+<div class="content-box-s">
+    <div class="header"><h3>Research</h3></div>
+        <div class="content">
+            <table cellspacing="0" cellpadding="0" class="construction active">
+                <tbody>
+                <tr>
+                    <td colspan="2" class="idle">
+                                                    <a class="tooltip js_hideTipOnMobile
+                               " title="There is no research done at the moment. Click here to get to your research lab." href="https://s117-en.ogame.gameforge.com/game/index.php?page=research">
+                               There is no research in progress at the moment.<br>(To research)                            </a>
+                                            </td>
+                </tr>
+                </tbody>
+                </table>
+        </div>
+    <div class="footer"></div>
+</div>
+<div class="content-box-s">
+    <div class="header"><h3>Shipyard</h3></div>
+        <div class="content">
+            <table cellspacing="0" cellpadding="0" class="construction active">
+                <tbody>
+                <tr>
+                    <td colspan="2" class="idle">
+                                                <a class="tooltip js_hideTipOnMobile
+                           " title="" href="https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard">
+                           No ships/defence in construction.<br>(To shipyard)                        </a>
+
+                    </td>
+                </tr>
+                </tbody>
+                </table>
+        </div>
+    <div class="footer"></div>
+</div>
+<div class="clearfloat"></div>
+
+    <div class="clearfloat"></div>
+    </div><!-- #overviewBottom -->
+</div>
+                            </div>
+            <!-- END CONTENT AREA -->
+
+            <!-- RIGHTMENU -->
+            <div id="rechts">
+
+    <div id="cutty">
+        <div id="myPlanets">
+                <div id="countColonies">
+                    <p class="textCenter">
+                                                <span>8/8</span> Planets                    </p>
+                </div>
+                <div id="planetList">
+                                                        <div class="smallplanet" id="planet-34889248">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34889248" title="" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf3.geo.gfsrv.net/cdn28/3d9115119b859eaae26001a3e1afc9.png" width="30" height="30">
+                            <span class="planet-name  ">Venus</span>
+                            <span class="planet-koords  ">[1:258:12]</span>
+                        </a>
+                                                                                <a class="moonlink   tooltipLeft tooltipClose js_hideTipOnMobile" title="" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34936702">
+                                <img src="https://gf2.geo.gfsrv.net/cdn46/d8adf683b2e709a24fa447392c96b8.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                                        </div>
+                                        <div class="smallplanet" id="planet-34894148">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34894148" title="" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf1.geo.gfsrv.net/cdn9e/6183cba4025fe240b2d2fe7dc84f92.png" width="30" height="30">
+                            <span class="planet-name  ">Jupiter</span>
+                            <span class="planet-koords  ">[2:256:12]</span>
+                        </a>
+                                                                                <a class="moonlink   tooltipLeft tooltipClose js_hideTipOnMobile" title="" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34936710">
+                                <img src="https://gf1.geo.gfsrv.net/cdn9d/8e0e6034049bd64e18a1804b42f179.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                                        </div>
+                                        <div class="smallplanet" id="planet-34910783">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34910783" title="" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf1.geo.gfsrv.net/cdnf0/af41c52dc08208b4463f4a4608e88c.png" width="30" height="30">
+                            <span class="planet-name  ">Uranus</span>
+                            <span class="planet-koords  ">[3:273:8]</span>
+                        </a>
+                                                                                <a class="moonlink   tooltipLeft tooltipClose js_hideTipOnMobile" title="" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34939816">
+                                <img src="https://gf3.geo.gfsrv.net/cdn2f/6c86116a2c1d0fc00f3b17a2b6ff49.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                                        </div>
+                                        <div class="smallplanet" id="planet-34885286">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34885286" title="" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf3.geo.gfsrv.net/cdnea/2b3d9553747e72ce760b2e4a84fee1.png" width="30" height="30">
+                            <span class="planet-name  ">Mars</span>
+                            <span class="planet-koords  ">[5:85:12]</span>
+                        </a>
+                                                                                <a class="moonlink   tooltipLeft tooltipClose js_hideTipOnMobile" title="<B>Phobos [5:85:12]</B><BR>8.944km (0/1)<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34939947&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34939947&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34939947&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34939947&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34939947&amp;galaxy=5&amp;system=85&amp;position=12&quot;>Galaxy</a>" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34939947">
+                                <img src="https://gf2.geo.gfsrv.net/cdn4d/7b05c61b8fa8c483a464cb423cb02b.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                        <a class="constructionIcon tooltip js_hideTipOnMobile" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34885286" title="Metal Mine">
+                        <span class="icon12px icon_wrench"></span>
+                    </a>
+                            </div>
+                                        <div class="smallplanet" id="planet-34898978">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34898978" title="<b>Saturn [5:375:7]</b><br/>14.476km (155/209)<BR>34°C to 74°C<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34898978&quot;>Overview</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34898978&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34898978&quot;>Research</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34898978&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34898978&quot;>Shipyard</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34898978&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34898978&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34898978&amp;galaxy=5&amp;system=375&amp;position=7&quot;>Galaxy</a>" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf3.geo.gfsrv.net/cdn81/8b1861dc79159bdbf8eb5f329430cc.png" width="30" height="30">
+                            <span class="planet-name  ">Saturn</span>
+                            <span class="planet-koords  ">[5:375:7]</span>
+                        </a>
+                                                                                <a class="moonlink   tooltipLeft tooltipClose js_hideTipOnMobile" title="<B>Moon [5:375:7]</B><BR>8.831km (0/1)<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34939973&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34939973&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34939973&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34939973&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34939973&amp;galaxy=5&amp;system=375&amp;position=7&quot;>Galaxy</a>" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34939973">
+                                <img src="https://gf2.geo.gfsrv.net/cdn4d/7b05c61b8fa8c483a464cb423cb02b.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                        <a class="constructionIcon tooltip js_hideTipOnMobile" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34898978" title="Missile Silo">
+                        <span class="icon12px icon_wrench"></span>
+                    </a>
+                            </div>
+                                        <div class="smallplanet" id="planet-34890027">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34890027" title="<b>Neptune [5:380:7]</b><br/>14.006km (157/196)<BR>15°C to 55°C<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34890027&quot;>Overview</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34890027&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34890027&quot;>Research</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34890027&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34890027&quot;>Shipyard</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34890027&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34890027&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34890027&amp;galaxy=5&amp;system=380&amp;position=7&quot;>Galaxy</a>" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf1.geo.gfsrv.net/cdn64/541f45345d36be6d2a942e1efa8448.png" width="30" height="30">
+                            <span class="planet-name  moon_active">Neptune</span>
+                            <span class="planet-koords  moon_active">[5:380:7]</span>
+                        </a>
+                                                                                <a class="moonlink active  tooltipLeft tooltipClose js_hideTipOnMobile" title="<B>Triton [5:380:7]</B><BR>8.717km (0/1)<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34935091&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34935091&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34935091&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34935091&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34935091&amp;galaxy=5&amp;system=380&amp;position=7&quot;>Galaxy</a>" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34935091">
+                                <img src="https://gf2.geo.gfsrv.net/cdn4d/7b05c61b8fa8c483a464cb423cb02b.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                        <a class="constructionIcon tooltip js_hideTipOnMobile" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34890027" title="Crystal Mine">
+                        <span class="icon12px icon_wrench"></span>
+                    </a>
+                            </div>
+                                        <div class="smallplanet" id="planet-34879106">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34879106" title="<b>Earth [5:414:12]</b><br/>12.800km (172/190)<BR>-41°C to -1°C<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34879106&quot;>Overview</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34879106&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34879106&quot;>Research</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34879106&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34879106&quot;>Shipyard</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34879106&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34879106&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34879106&amp;galaxy=5&amp;system=414&amp;position=12&quot;>Galaxy</a>" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf2.geo.gfsrv.net/cdn7c/986bfc61d8e32d6fe42f0fe7e612a1.png" width="30" height="30">
+                            <span class="planet-name  ">Earth</span>
+                            <span class="planet-koords  ">[5:414:12]</span>
+                        </a>
+                                                                                <a class="moonlink   tooltipLeft tooltipClose js_hideTipOnMobile" title="<B>Moon [5:414:12]</B><BR>8.717km (1/4)<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34932592&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34932592&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34932592&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34932592&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34932592&amp;galaxy=5&amp;system=414&amp;position=12&quot;>Galaxy</a>" href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34932592">
+                                <img src="https://gf3.geo.gfsrv.net/cdn2f/6c86116a2c1d0fc00f3b17a2b6ff49.gif" width="16" height="16" alt="" class="icon-moon">
+                            </a>
+                                                                                        </div>
+                                        <div class="smallplanet" id="planet-34904600">
+                        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34904600" title="<b>Mercury [6:18:1]</b><br/>11.064km (120/122)<BR>189°C to 229°C<br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34904600&quot;>Overview</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34904600&quot;>Resources</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34904600&quot;>Research</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34904600&quot;>Facilities</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34904600&quot;>Shipyard</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34904600&quot;>Defence</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34904600&quot;>Fleet</a><br/><a href=&quot;https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34904600&amp;galaxy=6&amp;system=18&amp;position=1&quot;>Galaxy</a>" class="planetlink  tooltipRight tooltipClose js_hideTipOnMobile">
+                                                       <img class="planetPic js_replace2x" src="https://gf2.geo.gfsrv.net/cdn19/d00389f274557ed07958c619ea908c.png" width="30" height="30">
+                            <span class="planet-name  ">Mercury</span>
+                            <span class="planet-koords  ">[6:18:1]</span>
+                        </a>
+                                                                                        </div>
+                </div>
+            </div>
+        </div>
+            </div>
+                                                <!-- END RIGHTMENU -->
+
+            <!-- JAVASCRIPT -->
+                        <script type="text/javascript" src="https://gf3.geo.gfsrv.net/cdn51/4941d7668bfcce49aed56d99169477.js"></script>            <script type="text/javascript">
+var session="f357a1eb7a2fbe2e85052b2a0cb494a98f0d3684";var vacation=0;var timerHandler=new TimerHandler();function redirectPremium()
+{location.href="https://s117-en.ogame.gameforge.com/game/index.php?page=premium&showDarkMatter=1";}
+var playerId="251493";var playerName="unsupo";var session="f357a1eb7a2fbe2e85052b2a0cb494a98f0d3684";var isMobile=false;var isMobileApp=false;var isMobileOnly=false;var isFacebookUser=false;var overlayWidth=770;var overlayHeight=600;var isRTLEnabled=0;var activateToken="e7789a66f28801300599810b1838af96";var miniFleetToken="b521feb90deb11fc1fdc5e68c08fda2a";var currentPage="overview";var bbcodePreviewUrl="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=bbcodePreview";var popupWindows=[];var fleetDeutSaveFactor=1;var honorScore=1455;var darkMatter=276;var serverTime=new Date(2016,8,27,3,46,33);var localTime=new Date();var timeDiff=serverTime-localTime;localTS=localTime.getTime();var startServerTime=localTime.getTime()-(3600000)-localTime.getTimezoneOffset()*60*1000;var LocalizationStrings={"timeunits":{"short":{"year":"y","month":"m","week":"w","day":"d","hour":"h","minute":"m","second":"s"}},"status":{"ready":"done"},"decimalPoint":".","thousandSeperator":".","unitMega":"M","unitKilo":"K","unitMilliard":"Bn","question":"Question","error":"Error","loading":"load...","yes":"yes","no":"No","ok":"Ok","attention":"Caution","outlawWarning":"You are about to attack a stronger player. If you do this, your attack defences will be shut down for 7 days and all players will be able to attack you without punishment. Are you sure you want to continue?","lastSlotWarningMoon":"This building will use the last available building slot. Expand your Lunar Base to receive more space. Are you sure you want to build this building?","lastSlotWarningPlanet":"This building will use the last available building slot. Expand your Terraformer or buy a Planet Field item to obtain more slots. Are you sure you want to build this building?","forcedVacationWarning":"Some game features are unavailable until your account is validated.","moreDetails":"More details","lessDetails":"Less detail","planetOrder":{"lock":"Lock arrangement","unlock":"Unlock arrangement"},"darkMatter":"Dark Matter","activateItem":{"upgradeItemQuestion":"Would you like to replace the existing item? The old bonus will be lost in the process.","upgradeItemQuestionHeader":"Replace item?"}};var constants={"espionage":6,"missleattack":10,"language":"en","name":"117"};var userData={"id":"251493"};var missleAttackLink="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=missileattacklayer&width=669&height=250";var changeNickLink="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=changenick";var showOutlawWarning=true;var miniFleetLink="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=minifleet&ajax=1";var ogameUrl="https:\/\/s117-en.ogame.gameforge.com";var startpageUrl="https:\/\/en.ogame.gameforge.com";var nodePort=19115;var nodeUrl="https:\/\/s117-en.ogame.gameforge.com:19115\/socket.io\/socket.io.js";var nodeParams={"port":19115,"secure":"true"};var chatUrl="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=ajaxChat";var chatUrlLoadMoreMessages="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=chatGetAdditionalMessages";var chatLoca={"TEXT_EMPTY":"Where is the message?","TEXT_TOO_LONG":"The message is too long.","SAME_USER":"You cannot write to yourself.","IGNORED_USER":"You have ignored this player.","NO_DATABASE_CONNECTION":"A previously unknown error has occurred. Unfortunately your last action couldn`t be executed!","INVALID_PARAMETERS":"A previously unknown error has occurred. Unfortunately your last action couldn`t be executed!","SEND_FAILED":"A previously unknown error has occurred. Unfortunately your last action couldn`t be executed!","LOCA_ALL_ERROR_NOTACTIVATED":"This function is only available after your accounts activation.","X_NEW_CHATS":"#+# unread conversation(s)","MORE_USERS":"show more"};var eventboxLoca={"mission":"Mission","missions":"Missions","next misson":"DUMMY_KEY_N\u00e4chster_fertig","type":"DUMMY_KEY_Art","friendly":"own","neutral":"friendly","hostile":"hostile","nextEvent":"Next","nextEventText":"Type"};function redirectLogout(){location.href="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=logout";}
+function redirectOverview(){location.href="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=overview";}
+function redirectPlatformLogout(){location.href="https:\/\/oauth-sandbox.gameforge.com\/authorize?client_id=NOT_USED&redirect_uri=https%3A%2F%2Fs117-en.ogame.gameforge.com%2Fportal%2Fauthenticate&response_type=code";}
+function redirectSpaceDock(){location.href="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=station&openTech=36";}
+function initAjaxEventbox()
+{reloadEventbox({"hostile":0,"neutral":0,"friendly":8,"eventTime":18839,"eventText":"Transport (R)","eventType":"undermark"});}
+function initAjaxResourcebox(){reloadResources({"metal":{"resources":{"actualFormat":"0","actual":0,"max":10000,"production":0},"tooltip":"Metal|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">10.000<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"overmark\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Den Capacity:<\/th>\n                <td><span class=\"overermark\">0<\/span><\/td>\n            <\/tr>\n        <\/table>","class":""},"crystal":{"resources":{"actualFormat":"0","actual":0,"max":10000,"production":0},"tooltip":"Crystal|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">10.000<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"overmark\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Den Capacity:<\/th>\n                <td><span class=\"overermark\">0<\/span><\/td>\n            <\/tr>\n        <\/table>","class":""},"deuterium":{"resources":{"actualFormat":"0","actual":0,"max":10000,"production":0},"tooltip":"Deuterium|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">10.000<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"overmark\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Den Capacity:<\/th>\n                <td><span class=\"overermark\">0<\/span><\/td>\n            <\/tr>\n        <\/table>","class":""},"energy":{"resources":{"actual":0,"actualFormat":"0"},"tooltip":"Energy|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"overmark\">0<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Consumption:<\/th>\n                <td><span class=\"overmark\">0<\/span><\/td>\n            <\/tr>\n        <\/table>","class":""},"darkmatter":{"resources":{"actual":276,"actualFormat":"276"},"string":"276 Dark Matter","tooltip":"Dark Matter|<table class=\"resourceTooltip\">\n                <tr>\n                    <th>Available:<\/th>\n                    <td><span class=\"\">276<\/span><\/td>\n                <\/tr>\n                <tr>\n                    <th>Purchased:<\/th>\n                    <td><span class=\"\">0<\/span><\/td>\n                <\/tr>\n                <tr>\n                    <th>Found:<\/th>\n                    <td><span class=\"\">276<\/span><\/td>\n                <\/tr>\n            <\/table>","class":""},"honorScore":1455});}
+function getAjaxEventbox(){$.get("https://s117-en.ogame.gameforge.com/game/index.php?page=fetchEventbox&ajax=1",reloadEventbox,"text");}
+function getAjaxResourcebox(callback){$.get("https://s117-en.ogame.gameforge.com/game/index.php?page=fetchResources&ajax=1",function(data){reloadResources(data,callback);},"text");}
+var changeSettingsLink="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=changeSettings";var changeSettingsToken="06bdd86640449593928537d6a2a926c2";var eventlistLink="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=eventList&ajax=1";function openAnnouncement(){openOverlay("https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=announcement&ajax=1",{'class':'announcement',zIndex:4000});}
+function openJumpgate()
+{fadeBox("No further Jump Gate ready for a jump!",true);}
+var timeDelta=1474944393000-(new Date()).getTime();var LocalizationStrings={"timeunits":{"short":{"year":"y","month":"m","week":"w","day":"d","hour":"h","minute":"m","second":"s"}},"status":{"ready":"done"},"decimalPoint":".","thousandSeperator":".","unitMega":"M","unitKilo":"K","unitMilliard":"Bn","question":"Question","error":"Error","loading":"load...","yes":"yes","no":"No","ok":"Ok","attention":"Caution","outlawWarning":"You are about to attack a stronger player. If you do this, your attack defences will be shut down for 7 days and all players will be able to attack you without punishment. Are you sure you want to continue?","lastSlotWarningMoon":"This building will use the last available building slot. Expand your Lunar Base to receive more space. Are you sure you want to build this building?","lastSlotWarningPlanet":"This building will use the last available building slot. Expand your Terraformer or buy a Planet Field item to obtain more slots. Are you sure you want to build this building?","forcedVacationWarning":"Some game features are unavailable until your account is validated.","moreDetails":"More details","lessDetails":"Less detail","planetOrder":{"lock":"Lock arrangement","unlock":"Unlock arrangement"},"darkMatter":"Dark Matter","activateItem":{"upgradeItemQuestion":"Would you like to replace the existing item? The old bonus will be lost in the process.","upgradeItemQuestionHeader":"Replace item?"}};$(document).ready(function(){new eventboxCountdown($("#counter-eventlist-166167025"),18839,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166240342"),25141,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166240243"),44147,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166240329"),44639,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166240331"),44686,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166240334"),47512,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166240493"),63899,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);new eventboxCountdown($("#counter-eventlist-166223208"),69414,$('#eventListWrap'),"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=checkEvents&ajax=1",[166167025,166240342,166240243,166240329,166240331,166240334,166240493,166223208]);initEventTable();});var planetMoveLoca={"askTitle":"Resettle Planet","askCancel":"Are you sure that you wish to cancel this planet relocation? The normal waiting time will thereby be maintained.","yes":"yes","no":"No","success":"The planet relocation was successfully cancelled.","error":"Error"};function openPlanetRenameGiveupBox()
+{openOverlay("https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=planetlayer",{title:"Abandon\/Rename Triton",'class':"planetRenameOverlay"});}
+var textContent=[];textContent[0]="Diameter:";textContent[1]="8.717km (<span>0<\/span>\/<span>1<\/span>)";textContent[2]="Temperature:";textContent[3]="-2\u00b0C to 38\u00b0C";textContent[4]="Position:";textContent[5]="<a  href=\"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=galaxy&galaxy=5&system=380&position=7\" >[5:380:7]<\/a>";textContent[6]="Points:";textContent[7]="<a href='https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=highscore'>1.016.096 (Place 1.749 of 3.925)<\/a>";textContent[8]="Honour points:";textContent[9]="1.455";var textDestination=[];textDestination[0]="diameterField";textDestination[1]="diameterContentField";textDestination[2]="temperatureField";textDestination[3]="temperatureContentField";textDestination[4]="positionField";textDestination[5]="positionContentField";textDestination[6]="scoreField";textDestination[7]="scoreContentField";textDestination[8]="honorField";textDestination[9]="honorContentField";var currentIndex=0;var currentChar=0;var linetwo=0;var locaPremium={"buildingHalfOverlay":"Do you want to reduce the construction time by 50% of the total construction time () for <b>750 Dark Matter<\/b>?","buildingFullOverlay":"Do you want to immediately complete the construction order for <b>750 Dark Matter<\/b>?","shipsHalfOverlay":"Do you want to reduce the construction time by 50% of the total construction time () for <b>750 Dark Matter<\/b>?","shipsFullOverlay":"Do you want to immediately complete the construction order for <b>750 Dark Matter<\/b>?","researchHalfOverlay":"Do you want to reduce the research time by 50% of the total research time () for <b>750 Dark Matter<\/b>?","researchFullOverlay":"Do you want to immediately complete the research order for <b>750 Dark Matter<\/b>?"};var priceBuilding=750;var priceResearch=750;var priceShips=750;var loca=loca||{};loca=$.extend({},loca,{"error":"Error","errorNotEnoughDM":"Not enough Dark Matter available! Do you want to buy some now?","notice":"Reference","planetGiveupQuestion":"Are you sure you want to abandon the planet %planetName% %planetCoordinates%?","moonGiveupQuestion":"Are you sure you want to abandon the moon %planetName% %planetCoordinates%?"});function type()
+{var destination=document.getElementById(textDestination[currentIndex]);if(destination){if(textContent[currentIndex].substr(currentChar,1)=="<"&&linetwo!=1){while(textContent[currentIndex].substr(currentChar,1)!=">"){currentChar++;}}
+if(linetwo==1){destination.innerHTML=textContent[currentIndex];currentChar=destination.innerHTML=textContent[currentIndex].length+1;}else{destination.innerHTML=textContent[currentIndex].substr(0,currentChar)+"_";currentChar++;}
+if(currentChar>textContent[currentIndex].length){destination.innerHTML=textContent[currentIndex];currentIndex++;currentChar=0;if(currentIndex<textContent.length){type();}}else{setTimeout("type()",15);}}}
+function planetRenamed(data)
+{var data=$.parseJSON(data);if(data["status"]){$("#planetNameHeader").html(data["newName"]);reloadRightmenu("https://s117-en.ogame.gameforge.com/game/index.php?page=rightmenu&renamed=1&pageToLink=overview");$(".overlayDiv.planetRenameOverlay").dialog('close');}
+errorBoxAsArray(data["errorbox"]);}
+function reloadPage()
+{location.href="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=overview";}
+var demolish_id;var buildUrl;function loadDetails(type)
+{url="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&ajax=1";if(typeof(detailUrl)!='undefined'){url=detailUrl;}
+$.get(url,{type:type},function(data){$("#detail").html(data);$("#techDetailLoading").hide();$("input[type='text']:first",document.forms["form"]).focus();$(document).trigger("ajaxShowElement",techID);});}
+function sendBuildRequest(url,ev,showSlotWarning)
+{console.debug("sendBuildRequest");if(ev!=undefined){var keyCode;if(window.event){keyCode=window.event.keyCode;}else if(ev){keyCode=ev.which;}else{return true;}
+console.debug("KeyCode: "+keyCode);if(keyCode!=13||$('#premiumConfirmButton')){return true;}}
+function build(){if(url==null){sendForm();}else{fastBuild();}}
+if(url==null){fallBackFunc=sendForm;}else{fallBackFunc=build;buildUrl=url;}
+if(showSlotWarning){errorBoxDecision("Caution","This building will use up the last building slot. Upgrade your Lunar Base or buy a moon field item (e.g. <a href=\"https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=shop#page=shop&amp;category=c18170d3125b9941ef3a86bd28dded7bf2066a6a&amp;item=05ee9654bd11a261f1ff0e5d0e49121b5e7e4401\" target=\"_parent\" title=\"Gold Moon Fields|+6 additional fields on a moon&lt;br \/&gt;&lt;br \/&gt; Duration: Permanent or rather until the moon is destroyed&lt;br \/&gt;&lt;br \/&gt; Price: 85.000 Dark Matter&lt;br \/&gt; In Inventory: 0\" class=\"tooltipHTML itemLink\">Gold Moon Fields<\/a>) to get more slots.<br \/>Do you really want to build this building?","yes","No",build);}else{build();}
+return false;}
+function fastBuild(){location.href=buildUrl;return false;}
+function sendForm(){document.form.submit();return false;}
+function demolishBuilding(id,question){demolish_id=id;question+="<br/><br/>"+$("#demolish"+id).html();errorBoxDecision("Caution",""+question+"","yes","No",demolishStart);}
+function demolishStart()
+{window.location.replace("https://s117-en.ogame.gameforge.com/game/index.php?page=overview&modus=3&token=d0892653fe6e9962c4d75ea02ebc75fe&type="+demolish_id);}
+gfSlider=new GFSlider(getElementByIdWithCache('detailWrapper'));var detailUrl="https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=buffActivation&ajax=1";var cancelProduction_id;var production_listid;function cancelProduction(id,listid,question)
+{cancelProduction_id=id;production_listid=listid;errorBoxDecision("Caution",""+question+"","yes","No",cancelProductionStart);}
+function cancelProductionStart()
+{window.location.replace("https://s117-en.ogame.gameforge.com/game/index.php?page=overview&modus=2&token=e5ee5b1c15ff180faf4838e113b7bd73&techid="+cancelProduction_id+"&listid="+production_listid);}
+function initType(){type();}
+new baulisteCountdown(getElementByIdWithCache("moveCountdown"),-1474944393);$('#planet').find('h2 a').hover(function(){$('#planet').find('h2 a img').toggleClass('hinted');},function(){$('#planet').find('h2 a img').toggleClass('hinted');});var player={hasCommander:true};var localizedBBCode={"bold":"Bold","italic":"Italic","underline":"Underline","stroke":"Strikethrough","sub":"Subscript","sup":"Superscript","fontColor":"Font colour","fontSize":"Font size","backgroundColor":"Background colour","backgroundImage":"Background image","tooltip":"Tool-tip","alignLeft":"Left align","alignCenter":"Centre align","alignRight":"Right align","alignJustify":"Justify","block":"Break","code":"Code","spoiler":"Spoiler","moreopts":"More Options","list":"List","hr":"Horizontal line","picture":"Image","link":"Link","email":"Email","player":"Player","item":"Item","coordinates":"Coordinates","preview":"Preview","textPlaceHolder":"Text...","playerPlaceHolder":"Player ID or name","itemPlaceHolder":"Item ID","coordinatePlaceHolder":"Galaxy:system:position","charsLeft":"Characters remaining","colorPicker":{"ok":"Ok","cancel":"Cancel","rgbR":"R","rgbG":"G","rgbB":"B"},"backgroundImagePicker":{"ok":"Ok","repeatX":"Repeat horizontally","repeatY":"Repeat vertically"}},itemNames={"090a969b05d1b5dc458a6b1080da7ba08b84ec7f":"Bronze Crystal Booster","e254352ac599de4dd1f20f0719df0a070c623ca8":"Bronze Deuterium Booster","b956c46faa8e4e5d8775701c69dbfbf53309b279":"Bronze Metal Booster","3c9f85221807b8d593fa5276cdf7af9913c4a35d":"Bronze Crystal Booster","422db99aac4ec594d483d8ef7faadc5d40d6f7d3":"Silver Crystal Booster","118d34e685b5d1472267696d1010a393a59aed03":"Gold Crystal Booster","d3d541ecc23e4daa0c698e44c32f04afd2037d84":"DETROID Bronze","0968999df2fe956aa4a07aea74921f860af7d97f":"DETROID Gold","27cbcd52f16693023cb966e5026d8a1efbbfc0f9":"DETROID Silver","d9fa5f359e80ff4f4c97545d07c66dbadab1d1be":"Bronze Deuterium Booster","e4b78acddfa6fd0234bcb814b676271898b0dbb3":"Silver Deuterium Booster","5560a1580a0330e8aadf05cb5bfe6bc3200406e2":"Gold Deuterium Booster","40f6c78e11be01ad3389b7dccd6ab8efa9347f3c":"KRAKEN Bronze","929d5e15709cc51a4500de4499e19763c879f7f7":"KRAKEN Gold","4a58d4978bbe24e3efb3b0248e21b3b4b1bfbd8a":"KRAKEN Silver","de922af379061263a56d7204d1c395cefcfb7d75":"Bronze Metal Booster","ba85cc2b8a5d986bbfba6954e2164ef71af95d4a":"Silver Metal Booster","05294270032e5dc968672425ab5611998c409166":"Gold Metal Booster","be67e009a5894f19bbf3b0c9d9b072d49040a2cc":"Bronze Moon Fields","05ee9654bd11a261f1ff0e5d0e49121b5e7e4401":"Gold Moon Fields","c21ff33ba8f0a7eadb6b7d1135763366f0c4b8bf":"Silver Moon Fields","485a6d5624d9de836d3eb52b181b13423f795770":"Bronze M.O.O.N.S.","45d6660308689c65d97f3c27327b0b31f880ae75":"Gold M.O.O.N.S.","fd895a5c9fd978b9c5c7b65158099773ba0eccef":"Silver M.O.O.N.S.","da4a2a1bb9afd410be07bc9736d87f1c8059e66d":"NEWTRON Bronze","8a4f9e8309e1078f7f5ced47d558d30ae15b4a1b":"NEWTRON Gold","d26f4dab76fdc5296e3ebec11a1e1d2558c713ea":"NEWTRON Silver","16768164989dffd819a373613b5e1a52e226a5b0":"Bronze Planet Fields","04e58444d6d0beb57b3e998edc34c60f8318825a":"Gold Planet Fields","0e41524dc46225dca21c9119f2fb735fd7ea5cb3":"Silver Planet Fields"};$(document).ready(function(){initIndex();initAjaxEventbox();initOverview();initBuffBar();initType();tabletInitOverviewAdvice();ogame.chat.showPlayerList('#chatBarPlayerList .cb_playerlist_box');ogame.chat.showPlayerList('#sideBar');var initChatAsyncInterval=window.setInterval(initChatAsync,100);function initChatAsync(){if(ogame.chat.isLoadingPlayerList===false&&ogame.chat.playerList!==null){clearInterval(initChatAsyncInterval);ogame.chat.initChatBar(playerId);ogame.chat.initChat(playerId);ogame.chat.updateCustomScrollbar($('.scrollContainer'));}}});</script>            <!-- END JAVASCRIPT -->
+
+        </div><!-- box -->
+
+        </div><!-- boxBG -->
+
+        </div><!-- contentBoxBody -->
+
+        <!-- Chat Bar -->
+        <div id="chatBar">
+    <ul class="chat_bar_list">
+        <li id="chatBarPlayerList" class="chat_bar_pl_list_item">
+            <div class="cb_playerlist_box" style="display:none;">
+<script>
+    function handleCheckboxClick(data, id) {
+        if (id == 'online') {
+            $.ajax({
+                url: "https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=chatChangeSettings",
+                type: 'POST',
+                dataType: 'text',
+                data: {
+                    filter: 'chat_filter_online',
+                    value: data.checked
+                },
+                success: function(data) {
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                }
+            });
+        } else if (id == 'active') {
+            $.ajax({
+                url: "https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=chatChangeSettings",
+                type: 'POST',
+                dataType: 'text',
+                data: {
+                    filter: 'chat_filter_active',
+                    value: data.checked
+                },
+                success: function(data) {
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                }
+            });
+        }
+        return true;
+    }
+</script>
+<div class="js_playerlist pl_container contentbox fleft">
+    <h2 class="header">
+        <span class="c-right"></span>
+        <span class="c-left"></span>
+        Player list    </h2>
+    <div class="content">
+        <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=search" class="txt_link overlay pl_search_link">Search for player</a>
+        <form id="playerlistFilters">
+            <p class="overlay pl_filter_title">Filter by:</p>
+            <fieldset class="pl_filter_set">
+                <input id="filteronline" class="fleft" type="checkbox" onclick="handleCheckboxClick(this, &quot;online&quot;);"><label for="filteronline" class="pl_filter">Online chats </label>
+            </fieldset>
+            <fieldset class="pl_filter_set">
+                <input id="filterchatactive" class="fleft" type="checkbox" onclick="handleCheckboxClick(this, &quot;active&quot;);"><label for="filterchatactive" class="pl_filter">Active chats </label>
+            </fieldset>
+        </form>
+
+        <div class="playerlist_box js_accordion ui-accordion ui-widget ui-helper-reset" style="overflow: hidden;" role="tablist">
+    <h3 class="ui-accordion-header ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons" role="tab" id="ui-id-1" aria-controls="ui-id-2" aria-selected="true" aria-expanded="true" tabindex="0"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span>Buddies</h3>
+    <div class="scrollContainer ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="" id="ui-id-2" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false"><div id="mCSB_1" class="mCustomScrollBox mCS-ogame mCSB_vertical mCSB_inside" style="max-height: 138px;" tabindex="0"><div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+        <ul class="playerlist">
+                                                    <li class="playerlist_item                         first" data-playerid="146279" data-filterchatactive="on" data-filteronline="on">
+                        <p class="playername">
+                            <span title="online" class="playerstatus tooltip online"></span>Darth Nightmare                        </p>
+                        <span class="new_msg_count noMessage" data-playerid="146279" data-new-messages="0">
+                              0                        </span>
+                        <span class="chatstatus cs_active fright"></span>
+                    </li>
+                                                        <li class="playerlist_item                          odd" data-playerid="251701" data-filterchatactive="off" data-filteronline="off">
+                        <p class="playername">
+                            <span title="offline" class="playerstatus tooltip offline"></span>mgutin                        </p>
+                        <span class="new_msg_count noMessage" data-playerid="251701" data-new-messages="0">
+                              0                        </span>
+                        <span class="chatstatus cs_active fright"></span>
+                    </li>
+                                                        <li class="playerlist_item                         " data-playerid="251396" data-filterchatactive="off" data-filteronline="off">
+                        <p class="playername">
+                            <span title="offline" class="playerstatus tooltip offline"></span>nirwi                        </p>
+                        <span class="new_msg_count noMessage" data-playerid="251396" data-new-messages="0">
+                              0                        </span>
+                        <span class="chatstatus cs_active fright"></span>
+                    </li>
+                        </ul>
+    </div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-ogame mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+</div><div class="playerlist_box js_accordion ui-accordion ui-widget ui-helper-reset" style="overflow: hidden;" role="tablist">
+    <h3 class="ui-accordion-header ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons" role="tab" id="ui-id-3" aria-controls="ui-id-4" aria-selected="true" aria-expanded="true" tabindex="0"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span>Alliance</h3>
+    <div class="scrollContainer ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active mCustomScrollbar _mCS_2 mCS_no_scrollbar" style="" id="ui-id-4" aria-labelledby="ui-id-3" role="tabpanel" aria-hidden="false"><div id="mCSB_2" class="mCustomScrollBox mCS-ogame mCSB_vertical mCSB_inside" style="max-height: 138px;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+        <ul class="playerlist">
+                            <li class="playerlist_item first textCenter nothingThere odd">No alliances found</li>
+                    </ul>
+    </div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-ogame mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+</div><div class="playerlist_box js_accordion ui-accordion ui-widget ui-helper-reset" style="overflow: hidden;" role="tablist">
+    <h3 class="ui-accordion-header ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons" role="tab" id="ui-id-5" aria-controls="ui-id-6" aria-selected="true" aria-expanded="true" tabindex="0"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span>Strangers</h3>
+    <div class="scrollContainer ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active mCustomScrollbar _mCS_3 mCS_no_scrollbar" style="" id="ui-id-6" aria-labelledby="ui-id-5" role="tabpanel" aria-hidden="false"><div id="mCSB_3" class="mCustomScrollBox mCS-ogame mCSB_vertical mCSB_inside" style="max-height: 138px;" tabindex="0"><div id="mCSB_3_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+        <ul class="playerlist">
+                                                    <li class="playerlist_item                         first" data-playerid="149378" data-filterchatactive="on" data-filteronline="off">
+                        <p class="playername">
+                            <span title="Status not visible" class="playerstatus tooltip disallowed"></span>Polophylax                        </p>
+                        <span class="new_msg_count noMessage" data-playerid="149378" data-new-messages="0">
+                              0                        </span>
+                        <span class="chatstatus cs_active fright"></span>
+                    </li>
+                        </ul>
+    </div><div id="mCSB_3_scrollbar_vertical" class="mCSB_scrollTools mCSB_3_scrollbar mCS-ogame mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_3_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+</div>    </div>
+    <div class="footer">
+        <div class="c-right"></div>
+        <div class="c-left"></div>
+    </div>
+</div></div>
+            <span class="onlineCount">1 Contact(s) online</span>
+        </li>
+                    <li class="chat_bar_list_item outOfChatbar" style="display:none;" data-playerid="149378">
+                <div class="chat_box" data-playerid="149378" style="display:none;">
+                    <div class="chat_box_title">
+                        <span class="icon icon_close fright"></span>
+                        <span class="icon icon_maximize fright"></span>
+                    </div>
+                    <div class="chat_box_ctn">
+                        <ul class="chat clearfix" data-foreign-player-id="149378">
+                                                            <li class="chat_msg sys_msg odd" data-foreign-player-id="149378">
+                                    <div class="msg_head">
+                                        <span class="msg_date fright">27.09.2016 03:46:33</span>
+                                        <span class="msg_title blue_txt new">System Message</span>
+                                    </div>
+                                        <span class="msg_content">82 messages have been hidden.<br>Click here to show more messages.</span>
+                                    <div class="speechbubble_arrow"></div>
+                                </li>
+                                                                    <li class="chat_msg odd" data-chat-id="300180">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 00:42:32</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">let's try it! maybe i'll get all needed moons!! <br><br>
+5:375:7</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg " data-chat-id="300181">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 00:43:01</span>
+                                            <span class="msg_title blue_txt new">Polophylax</span>
+                                        </div>
+                                            <span class="msg_content">ok in 20 min, with def?</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg odd" data-chat-id="300182">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 00:43:08</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">yes please</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg " data-chat-id="300183">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 00:43:18</span>
+                                            <span class="msg_title blue_txt new">Polophylax</span>
+                                        </div>
+                                            <span class="msg_content">ok</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg odd" data-chat-id="300207">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 02:00:37</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">wow</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg odd" data-chat-id="300208">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 02:00:42</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">thank you for everthing</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg " data-chat-id="300209">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 02:01:38</span>
+                                            <span class="msg_title blue_txt new">Polophylax</span>
+                                        </div>
+                                            <span class="msg_content">you are welcome,<br>
+enjoy your moons, and good luck in the game ;)</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg odd" data-chat-id="300210">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 02:01:57</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">same to you!</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg " data-chat-id="300211">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 02:03:35</span>
+                                            <span class="msg_title blue_txt new">Polophylax</span>
+                                        </div>
+                                            <span class="msg_content">I will remove you from buddies, because I'm a little paranoid :D<br>
+but if you have any questions about game - contact me</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg odd" data-chat-id="300212">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">27.09.2016 02:12:39</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">ok no problem</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                        </ul>
+                    </div>
+                    <textarea name="text" class="chat_box_textarea"></textarea>
+                </div><!-- END Chat Box -->
+
+                <span class="playerstatus disallowed"></span>
+                <span class="chatstatus cs_new fleft"></span>
+                <span class="cb_playername" data-playerid="149378">Polophylax</span>
+                <span class="new_msg_count noMessage" data-playerid="149378" data-new-messages="0">0</span>
+                <span class="icon icon_close fright">
+                </span>
+            </li>
+                    <li class="chat_bar_list_item  outOfChatbar" style="display:none;" data-playerid="146279">
+                <div class="chat_box" data-playerid="146279" style="display:none;">
+                    <div class="chat_box_title">
+                        <span class="icon icon_close fright"></span>
+                        <span class="icon icon_maximize fright"></span>
+                    </div>
+                    <div class="chat_box_ctn">
+                        <ul class="chat clearfix" data-foreign-player-id="146279">
+                                                                <li class="chat_msg " data-chat-id="298353">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">24.09.2016 15:29:06</span>
+                                            <span class="msg_title blue_txt new">Darth Nightmare</span>
+                                        </div>
+                                            <span class="msg_content">Darth Trannus almost got me</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg " data-chat-id="298355">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">24.09.2016 15:29:24</span>
+                                            <span class="msg_title blue_txt new">Darth Nightmare</span>
+                                        </div>
+                                            <span class="msg_content">look at galaxy 9:90</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg odd" data-chat-id="298571">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">24.09.2016 19:04:05</span>
+                                            <span class="msg_title blue_txt new">unsupo</span>
+                                        </div>
+                                            <span class="msg_content">oh gosh</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                                    <li class="chat_msg " data-chat-id="298572">
+                                        <div class="msg_head">
+                                            <span class="msg_date fright">24.09.2016 19:05:18</span>
+                                            <span class="msg_title blue_txt new">Darth Nightmare</span>
+                                        </div>
+                                            <span class="msg_content">Yeah almost didn't get my fleet out in time</span>
+                                        <div class="speechbubble_arrow"></div>
+                                    </li>
+                                                        </ul>
+                    </div>
+                    <textarea name="text" class="chat_box_textarea"></textarea>
+                </div><!-- END Chat Box -->
+
+                <span class="playerstatus online"></span>
+                <span class="chatstatus cs_new fleft"></span>
+                <span class="cb_playername" data-playerid="146279">Darth Nightmare</span>
+                <span class="new_msg_count noMessage" data-playerid="146279" data-new-messages="0">0</span>
+                <span class="icon icon_close fright">
+                </span>
+            </li>
+            </ul><!-- END Chat Bar List -->
+</div>
+        <!-- END Chat Bar -->
+
+        <button class="scroll_to_top">
+            <span class="arrow"></span>Back to top        </button>
+
+        <div id="siteFooter">
+            <div class="content" style="font-size:10px">
+                <div class="fleft textLeft">
+                    <a href="https://s117-en.ogame.gameforge.com/game/index.php?page=changelog" class="tooltip js_hideTipOnMobile" title="Patch notes">
+                                                    6.3.2                                            </a>
+                    <a class="homeLink" href="http://www.gameforge.com/" target="_blank">© 2002 Gameforge 4D GmbH. All rights reserved.</a>
+                </div>
+                <div class="fright textRight">
+                                            <a href="http://wiki.ogame.org/" target="_blank">Help</a>|
+                        <a href="http://board.en.ogame.gameforge.com/" target="_blank">Board</a>|
+                                        <a class="overlay" href="https://en.ogame.gameforge.com/main/rules" data-overlay-iframe="true" data-iframe-width="450" data-overlay-title="Rules">Rules</a>|
+                    <a href="http://agbserver.gameforge.com/enGB-Terms-OGame.html" target="_blank">Legal</a>
+                </div>
+            </div><!-- -->
+        </div>
+                <div id="decisionTB" style="display:none;">
+    <div id="errorBoxDecision" class="errorBox TBfixedPosition">
+        <div class="head"><h4 id="errorBoxDecisionHead">-</h4></div>
+        <div class="middle">
+            <span id="errorBoxDecisionContent">-</span>
+            <div class="response">
+                <div style="float:left; width:180px;">
+                    <a href="javascript:void(0);" class="yes"><span id="errorBoxDecisionYes">.</span></a>
+                </div>
+                <div style="float:left; width:180px;">
+                    <a href="javascript:void(0);" class="no"><span id="errorBoxDecisionNo">.</span></a>
+                </div>
+                <br class="clearfloat">
+            </div>
+        </div>
+        <div class="foot"></div>
+    </div>
+</div>
+
+<div id="fadeBox" class="fadeBox fixedPostion" style="display:none;">
+  <div>
+    <span id="fadeBoxStyle" class="success"></span>
+    <p id="fadeBoxContent"></p>
+  </div>
+</div>
+
+<div id="notifyTB" style="display:none;">
+    <div id="errorBoxNotify" class="errorBox TBfixedPosition">
+        <div class="head"><h4 id="errorBoxNotifyHead">-</h4></div>
+        <div class="middle">
+            <span id="errorBoxNotifyContent">-</span>
+            <div class="response">
+                <div>
+                    <a href="javascript:void(0);" class="ok">
+                        <span id="errorBoxNotifyOk">.</span>
+                    </a>
+                </div>
+                <br class="clearfloat">
+            </div>
+        </div>
+        <div class="foot"></div>
+    </div>
+</div>
+                        <script type="text/javascript">var visibleChats = [];var bigChatLink = "https:\/\/s117-en.ogame.gameforge.com\/game\/index.php?page=chat";var locaKeys = {"bold":"Bold","italic":"Italic","underline":"Underline","stroke":"Strikethrough","sub":"Subscript","sup":"Superscript","fontColor":"Font colour","fontSize":"Font size","backgroundColor":"Background colour","backgroundImage":"Background image","tooltip":"Tool-tip","alignLeft":"Left align","alignCenter":"Centre align","alignRight":"Right align","alignJustify":"Justify","block":"Break","code":"Code","spoiler":"Spoiler","moreopts":"More Options","list":"List","hr":"Horizontal line","picture":"Image","link":"Link","email":"Email","player":"Player","item":"Item","coordinates":"Coordinates","preview":"Preview","textPlaceHolder":"Text...","playerPlaceHolder":"Player ID or name","itemPlaceHolder":"Item ID","coordinatePlaceHolder":"Galaxy:system:position","charsLeft":"Characters remaining","colorPicker":{"ok":"Ok","cancel":"Cancel","rgbR":"R","rgbG":"G","rgbB":"B"},"backgroundImagePicker":{"ok":"Ok","repeatX":"Repeat horizontally","repeatY":"Repeat vertically"}};</script>
+
+<div class="t_Tooltip t_Tooltip_cloud t_hidden" style="left: -10000px; top: -10000px; z-index: 999999; transition-duration: 220ms; display: block; width: 185px; height: 62px;"><div class="t_Shadow" style="top: 0px; left: 0px; width: 185px; height: 62px;"><div class="t_ShadowBubble" style="width: 185px; height: 62px;"><canvas width="370" height="124" style="width: 185px; height: 62px;"></canvas></div></div><div class="t_Skin" style="width: 181px; height: 57px; top: 3px; left: 2px;"><div class="t_Bubble" style="width: 181px; height: 57px; top: 0px; left: 0px;"><canvas width="362" height="114" style="width: 181px; height: 57px;"></canvas></div></div><div class="t_Content" style="left: 3px; top: 11px; width: 100%;"><div class="t_ContentContainer t_clearfix t_Content_cloud" style="width: auto; height: auto;"><div class="htmlTooltip" style=""><h1>Hire Technocrat</h1><div class="splitLine"></div>Still active for more than 56 days</div></div></div></div><div class="t_UpdateQueue"><div class="t_Tooltip"><div class="t_Content" style="width: 100%;"></div></div></div><div class="t_Tooltip t_Tooltip_cloud t_hidden" style="left: -10000px; top: -10000px; z-index: 999999; transition-duration: 220ms; display: block; width: 138px; height: 192px;"><div class="t_Shadow" style="top: 0px; left: 0px; width: 138px; height: 192px;"><div class="t_ShadowBubble" style="width: 138px; height: 192px;"><canvas width="276" height="384" style="width: 138px; height: 192px;"></canvas></div></div><div class="t_Skin" style="width: 133px; height: 188px; top: 2px; left: 2px;"><div class="t_Bubble" style="width: 133px; height: 188px; top: 0px; left: 0px;"><canvas width="266" height="376" style="width: 133px; height: 188px;"></canvas></div></div><div class="t_Content" style="left: 3px; top: 3px; width: 100%;"><div class="t_ContentContainer t_clearfix t_Content_cloud" style="width: auto; height: auto;"><div class="close-tooltip"></div><b>Uranus [3:273:8]</b><br>14.288km (139/204)<br>6°C to 46°C<br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34910783">Overview</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34910783">Resources</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34910783">Research</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34910783">Facilities</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34910783">Shipyard</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34910783">Defence</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34910783">Fleet</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34910783&amp;galaxy=3&amp;system=273&amp;position=8">Galaxy</a></div></div></div><div class="t_Tooltip t_Tooltip_cloud t_hidden" style="left: -10000px; top: -10000px; z-index: 999999; transition-duration: 220ms; display: block; width: 131px; height: 192px;"><div class="t_Shadow" style="top: 0px; left: 0px; width: 131px; height: 192px;"><div class="t_ShadowBubble" style="width: 131px; height: 192px;"><canvas width="262" height="384" style="width: 131px; height: 192px;"></canvas></div></div><div class="t_Skin" style="width: 126px; height: 188px; top: 2px; left: 2px;"><div class="t_Bubble" style="width: 126px; height: 188px; top: 0px; left: 0px;"><canvas width="252" height="376" style="width: 126px; height: 188px;"></canvas></div></div><div class="t_Content" style="left: 3px; top: 3px; width: 100%;"><div class="t_ContentContainer t_clearfix t_Content_cloud" style="width: auto; height: auto;"><div class="close-tooltip"></div><b>Mars [5:85:12]</b><br>13.774km (169/189)<br>-50°C to -10°C<br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34885286">Overview</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34885286">Resources</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34885286">Research</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34885286">Facilities</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34885286">Shipyard</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34885286">Defence</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34885286">Fleet</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34885286&amp;galaxy=5&amp;system=85&amp;position=12">Galaxy</a></div></div></div><div class="t_Tooltip t_Tooltip_cloud t_hidden" style="left: -10000px; top: -10000px; z-index: 999999; transition-duration: 220ms; display: block; width: 154px; height: 182px;"><div class="t_Shadow" style="top: 0px; left: 0px; width: 154px; height: 182px;"><div class="t_ShadowBubble" style="width: 154px; height: 182px;"><canvas width="308" height="364" style="width: 154px; height: 182px;"></canvas></div></div><div class="t_Skin" style="width: 149px; height: 178px; top: 2px; left: 3px;"><div class="t_Bubble" style="width: 149px; height: 178px; top: 0px; left: 0px;"><canvas width="298" height="356" style="width: 149px; height: 178px;"></canvas></div></div><div class="t_Content" style="left: 11px; top: 3px; width: 100%;"><div class="t_ContentContainer t_clearfix t_Content_cloud" style="width: auto; height: auto;"><div class="close-tooltip"></div><div class="htmlTooltip">
+    <h1>Fleet details:</h1>
+    <div class="splitLine"></div>
+<table cellpadding="0" cellspacing="0" class="fleetinfo">
+    <tbody><tr>
+        <th colspan="2">Ships:</th>
+    </tr>
+            <tr>
+        <td>Small Cargo:</td>
+        <td class="value">300</td>
+    </tr>
+        <tr>
+        <td>Large Cargo:</td>
+        <td class="value">100</td>
+    </tr>
+        <tr>
+        <td>Recycler:</td>
+        <td class="value">1</td>
+    </tr>
+                <tr>
+        <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+        <th colspan="2">Shipment:</th>
+    </tr>
+    <tr>
+        <td>Metal:</td>
+        <td class="value">0</td>
+    </tr>
+    <tr>
+        <td>Crystal:</td>
+        <td class="value">0</td>
+    </tr>
+    <tr>
+        <td>Deuterium:</td>
+        <td class="value">0</td>
+    </tr>
+    </tbody></table>
+</div>
+</div></div></div><div class="t_Tooltip t_Tooltip_cloud t_visible" style="left: 709.5px; top: 207px; z-index: 1000000; transition-duration: 180ms; display: block; width: 145px; height: 192px;"><div class="t_Shadow" style="top: 0px; left: 0px; width: 145px; height: 192px;"><div class="t_ShadowBubble" style="width: 145px; height: 192px;"><canvas width="290" height="384" style="width: 145px; height: 192px;"></canvas></div></div><div class="t_Skin" style="width: 140px; height: 188px; top: 2px; left: 2px;"><div class="t_Bubble" style="width: 140px; height: 188px; top: 0px; left: 0px;"><canvas width="280" height="376" style="width: 140px; height: 188px;"></canvas></div></div><div class="t_Content" style="left: 3px; top: 3px; width: 100%;"><div class="t_ContentContainer t_clearfix t_Content_cloud" style="width: auto; height: auto;"><div class="close-tooltip"></div><b>Jupiter [2:256:12]</b><br>14.040km (156/197)<br>-12°C to 28°C<br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=overview&amp;cp=34894148">Overview</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=resources&amp;cp=34894148">Resources</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=research&amp;cp=34894148">Research</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=station&amp;cp=34894148">Facilities</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=shipyard&amp;cp=34894148">Shipyard</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=defense&amp;cp=34894148">Defence</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;cp=34894148">Fleet</a><br><a href="https://s117-en.ogame.gameforge.com/game/index.php?page=galaxy&amp;cp=34894148&amp;galaxy=2&amp;system=256&amp;position=12">Galaxy</a></div></div></div></body></html>

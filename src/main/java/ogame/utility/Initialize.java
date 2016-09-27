@@ -2,10 +2,7 @@ package ogame.utility;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import objects.Buildable;
-import objects.Coordinates;
-import objects.Planet;
-import objects.PlanetProperties;
+import objects.*;
 import ogame.pages.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,11 +33,16 @@ public class Initialize {
     private static Initialize instance;
     private long points;
 
+    private BuildTask currentResearch;
     private static HashMap<String,List<Integer>> mappings = new HashMap<>();
     private List<Buildable> buildables = new ArrayList<>();
     private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
 
     private HashMap<Coordinates,Planet> planets = new HashMap<>();//planetName, Planet object
+
+    public static BuildTask getCurrentResearch() {
+        return getInstance().currentResearch;
+    }
 
     public int getFleetSlotsAvailable() {
         return fleetSlotsAvailable;
@@ -58,6 +60,8 @@ public class Initialize {
 
     public static Buildable getBuildableByName(String name){
         return getBuildableObjects().stream().filter(a->name.equals(a.getName())).collect(Collectors.toList()).get(0);
+    } public static Buildable getBuildableByNameIgnoreCase(String name){
+        return getBuildableObjects().stream().filter(a->name.equalsIgnoreCase(a.getName())).collect(Collectors.toList()).get(0);
     }  public static Buildable getBuildableByID(int id) {
         return getBuildableObjects().stream().filter(a->a.getId() == id).collect(Collectors.toList()).get(0);
     }

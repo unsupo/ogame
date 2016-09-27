@@ -19,9 +19,13 @@ public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 //        String v = FileOptions.readFileIntoString(Utility.RESOURCE_DIR+"test");
-//        Jsoup.parse(v).select("li.list_item > a").stream().filter(e->!e.select("span").isEmpty() && e.select("span").text().contains("("))
-//                .map(e->e.text())
-//        System.out.println(Jsoup.parse(v).select("a.tb_universe"));
+////        Jsoup.parse(v).select("li.list_item > a").stream().filter(e->!e.select("span").isEmpty() && e.select("span").text().contains("("))
+////                .map(e->e.text())
+//        Elements table = Jsoup.parse(v).select("#eventContent").select("tr");
+//        for(Element e : table) {
+////            System.out.println(e.select("td.icon_movement_reserve, td.icon_movement").select("span").attr("title"));
+//            System.out.println(e.select("td.destCoords").text().trim());
+//        }
 
         runAI(new ProfileFollower());
     }
