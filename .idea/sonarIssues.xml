@@ -3,7 +3,17 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/JavaScript Console">
           <value>
             <set />
           </value>
@@ -13,12 +23,62 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../angular/common/glMatrix-0.9.5.min.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/common/initializeWebGL.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/common/webgl-utils.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/dragon/Common/MV.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/dragon/Common/configWebgl.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/dragon/dragonCurve.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/serpinski/examples/index.html">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../angular/serpinski/gasket1.js">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../angular/serpinski/glUtils.js">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../angular/serpinski/index.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/serpinski/script.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../angular/serpinski/sylvester.js">
           <value>
             <set />
           </value>
@@ -454,6 +514,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/utilities/database/HSQLDB.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/utilities/database/XMLAPIDownloader.java">
           <value>
             <set />
           </value>

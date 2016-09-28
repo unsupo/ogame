@@ -241,7 +241,7 @@ public class Utility {
                 setBuildTime(planet.getCurrentBuildingBeingBuild());
             }else if (Shipyard.SHIPYARD.equals(pageName)) {
                 planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID, Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
-                setBuildTime(planet.getCurrentShipyardBeingBuild().stream().collect(Collectors.toList()));
+                setBuildTime(planet.getCurrentShipyardBeingBuild());
             }else if (Fleet.FLEET.equals(pageName)) {
                 String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
                 String[] totes = fleets.split(":")[1].split("\\/");
@@ -283,8 +283,12 @@ public class Utility {
         return buildTime;
     }
 
-    public static void setBuildTime(List<BuildTask> buildTime) {
-        buildTime.add(setBuildTime(new BuildTask()));
+    public static void setBuildTime(Set<BuildTask> buildTime) {
+        BuildTask task = setBuildTime(new BuildTask());
+        if(task == null) {
+            buildTime = new HashSet<BuildTask>();
+            return;
+        }buildTime.add(task);
         Elements table = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("#pqueue").select("li");
         for(Element e : table) {
             String[] contents = e.attr("title").split("<br>");
