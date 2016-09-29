@@ -105,8 +105,9 @@ public class Coordinates implements Comparable<Coordinates>{
         return universe;
     }
 
-    public void setUniverse(String universe) {
+    public Coordinates setUniverse(String universe) {
         this.universe = universe;
+        return this;
     }
 
     public int getGalaxy() {

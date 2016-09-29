@@ -54,7 +54,7 @@ public class Runner {
                 Utility.clickOnNewPage(Overview.OVERVIEW);
                 Initialize.writeToJSON();
 
-                Thread.sleep(30000);
+                Thread.sleep(Utility.getRandomIntRange(45000,25000)); //more human like, click every somewhere between 45 and 25 seconds.
             }catch (Exception e){
                 e.printStackTrace();
                 //you got logged out

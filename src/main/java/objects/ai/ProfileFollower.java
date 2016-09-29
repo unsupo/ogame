@@ -93,7 +93,8 @@ public class ProfileFollower implements AI {
 
     @Override
     public Task getAttackedTask() {
-        if(Utility.isBeingAttack());
+        if(Utility.isBeingAttack())
+            Utility.getFleetInformation().stream().filter(a->a.getMissionType().equals(MissionBuilder.ATTACK));
         return null;
     }
 
@@ -176,7 +177,8 @@ public class ProfileFollower implements AI {
             canBuild = false; //then you can't build it yet
 
         if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(build.getName()))//if you can't build it, don't bother trying
-            canBuild = false;
+            canBuild = true;
+        else canBuild = false;
 
         if(!canBuild) {
             System.out.println("Can't build yet: "+build.getName());

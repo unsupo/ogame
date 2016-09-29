@@ -184,7 +184,7 @@ public class Utility {
 //        List<Map<String, Object>> results = _HSQLDB.executeQuery(
 //                "select coordinates from player p JOIN planet t ON p.player_name = t.player_name " +
 //                        "where player_status in ('I','i') and " +
-//                        "regexp_substring(coordinates,'[0-9]+')='" + yourCoordinates.getGalaxy() + "'");
+//                        "regexp_substring(coordinates,'[0-9]+')='" + yourCoordinates.getGalaxy() + "'"); //old way
 
         List<Map<String, Object>> results = _HSQLDB.executeQuery(
                 "select * from highscore_player a " +
@@ -345,5 +345,14 @@ public class Utility {
 
     public static List<Mission> getFleetInformation() {
         return Mission.getActiveMissions();
+    }
+
+    public static int getRandomIntRange(int min, int max){
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        return new Random().nextInt(max - min)+min;
     }
 }
