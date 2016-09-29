@@ -39,7 +39,7 @@ public class ProfileFollower implements AI {
                     Merchant.getItemOfDay();
 
                     if(targets == null)
-                        targets = Utility.getInactiveTargets(Utility.getActivePlanet().getCoordinates());
+                        targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID());
 
                     if(!couldntAttackLast) {
                         Utility.clickOnNewPage(ogame.pages.Fleet.FLEET);
@@ -93,6 +93,7 @@ public class ProfileFollower implements AI {
 
     @Override
     public Task getAttackedTask() {
+        if(Utility.isBeingAttack());
         return null;
     }
 
@@ -115,11 +116,9 @@ public class ProfileFollower implements AI {
                 currentLevel = planetMap.getShips().get(buildTask.getBuildable().getName()); break;
         }
 
+        if(currentLevel >= buildTask.getCountOrLevel())
+            BuildTask.markBuildTaskAsCompleted(buildTask);
 
-//        if(currentBuildTask.equals(buildTask)) {
-//            BuildTask.markBuildTaskAsCompleted(buildTask);
-//        }
-//
         currentBuildTask = buildTask;
 
         Buildable build = buildTask.getBuildable();
@@ -152,38 +151,44 @@ public class ProfileFollower implements AI {
         boolean canBuild = true;
         if(!facilitiesRequired.isEmpty())
             for(String key : facilitiesRequired.keySet())
-                if(!(Utility.getActivePlanet().getCurrentFacilityBeingBuild() != null &&
-                        Utility.getActivePlanet().getCurrentFacilityBeingBuild().isInProgress()))
-                    build = Initialize.getBuildableByName(key);
-                else
-                    canBuild = false;
-
-        if(!researchRequired.isEmpty())
-            for(String key : researchRequired.keySet())
-//                if(Utility.canAfford(key)) //TODO check for dark matter
-                if(!(Initialize.getCurrentResearch() != null &&
-                        Initialize.getCurrentResearch().isInProgress())) {
-                    build = Initialize.getBuildableByName(key);
-                    canBuild = true;
+                if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(key)) { //check if you can afford it (you can if you have at least 500 DM)
+                    if (!(Utility.getActivePlanet().getCurrentFacilityBeingBuild() != null && //if no facilities are being built
+                            Utility.getActivePlanet().getCurrentFacilityBeingBuild().isInProgress()))
+                        build = Initialize.getBuildableByName(key); //build the facility
                 }else
                     canBuild = false;
 
-        if(Initialize.getType(build.getName()).equals(Shipyard.SHIPYARD)
-                && Utility.getActivePlanet().getCurrentFacilityBeingBuild() != null &&
-                Shipyard.SHIPYARD.equals(Initialize.getType(
-                        Utility.getActivePlanet().getCurrentFacilityBeingBuild().getBuildable().getName())))
+        if(!researchRequired.isEmpty())
+            for(String key : researchRequired.keySet()) //for each required research
+                if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(key)){ //check if you can afford it (you can if you have at least 500 DM)
+                    if(!(Initialize.getCurrentResearch() != null &&
+                            Initialize.getCurrentResearch().isInProgress())) { //check if you have no researches in progress
+                        build = Initialize.getBuildableByName(key);
+                        canBuild = true; //if no researches in progress and you can afford it then do a research
+                    }
+                }else
+                    canBuild = false; //else you can't build a research
+
+        if(Initialize.getType(build.getName()).equals(Shipyard.SHIPYARD) //if the build item is built from the shipyard
+                && (Utility.getActivePlanet().getCurrentFacilityBeingBuild() != null &&
+                Shipyard.SHIPYARD.equals(Initialize.getType(//and the facility being built is a shipyard
+                        Utility.getActivePlanet().getCurrentFacilityBeingBuild().getBuildable().getName()))))
+            canBuild = false; //then you can't build it yet
+
+        if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(build.getName()))//if you can't build it, don't bother trying
             canBuild = false;
 
-        if(!canBuild)
-            return null;
-
+        if(!canBuild) {
+            System.out.println("Can't build yet: "+build.getName());
+            return null; //if you can't build anything then don't do anything
+        }
         HashMap<String, Integer> map = Utility.getBuildableRequirements(build.getName());
         removeCurrentValues(map);
 
-        if(map.isEmpty())
+        if(map.isEmpty()) //if the item has no prerequisites then build it
             return build;
         else
-            return getBuildTask(build);
+            return getBuildTask(build); //otherwise build it's prerequisite
     }
 
     private void removeCurrentValues(Map<String, Integer> map) throws IOException {
