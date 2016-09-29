@@ -84,9 +84,9 @@ public class Resource {
 	
 	static{
 		names = new ArrayList<String>();
+		names.addAll(Arrays.asList(Ship.names));
 		names.addAll(Arrays.asList(Research.names));
 		names.addAll(Arrays.asList(Facilities.names));
-		names.addAll(Arrays.asList(Ship.names));
 		names.addAll(Arrays.asList(Resources.names));
 	}
 	
@@ -153,7 +153,7 @@ public class Resource {
 	
 	private static int getIndexOf(String name){
 		for(int i =0;i< names.size();i++){
-			if(names.get(i) == name){
+			if(names.get(i).equals(name)){
 				return i;
 			}
 		}
@@ -203,7 +203,7 @@ public class Resource {
 	}
 	
 	public boolean canAfford(Resource other){
-		return getDeficit(other).isZero();
+		return other.getDeficit(this).isZero();
 	}
 	
 	public Resource multiply(int multiple){

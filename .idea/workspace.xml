@@ -2,170 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce5b5be5-240e-4abe-ac80-d5bfe7bac7fc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.lck" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/alliances_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/alliances_117.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/alliances_141.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_117.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_141.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_117.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_141.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/planets_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/planets_117.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/planets_141.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_117.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_141.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_117.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_141.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB398.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB398.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB398.script" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB572.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB572.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/ogniterDB572.script" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_117.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_118.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_120.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_122.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_123.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_128.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_129.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_130.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_131.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_132.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_133.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_134.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_135.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_136.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_137.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_138.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_139.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_140.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_117.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_118.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_120.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_122.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_123.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_128.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_129.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_130.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_131.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_132.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_133.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_134.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_135.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_136.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_137.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_138.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_139.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_140.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_118" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_120" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_122" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_123" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_128" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_129" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_130" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_131" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_132" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_133" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_134" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_135" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_136" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_137" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_138" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_139" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_140" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_117.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_118.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_120.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_122.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_123.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_128.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_129.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_130.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_131.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_132.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_133.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_134.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_135.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_136.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_137.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_138.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_139.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_140.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_117.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_118.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_120.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_122.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_123.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_128.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_129.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_130.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_131.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_132.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_133.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_134.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_135.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_136.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_137.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_138.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_139.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_140.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_117.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_118.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_120.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_122.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_123.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_128.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_129.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_130.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_131.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_132.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_133.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_134.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_135.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_136.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_137.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_138.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_139.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_140.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_141.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.lck" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.lck" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Runner.class" afterPath="$PROJECT_DIR$/target/classes/Runner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ogame/utility/Initialize.class" afterPath="$PROJECT_DIR$/target/classes/ogame/utility/Initialize.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/objects/Coordinates.class" afterPath="$PROJECT_DIR$/target/classes/objects/Coordinates.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utilities/Utility.class" afterPath="$PROJECT_DIR$/target/classes/utilities/Utility.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utilities/database/_HSQLDB.class" afterPath="$PROJECT_DIR$/target/classes/utilities/database/_HSQLDB.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Runner.java" afterPath="$PROJECT_DIR$/src/main/java/Runner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/Coordinates.java" afterPath="$PROJECT_DIR$/src/main/java/objects/Coordinates.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/Mission.java" afterPath="$PROJECT_DIR$/src/main/java/objects/Mission.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java" afterPath="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/utility/QueueManager.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/utility/QueueManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/Utility.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/Utility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/database/XMLAPIDownloader.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/database/XMLAPIDownloader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/database/_HSQLDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/one/Email.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/one/Email.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.log" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.properties" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.script" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.script" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398_merchant" afterPath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398_merchant" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" afterPath="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_117" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_117" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_141" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_141" />
     </list>
     <list id="a9961e98-e9f0-4f79-b2a3-b60ed64a7ce1" name="New changelist" comment="" />
@@ -191,21 +42,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ProfileFollower.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ProfileFollower.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="639">
-              <caret line="95" column="35" selection-start-line="95" selection-start-column="35" selection-end-line="95" selection-end-column="35" />
+            <state relative-caret-position="274">
+              <caret line="175" column="34" selection-start-line="175" selection-start-column="34" selection-end-line="175" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MissionBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+            <state relative-caret-position="135">
+              <caret line="41" column="36" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -214,8 +75,8 @@
       <file leaf-file-name="Initialize.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
+            <state relative-caret-position="139">
+              <caret line="224" column="72" selection-start-line="224" selection-start-column="72" selection-end-line="224" selection-end-column="72" />
               <folding>
                 <element signature="e#1862#1863#0" expanded="true" />
                 <element signature="e#1927#1928#0" expanded="true" />
@@ -224,22 +85,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UIMethods.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utilities/selenium/UIMethods.java">
+      <file leaf-file-name="Utility.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utilities/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="277">
+              <caret line="136" column="16" selection-start-line="136" selection-start-column="16" selection-end-line="136" selection-end-column="16" />
+              <folding>
+                <element signature="e#5252#5253#0" expanded="true" />
+                <element signature="e#5327#5328#0" expanded="true" />
+                <element signature="e#12696#12697#0" expanded="true" />
+                <element signature="e#12782#12783#0" expanded="true" />
+                <element signature="e#15796#15797#0" expanded="true" />
+                <element signature="e#15846#15847#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QueueManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/QueueManager.java">
+      <file leaf-file-name="Resource.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
-              <folding />
+            <state relative-caret-position="262">
+              <caret line="205" column="23" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
+              <folding>
+                <element signature="e#4527#4528#0" expanded="true" />
+                <element signature="e#4572#4573#0" expanded="true" />
+                <element signature="e#5950#5951#0" expanded="true" />
+                <element signature="e#6023#6024#0" expanded="true" />
+                <element signature="e#6068#6069#0" expanded="true" />
+                <element signature="e#6113#6114#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mission.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/objects/Mission.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="244">
+              <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+              <folding>
+                <element signature="e#2953#2954#0" expanded="true" />
+                <element signature="e#2987#2988#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -279,8 +167,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/QueuedJob.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/shipyard_info.cvs" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Shipyard.java" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Fleet.java" />
         <option value="$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java" />
@@ -299,12 +185,10 @@
         <option value="$PROJECT_DIR$/src/main/java/objects/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Research.java" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Facilities.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Resources.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/BuildTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/Fleet.java" />
         <option value="$PROJECT_DIR$/src/main/resources/test" />
-        <option value="$PROJECT_DIR$/src/main/java/objects/Mission.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/Planet.java" />
         <option value="$PROJECT_DIR$/src/main/java/utilities/jsoup/OgniterGalaxyParser.java" />
         <option value="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" />
@@ -326,9 +210,13 @@
         <option value="$PROJECT_DIR$/src/main/java/ogame/utility/QueueManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/utilities/database/XMLAPIDownloader.java" />
         <option value="$PROJECT_DIR$/src/main/java/utilities/one/Email.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utilities/Utility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
+        <option value="$PROJECT_DIR$/src/main/java/objects/Mission.java" />
         <option value="$PROJECT_DIR$/src/main/java/Runner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
+        <option value="$PROJECT_DIR$/src/main/java/objects/Coordinates.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" />
+        <option value="$PROJECT_DIR$/src/main/java/utilities/Utility.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java" />
       </list>
     </option>
@@ -482,6 +370,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="profile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogame" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogame" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -614,7 +528,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="SearchEverywhereHistoryKey" value="email&#9;PSI&#9;JAVA://utilities.one.Email&#10;uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;ut&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;qu&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/QueueManager.java&#10;pl&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/Planet.java&#10;ru&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;ini&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Initialize.java&#10;UIM&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;r&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;util&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;in&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Initialize.java&#10;Uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;fa&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Facilities.java&#10;res&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Resource.java&#10;resou&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Resources.java&#10;rese&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;_H&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/database/_HSQLDB.java&#10;uim&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;re&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;kc&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/s/kc.class&#10;O&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Ogameau&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Starter&#9;PSI&#9;JAVA://Starter&#10;injecti&#9;PSI&#9;JAVA://groovy.transform.InjectInit&#10;OAW&#9;PSI&#9;JAVA://groovy.OAWrapperImpl&#10;CustomLo&#9;PSI&#9;JAVA://groovy.CustomLoaderConfiguration&#10;Farmi&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/groovy/Farming Bot.oag&#10;BuilderFac&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/api/fluid/BuilderFactory.class&#10;Pri&#9;PSI&#9;JAVA://api.model.Price&#10;Planet&#9;PSI&#9;JAVA://api.model.Planet" />
+    <property name="SearchEverywhereHistoryKey" value="ini&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Initialize.java&#10;uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;email&#9;PSI&#9;JAVA://utilities.one.Email&#10;ut&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;qu&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/QueueManager.java&#10;pl&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/Planet.java&#10;ru&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;UIM&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;r&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;util&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;in&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Initialize.java&#10;Uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;fa&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Facilities.java&#10;res&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Resource.java&#10;resou&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Resources.java&#10;rese&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;_H&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/database/_HSQLDB.java&#10;uim&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;re&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;kc&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/s/kc.class&#10;O&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Ogameau&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Starter&#9;PSI&#9;JAVA://Starter&#10;injecti&#9;PSI&#9;JAVA://groovy.transform.InjectInit&#10;OAW&#9;PSI&#9;JAVA://groovy.OAWrapperImpl&#10;CustomLo&#9;PSI&#9;JAVA://groovy.CustomLoaderConfiguration&#10;Farmi&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/groovy/Farming Bot.oag&#10;BuilderFac&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/api/fluid/BuilderFactory.class&#10;Pri&#9;PSI&#9;JAVA://api.model.Price&#10;Planet&#9;PSI&#9;JAVA://api.model.Planet" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -1415,7 +1329,7 @@
       <workItem from="1475178437970" duration="1070000" />
       <workItem from="1475179745344" duration="104000" />
       <workItem from="1475179880631" duration="225000" />
-      <workItem from="1475180251351" duration="1789000" />
+      <workItem from="1475180251351" duration="5226000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1471467227087</created>
@@ -1662,11 +1576,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475078007807</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="xml api parser completed, except for alliance information.  &#10;Fixed ProfileFollower to check if it can build it before attempting to build it.  &#10;This fixed constantly switching between pages.&#10;Added a 30second sleep to prevent quickly repeatedly clicking on the overview page.">
+      <created>1475184424116</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1475184424116</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189178000" />
+    <option name="totallyTimeSpent" value="192615000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1755,7 +1676,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
-    <MESSAGE value="added ships" />
     <MESSAGE value="added more utilities and support" />
     <MESSAGE value="added watcher and now can login from file with (runner.script) &#10;Initialize.login()" />
     <MESSAGE value="added periodic daily ogniter database updates to initialize as a thread" />
@@ -1780,7 +1700,8 @@
     <MESSAGE value="Merge branch 'master' of https://github.com/unsupo/ogame&#10;&#10;# Conflicts:&#10;#&#9;src/main/java/utilities/Utility.java&#10;" />
     <MESSAGE value="lots of fixes" />
     <MESSAGE value="getting started on the xml api parser.  downloads all xmls next step is upload to database" />
-    <option name="LAST_COMMIT_MESSAGE" value="getting started on the xml api parser.  downloads all xmls next step is upload to database" />
+    <MESSAGE value="xml api parser completed, except for alliance information.  &#10;Fixed ProfileFollower to check if it can build it before attempting to build it.  &#10;This fixed constantly switching between pages.&#10;Added a 30second sleep to prevent quickly repeatedly clicking on the overview page." />
+    <option name="LAST_COMMIT_MESSAGE" value="xml api parser completed, except for alliance information.  &#10;Fixed ProfileFollower to check if it can build it before attempting to build it.  &#10;This fixed constantly switching between pages.&#10;Added a 30second sleep to prevent quickly repeatedly clicking on the overview page." />
     <option name="PRESELECT_EXISTING_CHANGELIST" value="false" />
   </component>
   <component name="XDebuggerManager">
@@ -1818,12 +1739,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java</url>
-          <line>150</line>
+          <line>178</line>
           <properties />
-          <option name="timeStamp" value="143" />
+          <option name="timeStamp" value="144" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="144" />
+      <option name="time" value="146" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1832,43 +1753,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/test">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="421" column="36" selection-start-line="421" selection-start-column="15" selection-end-line="421" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Mission.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="146" column="87" selection-start-line="146" selection-start-column="87" selection-end-line="146" selection-end-column="87" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jsoup/jsoup/1.9.2/jsoup-1.9.2-sources.jar!/org/jsoup/select/Selector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jsoup/jsoup/1.9.2/jsoup-1.9.2-sources.jar!/org/jsoup/select/Elements.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="407" column="0" selection-start-line="407" selection-start-column="0" selection-end-line="407" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Buildable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/objects/BuildTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1290">
@@ -1885,7 +1769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/profile/unsupo_398" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/last_update_398">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -2081,30 +1964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
-          <folding>
-            <element signature="e#1862#1863#0" expanded="true" />
-            <element signature="e#1927#1928#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="284" column="26" selection-start-line="284" selection-start-column="26" selection-end-line="284" selection-end-column="26" />
-          <folding>
-            <element signature="e#5252#5253#0" expanded="true" />
-            <element signature="e#5327#5328#0" expanded="true" />
-            <element signature="e#12686#12687#0" expanded="true" />
-            <element signature="e#12772#12773#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -2113,18 +1972,102 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="639">
-          <caret line="95" column="35" selection-start-line="95" selection-start-column="35" selection-end-line="95" selection-end-column="35" />
+        <state relative-caret-position="192">
+          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Coordinates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="99" column="29" selection-start-line="99" selection-start-column="29" selection-end-line="99" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="224" column="72" selection-start-line="224" selection-start-column="72" selection-end-line="224" selection-end-column="72" />
+          <folding>
+            <element signature="e#1862#1863#0" expanded="true" />
+            <element signature="e#1927#1928#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/profile/unsupo_398">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="1502" selection-start-line="0" selection-start-column="1502" selection-end-line="0" selection-end-column="1502" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Ship.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Mission.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+          <folding>
+            <element signature="e#2953#2954#0" expanded="true" />
+            <element signature="e#2987#2988#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+        <state relative-caret-position="135">
+          <caret line="41" column="36" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="205" column="23" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
+          <folding>
+            <element signature="e#4527#4528#0" expanded="true" />
+            <element signature="e#4572#4573#0" expanded="true" />
+            <element signature="e#5950#5951#0" expanded="true" />
+            <element signature="e#6023#6024#0" expanded="true" />
+            <element signature="e#6068#6069#0" expanded="true" />
+            <element signature="e#6113#6114#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="136" column="16" selection-start-line="136" selection-start-column="16" selection-end-line="136" selection-end-column="16" />
+          <folding>
+            <element signature="e#5252#5253#0" expanded="true" />
+            <element signature="e#5327#5328#0" expanded="true" />
+            <element signature="e#12696#12697#0" expanded="true" />
+            <element signature="e#12782#12783#0" expanded="true" />
+            <element signature="e#15796#15797#0" expanded="true" />
+            <element signature="e#15846#15847#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="175" column="34" selection-start-line="175" selection-start-column="34" selection-end-line="175" selection-end-column="34" />
           <folding />
         </state>
       </provider>

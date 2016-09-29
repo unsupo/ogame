@@ -32,6 +32,7 @@ public class Mission {
     static {
         missionTypeMap.put("https://gf1.geo.gfsrv.net/cdn38/2af2939219d8227a11a50ff4df7b51.gif",MissionBuilder.TRANSPORT);
         missionTypeMap.put("https://gf3.geo.gfsrv.net/cdnb0/4dab966bded2d26f89992b2c6feb4c.gif", MissionBuilder.DEPLOYMENT);
+        //TODO get attack mission's gif link
     }
 
     public Mission(String missionType, Coordinates source, Coordinates destination, Fleet fleet, LocalDateTime arrivalTime) {
