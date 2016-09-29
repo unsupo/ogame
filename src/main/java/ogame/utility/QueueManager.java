@@ -1,7 +1,7 @@
 package ogame.utility;
 
 import utilities.Utility;
-import utilities.database._HSQLDB;
+import utilities.database.XMLAPIDownloader;
 import utilities.filesystem.FileOptions;
 import utilities.jsoup.OgniterGalaxyParser;
 
@@ -50,8 +50,9 @@ public class QueueManager {
     private QueueManager() throws IOException {
         WatchServiceCreator.start();
         startFileContentReader();
-        _HSQLDB.setDbName(Utility.getOgniterUniverseNumber(_getLoginParameters()[0]));
-        parseUniverse();
+//        _HSQLDB.setDbName();
+//        parseUniverse();
+        XMLAPIDownloader.parseFiles(Integer.parseInt(_getLoginParameters()[0].replaceAll("[^0-9]","")));
     }
 
     public void parseUniverse() {

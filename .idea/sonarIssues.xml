@@ -558,6 +558,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/utilities/one/Email.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/utilities/selenium/Task.java">
           <value>
             <set />
@@ -569,6 +574,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/utilities/selenium/ogame/Login.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/HSQL/.log">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/HSQL/.properties">
           <value>
             <set />
           </value>
@@ -674,6 +689,76 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/test">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/alliances_117.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/alliances_139.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_1.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_alliance_data_129.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_120.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/highscore_player_data_129.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/players_122.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/players_data_129.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_129.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/server_data_136.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_139.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/xml_downloads/universe_data_129.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../qa-automation/trunk/qa-automation-src/src/main/java/com/tomax/qa/automation/dao/RunQuery.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../qa-automation/trunk/qa-automation-src/src/main/java/com/tomax/qa/automation/replication/tester/RepTester.java">
           <value>
             <set />
           </value>

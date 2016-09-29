@@ -1,4 +1,0 @@
-/*C4*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS PLAYER (player_name VARCHAR(50), alliance_name VARCHAR(50), player_link VARCHAR(250), alliance_link VARCHAR(250), player_rank INT,player_status VARCHAR(10),PRIMARY KEY (player_name))
-/*C5*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS PLANET (player_name VARCHAR(50), planet_name VARCHAR(50), moon_name VARCHAR(50), moon_size VARCHAR(50), coordinates varchar(50),PRIMARY KEY (player_name,coordinates))

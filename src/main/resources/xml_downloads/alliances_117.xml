@@ -1,0 +1,2941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alliances xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://s117-en.ogame.gameforge.com/api/xsd/alliances.xsd"
+           timestamp="1475174965" serverId="en117">
+    <alliance id="1" name="GGRRR" tag="GGRRR" open="1">
+        <player id="102039"/>
+    </alliance>
+    <alliance id="3" name="Void Alliance" tag="V A" homepage="http://www.voidalliance.net"
+              logo="http://img12.imageshack.us/img12/1472/ai6vkm1347102866.jpg" open="1">
+        <player id="100816"/>
+        <player id="102490"/>
+        <player id="102712"/>
+        <player id="109442"/>
+        <player id="110802"/>
+        <player id="140966"/>
+        <player id="143669"/>
+        <player id="149001"/>
+        <player id="149008"/>
+        <player id="149026"/>
+        <player id="149056"/>
+        <player id="149076"/>
+        <player id="149086"/>
+        <player id="149122"/>
+        <player id="149159"/>
+        <player id="149193"/>
+        <player id="149219"/>
+        <player id="149234"/>
+        <player id="149236"/>
+        <player id="149406"/>
+        <player id="149456"/>
+        <player id="149477"/>
+        <player id="149507"/>
+        <player id="149537"/>
+        <player id="149566"/>
+        <player id="149583"/>
+        <player id="149596"/>
+        <player id="149610"/>
+        <player id="149633"/>
+        <player id="149741"/>
+        <player id="149742"/>
+        <player id="149747"/>
+        <player id="149765"/>
+        <player id="149882"/>
+        <player id="149893"/>
+        <player id="149978"/>
+        <player id="149985"/>
+        <player id="149995"/>
+        <player id="150012"/>
+        <player id="150082"/>
+        <player id="250797"/>
+        <player id="250801"/>
+        <player id="250951"/>
+        <player id="251430"/>
+        <player id="251542"/>
+        <player id="252029"/>
+    </alliance>
+    <alliance id="6" name="ExYu Team" tag="ExYu" logo="http://i.imgur.com/TrIYFoJ.jpg" open="1">
+        <player id="100783"/>
+        <player id="109143"/>
+        <player id="110806"/>
+        <player id="145570"/>
+        <player id="147490"/>
+    </alliance>
+    <alliance id="8" name="Galactic Empire" tag="G Empire" homepage="http://gempire.hightoxic.com/"
+              logo="http://s7.postimg.org/83zva36sb/Coruscant_GEMPIRE.jpg" open="1">
+        <player id="100153"/>
+        <player id="100843"/>
+        <player id="101636"/>
+        <player id="133663"/>
+        <player id="147405"/>
+        <player id="149360"/>
+        <player id="149943"/>
+    </alliance>
+    <alliance id="9" name="The Bacardi Brothers" tag="BaCo" open="1">
+        <player id="107839"/>
+    </alliance>
+    <alliance id="10" name="Triforce" tag="TFO" logo="http://img560.imageshack.us/img560/670/triforce1.jpg" open="1">
+        <player id="100196"/>
+    </alliance>
+    <alliance id="17" name="Google Googol" tag="Google" homepage="google.stag.me.uk"
+              logo="http://i1072.photobucket.com/albums/w373/_Stag_/google_boobs.jpg" open="1">
+        <player id="107208"/>
+    </alliance>
+    <alliance id="18" name="Tugas Alliance" tag="Tugas"
+              logo="http://img801.imageshack.us/img801/9555/bidangtugaspegawaitadbi.png" open="1">
+        <player id="101717"/>
+    </alliance>
+    <alliance id="25" name="IMPERIAL" tag="IMPERIAL" homepage="http://imperial-alliance.free-forums.biz/index.htm"
+              logo="http://i58.tinypic.com/wjgup5.jpg" open="1">
+        <player id="100051"/>
+        <player id="100071"/>
+        <player id="100187"/>
+        <player id="100205"/>
+        <player id="100411"/>
+        <player id="100450"/>
+        <player id="100527"/>
+        <player id="100758"/>
+        <player id="100979"/>
+        <player id="101291"/>
+        <player id="101532"/>
+        <player id="101575"/>
+        <player id="101843"/>
+        <player id="102179"/>
+        <player id="102551"/>
+        <player id="103164"/>
+        <player id="104602"/>
+        <player id="105604"/>
+        <player id="107368"/>
+        <player id="108476"/>
+        <player id="110750"/>
+        <player id="111912"/>
+        <player id="123582"/>
+        <player id="125581"/>
+        <player id="127306"/>
+        <player id="127642"/>
+        <player id="128499"/>
+        <player id="131269"/>
+        <player id="132105"/>
+        <player id="132899"/>
+        <player id="134270"/>
+        <player id="135050"/>
+        <player id="135305"/>
+        <player id="135508"/>
+        <player id="138282"/>
+        <player id="138302"/>
+        <player id="139580"/>
+        <player id="140004"/>
+        <player id="141025"/>
+        <player id="141759"/>
+        <player id="143271"/>
+        <player id="143391"/>
+        <player id="143811"/>
+        <player id="143848"/>
+        <player id="144060"/>
+        <player id="144169"/>
+        <player id="144269"/>
+        <player id="144330"/>
+        <player id="144746"/>
+        <player id="145464"/>
+        <player id="145466"/>
+        <player id="146146"/>
+        <player id="146279"/>
+        <player id="146568"/>
+        <player id="146821"/>
+        <player id="146928"/>
+        <player id="147040"/>
+        <player id="147416"/>
+        <player id="147681"/>
+        <player id="147715"/>
+        <player id="147769"/>
+        <player id="148089"/>
+        <player id="148616"/>
+        <player id="148648"/>
+        <player id="148755"/>
+        <player id="148859"/>
+        <player id="149024"/>
+        <player id="149054"/>
+        <player id="149139"/>
+        <player id="149150"/>
+        <player id="149367"/>
+        <player id="149429"/>
+        <player id="149707"/>
+        <player id="149761"/>
+        <player id="149894"/>
+        <player id="149994"/>
+        <player id="150010"/>
+        <player id="150016"/>
+        <player id="250158"/>
+        <player id="250159"/>
+        <player id="250167"/>
+        <player id="250179"/>
+        <player id="250305"/>
+        <player id="250647"/>
+        <player id="250713"/>
+        <player id="250755"/>
+        <player id="250777"/>
+        <player id="250781"/>
+        <player id="250840"/>
+        <player id="251096"/>
+        <player id="251112"/>
+        <player id="251283"/>
+        <player id="251285"/>
+        <player id="251301"/>
+        <player id="251506"/>
+        <player id="251635"/>
+        <player id="251714"/>
+        <player id="251745"/>
+        <player id="251842"/>
+        <player id="251890"/>
+        <player id="252017"/>
+        <player id="252073"/>
+    </alliance>
+    <alliance id="40" name="Rumpirat Gruppen" tag="RPG" logo="http://michaelmay.us/09blog/08/0801_spacepirateship.jpg"
+              open="1">
+        <player id="102107"/>
+    </alliance>
+    <alliance id="43" name="The One Man Army" tag="The One" open="1">
+        <player id="100621"/>
+    </alliance>
+    <alliance id="48" name="Only English allowed" tag="NES" logo="http://s7.postimage.org/lzdb1szdn/nes_QUANTUM.jpg"
+              open="1">
+        <player id="100891"/>
+    </alliance>
+    <alliance id="49" name="DFWD" tag="DFWD" homepage="www.grakked.com/DFWD"
+              logo="http://img715.imageshack.us/img715/6896/dfwdmk1f.jpg" open="1">
+        <player id="100674"/>
+        <player id="101468"/>
+        <player id="101483"/>
+        <player id="102092"/>
+        <player id="102224"/>
+        <player id="135912"/>
+        <player id="136940"/>
+    </alliance>
+    <alliance id="52" name="TheHated" tag="HATE" open="1">
+        <player id="100922"/>
+    </alliance>
+    <alliance id="53" name="The Trade Federation" tag="TTF" homepage="http://thetradefederation.freeforums.org"
+              logo="http://i184.photobucket.com/albums/x153/Atrum_Miles_militis/ttf.png">
+        <player id="101716"/>
+    </alliance>
+    <alliance id="69" name="YOLOers" tag="YOLO" open="1">
+        <player id="100301"/>
+        <player id="100564"/>
+        <player id="100610"/>
+    </alliance>
+    <alliance id="70" name="The Darkside Army Wing" tag="TDAW" logo="http://i.imgur.com/omvN3yC.png" open="1">
+        <player id="100938"/>
+    </alliance>
+    <alliance id="73" name="Feds of Independent Republics" tag="FIR" logo="http://i43.tinypic.com/17fsm0.png" open="1">
+        <player id="100367"/>
+        <player id="101092"/>
+        <player id="105740"/>
+        <player id="108602"/>
+    </alliance>
+    <alliance id="74" name="Polish Warriors" tag="PLW" open="1">
+        <player id="100119"/>
+    </alliance>
+    <alliance id="79" name="TOUGH" tag="TGH" open="1">
+        <player id="100144"/>
+    </alliance>
+    <alliance id="80" name="Falling Skies" tag="F S" homepage="http://quantumfs.proboards.com/"
+              logo="http://sochin.comli.com/FallingSkies/FSLogo.jpg" open="1">
+        <player id="101209"/>
+        <player id="102742"/>
+        <player id="137963"/>
+    </alliance>
+    <alliance id="91" name="Fleeter Friends Only" tag="FFO"
+              logo="http://sphotos-a.ak.fbcdn.net/hphotos-ak-ash3/547417_507139322653123_413033635_n.jpg" open="1">
+        <player id="101088"/>
+        <player id="101158"/>
+    </alliance>
+    <alliance id="94" name="Old School Miners" tag="OSM" homepage="http://goldprice.org/"
+              logo="http://www.old-picture.com/american-history-1900-1930s/pictures/miners-Coal.jpg" open="1">
+        <player id="100145"/>
+    </alliance>
+    <alliance id="100" name="Game Operator" tag="GO 117" homepage="http://uni117.ogame.org/game/pranger.php"
+              logo="http://i139.photobucket.com/albums/q282/charmedkg/GOogame.jpg" open="1">
+        <player id="101454"/>
+        <player id="101893"/>
+        <player id="142703"/>
+        <player id="250180"/>
+        <player id="250468"/>
+        <player id="251483"/>
+        <player id="252052"/>
+    </alliance>
+    <alliance id="101" name="POLAND" tag="POLSKA" open="1">
+        <player id="113297"/>
+        <player id="118689"/>
+        <player id="130435"/>
+        <player id="131987"/>
+    </alliance>
+    <alliance id="117" name="Mine" tag="MINE">
+        <player id="102545"/>
+    </alliance>
+    <alliance id="119" name="The Old Republic" tag="TOR" homepage="http://starwars.com/"
+              logo="http://i50.tinypic.com/2w1t55i.jpg" open="1">
+        <player id="108084"/>
+    </alliance>
+    <alliance id="133" name="Beer" tag="Beer"
+              homepage="http://fc04.deviantart.net/fs70/f/2011/182/5/0/my_new_fursona_by_xjupi-d3kld0d.swf"
+              logo="http://diskontpicakrke.rs/images/pica/Slike/Pica/jelen.jpg" open="1">
+        <player id="101005"/>
+        <player id="101795"/>
+    </alliance>
+    <alliance id="135" name="Cedars" tag="Ced" open="1">
+        <player id="130614"/>
+    </alliance>
+    <alliance id="137" name="Fusion" tag="Fusion" homepage="http://fusion-42.twilightlegend.com/" open="1">
+        <player id="128498"/>
+    </alliance>
+    <alliance id="141" name="Exodus" tag="EXODUS" open="1">
+        <player id="102038"/>
+    </alliance>
+    <alliance id="171" name="Kids Next Door" tag="KND" open="1">
+        <player id="100231"/>
+    </alliance>
+    <alliance id="176" name="Quantum" tag="QNT" logo="http://i.imgur.com/vEN93.png" open="1">
+        <player id="102385"/>
+        <player id="102544"/>
+        <player id="102552"/>
+        <player id="106566"/>
+    </alliance>
+    <alliance id="198" name="East Coast Marauders" tag="ECM" open="1">
+        <player id="113357"/>
+    </alliance>
+    <alliance id="199" name="Team Dark Star" tag="TDS" homepage="http://tdsquantum.forumotion.ca/"
+              logo="http://images3.wikia.nocookie.net/__cb20100130015136/ratchet/images/thumb/7/7c/DreadZone.png/180px-DreadZone.png"
+              open="1">
+        <player id="117197"/>
+    </alliance>
+    <alliance id="200" name="Who Are We" tag="WHO">
+        <player id="102103"/>
+    </alliance>
+    <alliance id="201" name="Astral Spartans" tag="A_S" open="1">
+        <player id="100078"/>
+    </alliance>
+    <alliance id="202" name="The INDIA Federation" tag="TIF" open="1">
+        <player id="102222"/>
+        <player id="102856"/>
+    </alliance>
+    <alliance id="204" name="GalacticTradersFightersOutlaws" tag="GTFO" open="1">
+        <player id="102868"/>
+        <player id="114306"/>
+    </alliance>
+    <alliance id="206" name="The Wraith Wing" tag="Wraith W" homepage="http://wraith35.tk/" open="1">
+        <player id="102012"/>
+        <player id="104765"/>
+        <player id="129163"/>
+        <player id="130338"/>
+    </alliance>
+    <alliance id="210" name="Pot 4 The Gente" tag="FASO"
+              homepage="http://sphotos-a.ak.fbcdn.net/hphotos-ak-ash4/395497_459607484088180_1768207735_n.jpg"
+              logo="http://s9.postimage.org/glrag3cfz/FASOteam.jpg" open="1">
+        <player id="111423"/>
+    </alliance>
+    <alliance id="214" name="Annunaki" tag="ANK"
+              logo="http://i75.photobucket.com/albums/i298/Travarr/Anunnaki/The_work_of_the_Anunnaki_Silver.jpg"
+              open="1">
+        <player id="101787"/>
+    </alliance>
+    <alliance id="219" name="The GIANTS" tag="GIANTS" homepage="http://giants.activeboard.com/"
+              logo="http://static.guim.co.uk/sys-images/Guardian/Pix/audio/video/2012/9/17/1347907861151/Giant-panda-Mei-Xiang-tak-010.jpg"
+              open="1">
+        <player id="100006"/>
+        <player id="105363"/>
+        <player id="110851"/>
+        <player id="113926"/>
+        <player id="134384"/>
+        <player id="137855"/>
+    </alliance>
+    <alliance id="229" name="Ogame Not for Me" tag="Losers" logo="http://i45.tinypic.com/24dptv7.png">
+        <player id="106701"/>
+    </alliance>
+    <alliance id="236" name="Anonymous Alcoholics" tag="A A">
+        <player id="100907"/>
+    </alliance>
+    <alliance id="244" name="Greece DireWolveS" tag="GDW"
+              logo="http://2.bp.blogspot.com/-IyJ_1n6uXXE/T7RT0xoEmLI/AAAAAAAAAGE/HV8xKblAZAg/s1600/Dire_wolf_and_sabre_tooth.jpg"
+              open="1">
+        <player id="101189"/>
+        <player id="101190"/>
+        <player id="101662"/>
+        <player id="103917"/>
+        <player id="104258"/>
+        <player id="129531"/>
+        <player id="130481"/>
+        <player id="135249"/>
+    </alliance>
+    <alliance id="258" name="Team Australia" tag="Aussies" open="1">
+        <player id="103147"/>
+        <player id="107023"/>
+        <player id="109593"/>
+        <player id="137063"/>
+        <player id="142217"/>
+    </alliance>
+    <alliance id="262" name="CCCP" tag="CCCP"
+              logo="http://shyno1.free.fr/wp-content/uploads/cccp_under_attack_by_shyn0.jpg" open="1">
+        <player id="100210"/>
+        <player id="101181"/>
+        <player id="101322"/>
+        <player id="103751"/>
+        <player id="117847"/>
+    </alliance>
+    <alliance id="277" name="The Crimson Guard" tag="TCG" homepage="http://thecrimsonguard.freeforums.org/"
+              logo="http://i1256.photobucket.com/albums/ii483/Blackmass7/crl-1.jpg" open="1">
+        <player id="103561"/>
+        <player id="103670"/>
+    </alliance>
+    <alliance id="286" name="BHCCopy" tag="BHCC" open="1">
+        <player id="103969"/>
+        <player id="123762"/>
+    </alliance>
+    <alliance id="293" name="Vicious" tag="Vicious" open="1">
+        <player id="102377"/>
+        <player id="131805"/>
+    </alliance>
+    <alliance id="295" name="Pycckue" tag="Pycckue" open="1">
+        <player id="103843"/>
+    </alliance>
+    <alliance id="296" name="ABYSS" tag="ABYSS" open="1">
+        <player id="104033"/>
+    </alliance>
+    <alliance id="298" name="BLACK KINGDOM" tag="ULMI" open="1">
+        <player id="130885"/>
+    </alliance>
+    <alliance id="302" name="Federation Of Players" tag="FOP" homepage="http://fopalliance.forumotion.com" open="1">
+        <player id="104001"/>
+    </alliance>
+    <alliance id="310" name="Dominion" tag="Dominion" open="1">
+        <player id="100305"/>
+    </alliance>
+    <alliance id="318" name="Vendetta" tag="Vendetta" open="1">
+        <player id="111416"/>
+    </alliance>
+    <alliance id="322" name="TNT" tag="TNT" open="1">
+        <player id="117987"/>
+    </alliance>
+    <alliance id="368" name="MUPPETS" tag="MUPPETS" homepage="https://dl.dropbox.com/u/94009371/expirimental.html"
+              logo="https://dl.dropbox.com/u/32423093/MUPPETS.jpg" open="1">
+        <player id="107460"/>
+    </alliance>
+    <alliance id="376" name="REUN" tag="Reunion" open="1">
+        <player id="104064"/>
+        <player id="111377"/>
+        <player id="122735"/>
+    </alliance>
+    <alliance id="384" name="Surfin Bird" tag="S B" logo="http://img18.imageshack.us/img18/7589/surfinbirdfamilyguy.jpg"
+              open="1">
+        <player id="101333"/>
+        <player id="103853"/>
+    </alliance>
+    <alliance id="395" name="LightUni" tag="LightUni" open="1">
+        <player id="101472"/>
+    </alliance>
+    <alliance id="397" name="Nemilosrdnni rudari opet" tag="NRO" open="1">
+        <player id="104665"/>
+    </alliance>
+    <alliance id="412" name="Ogame Defense Initiative" tag="ODI" homepage="http://odi-odiw.freeforums.net"
+              logo="http://www.blirk.net/wallpapers/1680x1050/spaceship-wallpaper-17.jpg" open="1">
+        <player id="104915"/>
+    </alliance>
+    <alliance id="427" name="China Nice Men" tag="CNM" open="1">
+        <player id="100725"/>
+        <player id="103408"/>
+        <player id="128539"/>
+    </alliance>
+    <alliance id="433" name="STAR_SLAMMERs" tag="AAA" open="1">
+        <player id="104754"/>
+    </alliance>
+    <alliance id="436" name="United We Stand" tag="NEMESIS" open="1">
+        <player id="105285"/>
+    </alliance>
+    <alliance id="452" name="The Darksider Army" tag="TDA" open="1">
+        <player id="100549"/>
+        <player id="103232"/>
+        <player id="103326"/>
+        <player id="103339"/>
+        <player id="103346"/>
+        <player id="103360"/>
+        <player id="103368"/>
+        <player id="104280"/>
+        <player id="104312"/>
+        <player id="105241"/>
+        <player id="128461"/>
+        <player id="128911"/>
+        <player id="144474"/>
+    </alliance>
+    <alliance id="457" name="mimimi" tag="mimimi"
+              logo="http://waaagh.de/wp-content/sp-resources/forum-avatars/1311851146mimimi.jpg">
+        <player id="105176"/>
+        <player id="106046"/>
+        <player id="106112"/>
+        <player id="108197"/>
+    </alliance>
+    <alliance id="488" name="The Crimson Circle" tag="TCC" open="1">
+        <player id="105914"/>
+        <player id="105937"/>
+    </alliance>
+    <alliance id="492" name="Minnesota Fleeters" tag="MNF" open="1">
+        <player id="101896"/>
+        <player id="106257"/>
+    </alliance>
+    <alliance id="518" name="ImmortalBread" tag="Imbred"
+              logo="http://i293.photobucket.com/albums/mm56/christhefitter/image001_zpsed02238c.jpg" open="1">
+        <player id="100147"/>
+    </alliance>
+    <alliance id="575" name="The Jokers" tag="Jokers"
+              logo="http://www.wallchan.com/images/sandbox/1305827945-joker-text-plan-dark-knight-typography-the-dark-knight-wallpaper.jpg"
+              open="1">
+        <player id="107147"/>
+    </alliance>
+    <alliance id="576" name="A_Team" tag="Hrvatska" logo="http://img33.imageshack.us/img33/8422/theateam1e.jpg"
+              open="1">
+        <player id="109567"/>
+    </alliance>
+    <alliance id="580" name="Creative" tag="Creativ"
+              logo="http://fc00.deviantart.net/fs6/i/2005/105/8/7/Havona_by_ANTIFAN_REAL.jpg" open="1">
+        <player id="116608"/>
+        <player id="129444"/>
+        <player id="129521"/>
+        <player id="131550"/>
+    </alliance>
+    <alliance id="593" name="Cant touch this" tag="CTT" open="1">
+        <player id="100163"/>
+    </alliance>
+    <alliance id="595" name="Science" tag="Sci" open="1">
+        <player id="104215"/>
+        <player id="107097"/>
+    </alliance>
+    <alliance id="611" name="Bunch Of Loonies" tag="BOL" open="1">
+        <player id="100054"/>
+    </alliance>
+    <alliance id="625" name="Capital Enterprize" tag="CeUZ" open="1">
+        <player id="107119"/>
+    </alliance>
+    <alliance id="651" name="WaR Alliance" tag="WaR" open="1">
+        <player id="106621"/>
+        <player id="115689"/>
+    </alliance>
+    <alliance id="656" name="Black Widow Squadron" tag="BWS"
+              logo="http://3.bp.blogspot.com/-5t-ZE6z7rPQ/TXw3Y2sN-cI/AAAAAAAAF_o/TzyxS3zKXG0/s1600/black%2Bwidow%2Bspider%2B4.jpg"
+              open="1">
+        <player id="108945"/>
+        <player id="144533"/>
+    </alliance>
+    <alliance id="671" name="CHAOS" tag="CHAOS" open="1">
+        <player id="101465"/>
+    </alliance>
+    <alliance id="676" name="The Thin Red Line" tag="RedLine" open="1">
+        <player id="109589"/>
+    </alliance>
+    <alliance id="690" name="HELLS TROOPERS" tag="H T" open="1">
+        <player id="106269"/>
+    </alliance>
+    <alliance id="692" name="English name" tag="SPQR" logo="http://forums.totalwar.org/vb/images/TWR2/rome2spqr.jpg"
+              open="1">
+        <player id="111108"/>
+    </alliance>
+    <alliance id="695" name="Psycho Bunnies" tag="Bunnies" homepage="-inviteonly-" open="1">
+        <player id="110793"/>
+        <player id="113461"/>
+        <player id="117619"/>
+        <player id="132884"/>
+    </alliance>
+    <alliance id="719" name="B U L" tag="BULGARIA"
+              homepage="http://blog-imgs-64.fc2.com/b/u/r/burninhell/Daedalus_Calm.jpg"
+              logo="http://blog-imgs-64.fc2.com/b/u/r/burninhell/Daedalus_Calm.jpg" open="1">
+        <player id="105297"/>
+        <player id="105340"/>
+        <player id="105412"/>
+        <player id="107739"/>
+        <player id="133945"/>
+        <player id="135826"/>
+        <player id="136114"/>
+        <player id="138684"/>
+        <player id="146481"/>
+        <player id="146546"/>
+        <player id="251772"/>
+    </alliance>
+    <alliance id="734" name="Reapers Shadow" tag="RSQ" homepage="http://reapersshadowrsq.freeforums.org"
+              logo="http://i833.photobucket.com/albums/zz260/shadowwolf662/reaper-1-6.jpg" open="1">
+        <player id="100654"/>
+        <player id="102946"/>
+        <player id="110226"/>
+        <player id="114552"/>
+    </alliance>
+    <alliance id="738" name="Iron men" tag="1540" open="1">
+        <player id="108783"/>
+    </alliance>
+    <alliance id="740" name="Hell fighter reunion" tag="HFR" open="1">
+        <player id="107939"/>
+        <player id="110771"/>
+    </alliance>
+    <alliance id="749" name="Demon Hunters" tag="D H"
+              logo="http://sphotos-a.ak.fbcdn.net/hphotos-ak-ash3/556921_4072590691991_345025732_n.jpg" open="1">
+        <player id="100065"/>
+    </alliance>
+    <alliance id="764" name="Victory" tag="Goes" open="1">
+        <player id="111264"/>
+    </alliance>
+    <alliance id="779" name="Genesis" tag="GEN" open="1">
+        <player id="111363"/>
+    </alliance>
+    <alliance id="780" name="RedDrunkBear" tag="RedDB" open="1">
+        <player id="111566"/>
+    </alliance>
+    <alliance id="798" name="Sacred Honour" tag="SHO" open="1">
+        <player id="100395"/>
+        <player id="101137"/>
+        <player id="102167"/>
+        <player id="103020"/>
+        <player id="109579"/>
+        <player id="109677"/>
+        <player id="111359"/>
+        <player id="114049"/>
+    </alliance>
+    <alliance id="799" name="Inter-Galactic Union" tag="IGU" open="1">
+        <player id="114870"/>
+    </alliance>
+    <alliance id="818" name="Immortal Warriors" tag="I W"
+              logo="http://www.wallpaperhi.com/thumbnails/detail/20120204/black%20knights%20warhammer%2040k%20space%20marine%20grey%20dawn%20of%20war%201680x1050%20wallpaper_www.wallpaperhi.com_78.jpg"
+              open="1">
+        <player id="104342"/>
+    </alliance>
+    <alliance id="820" name="Cool Awesome Alliance" tag="CAA" open="1">
+        <player id="111307"/>
+    </alliance>
+    <alliance id="838" name="Orion" tag="Orion"
+              logo="http://i1-news.softpedia-static.com/images/news2/New-NASA-Orion-Building-Revealed-at-Florida-Spaceport-2.jpg"
+              open="1">
+        <player id="111688"/>
+    </alliance>
+    <alliance id="846" name="Brasil Force" tag="BrForce" open="1">
+        <player id="114736"/>
+    </alliance>
+    <alliance id="849" name="GreenFingers" tag="cronik" open="1">
+        <player id="108388"/>
+        <player id="114618"/>
+    </alliance>
+    <alliance id="854" name="The Dragon Knights" tag="TDK" homepage="http://thedragonknights.forumotion.co.uk/login"
+              logo="http://i1091.photobucket.com/albums/i387/SavoFX/DragonKnights_zps02d5626b.jpg" open="1">
+        <player id="100797"/>
+        <player id="100958"/>
+        <player id="101175"/>
+        <player id="101192"/>
+        <player id="101448"/>
+        <player id="101606"/>
+        <player id="103641"/>
+        <player id="104415"/>
+        <player id="105062"/>
+        <player id="106264"/>
+        <player id="108473"/>
+        <player id="110902"/>
+        <player id="112992"/>
+        <player id="118539"/>
+        <player id="118746"/>
+        <player id="119776"/>
+        <player id="121687"/>
+        <player id="130504"/>
+        <player id="131019"/>
+        <player id="138370"/>
+        <player id="138372"/>
+        <player id="141339"/>
+        <player id="142161"/>
+        <player id="144963"/>
+        <player id="145283"/>
+        <player id="145539"/>
+        <player id="146895"/>
+        <player id="149021"/>
+        <player id="149404"/>
+        <player id="149453"/>
+        <player id="149551"/>
+        <player id="149567"/>
+        <player id="149728"/>
+        <player id="149929"/>
+    </alliance>
+    <alliance id="878" name="Faster Than Light" tag="FTL" open="1">
+        <player id="105040"/>
+    </alliance>
+    <alliance id="880" name="BloodBrothers" tag="BloodBRO" homepage="BloodBrothers"
+              logo="http://www.google.co.uk/imgres?q=blood+brothers+logo&amp;hl=en&amp;tbo=d&amp;biw=1440&amp;bih=786&amp;tbm=isch&amp;tbnid=ImS82V4g_1I-zM:&amp;imgrefurl=http://shiremusictheatre.org.au/PastProds/BloodBrothers.html&amp;docid=Ip7QjzOPzF"
+              open="1">
+        <player id="118142"/>
+    </alliance>
+    <alliance id="885" name="Antrax World" tag="AntraXX" open="1">
+        <player id="103057"/>
+    </alliance>
+    <alliance id="886" name="Secret Geeks" tag="SGA" open="1">
+        <player id="111550"/>
+        <player id="111551"/>
+    </alliance>
+    <alliance id="890" name="Last Man Standing" tag="LMS"
+              logo="http://www.mountmerrionfc.com/Portals/216122/images/last-man-standing1.jpg" open="1">
+        <player id="100416"/>
+    </alliance>
+    <alliance id="900" name="FX3X Federation" tag="FX3X"
+              homepage="http://uni117.ogame.org/game/allianceInfo.php?allianceId=900"
+              logo="http://www.fx3x.com/imgs/fx3x_logo.jpg" open="1">
+        <player id="113884"/>
+    </alliance>
+    <alliance id="906" name="7H3 4G3NCY" tag="4G3NCY" open="1">
+        <player id="114814"/>
+    </alliance>
+    <alliance id="913" name="Univers" tag="ESA" open="1">
+        <player id="113863"/>
+    </alliance>
+    <alliance id="919" name="Red Matter Council" tag="RMC" open="1">
+        <player id="116456"/>
+    </alliance>
+    <alliance id="924" name="GETHYPEEVILSHIT" tag="evilshit" open="1">
+        <player id="103610"/>
+    </alliance>
+    <alliance id="945" name="Dragon Fleet" tag="D F">
+        <player id="114070"/>
+    </alliance>
+    <alliance id="957" name="KingsOfSpace" tag="KOS" logo="http://i.imgur.com/vsBrjRA.jpg" open="1">
+        <player id="101632"/>
+        <player id="103196"/>
+        <player id="111217"/>
+        <player id="113827"/>
+    </alliance>
+    <alliance id="961" name="Furyan Mercenary Alliance" tag="FmA"
+              homepage="http://board.ogame.org/index.php?page=Portal"
+              logo="http://i1290.photobucket.com/albums/b539/devonsmp/cooltext900526283_zpsd713fb38.png" open="1">
+        <player id="107113"/>
+    </alliance>
+    <alliance id="967" name="Cant Keep Us Down" tag="C-K-U-D" open="1">
+        <player id="111077"/>
+    </alliance>
+    <alliance id="986" name="The Exiles" tag="EXILE"
+              logo="http://s22.postimage.org/f330h2h7l/space_battle_3_st41u7idlz_1600x1200.jpg" open="1">
+        <player id="122715"/>
+        <player id="129852"/>
+        <player id="130190"/>
+    </alliance>
+    <alliance id="991" name="5ManCrew" tag="5MC" open="1">
+        <player id="115275"/>
+        <player id="115286"/>
+    </alliance>
+    <alliance id="994" name="Dafuq" tag="Dafuq" open="1">
+        <player id="115410"/>
+    </alliance>
+    <alliance id="995" name="federation of free planet" tag="ffp" open="1">
+        <player id="115897"/>
+    </alliance>
+    <alliance id="997" name="Inception" tag="INC" logo="http://s17.postimage.org/gvkgzrorj/inception06.jpg" open="1">
+        <player id="126084"/>
+    </alliance>
+    <alliance id="1010" name="English please" tag="MSF" homepage="http://thechive.com/"
+              logo="http://images2.wikia.nocookie.net/__cb20090604150960/metalgear/images/0/08/Militairessansfrontieres.png"
+              open="1">
+        <player id="116217"/>
+    </alliance>
+    <alliance id="1025" name="Keeping track" tag="OBS" open="1">
+        <player id="116619"/>
+    </alliance>
+    <alliance id="1026" name="808" tag="808" open="1">
+        <player id="117052"/>
+        <player id="121638"/>
+    </alliance>
+    <alliance id="1034" name="The Pudding Brigade" tag="TPB" open="1">
+        <player id="116144"/>
+    </alliance>
+    <alliance id="1035" name="Savez Kompliciranom Imena" tag="SKI" open="1">
+        <player id="116540"/>
+    </alliance>
+    <alliance id="1036" name="Advantech" tag="ADV" open="1">
+        <player id="112566"/>
+    </alliance>
+    <alliance id="1064" name="empor56" tag="empor56" open="1">
+        <player id="112675"/>
+    </alliance>
+    <alliance id="1067" name="BlackWater Mercenaries" tag="BwM" open="1">
+        <player id="116187"/>
+    </alliance>
+    <alliance id="1069" name="Lupus est homo homini" tag="LEHH" open="1">
+        <player id="112621"/>
+    </alliance>
+    <alliance id="1086" name="Infinity" tag="Infinity" open="1">
+        <player id="114175"/>
+        <player id="126081"/>
+    </alliance>
+    <alliance id="1106" name="Hammer and Sickle" tag="H_S" homepage="http://hammerandsickle.freeforums.net/index.cgi"
+              logo="http://www.coreytwilson.com/images/hsbanner.jpg" open="1">
+        <player id="118163"/>
+        <player id="119430"/>
+    </alliance>
+    <alliance id="1110" name="DostThouEvenHoistBrother" tag="LOL" open="1">
+        <player id="111697"/>
+    </alliance>
+    <alliance id="1118" name="Gummi Bears" tag="G_B" open="1">
+        <player id="106881"/>
+    </alliance>
+    <alliance id="1134" name="First Galactic Force" tag="FGF"
+              logo="http://fc02.deviantart.net/fs70/i/2010/001/a/1/Enter_Galactic_by_mrillogical.jpg" open="1">
+        <player id="118473"/>
+    </alliance>
+    <alliance id="1142" name="United Federation of Planets" tag="UFOP"
+              logo="http://fc01.deviantart.net/fs40/f/2009/028/2/f/United_Federation_of_Planets_by_Scharfshutze.png"
+              open="1">
+        <player id="114853"/>
+        <player id="134156"/>
+    </alliance>
+    <alliance id="1146" name="NicolasCageAppreciationGroup" tag="NCAG" logo="http://imgur.com/KsC8M3K.jpg" open="1">
+        <player id="117062"/>
+        <player id="117073"/>
+        <player id="117391"/>
+    </alliance>
+    <alliance id="1152" name="Yolo Alliance" tag="Y0L0" open="1">
+        <player id="114606"/>
+    </alliance>
+    <alliance id="1158" name="Carbon Circle" tag="Carbon" open="1">
+        <player id="124770"/>
+    </alliance>
+    <alliance id="1169" name="The Teslites" tag="Tesla" open="1">
+        <player id="119078"/>
+    </alliance>
+    <alliance id="1187" name="SinRencoR" tag="RencoR" open="1">
+        <player id="109279"/>
+    </alliance>
+    <alliance id="1188" name="Moonshot Alliance" tag="MSA">
+        <player id="100521"/>
+        <player id="101938"/>
+        <player id="104817"/>
+        <player id="117466"/>
+        <player id="118199"/>
+        <player id="118959"/>
+        <player id="126909"/>
+        <player id="127084"/>
+        <player id="128195"/>
+        <player id="129200"/>
+    </alliance>
+    <alliance id="1195" name="A League" tag="ALeague" open="1">
+        <player id="117588"/>
+    </alliance>
+    <alliance id="1208" name="Peaceful Slacking Miners" tag="PSM">
+        <player id="119691"/>
+        <player id="119692"/>
+        <player id="119693"/>
+    </alliance>
+    <alliance id="1229" name="Merchants of Blood" tag="The Mob" open="1">
+        <player id="112789"/>
+        <player id="119496"/>
+    </alliance>
+    <alliance id="1237" name="Army Of Death" tag="AOD"
+              logo="http://images2.layoutsparks.com/1/196894/angel-of-death-winged.jpg" open="1">
+        <player id="121107"/>
+    </alliance>
+    <alliance id="1239" name="Terra Maledixit" tag="Maledix"
+              logo="http://i1273.photobucket.com/albums/y403/Maledixit/Maledixit-logo-5_zps65fa4ede.jpg" open="1">
+        <player id="113651"/>
+    </alliance>
+    <alliance id="1255" name="Survivor" tag="SUR" open="1">
+        <player id="104897"/>
+    </alliance>
+    <alliance id="1290" name="No Idea" tag="new" open="1">
+        <player id="121622"/>
+    </alliance>
+    <alliance id="1297" name="Four Spark Legacy" tag="4SL" open="1">
+        <player id="121422"/>
+        <player id="121536"/>
+        <player id="122022"/>
+        <player id="124659"/>
+        <player id="129483"/>
+        <player id="131143"/>
+    </alliance>
+    <alliance id="1302" name="Payback" tag="DMY" open="1">
+        <player id="119717"/>
+    </alliance>
+    <alliance id="1342" name="Kurt-connection" tag="Kurt" open="1">
+        <player id="127578"/>
+    </alliance>
+    <alliance id="1357" name="Aqualong" tag="ALq"
+              logo="http://img837.imageshack.us/img837/930/keepcalmandkillallhuman.png" open="1">
+        <player id="123183"/>
+    </alliance>
+    <alliance id="1360" name="Ninja" tag="Ninja" open="1">
+        <player id="100719"/>
+        <player id="100847"/>
+        <player id="108365"/>
+    </alliance>
+    <alliance id="1372" name="The Loyalist" tag="HONOR" homepage="http://godandtheright.forumotion.com/login"
+              logo="http://images3.alphacoders.com/966/96689.jpg" open="1">
+        <player id="119694"/>
+    </alliance>
+    <alliance id="1381" name="lionheart" tag="win" open="1">
+        <player id="119683"/>
+    </alliance>
+    <alliance id="1389" name="Invictus Brothers" tag="Invictus" open="1">
+        <player id="123406"/>
+    </alliance>
+    <alliance id="1398" name="Syndicate" tag="SYN" open="1">
+        <player id="123506"/>
+        <player id="123507"/>
+    </alliance>
+    <alliance id="1430" name="Dark Brotherhood" tag="Dark" logo="i.imgur.com/pOvRSjy.jpg" open="1">
+        <player id="118156"/>
+    </alliance>
+    <alliance id="1445" name="One man alliance" tag="OMA" open="1">
+        <player id="116088"/>
+    </alliance>
+    <alliance id="1454" name="Lithuania Alliance" tag="LTU" homepage="http://ogameltu.forumlt.com"
+              logo="http://www.ucl.ac.uk/sallee/images/lithuaniaFlag.gif" open="1">
+        <player id="112102"/>
+        <player id="113746"/>
+        <player id="128892"/>
+    </alliance>
+    <alliance id="1456" name="oneover" tag="peak118" open="1">
+        <player id="124629"/>
+    </alliance>
+    <alliance id="1464" name="SPAIN" tag="SPAIN" open="1">
+        <player id="124985"/>
+        <player id="141356"/>
+    </alliance>
+    <alliance id="1488" name="Intergalactic Cargo Trans Co" tag="372 ICTC" open="1">
+        <player id="124065"/>
+    </alliance>
+    <alliance id="1489" name="The Dark Legion" tag="TDL" open="1">
+        <player id="122216"/>
+    </alliance>
+    <alliance id="1490" name="Canadian Galactic Forces" tag="CGF" open="1">
+        <player id="102065"/>
+    </alliance>
+    <alliance id="1533" name="Game Dev" tag="AGD" open="1">
+        <player id="128559"/>
+    </alliance>
+    <alliance id="1552" name="An Asinine Space" tag="ANASS" open="1">
+        <player id="123811"/>
+    </alliance>
+    <alliance id="1558" name="United Friends Space Command" tag="UFSC" open="1">
+        <player id="122772"/>
+    </alliance>
+    <alliance id="1575" name="Zombie Miners" tag="ZOM">
+        <player id="100170"/>
+        <player id="100742"/>
+        <player id="100787"/>
+        <player id="101144"/>
+        <player id="101850"/>
+        <player id="102865"/>
+        <player id="103332"/>
+        <player id="136378"/>
+        <player id="136936"/>
+        <player id="137669"/>
+    </alliance>
+    <alliance id="1582" name="get-laced" tag="laceup" open="1">
+        <player id="101561"/>
+    </alliance>
+    <alliance id="1588" name="Dawning Star Fellowship" tag="DaStaFel" logo="&quot;TheStarforeverriseth.....&quot;"
+              open="1">
+        <player id="128006"/>
+    </alliance>
+    <alliance id="1590" name="dragonmyballsoveryourface" tag="dmboyf"
+              logo="http://fashx.com/wp-content/uploads/2012/03/celtic-dragon-tattoo.gif" open="1">
+        <player id="128375"/>
+        <player id="128574"/>
+    </alliance>
+    <alliance id="1605" name="BOLLOCKS BIG N HAIRY" tag="BOLLOX"
+              logo="http://img9.uploadhouse.com/fileuploads/17426/174261885c81c71ddda893ec4b36a64943f9f1c2.jpg"
+              open="1">
+        <player id="117819"/>
+    </alliance>
+    <alliance id="1620" name="Leh Hew Zee Hur" tag="FTB" logo="http://img845.imageshack.us/img845/576/41497675.jpg"
+              open="1">
+        <player id="122892"/>
+    </alliance>
+    <alliance id="1629" name="Crimson Mist" tag="Crimson" open="1">
+        <player id="126857"/>
+    </alliance>
+    <alliance id="1632" name="The Dinosaurs" tag="SAURS"
+              logo="https://41.media.tumblr.com/25dc040363e152cc1377a136aa12f608/tumblr_nomg21B1dz1s8r6bho1_500.jpg"
+              open="1">
+        <player id="101377"/>
+        <player id="103774"/>
+        <player id="104451"/>
+        <player id="113650"/>
+        <player id="115059"/>
+        <player id="143793"/>
+        <player id="149702"/>
+        <player id="150048"/>
+        <player id="250388"/>
+        <player id="250482"/>
+        <player id="251515"/>
+        <player id="251845"/>
+    </alliance>
+    <alliance id="1643" name="Defend and honour" tag="DAH" open="1">
+        <player id="108187"/>
+    </alliance>
+    <alliance id="1648" name="Stalkers" tag="Stalkers"
+              logo="http://www.markfulton.org/wp-content/uploads/2011/06/shotgun-jesus_bigger.gif" open="1">
+        <player id="101113"/>
+        <player id="104156"/>
+    </alliance>
+    <alliance id="1653" name="Whitney Akkies" tag="SCRB" open="1">
+        <player id="111880"/>
+    </alliance>
+    <alliance id="1659" name="G Empire Imperial Academy" tag="GEIA" homepage="http://gempire.hightoxic.com/"
+              logo="http://uni117.ogame.org/game/redir.php?isImage=1&amp;url=http%3A%2F%2Fi1152.photobucket.com%2Falbums%2Fp497%2Fcorape1%2F640png_zps9254e4f5.png">
+        <player id="136811"/>
+    </alliance>
+    <alliance id="1660" name="Stargate Command" tag="SGC" open="1">
+        <player id="102650"/>
+    </alliance>
+    <alliance id="1666" name="The Mandalorians" tag="bboy" open="1">
+        <player id="128084"/>
+    </alliance>
+    <alliance id="1681" name="inancin incisi" tag="iNCi"
+              logo="http://sphotos-c.ak.fbcdn.net/hphotos-ak-frc3/483170_10151391826973753_802146226_n.jpg" open="1">
+        <player id="129124"/>
+        <player id="129150"/>
+    </alliance>
+    <alliance id="1684" name="SUPERNATURAL" tag="SPN"
+              logo="http://image.spreadshirt.com/image-server/v1/compositions/105599191/views/1,width=190,height=190,appearanceId=2.png/devils-trap-supernatural_design.png"
+              open="1">
+        <player id="131424"/>
+    </alliance>
+    <alliance id="1690" name="Insomnia" tag="Insomnia"
+              logo="http://i56.photobucket.com/albums/g189/LordCobra111/Insomnia.jpg" open="1">
+        <player id="110125"/>
+    </alliance>
+    <alliance id="1691" name="Fallen Angels" tag="F_A" open="1">
+        <player id="128929"/>
+        <player id="129182"/>
+    </alliance>
+    <alliance id="1693" name="Bismuthate" tag="Maneyek" open="1">
+        <player id="128725"/>
+        <player id="128728"/>
+    </alliance>
+    <alliance id="1697" name="Metal Militia" tag="M-M" logo="http://images.radcity.net/5866/2381818.jpg" open="1">
+        <player id="124711"/>
+        <player id="128596"/>
+    </alliance>
+    <alliance id="1707" name="Thats No Moon" tag="TnM" open="1">
+        <player id="112664"/>
+    </alliance>
+    <alliance id="1727" name="Society of Inept Gamers" tag="SoIG" open="1">
+        <player id="103982"/>
+    </alliance>
+    <alliance id="1729" name="Code Injection" tag="Code Inj" open="1">
+        <player id="126735"/>
+    </alliance>
+    <alliance id="1732" name="Tripping the Rift" tag="TtR" open="1">
+        <player id="104436"/>
+    </alliance>
+    <alliance id="1736" name="Asceroths Finest" tag="ACRF"
+              logo="http://i666.photobucket.com/albums/vv27/CkarkKent/e56dc1e5-8da8-436f-a678-fe4b6076973a.jpg"
+              open="1">
+        <player id="129398"/>
+    </alliance>
+    <alliance id="1739" name="BAMF" tag="BAMF" open="1">
+        <player id="109828"/>
+    </alliance>
+    <alliance id="1748" name="StRaW_HaT_PiRaTeS" tag="SHP"
+              logo="http://image.blingee.com/images19/content/output/000/000/000/7ac/787295421_1892608.gif" open="1">
+        <player id="127601"/>
+        <player id="128693"/>
+        <player id="128707"/>
+        <player id="129155"/>
+    </alliance>
+    <alliance id="1774" name="Destinys Edge" tag="Destiny"
+              logo="http://cache.desktopnexus.com/thumbnails/1170295-bigthumbnail.jpg" open="1">
+        <player id="133320"/>
+        <player id="135915"/>
+    </alliance>
+    <alliance id="1786" name="KUSH MEN" tag="THC" homepage="http://kushmen.prophpbb.com/"
+              logo="http://i1281.photobucket.com/albums/a505/CptnScoots/KMLunarFibres_zps7a8de0c3.jpg" open="1">
+        <player id="111270"/>
+        <player id="115354"/>
+        <player id="129964"/>
+        <player id="131749"/>
+    </alliance>
+    <alliance id="1789" name="Union of Allied Planets" tag="UAP" open="1">
+        <player id="129955"/>
+    </alliance>
+    <alliance id="1806" name="NoSkill" tag="NoSkill" logo="http://s1.wallls.com/images/2/1920x1080/wallls.com-13024.jpg"
+              open="1">
+        <player id="122243"/>
+        <player id="125142"/>
+        <player id="125430"/>
+        <player id="128730"/>
+    </alliance>
+    <alliance id="1807" name="Hot Guys United" tag="HGU" open="1">
+        <player id="129971"/>
+        <player id="129972"/>
+    </alliance>
+    <alliance id="1812" name="SPARTANS" tag="SPARTANS" open="1">
+        <player id="100792"/>
+        <player id="101188"/>
+        <player id="101230"/>
+        <player id="136894"/>
+    </alliance>
+    <alliance id="1821" name="Go the win" tag="G_T_W"
+              logo="http://gamersmafia.com/storage/comments/752/52/ogame_copia_small.jpg" open="1">
+        <player id="128103"/>
+    </alliance>
+    <alliance id="1823" name="inexorable-Entropy" tag="i-E"
+              logo="http://img.photobucket.com/albums/v318/thenihilist/i-E_small_zps953ca5ab.jpg" open="1">
+        <player id="106198"/>
+        <player id="124540"/>
+        <player id="129995"/>
+        <player id="138570"/>
+    </alliance>
+    <alliance id="1832" name="sav" tag="sav" open="1">
+        <player id="101320"/>
+    </alliance>
+    <alliance id="1837" name="Neo-Symmachia Apo Pantheon" tag="NSAP" open="1">
+        <player id="131629"/>
+    </alliance>
+    <alliance id="1846" name="Rataran Alliance" tag="RAAE" open="1">
+        <player id="119006"/>
+    </alliance>
+    <alliance id="1874" name="Slovenia" tag="SLO" homepage="http://www.slovenia.info/" open="1">
+        <player id="131732"/>
+    </alliance>
+    <alliance id="1876" name="The Gilded Sword" tag="TGS" open="1">
+        <player id="129689"/>
+    </alliance>
+    <alliance id="1877" name="RaW Alliance" tag="RaW" open="1">
+        <player id="107557"/>
+    </alliance>
+    <alliance id="1884" name="Rise Against" tag="Quark" open="1">
+        <player id="130704"/>
+    </alliance>
+    <alliance id="1920" name="Renaissance" tag="Freedom" open="1">
+        <player id="129761"/>
+    </alliance>
+    <alliance id="1930" name="The Grand Coalition" tag="TGC" open="1">
+        <player id="129280"/>
+    </alliance>
+    <alliance id="1939" name="Search_Ally" tag="S_Ally" open="1">
+        <player id="101544"/>
+    </alliance>
+    <alliance id="1945" name="Galactic Defence Initiative" tag="GDI" open="1">
+        <player id="131129"/>
+    </alliance>
+    <alliance id="1946" name="The Alliance of Rione" tag="TAR" open="1">
+        <player id="131118"/>
+    </alliance>
+    <alliance id="1947" name="StarCraft" tag="S CRAFT" open="1">
+        <player id="107317"/>
+    </alliance>
+    <alliance id="1949" name="Danish Miners" tag="DaMi" open="1">
+        <player id="131168"/>
+    </alliance>
+    <alliance id="1952" name="Wrath of Khan" tag="W o K" open="1">
+        <player id="100268"/>
+    </alliance>
+    <alliance id="1953" name="Two Horns" tag="TWH" open="1">
+        <player id="131083"/>
+        <player id="131155"/>
+    </alliance>
+    <alliance id="1954" name="Ocorp Empire" tag="Empire" homepage="http://www.ocorpempire.forummotion.com"
+              logo="https://fbcdn-photos-g-a.akamaihd.net/hphotos-ak-ash3/s720x720/942878_156744064505703_2043157354_n.jpg"
+              open="1">
+        <player id="130511"/>
+    </alliance>
+    <alliance id="1963" name="ASCENSION" tag="ASCEND" open="1">
+        <player id="131278"/>
+    </alliance>
+    <alliance id="1969" name="Danish Galaxy Agency" tag="DGA" open="1">
+        <player id="135295"/>
+        <player id="136699"/>
+    </alliance>
+    <alliance id="1975" name="Bacon Clan" tag="BaCn" open="1">
+        <player id="131045"/>
+        <player id="133643"/>
+    </alliance>
+    <alliance id="1979" name="Nord Alliance Special awarenes" tag="NASA" open="1">
+        <player id="131479"/>
+    </alliance>
+    <alliance id="1985" name="Romania Mare" tag="ROM" logo="DACIA" open="1">
+        <player id="103742"/>
+        <player id="103980"/>
+        <player id="137254"/>
+        <player id="140965"/>
+    </alliance>
+    <alliance id="1987" name="IttyBittySpaceKittyCommittee" tag="IBSKC" open="1">
+        <player id="131467"/>
+        <player id="131545"/>
+    </alliance>
+    <alliance id="1998" name="Herp-a-Derp" tag="HerpDerp" open="1">
+        <player id="131478"/>
+    </alliance>
+    <alliance id="1999" name="Buddy_x_Swag" tag="BUDDY" logo="BUDDY" open="1">
+        <player id="132967"/>
+        <player id="133752"/>
+    </alliance>
+    <alliance id="2006" name="Vanguard Origin Prime" tag="V O P" homepage="http://hpee.forumotion.com/"
+              logo="http://oi39.tinypic.com/2hwpd0y.jpg" open="1">
+        <player id="130173"/>
+        <player id="132867"/>
+    </alliance>
+    <alliance id="2007" name="Turtle Hermit" tag="Termit" open="1">
+        <player id="131921"/>
+    </alliance>
+    <alliance id="2011" name="Nibru_Delta_Bravo" tag="2PARA" open="1">
+        <player id="131743"/>
+    </alliance>
+    <alliance id="2021" name="Meh" tag="Meh" open="1">
+        <player id="130072"/>
+    </alliance>
+    <alliance id="2034" name="TheBlackBritanianKnights" tag="TBBK" logo="MindOverMuscle" open="1">
+        <player id="118936"/>
+    </alliance>
+    <alliance id="2036" name="MURKA" tag="MURKA">
+        <player id="129066"/>
+    </alliance>
+    <alliance id="2042" name="Los Pollos Hermanos" tag="Pollos"
+              logo="[img][URL=http://imageshack.us/photo/my-images/541/photoak.jpg/][IMG]http://img541.imageshack.us/img541/1219/photoak.jpg[/IMG][/URL]Uploadedwith[URL=http://imageshack.us]ImageShack.us[/URL][/img]"
+              open="1">
+        <player id="128198"/>
+    </alliance>
+    <alliance id="2048" name="Slovakia" tag="SVK" homepage="http://ogame.gamestats.org/org/117/details/ally/SVK"
+              logo="http://cz.wallpapersus.com/wallpapers/2013/01/Grunge-vlajka-Slovenska-480x640.jpg" open="1">
+        <player id="140256"/>
+    </alliance>
+    <alliance id="2065" name="TheUltimateKings" tag="Da Kings" open="1">
+        <player id="132212"/>
+    </alliance>
+    <alliance id="2076" name="UMADBRO" tag="UMADBRO" homepage="umadbroalliance.webs.com/" open="1">
+        <player id="132292"/>
+        <player id="132327"/>
+    </alliance>
+    <alliance id="2096" name="Turkish Cowboys" tag="TURKIYE" logo="http://j1307.hizliresim.com/1c/j/qcx6q.png" open="1">
+        <player id="132845"/>
+    </alliance>
+    <alliance id="2099" name="the pizza delivery crew" tag="TPDC" open="1">
+        <player id="132555"/>
+    </alliance>
+    <alliance id="2110" name="Sparta" tag="Sparta" homepage="http://www.youtube.com/watch?v=QkWS9PiXekE" open="1">
+        <player id="100094"/>
+        <player id="100496"/>
+        <player id="101198"/>
+        <player id="101298"/>
+        <player id="101721"/>
+        <player id="101782"/>
+        <player id="102193"/>
+        <player id="103526"/>
+        <player id="104638"/>
+        <player id="107100"/>
+        <player id="110646"/>
+        <player id="112778"/>
+        <player id="113138"/>
+        <player id="126289"/>
+        <player id="130523"/>
+    </alliance>
+    <alliance id="2115" name="KOR" tag="KOR" open="1">
+        <player id="120401"/>
+    </alliance>
+    <alliance id="2118" name="Tower Defense Powa" tag="TDP" open="1">
+        <player id="132548"/>
+    </alliance>
+    <alliance id="2120" name="NGCK-2" tag="NHCK" open="1">
+        <player id="132771"/>
+    </alliance>
+    <alliance id="2121" name="Slugs Abound" tag="SlugmA" open="1">
+        <player id="132849"/>
+        <player id="132850"/>
+    </alliance>
+    <alliance id="2136" name="Erin Go Bragh" tag="Eire Abu"
+              logo="http://upload.wikimedia.org/wikipedia/commons/3/3f/ErinGoBragh_Inkscape_TraceToPath1.svg" open="1">
+        <player id="133511"/>
+    </alliance>
+    <alliance id="2139" name="Winter Is Coming" tag="STARK" logo="WeTakeCareOfOurOwn!" open="1">
+        <player id="133057"/>
+    </alliance>
+    <alliance id="2141" name="BrotherhoodOfTheRedLion" tag="BotRL" open="1">
+        <player id="133021"/>
+    </alliance>
+    <alliance id="2147" name="Prangerboys Orion Germany" tag="PoG" logo="http://prntscr.com/1ewift" open="1">
+        <player id="133181"/>
+    </alliance>
+    <alliance id="2180" name="Kominium of Legends" tag="KoL" logo="http://img62.imageshack.us/img62/6687/gzlv.jpg"
+              open="1">
+        <player id="132276"/>
+        <player id="133766"/>
+    </alliance>
+    <alliance id="2184" name="War TimeS" tag="WTS" open="1">
+        <player id="133277"/>
+    </alliance>
+    <alliance id="2191" name="The Reapers" tag="Reapers"
+              logo="http://images2.layoutsparks.com/1/194989/reapers-night-grim-evil.jpg" open="1">
+        <player id="133421"/>
+    </alliance>
+    <alliance id="2206" name="Noxus" tag="NOX" open="1">
+        <player id="134012"/>
+    </alliance>
+    <alliance id="2209" name="Nalakira" tag="Brutal" homepage="Watchtower" logo="Brutal" open="1">
+        <player id="135009"/>
+    </alliance>
+    <alliance id="2216" name="Hectic-Liko Enterprises" tag="H-L" open="1">
+        <player id="133993"/>
+    </alliance>
+    <alliance id="2220" name="EMUFUD" tag="EMUFUD" open="1">
+        <player id="131025"/>
+    </alliance>
+    <alliance id="2242" name="Yuhan-Mechanics" tag="Yuhan-Fo" open="1">
+        <player id="134299"/>
+    </alliance>
+    <alliance id="2246" name="RichGang" tag="Rich"
+              logo="http://upload.wikimedia.org/wikipedia/en/thumb/a/a8/Rich_Gang_cover.jpg/220px-Rich_Gang_cover.jpg"
+              open="1">
+        <player id="134358"/>
+        <player id="134359"/>
+    </alliance>
+    <alliance id="2252" name="Carbon Based Lifeforms" tag="LIFEFORM" open="1">
+        <player id="111038"/>
+    </alliance>
+    <alliance id="2255" name="Paisti" tag="8-D" open="1">
+        <player id="134477"/>
+    </alliance>
+    <alliance id="2270" name="Sarkouzi" tag="Sarkouzi" open="1">
+        <player id="133327"/>
+    </alliance>
+    <alliance id="2276" name="Mythical Thunder Ducks" tag="MTD" open="1">
+        <player id="134612"/>
+        <player id="134700"/>
+        <player id="134768"/>
+    </alliance>
+    <alliance id="2279" name="Italy" tag="ITA" open="1">
+        <player id="134115"/>
+    </alliance>
+    <alliance id="2287" name="Sudden Death" tag="S-D" open="1">
+        <player id="134818"/>
+    </alliance>
+    <alliance id="2300" name="TURK TEAM" tag="TURKTEAM" open="1">
+        <player id="100591"/>
+        <player id="100624"/>
+        <player id="101319"/>
+        <player id="102935"/>
+        <player id="104441"/>
+        <player id="105020"/>
+        <player id="105834"/>
+        <player id="124322"/>
+        <player id="149064"/>
+        <player id="149505"/>
+        <player id="150008"/>
+        <player id="150085"/>
+    </alliance>
+    <alliance id="2302" name="Game Over" tag="GameOver" open="1">
+        <player id="135076"/>
+    </alliance>
+    <alliance id="2331" name="LAW MEN Forces" tag="LAW" logo="http://img850.imageshack.us/img850/5461/2z5m.jpg"
+              open="1">
+        <player id="103042"/>
+    </alliance>
+    <alliance id="2336" name="Dutch-Creed" tag="D-C"
+              logo="http://img708.imageshack.us/img708/7351/livebythecreedbynexz.jpg" open="1">
+        <player id="135687"/>
+    </alliance>
+    <alliance id="2340" name="Knights of Egira" tag="Egira_K" homepage="http://koequantumuk.forumcommunity.net/"
+              logo="http://img202.imageshack.us/img202/2451/koe4.jpg" open="1">
+        <player id="136816"/>
+        <player id="140317"/>
+    </alliance>
+    <alliance id="2341" name="Nuke" tag="NYA" open="1">
+        <player id="125476"/>
+    </alliance>
+    <alliance id="2358" name="Set of Death" tag="SOD" logo="http://rawser.nettisivu.org/files/2013/05/MOIMOI.jpg"
+              open="1">
+        <player id="135874"/>
+        <player id="135875"/>
+    </alliance>
+    <alliance id="2361" name="falanga" tag="falanga" open="1">
+        <player id="137625"/>
+    </alliance>
+    <alliance id="2362" name="FockedUpBeyondAllRecognition" tag="FUBAR" logo="C:\Users\pc\Pictures\FUBARLOGO.gif"
+              open="1">
+        <player id="117171"/>
+    </alliance>
+    <alliance id="2380" name="Noobs In Disguise" tag="NiD" open="1">
+        <player id="135910"/>
+        <player id="135998"/>
+    </alliance>
+    <alliance id="2383" name="ELITE Mining Squad" tag="EMS" homepage="http://imsquad.boards.net/"
+              logo="http://hostthenpost.org/uploads/fc1168e017269e2103cfd5ed1600cd4a.jpg" open="1">
+        <player id="115380"/>
+        <player id="135958"/>
+        <player id="147781"/>
+        <player id="149678"/>
+        <player id="251778"/>
+    </alliance>
+    <alliance id="2391" name="must have English name" tag="Ebrithil"
+              logo="http://www.arts-wallpapers.com/artwallpapersbiz/Space%20Art%20Wallpapers/images/spaceartwallpaper1920x1080_009.jpg"
+              open="1">
+        <player id="100440"/>
+        <player id="135196"/>
+    </alliance>
+    <alliance id="2399" name="Dov Lahvu" tag="Dov" open="1">
+        <player id="131928"/>
+    </alliance>
+    <alliance id="2401" name="HP Microsoft Dynamics Practice" tag="MSP" open="1">
+        <player id="135991"/>
+    </alliance>
+    <alliance id="2430" name="The predator" tag="T P" open="1">
+        <player id="136025"/>
+    </alliance>
+    <alliance id="2435" name="Die With Style" tag="DWS" open="1">
+        <player id="136496"/>
+    </alliance>
+    <alliance id="2450" name="Fleet-Mine-Alliance" tag="F-M-A"
+              logo="http://assets.diylol.com/hfs/a0f/86a/8d6/resized/ogame-1-meme-generator-i-take-what-i-want-from-other-players-i-am-the-ogame-1-e80f74.jpg?1318943206.jpg"
+              open="1">
+        <player id="137032"/>
+    </alliance>
+    <alliance id="2452" name="Platinum Valkyries" tag="Valkyrie" open="1">
+        <player id="136573"/>
+        <player id="136676"/>
+    </alliance>
+    <alliance id="2458" name="Fight For Fun" tag="FFF" open="1">
+        <player id="136792"/>
+    </alliance>
+    <alliance id="2463" name="Aqua Teen Hunger Force" tag="ATHF" logo="http://imageshack.us/a/img28/7703/4gas.jpg"
+              open="1">
+        <player id="130058"/>
+    </alliance>
+    <alliance id="2477" name="SplicedJawasYT" tag="Jawas" open="1">
+        <player id="137009"/>
+    </alliance>
+    <alliance id="2492" name="Royal Pirates" tag="RyP" open="1">
+        <player id="136956"/>
+        <player id="136979"/>
+    </alliance>
+    <alliance id="2502" name="Playstation4" tag="PS4"
+              logo="http://thewebshoppe.net/wp-content/uploads/awesome-background1.jpg" open="1">
+        <player id="137146"/>
+        <player id="137222"/>
+    </alliance>
+    <alliance id="2505" name="The Umbra Antiquus" tag="TUA" logo="http://www.wallibs.com/gudang/the-shadow-demon.jpg"
+              open="1">
+        <player id="128616"/>
+        <player id="134554"/>
+    </alliance>
+    <alliance id="2507" name="The Pillar of Autumn" tag="Kenloch"
+              homepage="http://s117-en.ogame.gameforge.com/game/allianceInfo.php?allianceId=2507"
+              logo="http://www.stickeruk.co.uk/ekmps/shops/tony05/images/pirate-skull-cross-sabres-flag-3294-p.jpg"
+              open="1">
+        <player id="138347"/>
+    </alliance>
+    <alliance id="2511" name="Zaber" tag="ZBR" homepage="http://zaber.boards.net/"
+              logo="http://userserve-ak.last.fm/serve/500/5682556/ZBR+Demo+cover+LOGO.jpg" open="1">
+        <player id="121704"/>
+        <player id="135423"/>
+        <player id="136024"/>
+        <player id="136179"/>
+        <player id="136569"/>
+        <player id="136788"/>
+        <player id="137398"/>
+    </alliance>
+    <alliance id="2512" name="Oldies" tag="OLD" open="1">
+        <player id="101385"/>
+        <player id="104970"/>
+        <player id="105086"/>
+    </alliance>
+    <alliance id="2515" name="United Empires Alliance" tag="UEA" homepage="http://tuea.forumotion.co.uk/"
+              logo="http://i31.photobucket.com/albums/c351/roriemeadows/6f93d82f-5321-4efa-9092-2e1eb739618f_zpsxwyktkgl.jpg"
+              open="1">
+        <player id="100942"/>
+        <player id="135163"/>
+        <player id="136617"/>
+        <player id="137348"/>
+        <player id="142682"/>
+        <player id="145115"/>
+        <player id="146738"/>
+        <player id="146837"/>
+        <player id="147437"/>
+        <player id="147464"/>
+    </alliance>
+    <alliance id="2522" name="The Dragon Coalition" tag="TDC" open="1">
+        <player id="135790"/>
+        <player id="136625"/>
+    </alliance>
+    <alliance id="2535" name="Black Skulls" tag="blsk" open="1">
+        <player id="112931"/>
+        <player id="137661"/>
+    </alliance>
+    <alliance id="2536" name="Robosect" tag="ROB" open="1">
+        <player id="136357"/>
+    </alliance>
+    <alliance id="2546" name="The Starks of Winterfell" tag="Starks" open="1">
+        <player id="137677"/>
+        <player id="137681"/>
+    </alliance>
+    <alliance id="2548" name="SG UNIVERS" tag="nesebar" open="1">
+        <player id="119982"/>
+    </alliance>
+    <alliance id="2549" name="The Marvel Avengers" tag="SHIELD" open="1">
+        <player id="137864"/>
+    </alliance>
+    <alliance id="2566" name="WreckingTurtles" tag="Miley" open="1">
+        <player id="138051"/>
+    </alliance>
+    <alliance id="2573" name="The Mobile Homies" tag="TMH" open="1">
+        <player id="138534"/>
+    </alliance>
+    <alliance id="2588" name="xoa" tag="xoally">
+        <player id="133504"/>
+    </alliance>
+    <alliance id="2591" name="The LUNAR Coalition" tag="LUNAR" open="1">
+        <player id="140538"/>
+    </alliance>
+    <alliance id="2594" name="Nocturne" tag="Nocturne" open="1">
+        <player id="138394"/>
+    </alliance>
+    <alliance id="2596" name="GoodLuckOnTheRebuild" tag="GLOTR"
+              homepage="4chanlololololololololololololololololololololololololololololololololololololololololololololololololololololololol.comlolololol.com"
+              logo="HERP,DERP" open="1">
+        <player id="138419"/>
+    </alliance>
+    <alliance id="2602" name="grimDfish" tag="GDF" logo="http://imageshack.com/a/img18/6332/lgs7.jpg" open="1">
+        <player id="138264"/>
+    </alliance>
+    <alliance id="2617" name="Unie Kaasboeren" tag="U-K" open="1">
+        <player id="138773"/>
+    </alliance>
+    <alliance id="2627" name="Apes in a cage" tag="DWFD" logo="DWFD" open="1">
+        <player id="135736"/>
+    </alliance>
+    <alliance id="2628" name="ALI" tag="AQC">
+        <player id="140564"/>
+    </alliance>
+    <alliance id="2635" name="MotherShipZeta" tag="Z3TA" open="1">
+        <player id="138707"/>
+    </alliance>
+    <alliance id="2644" name="WARGASH" tag="GASH" open="1">
+        <player id="139199"/>
+    </alliance>
+    <alliance id="2654" name="LEGION" tag="Legion"
+              logo="https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-frc3/t1/1456658_564291576982994_1884632738_n.jpg"
+              open="1">
+        <player id="104104"/>
+        <player id="136052"/>
+    </alliance>
+    <alliance id="2677" name="Vossk Trade Militia" tag="VTM" open="1">
+        <player id="139532"/>
+    </alliance>
+    <alliance id="2684" name="Imperia The Great Shadow" tag="Imperia"
+              logo="http://imagizer.imageshack.us/v2/800x600q90/819/if7x.jpg" open="1">
+        <player id="139799"/>
+    </alliance>
+    <alliance id="2686" name="Sector Alpha" tag="S-A" homepage="http://sector-alpha.net/"
+              logo="http://i.imgur.com/5Rxb9fN.png" open="1">
+        <player id="140959"/>
+    </alliance>
+    <alliance id="2695" name="apocalypse" tag="end"
+              logo="http://jimsomerville.files.wordpress.com/2011/11/end-of-earth.jpg" open="1">
+        <player id="139677"/>
+        <player id="139923"/>
+    </alliance>
+    <alliance id="2709" name="Central Aid Military Research" tag="CAMRAD"
+              logo="http://prod.cloud.rockstargames.com/crews/sc/7049/8934372/publish/emblems/710ea3b505825f4b968805a2611707af6eb74283_512.png"
+              open="1">
+        <player id="140740"/>
+        <player id="141399"/>
+    </alliance>
+    <alliance id="2715" name="Trilu-Liloo" tag="3LOO" open="1">
+        <player id="140369"/>
+    </alliance>
+    <alliance id="2717" name="The Firefly Alliance" tag="Firefly"
+              logo="http://www.r-goldrush.jp/wp/wp-content/uploads/2013/08/c032e2ff95e64d60edba9e831e93633f.jpg"
+              open="1">
+        <player id="140102"/>
+    </alliance>
+    <alliance id="2729" name="The Valhalla Project" tag="TVP" open="1">
+        <player id="140188"/>
+    </alliance>
+    <alliance id="2735" name="Team UK" tag="T-UK" open="1">
+        <player id="140021"/>
+    </alliance>
+    <alliance id="2775" name="Alien Cyborg In Spaceship" tag="A-C-I-S" open="1">
+        <player id="113219"/>
+    </alliance>
+    <alliance id="2781" name="A-Team" tag="A_T" open="1">
+        <player id="139738"/>
+        <player id="139929"/>
+    </alliance>
+    <alliance id="2815" name="The Horde" tag="HORDE" open="1">
+        <player id="110650"/>
+        <player id="118047"/>
+        <player id="140346"/>
+        <player id="142125"/>
+        <player id="143380"/>
+        <player id="144909"/>
+        <player id="146354"/>
+        <player id="147000"/>
+        <player id="148939"/>
+    </alliance>
+    <alliance id="2836" name="Quantum of Hungary" tag="HUN" open="1">
+        <player id="106791"/>
+        <player id="123493"/>
+        <player id="129407"/>
+        <player id="130288"/>
+        <player id="131486"/>
+        <player id="145449"/>
+    </alliance>
+    <alliance id="2845" name="Republic Of Korea" tag="ROK" open="1">
+        <player id="141517"/>
+    </alliance>
+    <alliance id="2869" name="Black Hole Crusaders" tag="BHC" open="1">
+        <player id="103516"/>
+        <player id="103820"/>
+    </alliance>
+    <alliance id="2874" name="Strategical Tactics And Recon" tag="S T A R" open="1">
+        <player id="141993"/>
+    </alliance>
+    <alliance id="2880" name="Guardians Of Earth" tag="GOE" open="1">
+        <player id="142005"/>
+        <player id="142052"/>
+    </alliance>
+    <alliance id="2889" name="Cro_Gamblers" tag="C_G" open="1">
+        <player id="143159"/>
+    </alliance>
+    <alliance id="2899" name="MeepMeep" tag="MeepMeep" open="1">
+        <player id="106136"/>
+    </alliance>
+    <alliance id="2904" name="FireHawks" tag="Fire" open="1">
+        <player id="142294"/>
+    </alliance>
+    <alliance id="2906" name="Roman Empire" tag="Rome" homepage="ogameromanempire.blogspot.com"
+              logo="http://4.bp.blogspot.com/-Ov7RlytOwEQ/U3oiMq25lpI/AAAAAAAAAD0/o4Tm7-iZK-g/s1600/rome%2Bbanner%2B2.png"
+              open="1">
+        <player id="142414"/>
+    </alliance>
+    <alliance id="2911" name="New Lunar Republic" tag="NLR" open="1">
+        <player id="141408"/>
+        <player id="141681"/>
+    </alliance>
+    <alliance id="2913" name="The Pan-Galactic Council" tag="Council"
+              logo="http://www.nationstates.net/images/flags/uploads/emmeria__959322.jpg" open="1">
+        <player id="142606"/>
+    </alliance>
+    <alliance id="2919" name="Imperial Vanguard" tag="IVG" homepage="imperial-vanguard.tibron.co.uk/"
+              logo="http://www.tibron.co.uk/pictures/ogameheader.jpg" open="1">
+        <player id="142622"/>
+    </alliance>
+    <alliance id="2944" name="The Brave Americans" tag="Merica" open="1">
+        <player id="142940"/>
+    </alliance>
+    <alliance id="2954" name="Legions of Phoenix" tag="LoP" homepage="Welcome"
+              logo="http://www.tarrdaniel.com/images/visions/phoenix/Mendoza-Phoenix.jpg" open="1">
+        <player id="142842"/>
+        <player id="144270"/>
+    </alliance>
+    <alliance id="2968" name="Die Dennis Brigade" tag="DDB"
+              logo="http://hengwilliam.files.wordpress.com/2010/02/ddb_logo.jpg" open="1">
+        <player id="143074"/>
+    </alliance>
+    <alliance id="2982" name="Sick Individuals" tag="Sick" open="1">
+        <player id="138519"/>
+    </alliance>
+    <alliance id="2998" name="Primetime" tag="PRIME" open="1">
+        <player id="143121"/>
+    </alliance>
+    <alliance id="3014" name="Aces Advanced mentor" tag="ACES" open="1">
+        <player id="100122"/>
+        <player id="142008"/>
+        <player id="142350"/>
+        <player id="143490"/>
+        <player id="144446"/>
+        <player id="145049"/>
+        <player id="145256"/>
+        <player id="145407"/>
+        <player id="145600"/>
+    </alliance>
+    <alliance id="3016" name="Dark Empire of Miners" tag="DEM"
+              logo="http://upload.wikimedia.org/wikipedia/commons/5/58/GHS-pictogram-skull.svg">
+        <player id="143649"/>
+    </alliance>
+    <alliance id="3022" name="Wolf Pack Alliance" tag="WPA"
+              logo="http://www.kinomania.ru/images/news/15592.jpg?679892111" open="1">
+        <player id="143465"/>
+    </alliance>
+    <alliance id="3024" name="Black Rain" tag="B_R" open="1">
+        <player id="141245"/>
+        <player id="141398"/>
+    </alliance>
+    <alliance id="3037" name="Dhaka" tag="UAE" open="1">
+        <player id="139766"/>
+    </alliance>
+    <alliance id="3042" name="4 5 4" tag="454" open="1">
+        <player id="100062"/>
+    </alliance>
+    <alliance id="3045" name="Orman Home Republic" tag="OHR" homepage="http://ormanhomerepublic.boardhost.com/"
+              logo="http://images.vfl.ru/ii/1410933402/f3c060ee/6359761.png">
+        <player id="138947"/>
+        <player id="143915"/>
+        <player id="145602"/>
+    </alliance>
+    <alliance id="3073" name="MIB" tag="MIB" open="1">
+        <player id="129512"/>
+    </alliance>
+    <alliance id="3075" name="The Fallen Angels" tag="Angels" homepage="http://thestoners.boards.net/"
+              logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy9l1xSxkaMRkARI9gVwU0hEVee69FsPLEh8zHk-dVxrfA2wEDrA"
+              open="1">
+        <player id="141634"/>
+        <player id="142079"/>
+        <player id="144374"/>
+    </alliance>
+    <alliance id="3078" name="Poindexters" tag="NERDS" open="1">
+        <player id="144526"/>
+    </alliance>
+    <alliance id="3099" name="SHAXTER" tag="SHAXTER" open="1">
+        <player id="100776"/>
+        <player id="101290"/>
+        <player id="103592"/>
+    </alliance>
+    <alliance id="3110" name="The jewminati" tag="Jewmnati" open="1">
+        <player id="144884"/>
+    </alliance>
+    <alliance id="3112" name="October" tag="Jayde" open="1">
+        <player id="144860"/>
+    </alliance>
+    <alliance id="3123" name="Alliance Otrivin" tag="AlO" open="1">
+        <player id="145261"/>
+    </alliance>
+    <alliance id="3134" name="The United Federation" tag="THE UF" open="1">
+        <player id="115737"/>
+    </alliance>
+    <alliance id="3144" name="The Empire" tag="Emp" open="1">
+        <player id="145768"/>
+    </alliance>
+    <alliance id="3149" name="Mobile Homies" tag="MoHo" open="1">
+        <player id="145372"/>
+        <player id="145373"/>
+    </alliance>
+    <alliance id="3164" name="iam the best" tag="imtb" open="1">
+        <player id="145455"/>
+    </alliance>
+    <alliance id="3173" name="Democratic Republic of Peace" tag="DROP" open="1">
+        <player id="145627"/>
+        <player id="145629"/>
+    </alliance>
+    <alliance id="3174" name="The Illuminati" tag="TIL" open="1">
+        <player id="145633"/>
+    </alliance>
+    <alliance id="3175" name="Haemorrhagic Scourge" tag="Scourge" open="1">
+        <player id="145542"/>
+    </alliance>
+    <alliance id="3178" name="Species 8472" tag="8472" open="1">
+        <player id="145543"/>
+    </alliance>
+    <alliance id="3206" name="Russia" tag="RUS" open="1">
+        <player id="145503"/>
+    </alliance>
+    <alliance id="3207" name="No_Ally_Please" tag="NAP" open="1">
+        <player id="113952"/>
+    </alliance>
+    <alliance id="3210" name="Animus" tag="Animus" homepage="Serve"
+              logo="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT66aL6k00KlFQBF3LfLStByiJe-fq6lGcHvc0B3rL54c0uXCNc9w"
+              open="1">
+        <player id="139363"/>
+        <player id="142937"/>
+        <player id="144931"/>
+        <player id="145908"/>
+    </alliance>
+    <alliance id="3215" name="The Shadow Dragons" tag="Dragons" open="1">
+        <player id="139818"/>
+    </alliance>
+    <alliance id="3217" name="What A Nerd Guy" tag="WANG" open="1">
+        <player id="145158"/>
+    </alliance>
+    <alliance id="3221" name="Ghosts" tag="Ghosts" open="1">
+        <player id="101243"/>
+    </alliance>
+    <alliance id="3223" name="WolfPack" tag="WPF" logo="https://www.imageshack.us/i/hj0dbDEnj" open="1">
+        <player id="144326"/>
+    </alliance>
+    <alliance id="3228" name="Brotherhood of Steel" tag="BoS" open="1">
+        <player id="146579"/>
+    </alliance>
+    <alliance id="3229" name="edrfhg" tag="3456" open="1">
+        <player id="115732"/>
+    </alliance>
+    <alliance id="3231" name="The Federation" tag="Galaxies" open="1">
+        <player id="146401"/>
+    </alliance>
+    <alliance id="3233" name="SoldiersOfApokalypse" tag="APOKA"
+              logo="http://cache.desktopnexus.com/thumbnails/570042-bigthumbnail.jpg" open="1">
+        <player id="146395"/>
+    </alliance>
+    <alliance id="3237" name="Stratton Oakmont Incorporated" tag="STOA" open="1">
+        <player id="146561"/>
+    </alliance>
+    <alliance id="3252" name="TURKA-DURKA" tag="TURKA"
+              logo="http://sd.keepcalm-o-matic.co.uk/i/keep-calm-i-m-turkish.png" open="1">
+        <player id="146723"/>
+        <player id="146748"/>
+    </alliance>
+    <alliance id="3258" name="L3G10N" tag="L3G10N" open="1">
+        <player id="146658"/>
+    </alliance>
+    <alliance id="3272" name="SHR3D" tag="Closed" open="1">
+        <player id="134935"/>
+    </alliance>
+    <alliance id="3289" name="GlasgowGargantuans" tag="GlasgowG" open="1">
+        <player id="144469"/>
+    </alliance>
+    <alliance id="3301" name="Nexus" tag="DMT" open="1">
+        <player id="147361"/>
+    </alliance>
+    <alliance id="3302" name="Serbian Knights Guild" tag="SKG" open="1">
+        <player id="147380"/>
+    </alliance>
+    <alliance id="3305" name="ASA" tag="ASA" open="1">
+        <player id="147423"/>
+    </alliance>
+    <alliance id="3315" name="KEEP IT PUSHIN" tag="KIP" open="1">
+        <player id="147581"/>
+    </alliance>
+    <alliance id="3366" name="Expendables" tag="EX-HuN" open="1">
+        <player id="147757"/>
+    </alliance>
+    <alliance id="3378" name="Touhou" tag="Touhou" open="1">
+        <player id="147950"/>
+    </alliance>
+    <alliance id="3401" name="Hungary Team" tag="HunT"
+              logo="http://kep.index.hu/1/0/865/8651/86515/8651543_f7d80f4cb4a35d4225b53700549e7163_wm.jpg" open="1">
+        <player id="147481"/>
+        <player id="147487"/>
+    </alliance>
+    <alliance id="3402" name="Bigchestbandits" tag="BCBS" open="1">
+        <player id="148145"/>
+    </alliance>
+    <alliance id="3411" name="Quantum United Forces" tag="QUF" open="1">
+        <player id="149448"/>
+    </alliance>
+    <alliance id="3413" name="NovaIT" tag="NovaIT" open="1">
+        <player id="148077"/>
+    </alliance>
+    <alliance id="3416" name="EMP" tag="Empir" open="1">
+        <player id="148541"/>
+    </alliance>
+    <alliance id="3427" name="The High Council" tag="T-H-C" logo="http://i.imgur.com/hwbO8Ob.png" open="1">
+        <player id="142419"/>
+    </alliance>
+    <alliance id="3436" name="Super Best Players" tag="SBP" open="1">
+        <player id="250731"/>
+    </alliance>
+    <alliance id="3441" name="RBA" tag="RedBull" open="1">
+        <player id="123639"/>
+        <player id="148499"/>
+    </alliance>
+    <alliance id="3444" name="Test" tag="Test" logo="http://www.topvinylfilms.com/images/products/sk126.jpg">
+        <player id="107676"/>
+    </alliance>
+    <alliance id="3446" name="Council of Derbinz" tag="Derbz" logo="http://i68.tinypic.com/29yppqs.jpg" open="1">
+        <player id="148907"/>
+    </alliance>
+    <alliance id="3449" name="The Quantum Society" tag="TQS" open="1">
+        <player id="148861"/>
+    </alliance>
+    <alliance id="3452" name="Elite Sirius Fighters" tag="ESF" open="1">
+        <player id="101763"/>
+    </alliance>
+    <alliance id="3453" name="Blue Man Group" tag="RIO" open="1">
+        <player id="135130"/>
+    </alliance>
+    <alliance id="3462" name="CEVAP LOVERS" tag="CEVAP" open="1">
+        <player id="100924"/>
+    </alliance>
+    <alliance id="3466" name="Shadow-Knights" tag="S-K" open="1">
+        <player id="151134"/>
+    </alliance>
+    <alliance id="3468" name="The Next Big Bash" tag="NBT" homepage="http://n-b-t.actieforum.com/"
+              logo="https://dl.dropboxusercontent.com/u/13199604/NBT.png">
+        <player id="102478"/>
+        <player id="119105"/>
+        <player id="142188"/>
+        <player id="149010"/>
+        <player id="149052"/>
+        <player id="149081"/>
+        <player id="149268"/>
+        <player id="149388"/>
+        <player id="149389"/>
+        <player id="149390"/>
+        <player id="149391"/>
+        <player id="149416"/>
+        <player id="149431"/>
+        <player id="149622"/>
+        <player id="149727"/>
+        <player id="149813"/>
+        <player id="149901"/>
+        <player id="149949"/>
+        <player id="149971"/>
+        <player id="150015"/>
+        <player id="150038"/>
+        <player id="250176"/>
+    </alliance>
+    <alliance id="3469" name="GERMANY" tag="GERMANY"
+              logo="http://thumbs.dreamstime.com/z/zeichen-hergestellt-deutschland-hergestellt-deutschland-45975398.jpg"
+              open="1">
+        <player id="136867"/>
+        <player id="148995"/>
+        <player id="149016"/>
+        <player id="149420"/>
+        <player id="149471"/>
+        <player id="149654"/>
+        <player id="149666"/>
+        <player id="149885"/>
+        <player id="149902"/>
+        <player id="150083"/>
+    </alliance>
+    <alliance id="3470" name="Rebel Alliance" tag="JDS" homepage="http://dei-wing.proboards.com/"
+              logo="http://g02.a.alicdn.com/kf/HTB1H6b6JFXXXXaeXVXXq6xXFXXXT/W2017-24x36-Star-Wars-Sexy-Girl-Lightsaber-Fabric-font-b-Movie-b-font-font-b-Photos.jpg"
+              open="1">
+        <player id="148996"/>
+        <player id="149000"/>
+        <player id="149004"/>
+        <player id="149118"/>
+        <player id="149425"/>
+        <player id="149438"/>
+        <player id="149483"/>
+        <player id="149500"/>
+        <player id="149931"/>
+    </alliance>
+    <alliance id="3471" name="Turtle Heaven" tag="moonshot" open="1">
+        <player id="148997"/>
+    </alliance>
+    <alliance id="3474" name="TURK TiM" tag="T S K"
+              logo="http://img266.imageshack.us/img266/6379/cooltext458952269.gif">
+        <player id="149007"/>
+    </alliance>
+    <alliance id="3475" name="TheSpanishleague" tag="T S L" open="1">
+        <player id="149012"/>
+    </alliance>
+    <alliance id="3476" name="The Usual Suspects" tag="Ususpect"
+              logo="http://www.soundonsight.org/wp-content/uploads/2013/11/Matt-Ferguson-Usual-Suspects-1024x341.jpg"
+              open="1">
+        <player id="100297"/>
+        <player id="129607"/>
+        <player id="149031"/>
+        <player id="149033"/>
+        <player id="149153"/>
+        <player id="149156"/>
+        <player id="149363"/>
+        <player id="149825"/>
+    </alliance>
+    <alliance id="3477" name="Omega Fighting Force" tag="O.F.F." homepage="http://www.off.webuda.com"
+              logo="http://i50.tinypic.com/693q4o.jpg" open="1">
+        <player id="149019"/>
+        <player id="149208"/>
+        <player id="149386"/>
+        <player id="250157"/>
+    </alliance>
+    <alliance id="3478" name="United We" tag="UWS"
+              homepage="http://blog.worldofemotions.com/danilka/wp-content/uploads/2011/11/All_Flags_of_the_World_5024x3757.jpg?9d7bd4"
+              logo="http://unitedhosts.org/bar/pics/SG/Atlantis/Stargate-Atlantis.jpg" open="1">
+        <player id="102525"/>
+        <player id="121057"/>
+        <player id="149533"/>
+        <player id="149759"/>
+        <player id="150089"/>
+        <player id="251642"/>
+    </alliance>
+    <alliance id="3479" name="Deiphobos" tag="DEI" logo="http://i.imgur.com/J8yfXdT.jpg" open="1">
+        <player id="149114"/>
+        <player id="149201"/>
+        <player id="149292"/>
+        <player id="149303"/>
+        <player id="149323"/>
+        <player id="149817"/>
+        <player id="150076"/>
+        <player id="150133"/>
+    </alliance>
+    <alliance id="3481" name="Drunken  Paratrooper" tag="D.P" homepage="http://board.ogame.ru/"
+              logo="http://img229.imageshack.us/img229/5939/vdesantnik1pa7.jpg">
+        <player id="149025"/>
+        <player id="149028"/>
+        <player id="149111"/>
+        <player id="149127"/>
+        <player id="149128"/>
+        <player id="149129"/>
+        <player id="149296"/>
+    </alliance>
+    <alliance id="3483" name="Heavy Metal" tag="Metal" open="1">
+        <player id="149029"/>
+        <player id="149441"/>
+    </alliance>
+    <alliance id="3484" name="BORN FREE" tag="BORNFREE" open="1">
+        <player id="101922"/>
+        <player id="149030"/>
+        <player id="149148"/>
+        <player id="149214"/>
+        <player id="149424"/>
+        <player id="149437"/>
+        <player id="149444"/>
+        <player id="149450"/>
+        <player id="149482"/>
+        <player id="149508"/>
+        <player id="149518"/>
+        <player id="149520"/>
+        <player id="149536"/>
+        <player id="149628"/>
+        <player id="150078"/>
+        <player id="250495"/>
+    </alliance>
+    <alliance id="3486" name="Resistance Forces" tag="R F" homepage="http://resistanceforces.ogamebattle.com/"
+              logo="http://i62.tinypic.com/2628klw.jpg" open="1">
+        <player id="149037"/>
+        <player id="149106"/>
+        <player id="149281"/>
+        <player id="149295"/>
+        <player id="149574"/>
+        <player id="149650"/>
+    </alliance>
+    <alliance id="3488" name="Communist Party" tag="C.P." homepage="http://communistpartyelectra.webnode.com/"
+              logo="http://img222.imageshack.us/img222/7479/novilogo02.jpg" open="1">
+        <player id="149044"/>
+        <player id="149045"/>
+        <player id="149857"/>
+        <player id="149937"/>
+        <player id="250423"/>
+    </alliance>
+    <alliance id="3491" name="House of Terror" tag="HOT_1" open="1">
+        <player id="149053"/>
+    </alliance>
+    <alliance id="3493" name="Samcro" tag="SAMCRO" homepage="http://youtu.be/xHQMvhcj0EI"
+              logo="http://i.imgur.com/5QThOE5.jpg?1" open="1">
+        <player id="149055"/>
+        <player id="149057"/>
+        <player id="149163"/>
+        <player id="149245"/>
+        <player id="149649"/>
+        <player id="149676"/>
+        <player id="149710"/>
+        <player id="250146"/>
+    </alliance>
+    <alliance id="3494" name="Nameless" tag="-N-" homepage="https://www.facebook.com/groups/161343587264123/"
+              logo="http://www.dkcruzer.ms11.net/Nb%26w.gif" open="1">
+        <player id="100389"/>
+        <player id="100459"/>
+        <player id="102259"/>
+        <player id="102587"/>
+        <player id="118299"/>
+        <player id="134170"/>
+        <player id="134662"/>
+        <player id="144072"/>
+        <player id="147509"/>
+        <player id="147512"/>
+        <player id="147985"/>
+        <player id="149183"/>
+        <player id="149187"/>
+        <player id="149368"/>
+        <player id="149460"/>
+        <player id="149490"/>
+        <player id="149524"/>
+        <player id="149664"/>
+        <player id="149751"/>
+        <player id="149920"/>
+        <player id="150058"/>
+        <player id="150074"/>
+        <player id="150100"/>
+        <player id="250524"/>
+    </alliance>
+    <alliance id="3495" name="Argonauts" tag="ARGO"
+              logo="http://www.dukeart.net/wp-content/uploads/2009/05/1f99c871-fe6c-4b39-8091-b9335f28e88b1-m.jpg"
+              open="1">
+        <player id="132390"/>
+        <player id="149061"/>
+        <player id="149205"/>
+    </alliance>
+    <alliance id="3496" name="Larger Than Life" tag="LTL" homepage="http://ltlmembers.bigforumpro.com"
+              logo="http://media302.dropshots.com/photos/556444/20130620/b_183053.jpg" open="1">
+        <player id="100396"/>
+        <player id="100446"/>
+        <player id="116357"/>
+        <player id="149068"/>
+        <player id="149097"/>
+        <player id="149275"/>
+        <player id="149286"/>
+        <player id="149374"/>
+        <player id="149376"/>
+        <player id="149422"/>
+        <player id="149427"/>
+        <player id="149478"/>
+        <player id="149522"/>
+        <player id="149580"/>
+        <player id="149626"/>
+        <player id="149791"/>
+        <player id="149809"/>
+        <player id="149816"/>
+        <player id="149837"/>
+        <player id="149933"/>
+        <player id="149946"/>
+        <player id="251801"/>
+        <player id="252009"/>
+        <player id="252090"/>
+    </alliance>
+    <alliance id="3498" name="CHIMERA" tag="CHIMERA" logo="http://www.myexistenz.com/x/article15/article/chimera.jpg"
+              open="1">
+        <player id="149102"/>
+        <player id="149146"/>
+        <player id="149324"/>
+        <player id="149338"/>
+        <player id="149760"/>
+        <player id="149845"/>
+    </alliance>
+    <alliance id="3499" name="NoNameAlliance" tag="NNA" logo="http://s24.postimg.org/j1rc5jp9x/Alliance_Logo.jpg"
+              open="1">
+        <player id="149247"/>
+    </alliance>
+    <alliance id="3500" name="GMR UNITED" tag="GMR UNIT" logo="http://img442.imageshack.us/img442/51/gmrb.jpg" open="1">
+        <player id="149070"/>
+    </alliance>
+    <alliance id="3501" name="Panzer General" tag="Panzer" open="1">
+        <player id="102867"/>
+        <player id="131816"/>
+        <player id="149072"/>
+        <player id="149421"/>
+        <player id="149496"/>
+        <player id="149530"/>
+        <player id="250553"/>
+        <player id="251957"/>
+    </alliance>
+    <alliance id="3502" name="Exiled Inquisitions" tag="EXILED"
+              logo="http://www.deltatao.com/clanlord/images/exiled.png" open="1">
+        <player id="149074"/>
+        <player id="149288"/>
+        <player id="149683"/>
+        <player id="150023"/>
+        <player id="150047"/>
+    </alliance>
+    <alliance id="3503" name="Federation Of Players_1" tag="FOP_1" open="1">
+        <player id="149078"/>
+        <player id="149198"/>
+        <player id="149199"/>
+        <player id="149541"/>
+        <player id="149553"/>
+        <player id="149599"/>
+        <player id="149758"/>
+        <player id="149865"/>
+        <player id="150026"/>
+        <player id="251720"/>
+        <player id="252001"/>
+        <player id="252022"/>
+    </alliance>
+    <alliance id="3504" name="Elits" tag="Elits" homepage="www.ogame.org" open="1">
+        <player id="100785"/>
+        <player id="105394"/>
+        <player id="106073"/>
+        <player id="112689"/>
+        <player id="124363"/>
+        <player id="149079"/>
+        <player id="149080"/>
+        <player id="149109"/>
+        <player id="149157"/>
+        <player id="149164"/>
+        <player id="149232"/>
+        <player id="149343"/>
+        <player id="149514"/>
+        <player id="149531"/>
+        <player id="149569"/>
+        <player id="149581"/>
+        <player id="149696"/>
+        <player id="149838"/>
+        <player id="149928"/>
+        <player id="251989"/>
+    </alliance>
+    <alliance id="3505" name="Cesko-a-Morava" tag="CZE-ALI"
+              logo="http://www.rangers12.estranky.cz/img/picture/8/znak.png" open="1">
+        <player id="149084"/>
+    </alliance>
+    <alliance id="3506" name="KHAAK - Highly Advanced Race" tag="KHAAK"
+              logo="http://img853.imageshack.us/img853/9079/khaak.png" open="1">
+        <player id="149087"/>
+        <player id="149089"/>
+        <player id="149105"/>
+        <player id="149313"/>
+    </alliance>
+    <alliance id="3507" name="LIVE FOR GLORY" tag="SPARTANS_1" open="1">
+        <player id="149308"/>
+        <player id="149930"/>
+        <player id="250145"/>
+    </alliance>
+    <alliance id="3508" name="HaoRen" tag="Poor" open="1">
+        <player id="103655"/>
+        <player id="149090"/>
+        <player id="149426"/>
+        <player id="149430"/>
+        <player id="149526"/>
+        <player id="149532"/>
+        <player id="149625"/>
+    </alliance>
+    <alliance id="3509" name="Side Of Darkness" tag="xS_O_Dx"
+              logo="http://digitalresult.com/wp-content/uploads/2015/09/dark-angel-hd-wallpapers-45.jpeg" open="1">
+        <player id="149092"/>
+    </alliance>
+    <alliance id="3510" name=" &#9; Happiness In Vast Endless " tag="HIVE" open="1">
+        <player id="149098"/>
+        <player id="149100"/>
+        <player id="149423"/>
+        <player id="149602"/>
+        <player id="149867"/>
+        <player id="250151"/>
+    </alliance>
+    <alliance id="3511" name="Alliance" tag="Alliance" open="1">
+        <player id="149107"/>
+    </alliance>
+    <alliance id="3512" name="KraZ Miners" tag="M1NE" open="1">
+        <player id="100102"/>
+        <player id="116002"/>
+        <player id="141871"/>
+        <player id="147610"/>
+        <player id="148004"/>
+        <player id="149383"/>
+        <player id="149394"/>
+        <player id="149415"/>
+        <player id="149481"/>
+        <player id="149494"/>
+        <player id="149499"/>
+        <player id="149501"/>
+        <player id="149525"/>
+        <player id="149546"/>
+        <player id="149548"/>
+        <player id="149613"/>
+        <player id="149672"/>
+        <player id="149693"/>
+        <player id="149712"/>
+        <player id="150049"/>
+        <player id="150105"/>
+        <player id="250772"/>
+        <player id="251021"/>
+        <player id="251478"/>
+        <player id="251715"/>
+        <player id="251765"/>
+        <player id="251846"/>
+        <player id="251852"/>
+        <player id="251872"/>
+        <player id="251887"/>
+        <player id="251888"/>
+        <player id="251913"/>
+        <player id="251946"/>
+    </alliance>
+    <alliance id="3513" name="The Empire_1" tag="NWO" open="1">
+        <player id="149112"/>
+    </alliance>
+    <alliance id="3514" name="FLASH FELONY" tag="FELON" homepage="http://felon.forumotion.co.uk/"
+              logo="http://i531.photobucket.com/albums/dd352/h3llraizer/h3llraizer.gif">
+        <player id="150097"/>
+    </alliance>
+    <alliance id="3515" name="Romanian Stars" tag="ROSTARS"
+              logo="http://uploadimage.ro/img.php?image=4048_star5_9ad6.gif" open="1">
+        <player id="126708"/>
+        <player id="149096"/>
+        <player id="149140"/>
+        <player id="149143"/>
+        <player id="149217"/>
+        <player id="149277"/>
+        <player id="149306"/>
+        <player id="149328"/>
+        <player id="149380"/>
+        <player id="149451"/>
+        <player id="149463"/>
+        <player id="149467"/>
+        <player id="149491"/>
+        <player id="149555"/>
+        <player id="149556"/>
+        <player id="149563"/>
+        <player id="149575"/>
+        <player id="149607"/>
+        <player id="149634"/>
+        <player id="149864"/>
+        <player id="150050"/>
+        <player id="250260"/>
+        <player id="250525"/>
+        <player id="251680"/>
+    </alliance>
+    <alliance id="3516" name="Blue Man Group_1" tag="RlO"
+              logo="http://raprehab.com/wp-content/uploads/2013/11/Haters-Make-Us-Famous-620x400.jpg" open="1">
+        <player id="102985"/>
+        <player id="149120"/>
+        <player id="149121"/>
+        <player id="149142"/>
+        <player id="149179"/>
+        <player id="149373"/>
+        <player id="149375"/>
+        <player id="149392"/>
+        <player id="149401"/>
+        <player id="149412"/>
+        <player id="149413"/>
+        <player id="149591"/>
+        <player id="149593"/>
+        <player id="149595"/>
+        <player id="149608"/>
+        <player id="149612"/>
+        <player id="149922"/>
+        <player id="150001"/>
+        <player id="150080"/>
+    </alliance>
+    <alliance id="3518" name="Dramis" tag="Dramis" homepage="http://www.dramis.info"
+              logo="http://i794.photobucket.com/albums/yy224/Jracer/dr.png" open="1">
+        <player id="149137"/>
+        <player id="149154"/>
+        <player id="149411"/>
+        <player id="149631"/>
+        <player id="149679"/>
+        <player id="149936"/>
+        <player id="150009"/>
+    </alliance>
+    <alliance id="3519" name="Void Alliance Electra" tag="V A_1" homepage="http://www.voidalliance.net"
+              logo="http://s22.postimg.org/ywht0sni9/Void_Alliance_Main.jpg" open="1">
+        <player id="149162"/>
+    </alliance>
+    <alliance id="3520" name="See you soon" tag="See you" homepage="https://youtu.be/mlagElTPllM"
+              logo="http://wall.alphacoders.com/big.php?i=84604" open="1">
+        <player id="149165"/>
+    </alliance>
+    <alliance id="3526" name="ALBBOY" tag="Beasts"
+              logo="http://4.bp.blogspot.com/-cgY2FbENYxM/TbnO6Fo2GpI/AAAAAAAARDQ/DBjnHp0OCQY/s1600/Albania_Flag37.png"
+              open="1">
+        <player id="149197"/>
+    </alliance>
+    <alliance id="3527" name="Capella" tag="Capella" open="1">
+        <player id="149200"/>
+    </alliance>
+    <alliance id="3529" name="Discharged" tag="ARMED" logo="http://i50.tinypic.com/2uievdv.jpg" open="1">
+        <player id="149211"/>
+        <player id="149315"/>
+        <player id="149466"/>
+        <player id="149771"/>
+    </alliance>
+    <alliance id="3531" name="Sick Of It All" tag="SOIA" homepage="Sick-Of-It-All"
+              logo="http://images.memegenerator.net/instances/500x/9703912.jpg" open="1">
+        <player id="149223"/>
+    </alliance>
+    <alliance id="3532" name="Moravian Gate" tag="MovGte" open="1">
+        <player id="149635"/>
+        <player id="250138"/>
+    </alliance>
+    <alliance id="3534" name="VonDoucher Family Trust" tag="DvD" open="1">
+        <player id="149237"/>
+    </alliance>
+    <alliance id="3535" name="TGF Academy" tag="TGFA" homepage="http://tgfaforums.proboards.com"
+              logo="http://i.imgur.com/tVPNOYW.jpg" open="1">
+        <player id="149242"/>
+    </alliance>
+    <alliance id="3536" name="Freedom aka The Dark Side" tag="Freedom_1" homepage="http://www.clanxd.net"
+              logo="http://25.media.tumblr.com/57e1126dcbb783854df5ef4912eb855b/tumblr_mjtpwuYfCR1s1oepdo1_500.gif"
+              open="1">
+        <player id="149938"/>
+    </alliance>
+    <alliance id="3539" name="Blade and Soul" tag="BnS"
+              logo="http://bladeandsoul.org/wp-content/uploads/2014/12/featuredcn-e14175509077981.png">
+        <player id="149257"/>
+    </alliance>
+    <alliance id="3540" name="Elite Sirius Fighters_1" tag="ESF_1"
+              logo="http://imageshack.us/a/img585/2876/alliancebanner.jpg" open="1">
+        <player id="149336"/>
+        <player id="149523"/>
+        <player id="150000"/>
+    </alliance>
+    <alliance id="3541" name="Not an Illusion" tag="Reality" open="1">
+        <player id="149263"/>
+        <player id="149316"/>
+        <player id="149408"/>
+        <player id="150055"/>
+    </alliance>
+    <alliance id="3542" name="LoYaL" tag="LoYaL"
+              logo="http://sd.keepcalm-o-matic.co.uk/i/keep-calm-and-stay-loyal-37.png" open="1">
+        <player id="149267"/>
+    </alliance>
+    <alliance id="3543" name="Renegade" tag="REN" open="1">
+        <player id="149271"/>
+        <player id="149969"/>
+    </alliance>
+    <alliance id="3545" name="Gas House Gang" tag="GHG" open="1">
+        <player id="149279"/>
+        <player id="149280"/>
+    </alliance>
+    <alliance id="3546" name="The Quantum Alliance" tag="TQA"
+              logo="http://i881.photobucket.com/albums/ac14/8knuckey-james/logo.jpg" open="1">
+        <player id="149291"/>
+    </alliance>
+    <alliance id="3547" name="Fleeter Friends Only_1" tag="FFO_1" homepage="http://www.youtube.com/watch?v=VLnWf1sQkjY"
+              logo="http://img510.imageshack.us/img510/9529/ffo.png" open="1">
+        <player id="149297"/>
+        <player id="149839"/>
+        <player id="150064"/>
+    </alliance>
+    <alliance id="3548" name="ORION" tag="ORION" open="1">
+        <player id="149300"/>
+    </alliance>
+    <alliance id="3549" name="TWO BUDDY" tag="YEK DE" homepage="http:// "
+              logo="http://img1.loadtr.com/b-183604-maymunlar.gif">
+        <player id="149301"/>
+        <player id="150116"/>
+    </alliance>
+    <alliance id="3550" name="The Robot Mafia" tag="Robo Maf"
+              logo="http://z.about.com/d/animatedtv/1/0/2/3/epbendergetsmade.jpg" open="1">
+        <player id="149317"/>
+        <player id="149318"/>
+    </alliance>
+    <alliance id="3551" name="Doctor Who" tag="DrWho" homepage="electradrwho.guildportal.com" open="1">
+        <player id="149322"/>
+    </alliance>
+    <alliance id="3552" name="Russkaja Mafiya" tag="VORY"
+              homepage="http://content.nejm.org/cgi/content/full/354/13/e12/DC1"
+              logo="http://www.artsides.com/big/item_3098.jpg" open="1">
+        <player id="149337"/>
+    </alliance>
+    <alliance id="3554" name="Blubbernauts" tag="BLUB" logo="http://i.imgur.com/KnIjD.jpg">
+        <player id="149347"/>
+    </alliance>
+    <alliance id="3555" name="Galactic Empire_1" tag="G.Empire" homepage="http://gempire.darkbb.com/"
+              logo="http://i70.servimg.com/u/f70/13/63/49/02/ge12.jpg" open="1">
+        <player id="149359"/>
+        <player id="149785"/>
+        <player id="149819"/>
+        <player id="149970"/>
+        <player id="149986"/>
+        <player id="150110"/>
+    </alliance>
+    <alliance id="3558" name="Band of obstinate Miners" tag="BooM!"
+              homepage="http://uni105.ogame.org/game/ainfo.php?allyid=5314"
+              logo="http://img812.imageshack.us/img812/1258/logozjkr.jpg" open="1">
+        <player id="149384"/>
+    </alliance>
+    <alliance id="3559" name="Warspite" tag="Warspite" open="1">
+        <player id="149387"/>
+    </alliance>
+    <alliance id="3560" name="Freedom aka: Clan XD" tag="Freedom_2" homepage="http://www.clanxd.net"
+              logo="http://25.media.tumblr.com/57e1126dcbb783854df5ef4912eb855b/tumblr_mjtpwuYfCR1s1oepdo1_500.gif"
+              open="1">
+        <player id="149396"/>
+        <player id="149958"/>
+    </alliance>
+    <alliance id="3561" name="Orden De Los Guerreros del Sol" tag="O.G.S."
+              logo="http://sphotos-c.ak.fbcdn.net/hphotos-ak-ash3/558779_305339556246256_608218919_n.jpg" open="1">
+        <player id="149399"/>
+        <player id="149468"/>
+        <player id="149521"/>
+        <player id="149880"/>
+        <player id="150018"/>
+    </alliance>
+    <alliance id="3563" name="Alone" tag="Alone"
+              logo="http://fc04.deviantart.net/fs71/i/2014/072/8/6/man_alone_by_revande-d79ox3x.jpg">
+        <player id="149407"/>
+    </alliance>
+    <alliance id="3571" name="Nenharma Nemes Alliance" tag="NNA_1" open="1">
+        <player id="149570"/>
+    </alliance>
+    <alliance id="3572" name="Slovensko-Ceska" tag="Cesko"
+              logo="http://images.buddytv.com/articles/southpark-celeb-slams-200.jpg" open="1">
+        <player id="149586"/>
+    </alliance>
+    <alliance id="3574" name="Empire of Eternal Gloom" tag="EEG" logo="http://i.imgur.com/Tiod680.png" open="1">
+        <player id="149604"/>
+    </alliance>
+    <alliance id="3575" name="Knights of the Round Table" tag="KotRT"
+              logo="http://i344.photobucket.com/albums/p355/Mufa463/Knight.gif" open="1">
+        <player id="149605"/>
+    </alliance>
+    <alliance id="3579" name="SRI LANKAN" tag="SRI" logo="http://fast--forward.yolasite.com/resources/woooh.jpg"
+              open="1">
+        <player id="149637"/>
+    </alliance>
+    <alliance id="3580" name="Blood Gulch Survivors" tag="RvB" open="1">
+        <player id="149640"/>
+    </alliance>
+    <alliance id="3582" name="Root of Kings" tag="ROK_1" logo="http://img855.imageshack.us/img855/9449/rok.jpg"
+              open="1">
+        <player id="149659"/>
+        <player id="150103"/>
+    </alliance>
+    <alliance id="3583" name="hybrid" tag="hybrid" homepage="https://m.facebook.com/hybridhq" open="1">
+        <player id="149729"/>
+    </alliance>
+    <alliance id="3590" name="Domination Air Force" tag="DM-AF" open="1">
+        <player id="149745"/>
+    </alliance>
+    <alliance id="3592" name="Reapers" tag="Reapers_1" open="1">
+        <player id="149775"/>
+    </alliance>
+    <alliance id="3593" name="Wraith Squadron" tag="WRAITH" homepage="http://www.wraith35.tk/"
+              logo="http://i.imgur.com/ODGyj.png" open="1">
+        <player id="149783"/>
+        <player id="149856"/>
+        <player id="149897"/>
+        <player id="150005"/>
+        <player id="150086"/>
+    </alliance>
+    <alliance id="3594" name="GALLİPOLİ PENİNSULA" tag="tukiu"
+              logo="http://img803.imageshack.us/img803/8176/janissaryyenicerizge1.jpg">
+        <player id="149803"/>
+    </alliance>
+    <alliance id="3596" name="The Flying Dutchmen" tag="TFD" logo="http://www.meteo-maarssen.nl/images1/sagen_006f.jpg"
+              open="1">
+        <player id="149812"/>
+    </alliance>
+    <alliance id="3597" name="pipop" tag="pipop" open="1">
+        <player id="149821"/>
+    </alliance>
+    <alliance id="3598" name="Hades" tag="Hades"
+              logo="http://i307.photobucket.com/albums/nn303/889977_2008/rakdos-demon-lord-1.jpg" open="1">
+        <player id="149824"/>
+    </alliance>
+    <alliance id="3600" name="Cursed" tag="Cursed" open="1">
+        <player id="149887"/>
+    </alliance>
+    <alliance id="3602" name="Merge" tag="Merge" open="1">
+        <player id="149968"/>
+    </alliance>
+    <alliance id="3603" name="Empire of Standard" tag="EOS" open="1">
+        <player id="149848"/>
+    </alliance>
+    <alliance id="3604" name="Star Gate Command" tag="SG1"
+              logo="http://www.stargate-pictures.de//bilder/staffel1/dastorzumuniversum/01-Das%20Tor%20zum%20Universum-47.jpg">
+        <player id="149849"/>
+    </alliance>
+    <alliance id="3605" name="DONOT BOTHER ME" tag="DBM" open="1">
+        <player id="149858"/>
+    </alliance>
+    <alliance id="3606" name="Stargate" tag="SG 1"
+              logo="http://home.comcast.net/~cdmalin/images/Stargate%20SG-1%20Logo.jpg" open="1">
+        <player id="149862"/>
+    </alliance>
+    <alliance id="3607" name="The Black Order" tag="T.B.O" homepage="http://esugaming.com"
+              logo="http://i35.tinypic.com/34ngokz.png" open="1">
+        <player id="149872"/>
+    </alliance>
+    <alliance id="3608" name="SAGE" tag="SAGE" open="1">
+        <player id="149891"/>
+    </alliance>
+    <alliance id="3611" name="Never Say Die" tag="NSD" open="1">
+        <player id="149909"/>
+    </alliance>
+    <alliance id="3612" name="MAFIA" tag="MAFIA" open="1">
+        <player id="149910"/>
+    </alliance>
+    <alliance id="3613" name="Idle Junkies" tag="I J"
+              homepage="http://www.onlinegamesnet.net/javaChat.php?join=ij.uni35"
+              logo="http://img59.imageshack.us/img59/9309/1019142.jpg">
+        <player id="149913"/>
+    </alliance>
+    <alliance id="3616" name="Descendants of Loong" tag="D.O.L" open="1">
+        <player id="149921"/>
+        <player id="150041"/>
+    </alliance>
+    <alliance id="3618" name="ELITE COMBAT UNIT" tag="COMBAT" homepage="http://.."
+              logo="http://ogame.fr/images/wallpaper/ogame_3_small.jpg" open="1">
+        <player id="149951"/>
+    </alliance>
+    <alliance id="3620" name="Bad Obsession" tag="BadObz"
+              logo="http://t0.gstatic.com/images?q=tbn:ANd9GcSai-UtQIR-xhwLyfOW4KXDwM6NiUTGIFv7v8F8xgXNYE6oVKb0UWxgbg">
+        <player id="149960"/>
+        <player id="150062"/>
+    </alliance>
+    <alliance id="3621" name="Pikachu Pika Pika" tag="PIKACHU" open="1">
+        <player id="149964"/>
+    </alliance>
+    <alliance id="3622" name="Sanctuary" tag="o.0ps"
+              logo="http://img3.imageshack.us/img3/5669/oopsassysnakewomenbuttd.jpg" open="1">
+        <player id="149965"/>
+    </alliance>
+    <alliance id="3623" name="Ogame Defence Initiative" tag="ODI_1" homepage="http://odielectra.forumotion.co.uk"
+              logo="http://[IMG]http://i54.tinypic.com/33mtuzk.gif[/IMG]" open="1">
+        <player id="149967"/>
+        <player id="250420"/>
+        <player id="250441"/>
+    </alliance>
+    <alliance id="3624" name="BLACK LEGION" tag="REVENGER"
+              logo="http://i84.photobucket.com/albums/k12/mountainking7/SPV%20Steamhammer%20Records/Legion/legion_d1_zps234ecf26.jpg"
+              open="1">
+        <player id="149973"/>
+    </alliance>
+    <alliance id="3626" name="EMPIRE" tag="EMP"
+              logo="http://images2.bilder-speicher.de/allianz/weltraum/allianz-10082918399638.jpg">
+        <player id="149980"/>
+    </alliance>
+    <alliance id="3627" name="SKA" tag="SKA" homepage="FREE" logo="http://e.sko.kz/uploaded/Obraz_original/888.jpg"
+              open="1">
+        <player id="149509"/>
+        <player id="150124"/>
+    </alliance>
+    <alliance id="3629" name="progamers" tag="Pr0G4m3" open="1">
+        <player id="149997"/>
+    </alliance>
+    <alliance id="3633" name="onLy" tag="onLy" logo="http://img212.imageshack.us/img212/7171/korku.jpg">
+        <player id="150019"/>
+    </alliance>
+    <alliance id="3634" name="Ministry of Sound Elite" tag="M.of.S_E" open="1">
+        <player id="150031"/>
+    </alliance>
+    <alliance id="3638" name="MAD" tag="MAD Bio" open="1">
+        <player id="149549"/>
+    </alliance>
+    <alliance id="3642" name="Stand Alone" tag="S A"
+              homepage="http://i2.kym-cdn.com/photos/images/original/000/205/855/noob.jpg"
+              logo="http://img812.imageshack.us/img812/4199/43187976.png" open="1">
+        <player id="150106"/>
+    </alliance>
+    <alliance id="3646" name="New World Leaders" tag="NWL" open="1">
+        <player id="150123"/>
+    </alliance>
+    <alliance id="3650" name="Clan Uchiha del Sharingan" tag="Uchiha"
+              logo="http://static.zerochan.net/Uchiha.Clan.full.1926897.jpg" open="1">
+        <player id="102659"/>
+        <player id="103205"/>
+    </alliance>
+    <alliance id="3651" name="CrazyCows" tag="CrCo" open="1">
+        <player id="250136"/>
+    </alliance>
+    <alliance id="3652" name="Singularity" tag="Forsaken" homepage="127.0.0.1"
+              logo="http://humanevents.com/wp-content/uploads/2013/07/obamacare_singularity-620x465.jpeg" open="1">
+        <player id="149638"/>
+    </alliance>
+    <alliance id="3653" name="BadAssery" tag="BaDAsS"
+              logo="http://i1123.photobucket.com/albums/l553/tcp418/legion/badassery-web.jpg" open="1">
+        <player id="149006"/>
+        <player id="149009"/>
+        <player id="149190"/>
+        <player id="149874"/>
+    </alliance>
+    <alliance id="3660" name="Savages" tag="savs" open="1">
+        <player id="250343"/>
+    </alliance>
+    <alliance id="3661" name="HaRD_KoR" tag="HaRD_KoR" open="1">
+        <player id="149804"/>
+    </alliance>
+    <alliance id="3667" name="Mining alliance" tag="MINERS" open="1">
+        <player id="250338"/>
+    </alliance>
+    <alliance id="3668" name="AvisEmpire" tag="OldCity" open="1">
+        <player id="250264"/>
+    </alliance>
+    <alliance id="3669" name="Stay hungry Stay foolish" tag="student" open="1">
+        <player id="149385"/>
+        <player id="149418"/>
+        <player id="149428"/>
+        <player id="149527"/>
+    </alliance>
+    <alliance id="3670" name="colony" tag="colony" open="1">
+        <player id="149248"/>
+    </alliance>
+    <alliance id="3671" name="CRONE WT" tag="BUMBUM" open="1">
+        <player id="250397"/>
+        <player id="250398"/>
+    </alliance>
+    <alliance id="3672" name="STANDUP JUMPERS" tag="SP JS"
+              logo="http://i864.photobucket.com/albums/ab207/jgonzalezjuste/cooltext135362918041514_zpszhaoy2eh.jpg"
+              open="1">
+        <player id="250417"/>
+    </alliance>
+    <alliance id="3673" name="Legion" tag="Legion_1"
+              logo="http://i1123.photobucket.com/albums/l553/tcp418/legion/mysiggy.jpg" open="1">
+        <player id="250418"/>
+        <player id="250421"/>
+    </alliance>
+    <alliance id="3674" name="Nightcore" tag="NiCo"
+              logo="http://pa1.narvii.com/5765/d7716e138c7df888a6022aaf45cfb5801b47c67c_hq.gif" open="1">
+        <player id="250419"/>
+    </alliance>
+    <alliance id="3677" name="Croatia Team" tag="cro_team" open="1">
+        <player id="110352"/>
+        <player id="124206"/>
+        <player id="128255"/>
+        <player id="129015"/>
+        <player id="149036"/>
+        <player id="149371"/>
+        <player id="149447"/>
+        <player id="149681"/>
+    </alliance>
+    <alliance id="3682" name="Heaven Crusaders" tag="H-C" open="1">
+        <player id="250494"/>
+    </alliance>
+    <alliance id="3683" name="OnlyForDutch" tag="O_F_D" open="1">
+        <player id="250415"/>
+    </alliance>
+    <alliance id="3685" name="US 3" tag="SFB">
+        <player id="250501"/>
+        <player id="250565"/>
+    </alliance>
+    <alliance id="3690" name="SNIPERS" tag="SNP"
+              logo="http://download.xbox.com/content/images/66acd000-77fe-1000-9115-d802435907d4/1033/screenlg2.jpg"
+              open="1">
+        <player id="100801"/>
+        <player id="148992"/>
+        <player id="149095"/>
+        <player id="149166"/>
+        <player id="149172"/>
+        <player id="149366"/>
+        <player id="149369"/>
+        <player id="149435"/>
+        <player id="149476"/>
+        <player id="149487"/>
+        <player id="149618"/>
+        <player id="149852"/>
+        <player id="250377"/>
+    </alliance>
+    <alliance id="3699" name="Tardis" tag="Tardis"
+              logo="http://www.walldevil.com/wallpapers/w03/934450-doctor-who-outer-space-tardis.jpg" open="1">
+        <player id="150004"/>
+    </alliance>
+    <alliance id="3704" name="LUSOS-PT" tag="LUSOS-PT" homepage="http://lusos.que.com.pt" open="1">
+        <player id="100710"/>
+        <player id="103943"/>
+        <player id="139786"/>
+        <player id="146541"/>
+        <player id="149060"/>
+        <player id="149182"/>
+        <player id="149222"/>
+        <player id="149226"/>
+        <player id="149239"/>
+        <player id="149443"/>
+        <player id="149445"/>
+        <player id="149449"/>
+        <player id="149480"/>
+        <player id="149892"/>
+        <player id="251155"/>
+    </alliance>
+    <alliance id="3710" name="DaBoys" tag="Jack3d" open="1">
+        <player id="250891"/>
+        <player id="250892"/>
+        <player id="251042"/>
+    </alliance>
+    <alliance id="3716" name="Fallen_Angels" tag="FALLN" open="1">
+        <player id="250939"/>
+    </alliance>
+    <alliance id="3719" name="terrer" tag="111" open="1">
+        <player id="250962"/>
+    </alliance>
+    <alliance id="3721" name="UNIT" tag="UNIT" open="1">
+        <player id="251009"/>
+        <player id="251010"/>
+    </alliance>
+    <alliance id="3726" name="Quantum Heating and Cooling" tag="HVAC" open="1">
+        <player id="250476"/>
+    </alliance>
+    <alliance id="3732" name="Angeles Destructores Oscuros" tag="Maaier"
+              homepage="http://thebest404pageever.com/swf/rollby.swf"
+              logo="http://img09.deviantart.net/ee4b/i/2010/005/9/6/tengen_toppa_gurrenlagann_flag_by_famyx.png"
+              open="1">
+        <player id="251121"/>
+    </alliance>
+    <alliance id="3733" name="Rich Tea Gang" tag="RTG" open="1">
+        <player id="251090"/>
+    </alliance>
+    <alliance id="3735" name="League of Shadows" tag="LOS" open="1">
+        <player id="145186"/>
+    </alliance>
+    <alliance id="3738" name="Unity" tag="Unity" homepage="https://www.youtube.com/watch?v=n8X9_MgEdCg"
+              logo="https://s-media-cache-ak0.pinimg.com/originals/f0/c7/a0/f0c7a0412dd135c9daa4b887cdb28824.jpg"
+              open="1">
+        <player id="100103"/>
+        <player id="100286"/>
+        <player id="100734"/>
+        <player id="101231"/>
+        <player id="103518"/>
+        <player id="104667"/>
+        <player id="149015"/>
+        <player id="149325"/>
+        <player id="149349"/>
+        <player id="149372"/>
+        <player id="149510"/>
+        <player id="149774"/>
+        <player id="149810"/>
+        <player id="149828"/>
+        <player id="150003"/>
+        <player id="150037"/>
+        <player id="150043"/>
+        <player id="150044"/>
+        <player id="150073"/>
+    </alliance>
+    <alliance id="3740" name="The Syndicate" tag="SYND" open="1">
+        <player id="101074"/>
+        <player id="102756"/>
+        <player id="103176"/>
+        <player id="104431"/>
+        <player id="149194"/>
+        <player id="149547"/>
+        <player id="149558"/>
+        <player id="149675"/>
+        <player id="149786"/>
+        <player id="149811"/>
+        <player id="149859"/>
+    </alliance>
+    <alliance id="3744" name="The Ogame Assassins" tag="Brawlers"
+              logo="http://www.theclinkroom.com/wp-content/uploads/2012/10/BTS-Brawlers3A.png" open="1">
+        <player id="146831"/>
+        <player id="149119"/>
+        <player id="149240"/>
+        <player id="149630"/>
+        <player id="149780"/>
+        <player id="150017"/>
+        <player id="251190"/>
+    </alliance>
+    <alliance id="3746" name="ADAC-MTB" tag="MTB" open="1">
+        <player id="251382"/>
+    </alliance>
+    <alliance id="3757" name="RaVe" tag="RaVe" logo="https://pbs.twimg.com/media/BvGHgqPCAAUjhDw.jpg" open="1">
+        <player id="131142"/>
+    </alliance>
+    <alliance id="3761" name="Dumbledores Army" tag="D-A"
+              logo="http://images5.fanpop.com/image/photos/29100000/Dumbledore-s-army-dumbledores-army-29176654-500-281.png"
+              open="1">
+        <player id="132266"/>
+        <player id="138550"/>
+        <player id="142198"/>
+        <player id="143241"/>
+        <player id="147561"/>
+        <player id="148121"/>
+        <player id="148918"/>
+        <player id="148929"/>
+        <player id="149123"/>
+        <player id="149259"/>
+        <player id="149461"/>
+        <player id="149620"/>
+        <player id="149853"/>
+        <player id="150084"/>
+        <player id="250144"/>
+        <player id="250556"/>
+        <player id="250786"/>
+        <player id="250828"/>
+        <player id="250862"/>
+        <player id="250900"/>
+        <player id="250993"/>
+        <player id="251059"/>
+        <player id="251088"/>
+        <player id="251204"/>
+        <player id="251246"/>
+        <player id="251255"/>
+        <player id="251351"/>
+        <player id="251358"/>
+        <player id="251359"/>
+        <player id="251396"/>
+        <player id="251403"/>
+        <player id="251452"/>
+        <player id="251453"/>
+        <player id="251511"/>
+        <player id="251523"/>
+        <player id="251526"/>
+        <player id="251533"/>
+        <player id="251543"/>
+        <player id="251544"/>
+        <player id="251570"/>
+        <player id="251574"/>
+        <player id="251604"/>
+        <player id="251625"/>
+        <player id="251636"/>
+        <player id="251647"/>
+        <player id="251660"/>
+        <player id="251670"/>
+        <player id="251685"/>
+        <player id="251695"/>
+        <player id="251707"/>
+        <player id="251709"/>
+        <player id="251719"/>
+        <player id="251732"/>
+        <player id="251735"/>
+        <player id="251934"/>
+        <player id="251944"/>
+        <player id="251958"/>
+        <player id="251988"/>
+        <player id="252106"/>
+    </alliance>
+    <alliance id="3763" name="PlanetaryPowers" tag="P-P" open="1">
+        <player id="251499"/>
+    </alliance>
+    <alliance id="3764" name="Victorias Secret" tag="V S"
+              logo="http://ell.h-cdn.co/assets/15/46/980x490/landscape-1447175108-angels-index.jpg" open="1">
+        <player id="251619"/>
+    </alliance>
+    <alliance id="3765" name="The Meteor Alliance" tag="METEOR" open="1">
+        <player id="251637"/>
+        <player id="251639"/>
+        <player id="251716"/>
+        <player id="251740"/>
+    </alliance>
+    <alliance id="3766" name="Havefun" tag="Ourteam" open="1">
+        <player id="251295"/>
+    </alliance>
+    <alliance id="3768" name="The Shadow Broker" tag="TSB">
+        <player id="250960"/>
+    </alliance>
+    <alliance id="3770" name="Sabotage" tag="Sabotage" open="1">
+        <player id="251671"/>
+        <player id="251673"/>
+    </alliance>
+    <alliance id="3778" name="BOSNA" tag="BIH" open="1">
+        <player id="251761"/>
+        <player id="251762"/>
+        <player id="251966"/>
+        <player id="252058"/>
+    </alliance>
+    <alliance id="3780" name="Great Dark Spot" tag="GDS" open="1">
+        <player id="251816"/>
+    </alliance>
+    <alliance id="3781" name="WoZ" tag="WoZ" open="1">
+        <player id="134369"/>
+    </alliance>
+    <alliance id="3783" name="Strargate Atlantis" tag="Atlantis"
+              logo="http://orig05.deviantart.net/938f/f/2008/272/b/f/stargate_atlantis_by_ladyalexina.jpg" open="1">
+        <player id="144989"/>
+        <player id="149485"/>
+        <player id="250140"/>
+        <player id="250684"/>
+        <player id="251833"/>
+    </alliance>
+    <alliance id="3784" name="INDONESIA" tag="NKRI" open="1">
+        <player id="251948"/>
+        <player id="251967"/>
+        <player id="251968"/>
+    </alliance>
+    <alliance id="3787" name="The Imperial Guard" tag="TIG"
+              logo="http://img.lum.dolimg.com/v1/images/databank_emperorsroyalguard_01_169_4a88ce6c.jpeg?region=0%2C60%2C1560%2C780"
+              open="1">
+        <player id="100775"/>
+        <player id="101308"/>
+        <player id="138232"/>
+        <player id="144111"/>
+        <player id="150127"/>
+        <player id="250390"/>
+        <player id="251551"/>
+        <player id="251776"/>
+    </alliance>
+    <alliance id="3792" name="The White Knights" tag="TWK" open="1">
+        <player id="252040"/>
+        <player id="252041"/>
+        <player id="252042"/>
+        <player id="252044"/>
+    </alliance>
+    <alliance id="3796" name="Contact" tag="Contact" open="1">
+        <player id="252030"/>
+        <player id="252063"/>
+    </alliance>
+    <alliance id="3798" name="We Will Mine" tag="W-W-M" open="1">
+        <player id="101655"/>
+        <player id="110132"/>
+        <player id="149116"/>
+        <player id="149196"/>
+        <player id="150030"/>
+        <player id="252070"/>
+    </alliance>
+    <alliance id="3800" name="Maximilliano" tag="MAXIMUS" open="1">
+        <player id="150079"/>
+    </alliance>
+    <alliance id="3802" name="ALL1ANCE" tag="ALL1ANCE" open="1">
+        <player id="252108"/>
+    </alliance>
+    <alliance id="3804" name="1plus0" tag="lonely">
+        <player id="143415"/>
+    </alliance>
+    <alliance id="3805" name="AGames" tag="Andept80" open="1">
+        <player id="251940"/>
+    </alliance>
+    <alliance id="3806" name="OutCast" tag="OutCast" open="1">
+        <player id="252132"/>
+    </alliance>
+    <alliance id="3807" name="MOLON LABE" tag="MolonLab"
+              logo="https://img1.etsystatic.com/022/0/7940834/il_340x270.510833187_covt.jpg" open="1">
+        <player id="252103"/>
+        <player id="252109"/>
+    </alliance>
+    <alliance id="3808" name="Back To The Future" tag="BTTF" open="1">
+        <player id="252036"/>
+        <player id="252037"/>
+        <player id="252039"/>
+    </alliance>
+    <alliance id="3809" name="Predators" tag="Pred" open="1">
+        <player id="150093"/>
+    </alliance>
+</alliances>

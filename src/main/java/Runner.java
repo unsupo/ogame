@@ -53,6 +53,8 @@ public class Runner {
 
                 Utility.clickOnNewPage(Overview.OVERVIEW);
                 Initialize.writeToJSON();
+
+                Thread.sleep(30000);
             }catch (Exception e){
                 e.printStackTrace();
                 //you got logged out

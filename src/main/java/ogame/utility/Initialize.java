@@ -33,7 +33,9 @@ public class Initialize {
     private static Initialize instance;
     private long points;
 
+    private static int universeID;
     private BuildTask currentResearch;
+    private int currentDarkMatter = 0;
     private static HashMap<String,List<Integer>> mappings = new HashMap<>();
     private List<Buildable> buildables = new ArrayList<>();
     private HashMap<String,Integer> researches = new HashMap<>();//, facilities = new HashMap<>(), buildings = new HashMap<>();
@@ -42,6 +44,16 @@ public class Initialize {
 
     public static BuildTask getCurrentResearch() {
         return getInstance().currentResearch;
+    }
+
+    public static int getUniverseID() {
+        return universeID;
+    }
+
+    public static void setCurrentDarkMatter(int currentDarkMatter) {
+        Initialize.getInstance().currentDarkMatter = currentDarkMatter;
+    } public static int getCurrentDarkMatter() {
+        return Initialize.getInstance().currentDarkMatter;
     }
 
     public int getFleetSlotsAvailable() {
@@ -78,6 +90,7 @@ public class Initialize {
     }
     public static Overview login() throws IOException {
         String[] params = QueueManager.getLoginParams();
+        universeID =Integer.parseInt(params[0].replaceAll("[^0-9]",""));
         instance = new Initialize(params[0],params[1],params[2]);
         return new Overview();
     }

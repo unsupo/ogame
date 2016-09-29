@@ -165,16 +165,38 @@ public class Utility {
         return 398;
     }
 
-    public static List<Coordinates> getInactiveTargets(Coordinates yourCoordinates) throws IOException, SQLException {
-//        Coordinates coordinates = Initialize.getPlanetMap().get("Homeworld").getCoordinates();
+    public static List<Coordinates> getAllInactiveTargets(Coordinates yourCoordinates, int universeID) throws IOException, SQLException {
         List<Map<String, Object>> results = _HSQLDB.executeQuery(
-                "select coordinates from player p JOIN planet t ON p.player_name = t.player_name " +
-                        "where player_status in ('I','i') and " +
-                        "regexp_substring(coordinates,'[0-9]+')='" + yourCoordinates.getGalaxy() + "'");
+                "select * from highscore_player a " +
+                        "join players p on p.universe_id = a.universe_id and p.id = a.id " +
+                        "join planets t on t.universe_id = a.universe_id and t.player = p.id " +
+                        "where universe_id = "+universeID+" and status in ('I','i') " +
+                        "order by position");
 
-        List<Coordinates> coords = results.stream().map(a->new Coordinates(a.get("COORDINATES").toString()))
+        List < Coordinates > coords = results.stream().map(a -> new Coordinates(a.get("COORDS").toString()))
                 .collect(Collectors.toList());
-        Collections.sort(coords,(a,b)->yourCoordinates.compareTo(a)-yourCoordinates.compareTo(b));
+
+        Collections.sort(coords,(a,b)->yourCoordinates.getDistance(a)-yourCoordinates.getDistance(b));
+        return coords;
+    }
+    public static List<Coordinates> getInactiveTargets(Coordinates yourCoordinates, int universeID, int maxPoints) throws IOException, SQLException {
+//        Coordinates coordinates = Initialize.getPlanetMap().get("Homeworld").getCoordinates();
+//        List<Map<String, Object>> results = _HSQLDB.executeQuery(
+//                "select coordinates from player p JOIN planet t ON p.player_name = t.player_name " +
+//                        "where player_status in ('I','i') and " +
+//                        "regexp_substring(coordinates,'[0-9]+')='" + yourCoordinates.getGalaxy() + "'");
+
+        List<Map<String, Object>> results = _HSQLDB.executeQuery(
+                "select * from highscore_player a " +
+                        "join players p on p.universe_id = a.universe_id and p.id = a.id " +
+                        "join planets t on t.universe_id = a.universe_id and t.player = p.id " +
+                        "where universe_id = "+universeID+" and status in ('I','i') and score < "+maxPoints+" " +
+                        "order by position");
+
+                List < Coordinates > coords = results.stream().map(a -> new Coordinates(a.get("COORDS").toString()))
+                        .collect(Collectors.toList());
+
+        Collections.sort(coords,(a,b)->yourCoordinates.getDistance(a)-yourCoordinates.getDistance(b));
         return coords;
     }
 
@@ -228,7 +250,7 @@ public class Utility {
             Resource res = readResource();
 
             planet.setCurrentResources(res);
-            planet.setCurrentDarkMatter(dm);
+            Initialize.setCurrentDarkMatter(dm);
 
             //TODO Overview
             if (Facilities.FACILITIES.equals(pageName)) {
