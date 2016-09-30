@@ -31,10 +31,24 @@ public class Planet {
     }
 
     public void setCurrentFacilityBeingBuild(BuildTask currentFacilityBeingBuild) {
+        purgeCompletedTasks();
         this.currentFacilityBeingBuild = currentFacilityBeingBuild;
     }
 
+    private void purgeCompletedTasks() {
+        if(currentBuildingBeingBuild != null && currentBuildingBeingBuild.isComplete())
+            currentBuildingBeingBuild = null;
+        if(currentFacilityBeingBuild != null && currentFacilityBeingBuild.isComplete())
+            currentFacilityBeingBuild = null;
+        List<BuildTask> removeList = new ArrayList<>();
+        for(BuildTask b : currentShipyardBeingBuild)
+            if(b.isComplete())
+                removeList.add(b);
+        currentShipyardBeingBuild.removeAll(removeList);
+    }
+
     public BuildTask getCurrentBuildingBeingBuild() {
+        purgeCompletedTasks();
         return currentBuildingBeingBuild;
     }
 
@@ -43,6 +57,7 @@ public class Planet {
     }
 
     public Set<BuildTask> getCurrentShipyardBeingBuild() {
+        purgeCompletedTasks();
         return currentShipyardBeingBuild;
     }
 

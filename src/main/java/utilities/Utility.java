@@ -308,7 +308,7 @@ public class Utility {
     public static void setBuildTime(Set<BuildTask> buildTime) {
         BuildTask task = setBuildTime(new BuildTask());
         if(task == null) {
-            buildTime = new HashSet<BuildTask>();
+            buildTime.clear();
             return;
         }buildTime.add(task);
         Elements table = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("#pqueue").select("li");

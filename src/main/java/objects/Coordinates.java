@@ -109,6 +109,9 @@ public class Coordinates implements Comparable<Coordinates>{
         this.universe = universe;
         return this;
     }
+    public String getStringValue(){
+        return galaxy+":"+system+":"+planet;
+    }
 
     public int getGalaxy() {
         return galaxy;

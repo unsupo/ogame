@@ -117,6 +117,32 @@ public class UIMethods {
             }
         return null;
     }
+
+    public static WebElement clickOnTextContains(String text){//UIMethods.getWebDriver().findElements(By.xpath("//*[contains(text(),'Combat Reports')]"))
+        List<WebElement> e = getWebDriver().findElements(By.xpath("//*[contains(text(),'"+text+"')]"));
+        for(WebElement el : e)
+            try{
+                el.click();
+                return el;
+            }catch(Exception ee){
+                return _clickOnTextContains(text, getWebDriver(), 0);
+            }
+        return null;
+    }public static WebElement _clickOnTextContains(String text, WebDriver driver, int level){
+        String path = "//*[contains(text(),'"+text+"')]/parent::*";
+        for(int i = 0; i<level; i++)
+            path+="/parent::*";
+
+        List<WebElement> e = driver.findElements(By.xpath(path));
+        for(WebElement el : e)
+            try{
+                el.click();
+                return el;
+            }catch(Exception ee){
+                return _clickOnTextContains(text, driver, ++level);
+            }
+        return null;
+    }
     
     public static WebElement clickOnAttributeAndValue(String name, String value) {
     	return clickOnAttributeAndValue(name, value, 0);

@@ -38,6 +38,9 @@ public class ProfileFollower implements AI {
                 try {
                     Merchant.getItemOfDay();
 
+                    if(Utility.getMessageCount() != 0)
+                        Message.parseAllMessages();
+
                     if(targets == null)
                         targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID());
 
@@ -141,6 +144,7 @@ public class ProfileFollower implements AI {
         });
     }//        if (researchRequired.isEmpty() && facilitiesRequired.isEmpty())
     //TODO remove the task programically if requirements are met and it successfully builds it
+    //              TODO done but needs testing
 
 
     public Buildable getBuildTask(Buildable build) throws IOException {
@@ -152,7 +156,7 @@ public class ProfileFollower implements AI {
         boolean canBuild = true;
         if(!facilitiesRequired.isEmpty())
             for(String key : facilitiesRequired.keySet())
-                if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(key)) { //check if you can afford it (you can if you have at least 500 DM)
+                if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(key)) { //check if you can afford it (you can if you have at least 500 DM)
                     if (!(Utility.getActivePlanet().getCurrentFacilityBeingBuild() != null && //if no facilities are being built
                             Utility.getActivePlanet().getCurrentFacilityBeingBuild().isInProgress()))
                         build = Initialize.getBuildableByName(key); //build the facility
@@ -161,7 +165,7 @@ public class ProfileFollower implements AI {
 
         if(!researchRequired.isEmpty())
             for(String key : researchRequired.keySet()) //for each required research
-                if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(key)){ //check if you can afford it (you can if you have at least 500 DM)
+                if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(key)){ //check if you can afford it (you can if you have at least 500 DM)
                     if(!(Initialize.getCurrentResearch() != null &&
                             Initialize.getCurrentResearch().isInProgress())) { //check if you have no researches in progress
                         build = Initialize.getBuildableByName(key);
@@ -176,7 +180,7 @@ public class ProfileFollower implements AI {
                         Utility.getActivePlanet().getCurrentFacilityBeingBuild().getBuildable().getName()))))
             canBuild = false; //then you can't build it yet
 
-        if(Initialize.getCurrentDarkMatter() >= 0 || Utility.canAfford(build.getName()))//if you can't build it, don't bother trying
+        if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(build.getName()))//if you can't build it, don't bother trying
             canBuild = true;
         else canBuild = false;
 

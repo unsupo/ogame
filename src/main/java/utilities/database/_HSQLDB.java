@@ -16,7 +16,7 @@ public class _HSQLDB {
     private HSQLDB db = null;
     private _HSQLDB() throws IOException, SQLException {
         db = new HSQLDB(dbName);
-//        db.executeQuery(
+//        db.executeQuery( //Deprecated
 //                "CREATE TABLE IF NOT EXISTS PLAYER (" +
 //                        "player_name VARCHAR(50), " +
 //                        "alliance_name VARCHAR(50), " +
@@ -125,6 +125,41 @@ public class _HSQLDB {
                         "moon_size INT, " +
                         "universe_id INT, " +
                         "PRIMARY KEY (id,universe_id)" +
+                ");");
+
+        db.executeQuery(
+                "CREATE TABLE IF NOT EXISTS ESPIONAGE_REPORTS(" +
+                        "coords VARCHAR(20), " +
+                        "msgDate BIGINT, " +
+                        "activityType VARCHAR(5), " +
+                        "activityString VARCHAR(100), " +
+                        "metal BIGINT, " +
+                        "crystal BIGINT, " +
+                        "deuterium BIGINT, " +
+                        "lootPercent INT, " +
+                        "counterEspionagePercent INT, " +
+                        "fleets BIGINT, " +
+                        "defence BIGINT, " +
+                        "universe_id INT, " +
+                        "PRIMARY KEY (coords, msgDate,universe_id)" +
+                ");");
+
+        db.executeQuery(
+                "CREATE TABLE IF NOT EXISTS COMBAT_REPORTS(" +
+                        "coords VARCHAR(20), " +
+                        "msgDate BIGINT, " +
+                        "attacker VARCHAR(100), " +
+                        "defender VARCHAR(100), " +
+                        "lootedMetal BIGINT, " +
+                        "lootedCrystal BIGINT, " +
+                        "lootedDeuterium BIGINT, " +
+                        "lootPercent INT, " +
+                        "attackerLosses BIGINT, " +
+                        "defenderLosses BIGINT, " +
+                        "actuallyRepaired BIGINT, " +
+                        "debrisField BIGINT, " +
+                        "universe_id INT, " +
+                        "PRIMARY KEY (coords, msgDate,universe_id)" +
                 ");");
     }
 
