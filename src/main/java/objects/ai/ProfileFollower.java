@@ -10,9 +10,11 @@ import utilities.selenium.Task;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 9/25/16.
@@ -67,17 +69,17 @@ public class ProfileFollower implements AI {
                         targets.remove(0);
                     }else{
                         if(reason.equals(Fleet.FLEET)){
-//                            List<Mission> missions = Utility.getFleetInformation();
-                            if(Initialize.getInstance().getFleetSlotsAvailable() != 0)
+                            int missions = Utility.getOwnMissionCount();
+                            if(Initialize.getInstance().getTotalFleetSlots() - missions > 0)
                                 couldntAttackLast = false;
                             else
-                                System.out.println("No fleet slots available");
+                                System.out.println("Still No fleet slots available");
                         }else if(reason.equals(Ship.SMALL_CARGO)){
                             int count = Utility.getActivePlanet().getShips().get(Ship.SMALL_CARGO);
                             if(count != 0)
                                 couldntAttackLast = false;
                             else
-                                System.out.println("No small cargos");
+                                System.out.println("Still No small cargos");
                         }
                     }
                 } catch (IOException e) {
@@ -96,8 +98,13 @@ public class ProfileFollower implements AI {
 
     @Override
     public Task getAttackedTask() {
-        if(Utility.isBeingAttack())
-            Utility.getFleetInformation().stream().filter(a->a.getMissionType().equals(MissionBuilder.ATTACK));
+        if(Utility.isBeingAttack()) {
+            List<Mission> missions = Utility.getFleetInformation().stream()
+                    .filter(a -> a.getMissionType().equals(MissionBuilder.ATTACK)).collect(Collectors.toList());
+            Collections.sort(missions,(a,b)->a.getArrivalTime().compareTo(b.getArrivalTime()));
+
+
+        }
         return null;
     }
 
@@ -105,6 +112,9 @@ public class ProfileFollower implements AI {
     private BuildTask currentBuildTask;
     public Task getNextBuildTask() throws IOException {
         final BuildTask buildTask = BuildTask.getNextBuildTask();
+        if(buildTask == null)
+            return null;
+
         String type = Initialize.getType(buildTask.getBuildable().getName());
         Planet planetMap = Initialize.getPlanetMap().get(Utility.getActivePlanetCoordinates());
 

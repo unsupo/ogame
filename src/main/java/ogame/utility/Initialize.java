@@ -42,6 +42,12 @@ public class Initialize {
 
     private HashMap<Coordinates,Planet> planets = new HashMap<>();//planetName, Planet object
 
+    public void setTotalFleetSlots(int totalFleetSlots) {
+        this.totalFleetSlots = totalFleetSlots;
+    }
+
+    private int totalFleetSlots;
+
     public static BuildTask getCurrentResearch() {
         return getInstance().currentResearch;
     }
@@ -355,4 +361,7 @@ public class Initialize {
         return null;
     }
 
+    public int getTotalFleetSlots() {
+        return totalFleetSlots;
+    }
 }

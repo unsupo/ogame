@@ -69,9 +69,9 @@ public class Resource {
 			2000000,    4000000,2000000,0
 	});
 
-	public static final String METAL = "metal";
-	public static final String CRYSTAL = "crystal";
-	public static final String DEUTERIUM = "deuterium";
+	public static final String METAL = "Metal";
+	public static final String CRYSTAL = "Crystal";
+	public static final String DEUTERIUM = "Deuterium";
 	public static final String ENERGY = "energy";
 
 	public long metal;
@@ -97,6 +97,12 @@ public class Resource {
 		baseCosts.addAll(Arrays.asList(facilitiesBaseCosts));
 		baseCosts.addAll(Arrays.asList(Resources.baseCosts));
 	}
+
+    public Resource() {
+        this.metal = 0;
+		this.crystal = 0;
+		this.deuterium = 0;
+    }
 
 	public static Resource getCost(String name) throws IOException{
 		return getCost(name, 1);

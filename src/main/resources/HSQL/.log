@@ -1,48 +1,56 @@
-/*C10*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS SERVER(name VARCHAR(50), number INT,language VARCHAR(2),timezone VARCHAR(100),timezoneOffset VARCHAR(20),domain VARCHAR(250),version VARCHAR(10),speed INT,speedFleet INT,galaxies INT,systems INT, acs INT, rapidFire INT, defToTF INT, debrisFactor DECIMAL, debrisFactorDef DECIMAL, repairFactor DECIMAL, newbieProtectionLimit INT, newbieProtectionHigh INT, topScore BIGINT, bonusFields INT, donutGalaxy INT, donutSystem INT, wfEnabled INT, wfMinimumRessLost INT, wfMinimumLossPercentage INT,wfBasicPercentageRepairable INT, globalDeuteriumSaveFactor INT, PRIMARY KEY (domain))
-/*C11*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS HIGHSCORE_PLAYER( position INT, id INT, score BIGINT, universe_id INT, PRIMARY KEY (id,universe_id))
-/*C12*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS HIGHSCORE_ALLIANCE( position INT, id INT, score BIGINT, universe_id INT, PRIMARY KEY (id,universe_id))
-/*C13*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS PLAYERS( id INT, name VARCHAR(100), status VARCHAR(3), alliance INT, universe_id INT, PRIMARY KEY (id,universe_id))
-/*C14*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS ALLIANCES( id INT, name VARCHAR(100), tag VARCHAR(10), homepage VARCHAR(250), logo VARCHAR(250), open INT, player_id INT, universe_id INT, PRIMARY KEY (id,universe_id))
-/*C15*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS PLANETS( id BIGINT, player INT, name VARCHAR(100), coords VARCHAR(10), moon_id INT, moon_name VARCHAR(100), moon_size INT, universe_id INT, PRIMARY KEY (id,universe_id))
-/*C16*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS ESPIONAGE_REPORTS(coords VARCHAR(20), msgDate BIGINT, activityType VARCHAR(5), activityString VARCHAR(100), metal BIGINT, crystal BIGINT, deuterium BIGINT, lootPercent INT, counterEspionagePercent INT, fleets BIGINT, defence BIGINT, universe_id INT, PRIMARY KEY (coords, msgDate,universe_id))
-/*C17*/SET SCHEMA PUBLIC
-CREATE TABLE IF NOT EXISTS COMBAT_REPORTS(coords VARCHAR(20), msgDate BIGINT, attacker VARCHAR(100), defender VARCHAR(100), lootedMetal BIGINT, lootedCrystal BIGINT, lootedDeuterium BIGINT, lootPercent INT, attackerLosses BIGINT, defenderLosses BIGINT, actuallyRepaired BIGINT, debrisField BIGINT, universe_id INT, PRIMARY KEY (coords, msgDate,universe_id))
-/*C18*/SET SCHEMA PUBLIC
-INSERT INTO COMBAT_REPORTS VALUES('4:24:8',1475072801000,'Tusom','unsupo',1191,595,50,183650,0,0,0,0,141)
-COMMIT
-/*C19*/SET SCHEMA PUBLIC
-INSERT INTO COMBAT_REPORTS VALUES('4:24:8',1475070149000,'Agatha Christie','unsupo',2272,1136,100,350850,0,16000,0,11200,141)
-COMMIT
-/*C20*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C10*/DISCONNECT
-/*C24*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C14*/DISCONNECT
-/*C13*/DISCONNECT
-/*C12*/DISCONNECT
-/*C11*/DISCONNECT
-/*C19*/DISCONNECT
-/*C18*/DISCONNECT
-/*C17*/DISCONNECT
-/*C16*/DISCONNECT
-/*C15*/DISCONNECT
-/*C22*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C21*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C23*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C25*/SET SCHEMA PUBLIC
-DISCONNECT
 /*C26*/SET SCHEMA PUBLIC
-DISCONNECT
+CREATE TABLE IF NOT EXISTS SERVER(name VARCHAR(50), number INT,language VARCHAR(2),timezone VARCHAR(100),timezoneOffset VARCHAR(20),domain VARCHAR(250),version VARCHAR(10),speed INT,speedFleet INT,galaxies INT,systems INT, acs INT, rapidFire INT, defToTF INT, debrisFactor DECIMAL, debrisFactorDef DECIMAL, repairFactor DECIMAL, newbieProtectionLimit INT, newbieProtectionHigh INT, topScore BIGINT, bonusFields INT, donutGalaxy INT, donutSystem INT, wfEnabled INT, wfMinimumRessLost INT, wfMinimumLossPercentage INT,wfBasicPercentageRepairable INT, globalDeuteriumSaveFactor INT, PRIMARY KEY (domain))
 /*C27*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS HIGHSCORE_PLAYER( position INT, id INT, score BIGINT, universe_id INT, PRIMARY KEY (id,universe_id))
+/*C28*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS HIGHSCORE_ALLIANCE( position INT, id INT, score BIGINT, universe_id INT, PRIMARY KEY (id,universe_id))
+/*C29*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS PLAYERS( id INT, name VARCHAR(100), status VARCHAR(3), alliance INT, universe_id INT, PRIMARY KEY (id,universe_id))
+/*C30*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS ALLIANCES( id INT, name VARCHAR(100), tag VARCHAR(10), homepage VARCHAR(250), logo VARCHAR(250), open INT, player_id INT, universe_id INT, PRIMARY KEY (id,universe_id))
+/*C31*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS PLANETS( id BIGINT, player INT, name VARCHAR(100), coords VARCHAR(10), moon_id INT, moon_name VARCHAR(100), moon_size INT, universe_id INT, PRIMARY KEY (id,universe_id))
+/*C32*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS ESPIONAGE_REPORTS(coords VARCHAR(20), msgDate BIGINT, activityType VARCHAR(5), activityString VARCHAR(100), metal BIGINT, crystal BIGINT, deuterium BIGINT, lootPercent INT, counterEspionagePercent INT, fleets BIGINT, defence BIGINT, universe_id INT, PRIMARY KEY (coords, msgDate,universe_id))
+/*C33*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS COMBAT_REPORTS(coords VARCHAR(20), msgDate BIGINT, attacker VARCHAR(100), defender VARCHAR(100), lootedMetal BIGINT, lootedCrystal BIGINT, lootedDeuterium BIGINT, lootPercent INT, attackerLosses BIGINT, defenderLosses BIGINT, actuallyRepaired BIGINT, debrisField BIGINT, universe_id INT, PRIMARY KEY (coords, msgDate,universe_id))
+/*C43*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C44*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C41*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C42*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C28*/DISCONNECT
+/*C29*/DISCONNECT
+/*C30*/DISCONNECT
+/*C31*/DISCONNECT
+/*C32*/DISCONNECT
+/*C33*/DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C27*/DISCONNECT
+/*C26*/DISCONNECT
+/*C45*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C48*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C47*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C46*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C49*/SET SCHEMA PUBLIC
 DISCONNECT

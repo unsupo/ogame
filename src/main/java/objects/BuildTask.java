@@ -130,9 +130,13 @@ public class BuildTask{
     }
 
     public static BuildTask getNextBuildTask() throws IOException {
-        String nextProfileBuild = QueueManager.getProfileFileContents().stream()
-                .filter(a->a.startsWith("build:"))
-                .collect(Collectors.toList()).get(0);
+        List<String> nextProfileBuildList = QueueManager.getProfileFileContents().stream()
+                .filter(a -> a.startsWith("build:"))
+                .collect(Collectors.toList());
+        String nextProfileBuild = "";
+        if(!nextProfileBuildList.isEmpty())
+            nextProfileBuild = nextProfileBuildList.get(0);
+        else return null;
 
         String[] buildAndQuantity = nextProfileBuild.split(":")[1].trim().split(",");
         Buildable build = Initialize.getBuildableByNameIgnoreCase(buildAndQuantity[0].trim());
@@ -152,7 +156,7 @@ public class BuildTask{
         int index = v.indexOf(buildTask.getLine());
         v.remove(index);
         v.add(index,"#DONE "+buildTask.getLine());
-        FileOptions.writeToFileOverWrite(f.getAbsolutePath(),v.stream().collect(Collectors.joining(", ")));
+        FileOptions.writeToFileOverWrite(f.getAbsolutePath(),v.stream().collect(Collectors.joining("\n")));
     }
 
     public boolean isInProgress() {
