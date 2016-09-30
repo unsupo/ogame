@@ -70,8 +70,13 @@ public class Message {
         return UIMethods.doesPageContainText("News feed");
     }
     public static int getMessageCount(){
-        return Integer.parseInt(Jsoup.parse(UIMethods.getWebDriver().getPageSource())
-                .select("span.new_msg_count.totalMessages").text().trim());
+        try {
+            return Integer.parseInt(Jsoup.parse(UIMethods.getWebDriver().getPageSource())
+                    .select("span.new_msg_count.totalMessages").text().trim());
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
     }
     public static void clickOnMessages() {
         UIMethods.clickOnAttributeAndValue("class","new_msg_count totalMessages  news");

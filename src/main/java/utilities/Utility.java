@@ -1,6 +1,7 @@
 package utilities;
 
 import objects.*;
+import objects.messages.EspionageMsg;
 import ogame.pages.*;
 import ogame.pages.Fleet;
 import ogame.utility.Initialize;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -272,6 +273,7 @@ public class Utility {
                 int available = possible - used;
 
                 Initialize.getInstance().setFleetSlotsAvailable(available);
+                Initialize.getInstance().setTotalFleetSlots(possible);
 
                 planet.getShips().putAll(Initialize.getInstance().getValues(Fleet.ID, Shipyard.SHIPYARD, Fleet.BUTTON_ID_WEB_APPENDER));
             }
@@ -300,7 +302,7 @@ public class Utility {
         }
 
         long millis = getInProgressTime("id", "Countdown")+System.currentTimeMillis();
-        LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+        LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneOffset.UTC);
         buildTime = new BuildTask(buildable,done,level);
         return buildTime;
     }
@@ -320,7 +322,7 @@ public class Utility {
             int level = Integer.parseInt(quantityName[0]);
             String time = contents[1].replace("Building duraiton ","");
             long millis = getTimeConversion(time.split(" "))+System.currentTimeMillis();
-            LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+            LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneOffset.UTC);
             buildTime.add(new BuildTask(buildable,done,level));
         }
     }
@@ -346,6 +348,11 @@ public class Utility {
     public static List<Mission> getFleetInformation() {
         return Mission.getActiveMissions();
     }
+    public static int getOwnMissionCount(){
+        return EspionageMsg.parseNumber(Jsoup.parse(UIMethods.getWebDriver().getPageSource())
+                .select("p.event_list > span.undermark").text()).intValue();
+    }
+
 
     public static int getRandomIntRange(int min, int max){
         if(min > max){

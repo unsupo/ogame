@@ -66,9 +66,11 @@ public class Ship {
     public static boolean isValidShip(String shipName,String...pathToShipFile) throws IOException {
         return getAllShips(pathToShipFile).stream().filter(a->a.getName().equals(shipName)).collect(Collectors.toList()).size() != 0;
     }public static Ship getShipByID(int ID,String...pathToShipFile) throws IOException {
-        return getAllShips(pathToShipFile).stream().filter(a->a.getId() == ID).collect(Collectors.toList()).get(0);
+        List<Ship> v = getAllShips(pathToShipFile).stream().filter(a -> a.getId() == ID).collect(Collectors.toList());
+        return v.size() == 0 ? null : v.get(0);
     }public static Ship getShipByName(String shipName,String...pathToShipFile) throws IOException {
-        return getAllShips(pathToShipFile).stream().filter(a->a.getName().equals(shipName)).collect(Collectors.toList()).get(0);
+        List<Ship> v = getAllShips(pathToShipFile).stream().filter(a -> a.getName().equals(shipName)).collect(Collectors.toList());
+        return v.size() == 0 ? null : v.get(0);
     }
 
     private int id, metal_cost,

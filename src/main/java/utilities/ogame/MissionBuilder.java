@@ -33,6 +33,9 @@ public class MissionBuilder {
     private int speed = 100;
     private Coordinates destination;
 
+    private Coordinates source;
+    private Resource resourceToSend = new Resource();
+
 
 
     @Override
@@ -83,9 +86,6 @@ public class MissionBuilder {
         this.source = source;
         return this;
     }
-
-    private Coordinates source;
-    private Resource resourceToSend;
 
 
     public Fleet getFleet() {
@@ -159,6 +159,11 @@ public class MissionBuilder {
 
         UIMethods.waitForText("Select mission for target:",1, TimeUnit.MINUTES);
         UIMethods.clickOnAttributeAndValue("id",getMission());//document.getElementById("missionButton1").click()
+
+        if(!resourceToSend.equals(fleet.getResourcesBeingCarried()))
+            fleet.setResourcesBeingCarried(resourceToSend);
+        //TODO set resources from fleet before sending
+
         UIMethods.clickOnText("Send fleet");
 
         return this;
