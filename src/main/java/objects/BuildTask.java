@@ -158,4 +158,8 @@ public class BuildTask{
     public boolean isInProgress() {
         return startTime.isBefore(completeTime);
     }
+
+    public boolean isComplete() {
+        return LocalDateTime.now().isAfter(completeTime);
+    }
 }

@@ -31,7 +31,9 @@ public class HttpClient {
     private final String USER_AGENT = "Mozilla/5.0";
 
     public static void main(String[] args) throws Exception {
+        String v = "https://s141-en.ogame.gameforge.com/game/index.php?page=messages&amp;messageId=2097353&amp;tabid=21&amp;ajax=1";
 
+//        new HttpClient().sendGet();
 
     }
 

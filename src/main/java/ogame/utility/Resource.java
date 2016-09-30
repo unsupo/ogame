@@ -214,11 +214,17 @@ public class Resource {
 	private Resource multiply(double multiple) {
 		return new Resource((long)(metal * multiple),(long)(crystal * multiple),(long)(deuterium * multiple), (long)(energy*multiple));
 	}
-	
-	public String toString(){	
-		return "Metal: " + metal + "\nCrystal: " + crystal + "\nDeuterium: " + deuterium + "\nEnergy: " + energy;
+
+	@Override
+	public String toString() {
+		return "Resource{" +
+				"metal=" + metal +
+				", crystal=" + crystal +
+				", deuterium=" + deuterium +
+				", energy=" + energy +
+				'}';
 	}
-	
+
 	public long numAffordable(Resource cost){
 		long metalAmount = cost.metal == 0? Long.MAX_VALUE : metal/cost.metal;
 		long crystalAmount = cost.crystal == 0? Long.MAX_VALUE : crystal/cost.crystal;

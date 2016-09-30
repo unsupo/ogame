@@ -4,9 +4,14 @@ package ogame.pages;
  * Created by jarndt on 9/26/16.
  */
 
+import objects.messages.MessageObj;
+import ogame.utility.Initialize;
 import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import utilities.selenium.UIMethods;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +58,7 @@ public class Message {
         tabSubTabMap.put(FAVOURITES,Arrays.asList());
     }
 
-    public Message(){   }
+
     public static Message instance;
     public static Message getInstance(){
         if(instance == null)
@@ -65,10 +70,12 @@ public class Message {
         return UIMethods.doesPageContainText("News feed");
     }
     public static int getMessageCount(){
-        return Integer.parseInt(UIMethods.getTextFromAttributeAndValue("class","new_msg_count").trim());
+        return Integer.parseInt(Jsoup.parse(UIMethods.getWebDriver().getPageSource())
+                .select("span.new_msg_count.totalMessages").text().trim());
     }
     public static void clickOnMessages() {
-        UIMethods.clickOnAttributeAndValue("class","messages");
+        UIMethods.clickOnAttributeAndValue("class","new_msg_count totalMessages  news");
+        UIMethods.clickOnAttributeAndValue("class","new_msg_count totalMessages noMessage news");
     }
 
     public static List<String> getTabsWithUnreadMessages(){
@@ -76,6 +83,13 @@ public class Message {
                 .select("li.list_item").stream().filter(e->!e.select("span.new_msg_count").isEmpty())
                 .map(e->e.select("span.icon_caption").text().trim())
                 .collect(Collectors.toList());
+    }
+
+    public static boolean isStillLoading(){
+        return !Jsoup.parse(UIMethods.getWebDriver().getPageSource())
+                .select("div.ui-tabs-panel.ui-widget-content.ui-corner-bottom").stream()
+                .filter(a->a.hasAttr("style") && a.text().isEmpty() && !a.attr("style").equals("display: none;"))
+                .collect(Collectors.toList()).isEmpty();
     }
 
     public static List<String> getSubTabsWithUnreadMessages(){
@@ -99,13 +113,32 @@ public class Message {
 
     public static void clickOnMessageTab(String tabName){
         if(!isTabActive(tabName)) //click on tab if it's not active
-            UIMethods.clickOnText(tabName);
+            UIMethods.clickOnTextContains(tabName);
 
     }public static void clickOnMessageSubTab(String subTabName){
         String parent = getParentTab(subTabName); //get parent tab
         clickOnMessageTab(parent); //click on parent tab if it's not open yet
         if(!isSubTabActive(subTabName)) //click on tab if it's not active
-            UIMethods.clickOnText(subTabName);
+            UIMethods.clickOnTextContains(subTabName);
+
+        while (isStillLoading())
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        Elements table = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("li.msg");
+        table.stream().map(a->new MessageObj(a)).filter(a->a.getSubMessage()!=null)
+                    .forEach(a -> {
+                        try {
+                            a.getSubMessage().writeToDatabase(Initialize.getUniverseID());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }); //parse and add all messages of known/relevant type to database
     }
 
     public static String getParentTab(String subTabName) {
@@ -133,22 +166,18 @@ public class Message {
 
     public static void parseOgameMessages() {
         clickOnMessageTab(OGAME);
-
     }
 
     public static void parseUniverseMessages() {
         clickOnMessageTab(UNIVERSE);
-
     }
 
     public static void parseEconomyMessages() {
         clickOnMessageTab(ECONOMY);
-
     }
 
     public static void parseCommunicationMessages() {
         clickOnMessageTab(COMMUNICATION);
-
     }
 
     public static void parseFleetMessages() {
@@ -166,21 +195,17 @@ public class Message {
 
     public static void parseUnionTransportMessages() {
         clickOnMessageSubTab(FLEETS_UNIONS_TRANSPORT);
-
     }
 
     public static void parseExpeditionsMessages() {
         clickOnMessageSubTab(FLEETS_EXPEDITIONS);
-
     }
 
     public static void parseCombatReportMessages() {
         clickOnMessageSubTab(FLEETS_COMBAT_REPORT);
-
     }
 
     public static void parseEspionageMessage() {
         clickOnMessageSubTab(FLEETS_ESPIONAGE);
-
     }
 }

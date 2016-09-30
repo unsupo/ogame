@@ -1,7 +1,6 @@
 import objects.ai.AI;
 import objects.ai.DefaultAI;
 import objects.ai.ProfileFollower;
-import ogame.pages.Merchant;
 import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import ogame.utility.QueueManager;
@@ -19,15 +18,11 @@ public class Runner {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 //        String v = FileOptions.readFileIntoString(Utility.RESOURCE_DIR+"test");
-////        Jsoup.parse(v).select("li.list_item > a").stream().filter(e->!e.select("span").isEmpty() && e.select("span").text().contains("("))
-////                .map(e->e.text())
-//        Elements table = Jsoup.parse(v).select("#eventContent").select("tr");
-//        for(Element e : table) {
-////            System.out.println(e.select("td.icon_movement_reserve, td.icon_movement").select("span").attr("title"));
-//            System.out.println(e.select("td.destCoords").text().trim());
-//        }
+//        Elements vv = Jsoup.parse(v).select("div.ui-tabs-panel.ui-widget-content.ui-corner-bottom");
+//        vv.stream().filter(a->a.hasAttr("style") && a.text().isEmpty() && !a.attr("style").equals("display: none;")).forEach(System.out::println);
 
         runAI(new ProfileFollower());
+
     }
 
     public static void runAI(AI ai) throws IOException {
@@ -36,8 +31,6 @@ public class Runner {
                 Task defaultTask = ai.getDefaultTask(),
                         task = ai.getTask(),
                         attackedTask = ai.getAttackedTask();
-
-                Merchant.getItemOfDay();
 
                 if (Utility.isBeingAttack())
                     if (attackedTask == null)
@@ -54,7 +47,7 @@ public class Runner {
                 Utility.clickOnNewPage(Overview.OVERVIEW);
                 Initialize.writeToJSON();
 
-                Thread.sleep(Utility.getRandomIntRange(45000,25000)); //more human like, click every somewhere between 45 and 25 seconds.
+                Thread.sleep(Utility.getRandomIntRange(60000,25000)); //more human like, click every somewhere between 60 and 25 seconds.
             }catch (Exception e){
                 e.printStackTrace();
                 //you got logged out
@@ -69,6 +62,36 @@ public class Runner {
 
 
     //EXAMPLES
+//        for(Map<String, Object> s : _HSQLDB.executeQuery("select * from ESPIONAGE_REPORTS"))
+//            System.out.println(s);
+
+//        String v = FileOptions.readFileIntoString(Utility.RESOURCE_DIR+"test");
+//        List<MessageObj> messages = new ArrayList<>();
+//        Elements table = Jsoup.parse(v).select("li.msg");//.select("tr");
+//        for(Element e : table) {
+//            messages.add(new MessageObj(e));
+//        }
+//        System.out.println("\n\n");
+//        messages.stream().filter(a->a.getSubMessage()!=null).forEach(a -> {
+//            try {
+//                a.getSubMessage().writeToDatabase(117);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        messages.forEach(System.out::println);
+//
+//        System.exit(0);
+
+//        Elements table = Jsoup.parse(v).select("div.htmlTooltip");//.select("tr");
+//        for(Element e : table) {
+////            System.out.println(e.select("td.icon_movement_reserve, td.icon_movement").select("span").attr("title"));
+//            System.out.println(e);
+//        }
+
+
 
     //        System.out.println(new Ship(Ship.SMALL_CARGO).getCost());
 
