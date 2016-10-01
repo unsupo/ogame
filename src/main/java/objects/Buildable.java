@@ -40,8 +40,9 @@ public class Buildable {
     private String webName, line;
     private int id;
 
-    public void setLevelNeeded(int levelNeeded) {
+    public Buildable setLevelNeeded(int levelNeeded) {
         this.levelNeeded = levelNeeded;
+        return this;
     }
 
     private int levelNeeded;

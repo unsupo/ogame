@@ -129,6 +129,8 @@ public class Utility {
 
     public static boolean canAfford(String name){
         return Resource.getBaseCost(name).canAfford(readResource());
+    }public static boolean canAfford(String name, int level) throws IOException {
+        return Resource.getCost(name,level).canAfford(readResource());
     }
 
     public static void build(String name) throws IOException{

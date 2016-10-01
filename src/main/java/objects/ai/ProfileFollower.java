@@ -10,10 +10,8 @@ import utilities.selenium.Task;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 9/25/16.
@@ -165,7 +163,7 @@ public class ProfileFollower implements AI {
         boolean canBuild = true;
         if(!facilitiesRequired.isEmpty())
             for(String key : facilitiesRequired.keySet())
-                if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(key)) { //check if you can afford it (you can if you have at least 500 DM)
+                if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(key,facilitiesRequired.get(key))) { //check if you can afford it (you can if you have at least 500 DM)
                     if (!(Utility.getActivePlanet().getCurrentFacilityBeingBuild() != null && //if no facilities are being built
                             Utility.getActivePlanet().getCurrentFacilityBeingBuild().isInProgress()))
                         build = Initialize.getBuildableByName(key); //build the facility
@@ -174,7 +172,7 @@ public class ProfileFollower implements AI {
 
         if(!researchRequired.isEmpty())
             for(String key : researchRequired.keySet()) //for each required research
-                if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(key)){ //check if you can afford it (you can if you have at least 500 DM)
+                if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(key,researchRequired.get(key))){ //check if you can afford it (you can if you have at least 500 DM)
                     if(!(Initialize.getCurrentResearch() != null &&
                             Initialize.getCurrentResearch().isInProgress())) { //check if you have no researches in progress
                         build = Initialize.getBuildableByName(key);
@@ -189,7 +187,8 @@ public class ProfileFollower implements AI {
                         Utility.getActivePlanet().getCurrentFacilityBeingBuild().getBuildable().getName()))))
             canBuild = false; //then you can't build it yet
 
-        if(Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(build.getName()))//if you can't build it, don't bother trying
+        if((Initialize.getCurrentDarkMatter() >= 500 || Utility.canAfford(build.getName(),build.getLevelNeeded()))
+                    && !isBeingBlocked(build))//if you can't build it, don't bother trying
             canBuild = true;
         else canBuild = false;
 
@@ -204,8 +203,31 @@ public class ProfileFollower implements AI {
             return build;
         else
             for(String prerequisites : map.keySet())
-                return getBuildTask(Initialize.getBuildableByName(prerequisites)); //otherwise build it's prerequisite
+                return getBuildTask(Initialize.getBuildableByName(prerequisites).setLevelNeeded(map.get(prerequisites))); //otherwise build it's prerequisite
         return null;
+    }
+
+    private boolean isBeingBlocked(Buildable build) throws IOException {
+        BuildTask buildTask  = null;
+        switch (build.getType()){
+            case Research.RESEARCH:
+                buildTask = Initialize.getCurrentResearch();break;
+            case Facilities.FACILITIES:
+                buildTask = Utility.getActivePlanet().getCurrentFacilityBeingBuild(); break;
+            case Resources.RESOURCES:
+                buildTask = Utility.getActivePlanet().getCurrentBuildingBeingBuild(); break;
+            case Shipyard.SHIPYARD:
+                BuildTask tempBuildTask = Utility.getActivePlanet().getCurrentFacilityBeingBuild();
+                if(tempBuildTask != null &&
+                        isIn(tempBuildTask.getBuildable().getName(),
+                                Arrays.asList(Facilities.NANITE_FACTORY,Facilities.SHIPYARD)))
+                    buildTask = tempBuildTask;
+        }
+        return buildTask != null && !buildTask.isComplete();
+    }
+
+    private boolean isIn(String name, List<String> values) {
+        return values.stream().filter(a->a.equals(name)).collect(Collectors.toList()).isEmpty();
     }
 
     private void removeCurrentValues(Map<String, Integer> map) throws IOException {
