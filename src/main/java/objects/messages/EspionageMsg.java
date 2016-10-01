@@ -90,7 +90,7 @@ public class EspionageMsg implements IMessage{
         return Long.parseLong(v.replaceAll("[^0-9]",""));
     }public static Long parseNumber(String e){
         String v = e.replace("Metal: ","").replace("M","000000");
-        return Long.parseLong(v.replaceAll("[^0-9]",""));
+        return v.trim().isEmpty()?0:Long.parseLong(v.replaceAll("[^0-9]",""));
     }
 
     public String getPlayer() {

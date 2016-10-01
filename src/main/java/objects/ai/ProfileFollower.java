@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 9/25/16.
@@ -98,12 +97,12 @@ public class ProfileFollower implements AI {
 
     @Override
     public Task getAttackedTask() {
-        if(Utility.isBeingAttack()) {
-            List<Mission> missions = Utility.getFleetInformation().stream()
-                    .filter(a -> a.getMissionType().equals(MissionBuilder.ATTACK)).collect(Collectors.toList());
+        if(Utility.isBeingAttack()) { //change for testing
+            List<Mission> missions = Mission.getActiveMissions();
+//                    .stream().filter(a -> a.getMissionType().equals(MissionBuilder.ATTACK)).collect(Collectors.toList());
             Collections.sort(missions,(a,b)->a.getArrivalTime().compareTo(b.getArrivalTime()));
 
-
+            System.out.println();
         }
         return null;
     }
@@ -204,7 +203,9 @@ public class ProfileFollower implements AI {
         if(map.isEmpty()) //if the item has no prerequisites then build it
             return build;
         else
-            return getBuildTask(build); //otherwise build it's prerequisite
+            for(String prerequisites : map.keySet())
+                return getBuildTask(Initialize.getBuildableByName(prerequisites)); //otherwise build it's prerequisite
+        return null;
     }
 
     private void removeCurrentValues(Map<String, Integer> map) throws IOException {

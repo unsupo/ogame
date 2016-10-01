@@ -238,7 +238,7 @@ public class Utility {
         if(Research.RESEARCH.equals(pageName)) {
             if(initialize)
                 Initialize.getResearches().putAll(Initialize.getInstance().getValues(Research.ID, Research.RESEARCH));
-            setBuildTime(Initialize.getCurrentResearch());
+            Initialize.setCurrentResearch(setBuildTime(Initialize.getCurrentResearch()));
         }else {
             Coordinates planetCoordinates = getActivePlanetCoordinates();
             HashMap<Coordinates, Planet> planetMap = Initialize.getPlanetMap();
@@ -285,7 +285,7 @@ public class Utility {
     }
 
     public static boolean isBeingAttack(){
-        return !UIMethods.doesPageContainAttributeAndValue("class","noAttack");
+        return !UIMethods.doesPageContainAttributeAndValue("class","tooltip eventToggle noAttack");
     }
 
     public static BuildTask setBuildTime(BuildTask buildTime) {
