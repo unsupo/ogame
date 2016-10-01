@@ -1,4 +1,4 @@
 #These are steps for the script to follow, and/or profile configurations,
 login: s141-en.ogame.gameforge.com,unsupo,supersmash,
-build: Small Cargo,10
+#DONE build: Small Cargo,10
 build: espionage probe,1

@@ -364,4 +364,8 @@ public class Initialize {
     public int getTotalFleetSlots() {
         return totalFleetSlots;
     }
+
+    public static void setCurrentResearch(BuildTask currentResearch) {
+        getInstance().currentResearch = currentResearch;
+    }
 }

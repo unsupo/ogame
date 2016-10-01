@@ -28,11 +28,11 @@ public class Runner {
     public static void runAI(AI ai) throws IOException {
         while(true){
             try {
-                Task defaultTask = ai.getDefaultTask(),
-                        task = ai.getTask(),
-                        attackedTask = ai.getAttackedTask();
+                Task    attackedTask = ai.getAttackedTask(),
+                        defaultTask = ai.getDefaultTask(),
+                        task = ai.getTask();
 
-                if (Utility.isBeingAttack())
+                if (Utility.isBeingAttack()) //changed for testing
                     if (attackedTask == null)
                         DefaultAI.attackedTask();
                     else
@@ -50,6 +50,12 @@ public class Runner {
                 Thread.sleep(Utility.getRandomIntRange(60000,25000)); //more human like, click every somewhere between 60 and 25 seconds.
             }catch (Exception e){
                 e.printStackTrace();
+                System.out.println("Got Logged out, logging back in");
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
                 //you got logged out
                 if(UIMethods.doesPageContainAttributeAndValue("id","loginSubmit")){
                     String[] params = QueueManager.getLoginParams();
