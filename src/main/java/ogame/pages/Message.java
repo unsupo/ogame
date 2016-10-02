@@ -138,6 +138,7 @@ public class Message {
                     .forEach(a -> {
                         try {
                             a.getSubMessage().writeToDatabase(Initialize.getUniverseID());
+                            UIMethods.clickOnAttributeAndValue("class","js_actionKill"); //delete message
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {

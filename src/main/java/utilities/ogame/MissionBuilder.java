@@ -111,7 +111,11 @@ public class MissionBuilder {
     }
 
     public MissionBuilder setSpeed(int speed) {
-        this.speed = speed;
+        this.speed = Math.round(speed/10)*10;
+        if(speed == 0)
+            this.speed = 10;
+        if(speed > 100)
+            this.speed = 100;
         return this;
     }
 
@@ -155,6 +159,8 @@ public class MissionBuilder {
         UIMethods.typeOnAttributeAndValue("id","system",destination.getSystem()+"");
         UIMethods.typeOnAttributeAndValue("id","position",destination.getPlanet()+"");
 
+        UIMethods.clickOnAttributeAndValue("data-value",(int)speed/10+"");
+
         UIMethods.clickOnText("Next");
 
         UIMethods.waitForText("Select mission for target:",1, TimeUnit.MINUTES);
@@ -162,7 +168,11 @@ public class MissionBuilder {
 
         if(!resourceToSend.equals(fleet.getResourcesBeingCarried()))
             fleet.setResourcesBeingCarried(resourceToSend);
-        //TODO set resources from fleet before sending
+
+        Resource resources = fleet.getResourcesBeingCarried();
+        UIMethods.typeOnAttributeAndValue("id","metal",resources.metal+"");
+        UIMethods.typeOnAttributeAndValue("id","crystal",resources.crystal+"");
+        UIMethods.typeOnAttributeAndValue("id","deuterium",resources.deuterium+"");
 
         UIMethods.clickOnText("Send fleet");
 

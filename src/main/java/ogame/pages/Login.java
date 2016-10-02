@@ -17,4 +17,12 @@ public class Login{
         UIMethods.clickOnAttributeAndValue("id","loginSubmit");
         return new Overview();
     }
+    public Overview reLogin(String uni, String username, String password){
+        UIMethods.clickOnAttributeAndValue("id","loginBtn");
+        UIMethods.selectFromDropDown("id","serverLogin",uni); //"s117-en.ogame.gameforge.com"
+        UIMethods.typeOnAttributeAndValue("id","usernameLogin",username);
+        UIMethods.typeOnAttributeAndValue("id","passwordLogin",password);
+        UIMethods.clickOnAttributeAndValue("id","loginSubmit");
+        return new Overview();
+    }
 }

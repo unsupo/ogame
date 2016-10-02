@@ -7,9 +7,12 @@ import ogame.utility.Initialize;
 import utilities.Utility;
 import utilities.ogame.MissionBuilder;
 import utilities.selenium.Task;
+import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,29 +43,41 @@ public class ProfileFollower implements AI {
                     if(Utility.getMessageCount() != 0)
                         Message.parseAllMessages();
 
-                    if(targets == null)
-                        targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID());
+                    getTargets();
 
                     if(!couldntAttackLast) {
                         Utility.clickOnNewPage(ogame.pages.Fleet.FLEET);
-                        if (Initialize.getInstance().getFleetSlotsAvailable() == 0){//No Fleet Slots Available or n
+                        if (Initialize.getInstance().getFleetSlotsAvailable() == 0){//No Fleet Slots Available
                             System.out.println("No fleet slots available");
                             couldntAttackLast = true;
                             reason = Fleet.FLEET;
                             return;
-                        }else if(Utility.getActivePlanet().getShips().get(Ship.SMALL_CARGO) == 0) {
+                        }else if(Utility.getActivePlanet().getShips().get(Ship.SMALL_CARGO) == 0) { //no small cargos
                             System.out.println("No small cargos");
                             couldntAttackLast = true;
                             reason = Ship.SMALL_CARGO;
                             return;
                         }
 
-                        new MissionBuilder()
+                        boolean spyFirst = false;
+                        HashMap<String, Integer> map = Utility.getBuildableRequirements(Ship.ESPIONAGE_PROBE);
+                        removeCurrentValues(map);
+                        if(map.size() == 0) //can build espionage probes
+                            if(Utility.getActivePlanet().getShips().get(Ship.ESPIONAGE_PROBE) != 0)
+                                spyFirst = true; //you have espionage probes right now
+                            else
+                                BuildTask.addABuildTask("build: espionage probe,1");
+
+
+                        MissionBuilder builder = new MissionBuilder()
                                 .setMission(MissionBuilder.ATTACK)
                                 .setDestination(targets.get(0))
-                                .setFleet(new Fleet().addShip(Ship.SMALL_CARGO, 10))
-                                .sendFleet();
+                                .setFleet(new Fleet().addShip(Ship.SMALL_CARGO, 10));
 
+                        if(spyFirst)
+                            spyOnTargetBeforeAttacking(targets.get(0));
+
+                        builder.sendFleet();
                         targets.remove(0);
                     }else{
                         if(reason.equals(Fleet.FLEET)){
@@ -88,19 +103,64 @@ public class ProfileFollower implements AI {
         });
     }
 
+    public void spyOnTargetBeforeAttacking(Coordinates coordinates) throws IOException {
+        new MissionBuilder().setFleet(new Fleet().addShip(Ship.ESPIONAGE_PROBE,1))
+                    .setMission(MissionBuilder.ESPIONAGE)
+                    .setDestination(coordinates);
+    }
+
     @Override
     public Task getTask() throws IOException {
         return getNextBuildTask();
     }
 
+    LocalDateTime recallTime;
     @Override
     public Task getAttackedTask() {
         if(Utility.isBeingAttack()) { //change for testing
-            List<Mission> missions = Mission.getActiveMissions();
-//                    .stream().filter(a -> a.getMissionType().equals(MissionBuilder.ATTACK)).collect(Collectors.toList());
-            Collections.sort(missions,(a,b)->a.getArrivalTime().compareTo(b.getArrivalTime()));
+            new Task(new Runnable() {
+                @Override
+                public void run() {
 
-            System.out.println();
+                    List<Mission> missions = Mission.getActiveMissions()
+                            .stream().filter(a -> a.getMissionType().equals(MissionBuilder.ATTACK) && !a.isOwnFleet())
+                            .collect(Collectors.toList());
+                    Collections.sort(missions,(a,b)->b.getArrivalTime().compareTo(a.getArrivalTime()));
+                    try {
+                        final Planet destination = Initialize.getPlanetMap().get(missions.get(0).getDestination());
+                        UIMethods.clickOnAttributeAndValue("id",destination.getWebElement());
+                        destination.setCurrentResources(Utility.readResource());
+                        Utility.clickOnNewPage(Fleet.FLEET);
+
+                        Coordinates deployment = null;
+                        String mission = MissionBuilder.DEPLOYMENT;
+                        if(Initialize.getPlanetMap().size() > 1)
+                            deployment = Initialize.getPlanetMap().keySet().stream()
+                                    .filter(a -> !a.equals(destination.getCoordinates()))
+                                    .collect(Collectors.toList()).get(0);
+                        else {
+                            deployment = getTargets().get(0);
+                            mission = MissionBuilder.ATTACK;
+                        }
+                        if(missions.get(0).getArrivalTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) < 60)
+                            new MissionBuilder().setSource(destination.getCoordinates()) //set source to planet being attacked
+                                    .setFleet(new Fleet().setShipsByName(destination.getShips())) //set source planets ships
+                                    .setResourceToSend(destination.getCurrentResources()) //set source planets resources
+                                    .setDestination(deployment)
+                                    .setSpeed(10)
+                                    .setMission(mission)
+                                    .sendFleet();
+
+                        recallTime = LocalDateTime.now().plus(10, ChronoUnit.MINUTES);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+//                    if(recallTime != null && recallTime.)//TODO recall the fleetsave
+                }
+            });
         }
         return null;
     }
@@ -149,10 +209,7 @@ public class ProfileFollower implements AI {
                 }
             }
         });
-    }//        if (researchRequired.isEmpty() && facilitiesRequired.isEmpty())
-    //TODO remove the task programically if requirements are met and it successfully builds it
-    //              TODO done but needs testing
-
+    }
 
     public Buildable getBuildTask(Buildable build) throws IOException {
         Map<String, Integer> researchRequired = Utility.getResearchRequirements(build.getName());
@@ -240,5 +297,11 @@ public class ProfileFollower implements AI {
             if(map.containsKey(name) && map.get(name) <= level)
                 map.remove(name);
         });
+    }
+
+    public List<Coordinates> getTargets() throws IOException, SQLException {
+        if(targets == null)
+            targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID());
+        return targets;
     }
 }

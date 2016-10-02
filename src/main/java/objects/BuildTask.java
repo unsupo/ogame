@@ -157,6 +157,12 @@ public class BuildTask{
         v.remove(index);
         v.add(index,"#DONE "+buildTask.getLine());
         FileOptions.writeToFileOverWrite(f.getAbsolutePath(),v.stream().collect(Collectors.joining("\n")));
+    }public static void addABuildTask(String build) throws IOException {
+        File f = QueueManager.getFileContents().entrySet().stream().map(a->a.getKey()).collect(Collectors.toList()).get(0);
+
+        List<String> v = FileOptions.readFileIntoListString(f.getAbsolutePath());
+        v.add(0,build);
+        FileOptions.writeToFileOverWrite(f.getAbsolutePath(),v.stream().collect(Collectors.joining("\n")));
     }
 
     public boolean isInProgress() {
