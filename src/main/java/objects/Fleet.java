@@ -44,7 +44,6 @@ public class Fleet {
     }
 
     public Resource getResourcesBeingCarried() {
-
         return resourcesBeingCarried;
     }
 
@@ -60,6 +59,17 @@ public class Fleet {
 
     public Fleet setShips(HashMap<Ship, Integer> ships) {
         this.ships = ships;
+        return this;
+    }
+
+    public Fleet setShipsByName(HashMap<String,Integer> shipsByName) {
+        shipsByName.forEach((a, b) -> {
+            try {
+                addShip(a, b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         return this;
     }
 

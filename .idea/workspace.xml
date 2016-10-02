@@ -3,17 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="ce5b5be5-240e-4abe-ac80-d5bfe7bac7fc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.lck" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.lck" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/objects/Buildable.class" afterPath="$PROJECT_DIR$/target/classes/objects/Buildable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utilities/Utility.class" afterPath="$PROJECT_DIR$/target/classes/utilities/Utility.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Runner.class" afterPath="$PROJECT_DIR$/target/classes/Runner.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ogame/pages/Login.class" afterPath="$PROJECT_DIR$/target/classes/ogame/pages/Login.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/Buildable.java" afterPath="$PROJECT_DIR$/src/main/java/objects/Buildable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Runner.java" afterPath="$PROJECT_DIR$/src/main/java/Runner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/BuildTask.java" afterPath="$PROJECT_DIR$/src/main/java/objects/BuildTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/Fleet.java" afterPath="$PROJECT_DIR$/src/main/java/objects/Fleet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java" afterPath="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/Utility.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/Utility.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/pages/Login.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/pages/Login.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/pages/Message.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/pages/Message.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" afterPath="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.log" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.properties" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/HSQL/.script" afterPath="$PROJECT_DIR$/src/main/resources/HSQL/.script" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" afterPath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398_merchant" afterPath="$PROJECT_DIR$/src/main/resources/profile/unsupo_398_merchant" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" afterPath="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_141" afterPath="$PROJECT_DIR$/src/main/resources/xml_downloads/last_update_141" />
     </list>
     <list id="a9961e98-e9f0-4f79-b2a3-b60ed64a7ce1" name="New changelist" comment="" />
@@ -43,7 +48,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="202">
-              <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+              <caret line="108" column="48" selection-start-line="108" selection-start-column="48" selection-end-line="108" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -52,37 +57,35 @@
       <file leaf-file-name="BuildTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/objects/BuildTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="144" column="39" selection-start-line="144" selection-start-column="39" selection-end-line="144" selection-end-column="39" />
-              <folding>
-                <element signature="e#5330#5331#0" expanded="true" />
-                <element signature="e#5385#5386#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="292">
+              <caret line="160" column="18" selection-start-line="160" selection-start-column="18" selection-end-line="160" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Buildable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/objects/Buildable.java">
+      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Message.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state relative-caret-position="142">
+              <caret line="140" column="48" selection-start-line="140" selection-start-column="48" selection-end-line="140" selection-end-column="48" />
               <folding>
-                <element signature="e#693#694#0" expanded="true" />
-                <element signature="e#720#721#0" expanded="true" />
-                <element signature="e#1087#1088#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#7297#7298#0" expanded="true" />
+                <element signature="e#7337#7338#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Task.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utilities/selenium/Task.java">
+      <file leaf-file-name="Fleet.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/objects/Fleet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <caret line="69" column="36" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
               <folding>
-                <element signature="e#438#439#0" expanded="true" />
+                <element signature="e#1330#1331#0" expanded="true" />
+                <element signature="e#1374#1375#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,8 +94,8 @@
       <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state relative-caret-position="262">
+              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,21 +107,32 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="157">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+              <caret line="74" column="47" selection-start-line="74" selection-start-column="47" selection-end-line="74" selection-end-column="47" />
               <folding>
                 <element signature="e#1692#1693#0" expanded="true" />
                 <element signature="e#1744#1745#0" expanded="true" />
+                <element signature="e#2009#2010#0" expanded="true" />
                 <element signature="e#2074#2075#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EspionageMsg.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/objects/messages/EspionageMsg.java">
+      <file leaf-file-name="runner.script" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="92" column="36" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
+            <state relative-caret-position="45">
+              <caret line="3" column="30" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="unsupo_398" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/profile/unsupo_398">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="106429" selection-start-line="0" selection-start-column="106429" selection-end-line="0" selection-end-column="106429" />
               <folding />
             </state>
           </provider>
@@ -127,14 +141,24 @@
       <file leaf-file-name="Utility.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/utilities/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="126" column="37" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
+            <state relative-caret-position="-428">
+              <caret line="225" column="23" selection-start-line="225" selection-start-column="23" selection-end-line="225" selection-end-column="23" />
               <folding>
                 <element signature="e#1826#1827#0" expanded="true" />
                 <element signature="e#1882#1883#0" expanded="true" />
                 <element signature="e#16078#16079#0" expanded="true" />
                 <element signature="e#16128#16129#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MissionBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="117" column="29" selection-start-line="117" selection-start-column="29" selection-end-line="117" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -164,7 +188,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/objects/ai/Scavenger.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/ai/AI.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/ai/DefaultAI.java" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Overview.java" />
@@ -200,20 +223,21 @@
         <option value="$PROJECT_DIR$/src/main/resources/test" />
         <option value="$PROJECT_DIR$/src/main/java/objects/messages/CombatMsg.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/Planet.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Message.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/objects/Fleet.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/Mission.java" />
-        <option value="$PROJECT_DIR$/src/main/java/objects/BuildTask.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" />
         <option value="$PROJECT_DIR$/src/main/java/objects/messages/EspionageMsg.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" />
-        <option value="$PROJECT_DIR$/src/main/java/Runner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/Buildable.java" />
         <option value="$PROJECT_DIR$/src/main/java/utilities/Utility.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Login.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script" />
+        <option value="$PROJECT_DIR$/src/main/resources/profile/unsupo_398" />
+        <option value="$PROJECT_DIR$/src/main/java/objects/Fleet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Runner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ogame/pages/Message.java" />
+        <option value="$PROJECT_DIR$/src/main/java/objects/BuildTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java" />
       </list>
     </option>
@@ -619,7 +643,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="SearchEverywhereHistoryKey" value="ut&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;u&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;ru&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/resources/runner_scripts/runner.script&#10;Utilit&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;mi&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/ogame/MissionBuilder.java&#10;ini&#9;PSI&#9;JAVA://ogame.utility.Initialize&#10;xml&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/database/XMLAPIDownloader.java&#10;Co&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/Coordinates.java&#10;res&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Resource.java&#10;uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;email&#9;PSI&#9;JAVA://utilities.one.Email&#10;qu&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/QueueManager.java&#10;pl&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/Planet.java&#10;UIM&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;r&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;util&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;in&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Initialize.java&#10;Uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;fa&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Facilities.java&#10;resou&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Resources.java&#10;rese&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;_H&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/database/_HSQLDB.java&#10;uim&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;re&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;kc&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/s/kc.class&#10;O&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Ogameau&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Starter&#9;PSI&#9;JAVA://Starter&#10;injecti&#9;PSI&#9;JAVA://groovy.transform.InjectInit&#10;OAW&#9;PSI&#9;JAVA://groovy.OAWrapperImpl&#10;CustomLo&#9;PSI&#9;JAVA://groovy.CustomLoaderConfiguration&#10;Farmi&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/groovy/Farming Bot.oag&#10;BuilderFac&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/api/fluid/BuilderFactory.class&#10;Pri&#9;PSI&#9;JAVA://api.model.Price&#10;Planet&#9;PSI&#9;JAVA://api.model.Planet" />
+    <property name="SearchEverywhereHistoryKey" value="ru&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;pr&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/ai/ProfileFollower.java&#10;mi&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/ogame/MissionBuilder.java&#10;ut&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;mission&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/ogame/MissionBuilder.java&#10;util&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;u&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;Utilit&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;ini&#9;PSI&#9;JAVA://ogame.utility.Initialize&#10;xml&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/database/XMLAPIDownloader.java&#10;Co&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/Coordinates.java&#10;res&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Resource.java&#10;uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;email&#9;PSI&#9;JAVA://utilities.one.Email&#10;qu&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/QueueManager.java&#10;pl&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/objects/Planet.java&#10;UIM&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;r&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/Runner.java&#10;in&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/utility/Initialize.java&#10;Uti&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/Utility.java&#10;fa&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Facilities.java&#10;resou&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Resources.java&#10;rese&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;_H&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/database/_HSQLDB.java&#10;uim&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/utilities/selenium/UIMethods.java&#10;re&#9;FILE&#9;file:///Users/jarndt/automation/ogame/src/main/java/ogame/pages/Research.java&#10;kc&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/s/kc.class&#10;O&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Ogameau&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/ogameautomizer/OGameAutomizer.class&#10;Starter&#9;PSI&#9;JAVA://Starter&#10;injecti&#9;PSI&#9;JAVA://groovy.transform.InjectInit&#10;OAW&#9;PSI&#9;JAVA://groovy.OAWrapperImpl&#10;CustomLo&#9;PSI&#9;JAVA://groovy.CustomLoaderConfiguration&#10;Farmi&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/groovy/Farming Bot.oag&#10;BuilderFac&#9;FILE&#9;jar:///Users/jarndt/Downloads/OGameAutomizerRD/OGameAutomizer.jar!/api/fluid/BuilderFactory.class&#10;Pri&#9;PSI&#9;JAVA://api.model.Price&#10;Planet&#9;PSI&#9;JAVA://api.model.Planet" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -1420,7 +1444,7 @@
       <workItem from="1475178437970" duration="1070000" />
       <workItem from="1475179745344" duration="104000" />
       <workItem from="1475179880631" duration="225000" />
-      <workItem from="1475180251351" duration="39496000" />
+      <workItem from="1475180251351" duration="46244000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1471467227087</created>
@@ -1702,11 +1726,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475351988111</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="fixed minor bugs">
+      <created>1475355217080</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1475355217080</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="226885000" />
+    <option name="totallyTimeSpent" value="233633000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1724,7 +1755,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3686747" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3686747" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32871014" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1734,7 +1765,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26987952" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.32871014" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1795,7 +1826,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
-    <MESSAGE value="fixed stackoverflow in _HSQLDB class&#10;&#10;added planet initialization included (facilities, resources)&#10;&#10;Still to do: shipyard, defense" />
     <MESSAGE value="removed username/password displayed" />
     <MESSAGE value="fixed when to update.  added 9/22/16 645 data" />
     <MESSAGE value="ability to attack inactive players added" />
@@ -1820,7 +1850,8 @@
     <MESSAGE value="message parsing complete" />
     <MESSAGE value="fleet parsing complete" />
     <MESSAGE value="fixed stackOverFlow and getCurrentResearch" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed stackOverFlow and getCurrentResearch" />
+    <MESSAGE value="fixed minor bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed minor bugs" />
     <option name="PRESELECT_EXISTING_CHANGELIST" value="false" />
   </component>
   <component name="XDebuggerManager">
@@ -1857,13 +1888,13 @@
           <option name="timeStamp" value="142" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java</url>
-          <line>102</line>
+          <url>file://$PROJECT_DIR$/src/main/java/utilities/Utility.java</url>
+          <line>268</line>
           <properties />
-          <option name="timeStamp" value="172" />
+          <option name="timeStamp" value="186" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="186" />
+      <option name="time" value="187" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1872,22 +1903,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/profile/unsupo_398_merchant">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/http/HttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/objects/PlanetProperties.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-878">
@@ -1982,14 +1997,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="136" column="33" selection-start-line="136" selection-start-column="33" selection-end-line="136" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/net/SocketInputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2160,18 +2167,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="76" column="32" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8268#8269#0" expanded="true" />
-            <element signature="e#8322#8323#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/jsoup/jsoup/1.9.2/jsoup-1.9.2-sources.jar!/org/jsoup/nodes/Element.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -2200,22 +2195,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1275">
-          <caret line="36" column="53" selection-start-line="36" selection-start-column="53" selection-end-line="36" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Fleet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="78" column="24" selection-start-line="78" selection-start-column="24" selection-end-line="78" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/objects/Mission.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
@@ -2241,58 +2220,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/profile/unsupo_398">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="0" column="1484" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="1517" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/objects/messages/EspionageMsg.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="92" column="36" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/selenium/Task.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="e#438#439#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/selenium/UIMethods.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="e#3537#3538#0" expanded="true" />
-            <element signature="e#3589#3590#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2304,17 +2236,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/objects/BuildTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="144" column="39" selection-start-line="144" selection-start-column="39" selection-end-line="144" selection-end-column="39" />
-          <folding>
-            <element signature="e#5330#5331#0" expanded="true" />
-            <element signature="e#5385#5386#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Resource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
@@ -2322,31 +2243,6 @@
           <folding>
             <element signature="e#4624#4625#0" expanded="true" />
             <element signature="e#4669#4670#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="126" column="37" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
-          <folding>
-            <element signature="e#1826#1827#0" expanded="true" />
-            <element signature="e#1882#1883#0" expanded="true" />
-            <element signature="e#16078#16079#0" expanded="true" />
-            <element signature="e#16128#16129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding>
-            <element signature="e#1692#1693#0" expanded="true" />
-            <element signature="e#1744#1745#0" expanded="true" />
-            <element signature="e#2074#2075#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2363,10 +2259,143 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="19" column="74" selection-start-line="19" selection-start-column="74" selection-end-line="19" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/selenium/Task.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="e#459#460#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/net/SocketInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="93" column="23" selection-start-line="93" selection-start-column="23" selection-end-line="93" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/profile/unsupo_398">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="106429" selection-start-line="0" selection-start-column="106429" selection-end-line="0" selection-end-column="106429" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/objects/Fleet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="69" column="36" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
+          <folding>
+            <element signature="e#1330#1331#0" expanded="true" />
+            <element signature="e#1374#1375#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-428">
+          <caret line="225" column="23" selection-start-line="225" selection-start-column="23" selection-end-line="225" selection-end-column="23" />
+          <folding>
+            <element signature="e#1826#1827#0" expanded="true" />
+            <element signature="e#1882#1883#0" expanded="true" />
+            <element signature="e#16078#16079#0" expanded="true" />
+            <element signature="e#16128#16129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/ogame/MissionBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="117" column="29" selection-start-line="117" selection-start-column="29" selection-end-line="117" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilities/selenium/UIMethods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="150" column="29" selection-start-line="150" selection-start-column="29" selection-end-line="150" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/pages/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="140" column="48" selection-start-line="140" selection-start-column="48" selection-end-line="140" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7297#7298#0" expanded="true" />
+            <element signature="e#7337#7338#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/util/function/Predicate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ogame/utility/Initialize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="74" column="47" selection-start-line="74" selection-start-column="47" selection-end-line="74" selection-end-column="47" />
+          <folding>
+            <element signature="e#1692#1693#0" expanded="true" />
+            <element signature="e#1744#1745#0" expanded="true" />
+            <element signature="e#2009#2010#0" expanded="true" />
+            <element signature="e#2074#2075#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/objects/BuildTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="160" column="18" selection-start-line="160" selection-start-column="18" selection-end-line="160" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/runner_scripts/runner.script">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="30" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/objects/ai/ProfileFollower.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
-          <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+          <caret line="108" column="48" selection-start-line="108" selection-start-column="48" selection-end-line="108" selection-end-column="48" />
           <folding />
         </state>
       </provider>

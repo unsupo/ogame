@@ -134,8 +134,6 @@ public class Initialize {
         readObject(Utility.PROFILE_DIR+fName);
 
         QueueManager.start();
-
-        Message.parseAllMessages();
     }
 
     public static Planet getPlanet(Coordinates coords) throws IOException {

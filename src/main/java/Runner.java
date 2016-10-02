@@ -1,6 +1,8 @@
 import objects.ai.AI;
 import objects.ai.DefaultAI;
 import objects.ai.ProfileFollower;
+import ogame.pages.Login;
+import ogame.pages.Message;
 import ogame.pages.Overview;
 import ogame.utility.Initialize;
 import ogame.utility.QueueManager;
@@ -26,6 +28,7 @@ public class Runner {
     }
 
     public static void runAI(AI ai) throws IOException {
+        boolean messagesFirstTimeParsed = false;
         while(true){
             try {
                 Task    attackedTask = ai.getAttackedTask(),
@@ -37,6 +40,11 @@ public class Runner {
                         DefaultAI.attackedTask();
                     else
                         attackedTask.execute();
+
+                if(!messagesFirstTimeParsed) {
+                    Message.parseAllMessages();
+                    messagesFirstTimeParsed = true;
+                }
 
                 if (task != null)
                     task.execute();
@@ -59,7 +67,7 @@ public class Runner {
                 //you got logged out
                 if(UIMethods.doesPageContainAttributeAndValue("id","loginSubmit")){
                     String[] params = QueueManager.getLoginParams();
-                    Initialize.justLogin(params[0],params[1],params[2]);
+                    new Login().reLogin(params[0],params[1],params[2]);
                 }
             }
         }
