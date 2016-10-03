@@ -22,6 +22,8 @@ public class Runner {
 //        String v = FileOptions.readFileIntoString(Utility.RESOURCE_DIR+"test");
 //        Elements vv = Jsoup.parse(v).select("div.ui-tabs-panel.ui-widget-content.ui-corner-bottom");
 //        vv.stream().filter(a->a.hasAttr("style") && a.text().isEmpty() && !a.attr("style").equals("display: none;")).forEach(System.out::println);
+//        System.out.println(_HSQLDB.executeQuery("select * from DONT_ATTACK_LIST"));
+//        System.exit(0);
 
         runAI(new ProfileFollower());
 

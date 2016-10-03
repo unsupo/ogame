@@ -74,7 +74,7 @@ public class Message {
             return Integer.parseInt(Jsoup.parse(UIMethods.getWebDriver().getPageSource())
                     .select("span.new_msg_count.totalMessages").text().trim());
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             return 0;
         }
     }
@@ -126,25 +126,38 @@ public class Message {
         if(!isSubTabActive(subTabName)) //click on tab if it's not active
             UIMethods.clickOnTextContains(subTabName);
 
+        if(subTabName.equals(FLEETS_ESPIONAGE))
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         while (isStillLoading())
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+        int count = 0, maxCount = 100;
+        try {
+            maxCount = Integer.parseInt(Jsoup.parse(UIMethods.getWebDriver().getPageSource())
+                    .select("li.curPage").get(0).text().trim().split("\\/")[1])*2;
+        }catch (Exception e){/*DO NOTHING*/}
         Elements table = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("li.msg");
-        table.stream().map(a->new MessageObj(a)).filter(a->a.getSubMessage()!=null)
+        while (table.size() > 0 && count++ < maxCount) {
+            table.stream().map(a -> new MessageObj(a)).filter(a -> a.getSubMessage() != null)
                     .forEach(a -> {
                         try {
                             a.getSubMessage().writeToDatabase(Initialize.getUniverseID());
-                            UIMethods.clickOnAttributeAndValue("class","js_actionKill"); //delete message
+                            UIMethods.clickOnAttributeAndValue("class", "icon_nf icon_refuse js_actionKill tooltip js_hideTipOnMobile"); //delete message
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
                     }); //parse and add all messages of known/relevant type to database
+            table = Jsoup.parse(UIMethods.getWebDriver().getPageSource()).select("li.msg");
+        }
     }
 
     public static String getParentTab(String subTabName) {

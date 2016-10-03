@@ -141,7 +141,7 @@ public class _HSQLDB {
                         "fleets BIGINT, " +
                         "defence BIGINT, " +
                         "universe_id INT, " +
-                        "PRIMARY KEY (coords, msgDate,universe_id)" +
+                        "PRIMARY KEY (coords, msgDate, universe_id)" +
                 ");");
 
         db.executeQuery(
@@ -161,6 +161,18 @@ public class _HSQLDB {
                         "universe_id INT, " +
                         "PRIMARY KEY (coords, msgDate,universe_id)" +
                 ");");
+
+        db.executeQuery(
+                "CREATE TABLE IF NOT EXISTS DONT_ATTACK_LIST(" +
+                        "coords VARCHAR(20), " +
+                        "universe_id INT, " +
+                        "fleets BIGINT DEFAULT -1, " +
+                        "defence BIGINT DEFAULT -1, " +
+                        "espionageTech INT, " +//espionage tech level used last
+                        "probeCount INT, " +//number of probes used last
+                        "lostFleet INT, " + //1 if message for coords is Contact with the attacking fleet has been lost. 0 otherwise
+                        "PRIMARY KEY (coords,universe_id)" +
+                ")");
     }
 
     static _HSQLDB instance;

@@ -364,4 +364,48 @@ public class Utility {
         }
         return new Random().nextInt(max - min)+min;
     }
+
+    public static void markAsDontAttack(Coordinates targetCoordinates, int probeCount) throws IOException, SQLException {
+        markAsDontAttack(targetCoordinates,probeCount,-1);
+    }
+    public static void markAsDontAttack(Coordinates targetCoordinates, int probeCount, long fleets) throws IOException, SQLException {
+        markAsDontAttack(targetCoordinates,probeCount,fleets,-1);
+    }
+    public static void markAsDontAttack(Coordinates targetCoordinates, int probeCount, long fleets, long defense) throws IOException, SQLException {
+        int espionageTechLevel = Initialize.getResearches().get(Research.ESPIONAGE);
+        String query = "INSERT INTO DONT_ATTACK_LIST(coords,universe_id,probeCount,fleets,espionageTech) " +
+                "VALUES('"+targetCoordinates.getStringValue()+"',"+Initialize.getUniverseID()+
+                ","+probeCount+","+fleets+","+espionageTechLevel+")";
+        try {
+            _HSQLDB.executeQuery(query);
+        }catch (Exception e){
+            if (!e.getMessage().contains("unique constraint")) {
+                System.err.println("FAILED QUERY: " + query);
+                throw e;
+            }else{
+                String whereClause = " WHERE universe_id = "+Initialize.getUniverseID()+" and " +
+                        "coords = '"+targetCoordinates.getStringValue()+"'";
+                Map<String, Object> v = _HSQLDB.executeQuery("select * from DONT_ATTACK_LIST " + whereClause).get(0);
+                int currentValue = v.get("ESPIONAGETECH")==null?0:Integer.parseInt(v.get("ESPIONAGETECH").toString());
+                int currentProbes = v.get("PROBECOUNT")==null?0:Integer.parseInt(v.get("PROBECOUNT").toString());
+                int tempValue, max = espionageTechLevel, min = currentValue;
+                if(max < min){
+                    tempValue = max;
+                    max = min;
+                    min = tempValue;
+                }
+                int v1 = currentProbes+(min-(max+1))*Math.abs(min-(max+1));
+                int v2 = probeCount+(min-(max+1))*Math.abs(min-(max+1));
+                boolean updateTechAndProbe = true;
+                if(v1>=v2)
+                    updateTechAndProbe = false;
+
+                query = "UPDATE DONT_ATTACK_LIST SET "+
+                        (updateTechAndProbe?("espionageTech = "+espionageTechLevel+", probeCount = "+probeCount+", "):"") +
+                        "fleets = "+fleets+", defence = "+defense+whereClause;
+
+                _HSQLDB.executeQuery(query);
+            }
+        }
+    }
 }

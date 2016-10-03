@@ -6,11 +6,13 @@ import objects.Planet;
 import objects.Ship;
 import ogame.utility.Initialize;
 import ogame.utility.Resource;
+import org.jsoup.Jsoup;
+import org.openqa.selenium.JavascriptExecutor;
 import utilities.Utility;
 import utilities.selenium.UIMethods;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by jarndt on 9/23/16.
@@ -138,6 +140,17 @@ public class MissionBuilder {
     }
 
     public MissionBuilder sendFleet() throws IOException {
+        if(mission.equals(ESPIONAGE) && fleet.equals(new Fleet().addShip(Ship.ESPIONAGE_PROBE,1))){ //quick send probes
+            ((JavascriptExecutor)UIMethods.getWebDriver())
+                    .executeScript("sendShipsWithPopup(6,"+destination.getStringValue().replace(":",",")+",1,1)");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return this;
+        }
+
         if(source == null)
             source = Utility.getActivePlanet().getCoordinates();
 
@@ -165,6 +178,30 @@ public class MissionBuilder {
 
         UIMethods.waitForText("Select mission for target:",1, TimeUnit.MINUTES);
         UIMethods.clickOnAttributeAndValue("id",getMission());//document.getElementById("missionButton1").click()
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        boolean b = true;
+        try {
+            exec.submit(new Callable<Boolean>(){
+                @Override public Boolean call() throws Exception {
+                    while(!Jsoup.parse(UIMethods.getWebDriver().getPageSource())
+                            .select("div.briefing_overlay").attr("style").equals("display: none;")){
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        UIMethods.clickOnAttributeAndValue("id",getMission());//document.getElementById("missionButton1").click()
+                    }
+                    return true;
+                }
+            }).get(1, TimeUnit.MINUTES);
+            exec.shutdown();
+            exec.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            b = false;
+        }finally{
+            exec.shutdownNow();
+        }
 
         if(!resourceToSend.equals(fleet.getResourcesBeingCarried()))
             fleet.setResourcesBeingCarried(resourceToSend);

@@ -1,9 +1,13 @@
 package objects.messages;
 
 import objects.Coordinates;
+import ogame.utility.Initialize;
 import org.jsoup.nodes.Element;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -13,6 +17,7 @@ public class MessageObj {
     public static final String  ESPIONAGE_ACTION_ON     = "Espionage action on ", //THIS MUST BE CHECKED FOR CONTAINS
                                 ESPIONAGE_REPORT_FROM   = "Espionage report from ",//THIS MUST BE CHECKED FOR CONTAINS
                                 COMBAT_REPORT_VALUE     = "Combat Report",//THIS MUST BE CHECKED FOR CONTAINS
+                                CONTACT_LOST_VALUE      = "Contact with the attacking fleet has been lost.",
 
                                 ITEM_EXPIRE             = "An item is about to expire"; //THIS CAN BE EXACT
 
@@ -40,7 +45,14 @@ public class MessageObj {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
         data_msg_id = Long.parseLong(e.attr("data-msg-id"));
-        msgDate = LocalDateTime.parse(e.select("span.msg_date").text(), formatter);
+        try {
+            msgDate = LocalDateTime.parse(e.select("span.msg_date").text(), formatter)
+                    .atOffset(Initialize.getZoneOffset()).atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
         msg_title = e.select("span.msg_title").text();
         msgType = msg_title;
         if(msg_title.contains(ESPIONAGE_ACTION_ON))
@@ -51,6 +63,9 @@ public class MessageObj {
         }else if(msg_title.contains(COMBAT_REPORT_VALUE)) {
             msgType = COMBAT_REPORT;
             subMessage = new CombatMsg(msgDate,e);
+        }else if(msg_title.contains(CONTACT_LOST_VALUE)){
+            msgType = CONTACT_LOST_VALUE;
+            subMessage = new ContactLostMsg(msgDate,e);
         }
     }
 

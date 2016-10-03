@@ -10,12 +10,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import utilities.Utility;
+import utilities.database._HSQLDB;
 import utilities.filesystem.FileOptions;
 import utilities.selenium.UIMethods;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,7 +37,21 @@ public class Initialize {
     private static Initialize instance;
     private long points;
 
+    public static ZoneOffset getZoneOffset() throws IOException, SQLException {
+        if(zoneOffset == null){
+            ArrayList<String> zones = new ArrayList<>(ZoneId.getAvailableZoneIds());
+            String zone = _HSQLDB.executeQuery("select * from server " +
+                            "where number = " + Initialize.getUniverseID()).get(0).get("TIMEZONE").toString();
+
+            zoneOffset = LocalDateTime.now().atZone(ZoneId.of(zone)).getOffset();
+        }
+
+        return zoneOffset;
+    }
+
+    private static ZoneOffset zoneOffset;
     private static int universeID;
+    private static String username, password;
     private BuildTask currentResearch;
     private int currentDarkMatter = 0;
     private static HashMap<String,List<Integer>> mappings = new HashMap<>();
@@ -46,9 +64,26 @@ public class Initialize {
         this.totalFleetSlots = totalFleetSlots;
     }
 
+    public long getPoints() {
+        return points;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
     private int totalFleetSlots;
 
     public static BuildTask getCurrentResearch() {
+        BuildTask research = getInstance().currentResearch;
+        if(research != null && research.isComplete()){ //if it's complete then set the research to the new level and remove as a research being researched
+            getResearches().put(research.getBuildable().getName(),research.getCountOrLevel());
+            getInstance().currentResearch = null;
+        }
         return getInstance().currentResearch;
     }
 
@@ -97,6 +132,8 @@ public class Initialize {
     public static Overview login() throws IOException {
         String[] params = QueueManager.getLoginParams();
         universeID =Integer.parseInt(params[0].replaceAll("[^0-9]",""));
+        username = params[1];
+        password = params[2];
         instance = new Initialize(params[0],params[1],params[2]);
         return new Overview();
     }
@@ -165,6 +202,8 @@ public class Initialize {
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
     }public HashMap<String,Integer> getShips(Coordinates planetName) throws IOException { //research name, level
         return getMapValue(Shipyard.ID,Shipyard.SHIPYARD,getPlanets().get(planetName).getShips());
+    }public HashMap<String,Integer> getDefense(Coordinates planetName) throws IOException { //research name, level
+        return getMapValue(Shipyard.ID,Defence.DEFENCE,getPlanets().get(planetName).getShips());
     }
     
     public HashMap<String, Integer> getBuildables(String type) throws IOException{

@@ -1,7 +1,11 @@
+#DONE build: espionage probe,7
+#DONE build: espionage probe,5
+#DONE build: espionage probe,5
 #These are steps for the script to follow, and/or profile configurations,
 login: s141-en.ogame.gameforge.com,unsupo,supersmash,
 #DONE build: Small Cargo,10
 #DONE build: espionage probe,1
 #DONE build: computer technology,3
 #DONE build: Small Cargo,100
-build: computer technology,6
+#DONE build: computer technology,6
+build: Espionage Technology,6

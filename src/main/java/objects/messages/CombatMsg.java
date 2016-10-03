@@ -1,6 +1,7 @@
 package objects.messages;
 
 import objects.Coordinates;
+import ogame.utility.Initialize;
 import ogame.utility.Resource;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -72,6 +73,10 @@ public class CombatMsg implements IMessage{
                 throw e;
             }
         }
+        //attack succeeded if it's in the don't attack list then delete it
+        if(attacker.equals(Initialize.getUsername()) && attackerLosses == 0 && defenderLosses == 0)
+            _HSQLDB.executeQuery("delete from DONT_ATTACK_LIST where universe_id = "+Initialize.getUniverseID()+" " +
+                    "and coords = '"+getAttackedPlanetCoordinates().getStringValue()+"'");
     }
 
     public LocalDateTime getMsgDate() {

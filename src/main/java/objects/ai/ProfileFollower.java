@@ -5,16 +5,21 @@ import objects.Fleet;
 import ogame.pages.*;
 import ogame.utility.Initialize;
 import utilities.Utility;
+import utilities.database._HSQLDB;
 import utilities.ogame.MissionBuilder;
 import utilities.selenium.Task;
 import utilities.selenium.UIMethods;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static utilities.database._HSQLDB.executeQuery;
 
 /**
  * Created by jarndt on 9/25/16.
@@ -28,7 +33,7 @@ public class ProfileFollower implements AI {
         Initialize.login();
     }
 
-    private List<Coordinates> targets;
+    private List<CoordinateTime> targets;
 
     private boolean couldntAttackLast = false;
     private String reason;
@@ -59,26 +64,38 @@ public class ProfileFollower implements AI {
                             return;
                         }
 
-                        boolean spyFirst = false;
                         HashMap<String, Integer> map = Utility.getBuildableRequirements(Ship.ESPIONAGE_PROBE);
                         removeCurrentValues(map);
-                        if(map.size() == 0) //can build espionage probes
-                            if(Utility.getActivePlanet().getShips().get(Ship.ESPIONAGE_PROBE) != 0)
-                                spyFirst = true; //you have espionage probes right now
-                            else
-                                BuildTask.addABuildTask("build: espionage probe,1");
+                        List<CoordinateTime> targetList = getTargets();
+                        LocalDateTime lastAttackedTime = LocalDateTime.now();
+                        int quantity = 10;
+                        if(map.size() == 0) { //can build espionage probes
+                            if (Utility.getActivePlanet().getShips().get(Ship.ESPIONAGE_PROBE) != 0) {
+                                batchSpyOnTargetBeforeAttacking(targetList,Initialize.getInstance().getFleetSlotsAvailable());
+                                targetList = getEspionageTargets();
+                                if(targetList.isEmpty()) //TODO fix bashing no more than 6 attacks per planet in 24 hour period
+                                    return;
 
+                                quantity = getQuantity(targetList.get(0).coords);
+                            }else {
+                                BuildTask.addABuildTask("build: "+Ship.ESPIONAGE_PROBE+",1");
+                                return; //no probes, build 1
+                            }
+                        }else{ //can't spy so use a test small cargo if you don't know the target is safe
+                            removeUnsafeTargets(); //no targets or no targets without defence or fleets
+                            targetList = getSafeTargets();
+                            quantity = 1;
+                            if(!targetList.isEmpty()) //no targets, then attack with 1 test small cargo ship
+                                quantity = getSmallCargosNeeded(targetList.get(0).getCoords());
+                        }
 
-                        MissionBuilder builder = new MissionBuilder()
-                                .setMission(MissionBuilder.ATTACK)
-                                .setDestination(targets.get(0))
-                                .setFleet(new Fleet().addShip(Ship.SMALL_CARGO, 10));
+                        new MissionBuilder().setMission(MissionBuilder.ATTACK)
+                                .setDestination(targetList.get(0).getCoords())
+                                .setFleet(new Fleet().addShip(Ship.SMALL_CARGO,quantity))
+                                .sendFleet();
 
-                        if(spyFirst)
-                            spyOnTargetBeforeAttacking(targets.get(0));
+                        targetList.get(targetList.indexOf(targetList.get(0))).setTimeLastAttacked(lastAttackedTime);
 
-                        builder.sendFleet();
-                        targets.remove(0);
                     }else{
                         if(reason.equals(Fleet.FLEET)){
                             int missions = Utility.getOwnMissionCount();
@@ -101,6 +118,56 @@ public class ProfileFollower implements AI {
                 }
             }
         });
+    }
+
+    private int getQuantity(Coordinates coords) throws IOException, SQLException {
+        List<Map<String, Object>> list = _HSQLDB.executeQuery(
+                "select * from espionage_reports where universe_id = " + Initialize.getUniverseID() + " and " +
+                "coords = '" + coords.getStringValue() + "' order by msgDate desc");
+
+        if(list.isEmpty())
+            return 10;
+
+        Map<String, Object> v = list.get(0);
+        long metal = Long.parseLong(v.get("METAL").toString()),
+                crystal = Long.parseLong(v.get("CRYSTAL").toString()),
+                dueterium = Long.parseLong(v.get("DEUTERIUM").toString());
+
+        return (int) (Math.ceil((metal+crystal+dueterium)/5000));
+    }
+
+    private void removeUnsafeTargets() throws IOException, SQLException {
+        //used before probes to remove all targets that you've lost a fleet to or in other words targets with defence
+        executeQuery("select * from dont_attack_list")
+                .forEach(a->targets.remove(new Coordinates(a.get("COORDS").toString())));
+    }
+
+    private void batchSpyOnTargetBeforeAttacking(List<CoordinateTime> targets, int batchCount) throws IOException, SQLException {
+        int j = 0, i = 0;
+        while(j++<batchCount && i++<100)
+            if(getLastSpiedOnDate(targets.get(j).getCoords()).until(LocalDateTime.now(ZoneOffset.UTC),ChronoUnit.MINUTES) > 120) //if it's been more than two hours since last spied on date
+                new MissionBuilder().setFleet(new Fleet().addShip(Ship.ESPIONAGE_PROBE,1))
+                        .setMission(MissionBuilder.ESPIONAGE) //spy on target
+                        .setDestination(targets.get(j).getCoords())
+                        .sendFleet();
+            else batchCount++;
+    }
+
+    private LocalDateTime getLastSpiedOnDate(Coordinates coordinates) throws IOException, SQLException {
+        List<Map<String, Object>> listDates = executeQuery("select * from ESPIONAGE_REPORTS " +
+                "where universe_id = " + Initialize.getUniverseID() + " and " +
+                "coords in ('" + coordinates.getStringValue() + "','[" + coordinates.getStringValue() + "]') " +
+                "order by msgDate desc");
+        long lastDate = 0;
+        if(listDates.size() != 0) {
+//            if(listDates.get(0).get("DEFENCE") < 0){
+//                System.out.println(listDates.get(0).get("COORDS")+" needs more probes");
+//
+//            }
+
+            lastDate = (long) listDates.get(0).get("MSGDATE");
+        }
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(lastDate), ZoneOffset.UTC);
     }
 
     public void spyOnTargetBeforeAttacking(Coordinates coordinates) throws IOException {
@@ -139,7 +206,7 @@ public class ProfileFollower implements AI {
                                     .filter(a -> !a.equals(destination.getCoordinates()))
                                     .collect(Collectors.toList()).get(0);
                         else {
-                            deployment = getTargets().get(0);
+                            deployment = getTargets().get(0).coords;
                             mission = MissionBuilder.ATTACK;
                         }
                         if(missions.get(0).getArrivalTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) < 60)
@@ -299,9 +366,178 @@ public class ProfileFollower implements AI {
         });
     }
 
-    public List<Coordinates> getTargets() throws IOException, SQLException {
+    public List<CoordinateTime> getTargets() throws IOException, SQLException {
         if(targets == null)
-            targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID());
+            targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID())
+                    .stream().map(a->new CoordinateTime(a)).collect(Collectors.toList());
+
+        Coordinates yourCoordinates = Utility.getActivePlanet().getCoordinates();
+        Collections.sort(targets,(a,b)->{
+            LocalDateTime now = LocalDateTime.now();
+            long t = now.until(a.timeLastAttacked,ChronoUnit.MINUTES) - now.until(b.timeLastAttacked,ChronoUnit.MINUTES);
+            long c = yourCoordinates.getDistance(a.coords)-yourCoordinates.getDistance(b.coords);
+            if(t != 0)
+                return (int)t;
+            return (int)c;
+        });
         return targets;
+    }
+
+
+    public List<CoordinateTime> getSafeTargets() throws IOException, SQLException {
+        List<Map<String, Object>> safeTargetsList = executeQuery("select * from combat_reports " +
+                "where universe_id = " + Initialize.getUniverseID() + " and " +
+                "defender != '" + Initialize.getUsername() + "' and " +
+                "defenderLosses = 0 and attackerLosses = 0 " +
+                "order by lootedCrystal desc");
+        List<CoordinateTime> safeTargets = new ArrayList<>();
+        if(!safeTargetsList.isEmpty())
+            safeTargetsList.forEach(a->safeTargets.add(new CoordinateTime(new Coordinates(a.get("COORDS").toString()))));
+        return safeTargets;
+    }
+
+    public int getSmallCargosNeeded(Coordinates coordinates) throws IOException, SQLException {
+        List<Map<String, Object>> safeTarget = executeQuery("select * from combat_reports " +
+                "where universe_id = " + Initialize.getUniverseID() + " and " +
+                "defender != '" + Initialize.getUsername() + "' and " +
+                "defenderLosses = 0 and attackerLosses = 0 " +
+                "and coords = '" + coordinates.getStringValue() + "' " +
+                "order by lootedCrystal desc");
+        int smallCargosNeeded = 10;
+        if(!safeTarget.isEmpty()){
+            Map<String, Object> vv = safeTarget.get(0);
+            long m = Long.parseLong(vv.get("LOOTEDMETAL").toString()),
+                    c = Long.parseLong(vv.get("LOOTEDCRYSTAL").toString()),
+                    d = Long.parseLong(vv.get("LOOTEDDEUTERIUM").toString());
+            long v = m+c+d;
+            smallCargosNeeded = (int)v/5000;
+        }
+        return smallCargosNeeded;
+    }
+
+    public List<CoordinateTime> getEspionageTargets() throws IOException, SQLException {
+        List<Map<String, Object>> list = _HSQLDB.executeQuery(
+                "select * from espionage_reports " +
+                        "where defence = 0 and fleets = 0 and universe_id = "+Initialize.getUniverseID()+
+                        " order by crystal desc");
+        if(list.size() != 0)
+            return list.stream().map(a->new CoordinateTime(new Coordinates(a.get("COORDS").toString()))).collect(Collectors.toList());
+
+        checkTooFewProbes();
+
+        return new ArrayList<>();
+    }
+
+    private void checkTooFewProbes() throws IOException, SQLException {
+        List<Map<String, Object>> tooFewProbes = _HSQLDB.executeQuery(
+                "select distinct(coords),fleets,defence from espionage_reports " +
+                        "where defence = -1 and universe_id = "+Initialize.getUniverseID());
+
+        if(!tooFewProbes.isEmpty()) {
+            System.out.println("Too few probes used first time, trying more");
+            int j = 0, i = 0, batchCount = Initialize.getInstance().getFleetSlotsAvailable();
+            while (j < tooFewProbes.size() && j < batchCount && i++ < 100) {
+                if (getLastSpiedOnDate(new Coordinates(tooFewProbes.get(j).get("COORDS").toString()))
+                        .until(LocalDateTime.now(ZoneOffset.UTC), ChronoUnit.MINUTES) > 2) {
+                    Map<String, Object> a = tooFewProbes.get(j);
+                    Coordinates coords = new Coordinates(a.get("COORDS").toString());
+                    long fleet = Long.parseLong(a.get("FLEETS").toString());
+                    long defence = Long.parseLong(a.get("DEFENCE").toString());
+                    int espionageTech = Initialize.getResearches().get(Research.ESPIONAGE);
+                    int probeCount = 1;
+                    Utility.markAsDontAttack(coords, probeCount, fleet, defence);
+
+                    Map<String, Object> v = executeQuery(
+                            "select * from dont_attack_list where universe_id = " + Initialize.getUniverseID() +
+                                    " and coords = '" + coords.getStringValue() + "'").get(0); //must exist because of the method above
+                    int o_nP = Integer.parseInt(v.get("PROBECOUNT").toString());
+                    int o_mE = Integer.parseInt(v.get("ESPIONAGETECH").toString());
+                    long d = Long.parseLong(v.get("DEFENCE").toString()),
+                            f = Long.parseLong(v.get("FLEETS").toString());
+                    int o_v = 2;
+                    if (d == -1 && f == -1)
+                        o_v = 1;
+
+                    int mE = Initialize.getResearches().get(Research.ESPIONAGE);
+                    int nP = (int) (3 + Math.pow(Math.sqrt(o_nP - o_v) + o_mE - mE, 2));
+
+                    if (Utility.getActivePlanet().getShips().get(Ship.ESPIONAGE_PROBE) < nP) {
+                        BuildTask.addABuildTask("build: "+Ship.ESPIONAGE_PROBE+"," + nP);
+                        return;
+                    }
+                    if (Initialize.getInstance().getFleetSlotsAvailable() == 0)//No Fleet Slots Available
+                        return;
+
+                    new MissionBuilder().setMission(MissionBuilder.ESPIONAGE)
+                            .setDestination(coords)
+                            .setFleet(new Fleet().addShip(Ship.ESPIONAGE_PROBE, nP))
+                            .sendFleet();
+
+                    executeQuery("update dont_attack_list " +
+                            "set espionageTech = " + mE + ", probeCount = " + nP + " " +
+                            "where universe_id = " + Initialize.getUniverseID() +
+                            " and coords = '" + coords.getStringValue() + "'");
+
+                } else batchCount++;
+                j++;
+            }
+        }
+    }
+}
+
+class CoordinateTime{
+    Coordinates coords;
+    LocalDateTime timeLastAttacked = LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC);
+
+    public Coordinates getCoords() {
+        return coords;
+    }
+
+    public void setCoords(Coordinates coords) {
+        this.coords = coords;
+    }
+
+    public LocalDateTime getTimeLastAttacked() {
+        return timeLastAttacked;
+    }
+
+    public void setTimeLastAttacked(LocalDateTime timeLastAttacked) {
+        this.timeLastAttacked = timeLastAttacked;
+    }
+
+    public CoordinateTime(Coordinates coords, LocalDateTime timeLastAttacked) {
+        this.coords = coords;
+        this.timeLastAttacked = timeLastAttacked;
+    }
+
+    public CoordinateTime(Coordinates coords) {
+        this.coords = coords;
+    }
+
+    @Override
+    public String toString() {
+        return "CoordinateTime{" +
+                "coords=" + coords +
+                ", timeLastAttacked=" + timeLastAttacked +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CoordinateTime that = (CoordinateTime) o;
+
+        if (coords != null ? !coords.equals(that.coords) : that.coords != null) return false;
+        return timeLastAttacked != null ? timeLastAttacked.equals(that.timeLastAttacked) : that.timeLastAttacked == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = coords != null ? coords.hashCode() : 0;
+        result = 31 * result + (timeLastAttacked != null ? timeLastAttacked.hashCode() : 0);
+        return result;
     }
 }
