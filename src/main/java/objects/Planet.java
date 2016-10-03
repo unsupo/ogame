@@ -1,5 +1,8 @@
 package objects;
 
+import ogame.pages.Facilities;
+import ogame.pages.Resources;
+import ogame.pages.Shipyard;
 import ogame.utility.Resource;
 
 import java.util.*;
@@ -36,15 +39,29 @@ public class Planet {
     }
 
     private void purgeCompletedTasks() {
-        if(currentBuildingBeingBuild != null && currentBuildingBeingBuild.isComplete())
+        if(currentBuildingBeingBuild != null && currentBuildingBeingBuild.isComplete()) {
+            completed(currentBuildingBeingBuild);
             currentBuildingBeingBuild = null;
-        if(currentFacilityBeingBuild != null && currentFacilityBeingBuild.isComplete())
+        }if(currentFacilityBeingBuild != null && currentFacilityBeingBuild.isComplete()) {
+            completed(currentBuildingBeingBuild);
             currentFacilityBeingBuild = null;
+        }
         List<BuildTask> removeList = new ArrayList<>();
-        for(BuildTask b : currentShipyardBeingBuild)
-            if(b.isComplete())
-                removeList.add(b);
+        currentShipyardBeingBuild.stream().filter(b->b.isComplete()).forEach(b->{completed(b);removeList.add(b);});
         currentShipyardBeingBuild.removeAll(removeList);
+    }
+
+    private void completed(BuildTask currentBuildableBeingBuild) { //this adds the new level to the planet's map
+        Buildable build = currentBuildableBeingBuild.getBuildable();
+        int level = currentBuildableBeingBuild.getCountOrLevel();
+        switch (build.getType()){
+            case Facilities.FACILITIES:
+                facilities.put(build.getName(),level); break;
+            case Resources.RESOURCES:
+                buildings.put(build.getName(),level); break;
+            case Shipyard.SHIPYARD:
+                ships.put(build.getName(),ships.get(build.getName())+level); break;
+        }
     }
 
     public BuildTask getCurrentBuildingBeingBuild() {
@@ -241,6 +258,7 @@ public class Planet {
     }
 
     public HashMap<String, Integer> getShips() {
+        getCurrentShipyardBeingBuild();
         return ships;
     }
 

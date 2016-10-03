@@ -162,7 +162,8 @@ public class UIMethods {
     public static WebElement submitOnAttributeAndValue(String name, String value, int index) {
         try{
             List<WebElement> list = getWebDriver().findElements(By.xpath("//*[@"+name+"='"+value+"']"));
-            list.get(index).submit();
+            try{list.get(index).submit(); return list.get(index); }catch (Exception ee){} //try to submit
+            list.get(index).click(); //then try to click
             return list.get(index);
         }catch(Exception e){
             return _clickOnAttributeAndValue(name, value, getWebDriver(), 0);
@@ -177,7 +178,8 @@ public class UIMethods {
         List<WebElement> e = driver.findElements(By.xpath(path));
         for(WebElement el : e)
             try{
-                el.click();
+                try{ el.click(); return el; }catch (Exception ee){} //try to click
+                el.submit();//then try to submit
                 return el;
             }catch(Exception ee){
                 return _clickOnAttributeAndValue(name, value, driver, ++level);

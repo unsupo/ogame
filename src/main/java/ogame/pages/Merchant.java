@@ -52,7 +52,7 @@ public class Merchant extends OGamePage{
         UIMethods.clickOnAttributeAndValue("class","pay");
         UIMethods.waitForText("Take item", 1 , TimeUnit.MINUTES);
         UIMethods.clickOnText("Take item");
-
+        UIMethods.clickOnText("Take item");
 
         FileOptions.writeToFileOverWrite(merchantFile, LocalDateTime.now().format(f));
     }

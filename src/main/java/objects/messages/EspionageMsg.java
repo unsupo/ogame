@@ -4,6 +4,7 @@ import objects.Coordinates;
 import ogame.utility.Resource;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import utilities.Utility;
 import utilities.database._HSQLDB;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class EspionageMsg implements IMessage{
     Resource resources;
     int lootPercent;
     int counterEspionagePercent;
-    long fleets, defence;
+    long fleets = -1, defence = -1;
 
     LocalDateTime msgDate;
 
@@ -38,18 +39,21 @@ public class EspionageMsg implements IMessage{
     public EspionageMsg(LocalDateTime msgDate, Element li_msg){
         this.msgDate = msgDate;
 
-        String[] split = li_msg.select("span.msg_title > a").text().split(" ");
+        String[] split = li_msg.select("span.msg_title > a").text().split("\\[");
         if(split.length != 2)
-            throw new IllegalArgumentException("No an espionage message");
+            throw new IllegalArgumentException("Not an espionage message");
         targetCoordinates = new Coordinates(split[1]);
         Element msg_contents = li_msg.select("span.msg_content").get(0);
         Elements compacting = msg_contents.select("div.compacting");
 
         Elements playerCompacting = compacting.get(0).select("span");
         player = playerCompacting.get(1).text().trim();
-        activityType = playerCompacting.get(3).text();
-        activityString = playerCompacting.get(4).text();
-
+        activityType = playerCompacting.get(2).text();
+        try {
+            activityString = playerCompacting.get(3).text();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Elements lootDataCompacting = compacting.get(1).select("span > span");
         long metal = parseNumber(lootDataCompacting.get(0));
         long crystal = parseNumber(lootDataCompacting.get(1));
@@ -61,8 +65,23 @@ public class EspionageMsg implements IMessage{
         counterEspionagePercent = Integer.parseInt(lootPercentageCompacting.get(1).text().trim().replaceAll("[^0-9]",""));
 
         Elements lootFleetDefenseCompacting = compacting.get(3).select("span");
-        fleets = parseNumber(lootFleetDefenseCompacting.get(0));
-        defence = parseNumber(lootFleetDefenseCompacting.get(1));
+        try {
+            switch (lootFleetDefenseCompacting.size()) {
+                case 2:
+                    fleets = parseNumber(lootFleetDefenseCompacting.get(0));
+                    defence = parseNumber(lootFleetDefenseCompacting.get(1));
+                    Utility.markAsDontAttack(targetCoordinates, 1, fleets, defence);
+                    break;
+                case 1:
+                    fleets = parseNumber(lootFleetDefenseCompacting.get(0));
+                    Utility.markAsDontAttack(targetCoordinates, 1, fleets);
+                    break;
+                case 0:
+                    Utility.markAsDontAttack(targetCoordinates, 1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

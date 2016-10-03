@@ -243,4 +243,26 @@ public class Resource {
 		return new Resource(metal, crystal, deuterium, energy);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Resource resource = (Resource) o;
+
+		if (metal != resource.metal) return false;
+		if (crystal != resource.crystal) return false;
+		if (deuterium != resource.deuterium) return false;
+		return energy == resource.energy;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (int) (metal ^ (metal >>> 32));
+		result = 31 * result + (int) (crystal ^ (crystal >>> 32));
+		result = 31 * result + (int) (deuterium ^ (deuterium >>> 32));
+		result = 31 * result + (int) (energy ^ (energy >>> 32));
+		return result;
+	}
 }
