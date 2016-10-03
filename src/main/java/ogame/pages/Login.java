@@ -1,11 +1,10 @@
 package ogame.pages;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.WebDriver;
-
 import utilities.one.Email;
 import utilities.selenium.UIMethods;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -61,7 +60,16 @@ public class Login{
 		UIMethods.clickOnText("Next");
 		UIMethods.clickOnAttributeAndValue("data-bind", "click:handler, text:label, css:className");
     }
-    
+
+    public Overview reLogin(String uni, String username, String password) {
+        UIMethods.clickOnAttributeAndValue("id", "loginBtn");
+        UIMethods.selectFromDropDown("id", "serverLogin", uni); //"s117-en.ogame.gameforge.com"
+        UIMethods.typeOnAttributeAndValue("id", "usernameLogin", username);
+        UIMethods.typeOnAttributeAndValue("id", "passwordLogin", password);
+        UIMethods.clickOnAttributeAndValue("id", "loginSubmit");
+        return new Overview();
+    }
+
     public static void createNewAccount(String name) throws Exception{
     	if(name.length() < 8){
     		throw new Exception("Must be 8 letters long or longer");
