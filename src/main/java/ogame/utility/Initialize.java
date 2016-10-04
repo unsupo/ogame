@@ -196,14 +196,14 @@ public class Initialize {
 
     public HashMap<String,Integer> getResearch() throws IOException { //research name, level
         return getMapValue(Research.ID,"Research",researches);
-    }public HashMap<String,Integer> getFacilities(Coordinates planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getFacilities(Coordinates planetName) throws IOException { //facilities name, level
         return getMapValue(Facilities.ID,"Facilities",getPlanets().get(planetName).getFacilities());
-    }public HashMap<String,Integer> getBuildings(Coordinates planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getBuildings(Coordinates planetName) throws IOException { //building name, level
         return getMapValue(Resources.ID,"Resources",getPlanets().get(planetName).getBuildings());
-    }public HashMap<String,Integer> getShips(Coordinates planetName) throws IOException { //research name, level
+    }public HashMap<String,Integer> getShips(Coordinates planetName) throws IOException { //ships name, level
         return getMapValue(Shipyard.ID,Shipyard.SHIPYARD,getPlanets().get(planetName).getShips());
-    }public HashMap<String,Integer> getDefense(Coordinates planetName) throws IOException { //research name, level
-        return getMapValue(Shipyard.ID,Defence.DEFENCE,getPlanets().get(planetName).getShips());
+    }public HashMap<String,Integer> getDefenses(Coordinates planetName) throws IOException { //defense name, level
+        return getMapValue(Defence.ID,Defence.DEFENCE,getPlanets().get(planetName).getDefense());
     }
     
     public HashMap<String, Integer> getBuildables(String type) throws IOException{
@@ -237,6 +237,8 @@ public class Initialize {
         String preappender = "";
         if(Shipyard.SHIPYARD.equals(typeName))
             preappender = Shipyard.WEB_ID_APPENDER;
+        if(Defence.DEFENCE.equals(typeName))
+            preappender = Defence.WEB_ID_APPENDER;
         return getValues(ID,typeName,preappender);
     }public HashMap<String,Integer> getValues(String ID, String typeName, String prepender) throws IOException {
         List<Integer> values = getMappings().get(typeName);
@@ -306,7 +308,7 @@ public class Initialize {
             getFacilities(coordinates);
             getBuildings(coordinates);
             getShips(coordinates);
-//            Utility.clickOnNewPage(Shipyard.SHIPYARD); //TODO defense page
+            getDefenses(coordinates);
         }
 
 

@@ -164,6 +164,8 @@ public class MissionBuilder {
                     ogame.pages.Fleet.WEB_ID_APPENDER +
                             Initialize.getBuildableByName(ship.getName()).getWebName(),
                     fleet.getShips().get(ship)+"");
+        if (Initialize.getInstance().getFleetSlotsAvailable() == 0)//No Fleet Slots Available
+            return null;
 
         UIMethods.clickOnText("Next");
         System.out.println("Attacking: "+ destination);
@@ -178,10 +180,11 @@ public class MissionBuilder {
 
         UIMethods.waitForText("Select mission for target:",1, TimeUnit.MINUTES);
         UIMethods.clickOnAttributeAndValue("id",getMission());//document.getElementById("missionButton1").click()
+
         ExecutorService exec = Executors.newSingleThreadExecutor();
         boolean b = true;
         try {
-            exec.submit(new Callable<Boolean>(){
+            b = exec.submit(new Callable<Boolean>(){
                 @Override public Boolean call() throws Exception {
                     while(!Jsoup.parse(UIMethods.getWebDriver().getPageSource())
                             .select("div.briefing_overlay").attr("style").equals("display: none;")){
@@ -190,6 +193,8 @@ public class MissionBuilder {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        if (Utility.getFleetSlots() == 0)//No Fleet Slots Available
+                            return false;
                         UIMethods.clickOnAttributeAndValue("id",getMission());//document.getElementById("missionButton1").click()
                     }
                     return true;
@@ -202,6 +207,8 @@ public class MissionBuilder {
         }finally{
             exec.shutdownNow();
         }
+        if(!b)
+            return null;
 
         if(!resourceToSend.equals(fleet.getResourcesBeingCarried()))
             fleet.setResourcesBeingCarried(resourceToSend);

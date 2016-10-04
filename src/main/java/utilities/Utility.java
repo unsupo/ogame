@@ -268,14 +268,7 @@ public class Utility {
                 planet.getShips().putAll(Initialize.getInstance().getValues(Shipyard.ID, Shipyard.SHIPYARD, Shipyard.WEB_ID_APPENDER));
                 setBuildTime(planet.getCurrentShipyardBeingBuild());
             }else if (Fleet.FLEET.equals(pageName)) {
-                String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
-                String[] totes = fleets.split(":")[1].split("\\/");
-                int used = Integer.parseInt(totes[0].trim());
-                int possible = Integer.parseInt(totes[1].trim());
-                int available = possible - used;
-
-                Initialize.getInstance().setFleetSlotsAvailable(available);
-                Initialize.getInstance().setTotalFleetSlots(possible);
+                getFleetSlots();
 
                 planet.getShips().putAll(Initialize.getInstance().getValues(Fleet.ID, Shipyard.SHIPYARD, Fleet.BUTTON_ID_WEB_APPENDER));
             }
@@ -407,5 +400,22 @@ public class Utility {
                 _HSQLDB.executeQuery(query);
             }
         }
+    }
+
+    public static int getFleetSlots() {
+        String fleets = UIMethods.getTextFromAttributeAndValue("class", "tooltip advice");
+        String[] totes = null;
+        try {
+            totes = fleets.split(":")[1].split("\\/");
+        }catch (Exception e){
+            return -1;
+        }
+        int used = Integer.parseInt(totes[0].trim());
+        int possible = Integer.parseInt(totes[1].trim());
+        int available = possible - used;
+
+        Initialize.getInstance().setFleetSlotsAvailable(available);
+        Initialize.getInstance().setTotalFleetSlots(possible);
+        return available;
     }
 }

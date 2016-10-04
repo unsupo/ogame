@@ -8,4 +8,7 @@ login: s141-en.ogame.gameforge.com,unsupo,supersmash,
 #DONE build: computer technology,3
 #DONE build: Small Cargo,100
 #DONE build: computer technology,6
-build: Espionage Technology,6
+#DONE build: Espionage Technology,6
+build: Impulse Drive,6
+build: Small Cargo,300
+build: Astrophysics,5
