@@ -67,9 +67,14 @@ public class Runner {
                     e1.printStackTrace();
                 }
                 //you got logged out
-                if(UIMethods.doesPageContainAttributeAndValue("id","loginSubmit")){
+                while(UIMethods.doesPageContainAttributeAndValue("id","loginSubmit")){
                     String[] params = QueueManager.getLoginParams();
-                    new Login().reLogin(params[0],params[1],params[2]);
+                    new Login().login(params[0],params[1],params[2]);
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         }

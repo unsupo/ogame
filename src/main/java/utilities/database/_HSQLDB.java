@@ -173,6 +173,15 @@ public class _HSQLDB {
                         "lostFleet INT, " + //1 if message for coords is Contact with the attacking fleet has been lost. 0 otherwise
                         "PRIMARY KEY (coords,universe_id)" +
                 ")");
+
+        db.executeQuery(
+                "CREATE TABLE IF NOT EXISTS ATTACK_HISTORY(" +
+                        "coords VARCHAR(20), " +
+                        "universe_id INT, " +
+                        "attack_count INT, " +
+                        "last_attack_date BIGINT, " +
+                        "PRIMARY KEY (coords,universe_id)" +
+                ")");
     }
 
     static _HSQLDB instance;

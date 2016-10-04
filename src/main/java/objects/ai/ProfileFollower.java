@@ -67,11 +67,11 @@ public class ProfileFollower implements AI {
                         HashMap<String, Integer> map = Utility.getBuildableRequirements(Ship.ESPIONAGE_PROBE);
                         removeCurrentValues(map);
                         List<CoordinateTime> targetList = getTargets();
-                        LocalDateTime lastAttackedTime = LocalDateTime.now();
+                        LocalDateTime lastAttackedTime = LocalDateTime.now(ZoneOffset.UTC);
                         int quantity = 10;
                         if(map.size() == 0) { //can build espionage probes
                             if (Utility.getActivePlanet().getShips().get(Ship.ESPIONAGE_PROBE) != 0) {
-                                batchSpyOnTargetBeforeAttacking(targetList,Initialize.getInstance().getFleetSlotsAvailable());
+                                batchSpyOnTargetBeforeAttacking(targetList,Initialize.getInstance().getFleetSlotsAvailable()-1);
                                 targetList = getEspionageTargets();
                                 if(targetList.isEmpty()) //TODO fix bashing no more than 6 attacks per planet in 24 hour period
                                     return;
@@ -88,13 +88,17 @@ public class ProfileFollower implements AI {
                             if(!targetList.isEmpty()) //no targets, then attack with 1 test small cargo ship
                                 quantity = getSmallCargosNeeded(targetList.get(0).getCoords());
                         }
+                        if (Utility.getFleetSlots() == 0)//No Fleet Slots Available
+                            return;
 
-                        new MissionBuilder().setMission(MissionBuilder.ATTACK)
+                        MissionBuilder v = new MissionBuilder().setMission(MissionBuilder.ATTACK)
                                 .setDestination(targetList.get(0).getCoords())
-                                .setFleet(new Fleet().addShip(Ship.SMALL_CARGO,quantity))
+                                .setFleet(new Fleet().addShip(Ship.SMALL_CARGO, quantity))
                                 .sendFleet();
+                        if(v == null)
+                            return;
 
-                        targetList.get(targetList.indexOf(targetList.get(0))).setTimeLastAttacked(lastAttackedTime);
+                        targets.get(targets.indexOf(targetList.get(0))).setTimeLastAttacked(lastAttackedTime);
 
                     }else{
                         if(reason.equals(Fleet.FLEET)){
@@ -371,7 +375,25 @@ public class ProfileFollower implements AI {
             targets = Utility.getAllInactiveTargets(Utility.getActivePlanet().getCoordinates(),Initialize.getUniverseID())
                     .stream().map(a->new CoordinateTime(a)).collect(Collectors.toList());
 
+        List<Map<String, Object>> lastAttackDates = executeQuery("select coords,max(msgdate) msgdate " +
+                "from combat_reports where universe_id = " + Initialize.getUniverseID() + " and " +
+                "defender != '" + Initialize.getUsername() + "' group by coords");
         Coordinates yourCoordinates = Utility.getActivePlanet().getCoordinates();
+
+        targets.forEach(a->{
+            List<Map<String, Object>> vv = lastAttackDates.stream()
+                    .filter(b -> new Coordinates(b.get("COORDS").toString()).equals(a.getCoords()))
+                    .collect(Collectors.toList());//.get(0);
+            if(vv.size() == 0)
+                return;
+            Map<String, Object> v = vv.get(0);            
+            
+            long millis = Long.parseLong(v.get("MSGDATE").toString());
+            LocalDateTime lastAttackDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneOffset.UTC);
+            if(lastAttackDate.getNano() > a.getTimeLastAttacked().getNano())
+                a.setTimeLastAttacked(lastAttackDate);
+        });
+        
         Collections.sort(targets,(a,b)->{
             LocalDateTime now = LocalDateTime.now();
             long t = now.until(a.timeLastAttacked,ChronoUnit.MINUTES) - now.until(b.timeLastAttacked,ChronoUnit.MINUTES);
@@ -420,8 +442,14 @@ public class ProfileFollower implements AI {
                 "select * from espionage_reports " +
                         "where defence = 0 and fleets = 0 and universe_id = "+Initialize.getUniverseID()+
                         " order by crystal desc");
+        List<CoordinateTime> inactiveTargets = getTargets();
         if(list.size() != 0)
-            return list.stream().map(a->new CoordinateTime(new Coordinates(a.get("COORDS").toString()))).collect(Collectors.toList());
+            return list.stream()
+                    .map(a->inactiveTargets.stream().filter(b->b.coords.equals(new Coordinates(a.get("COORDS").toString())))
+                            .collect(Collectors.toList()).get(0))
+                    .filter(a->a.getTimeLastAttacked()
+                            .until(LocalDateTime.now(ZoneOffset.UTC), ChronoUnit.HOURS) > 6) //get only coords that haven't been attacked for two hours
+                    .collect(Collectors.toList());
 
         checkTooFewProbes();
 

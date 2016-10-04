@@ -79,7 +79,6 @@ public class Fleet {
     }
 
     public static Fleet parseFleets(Document title) {
-        //TODO
         Fleet fleet = new Fleet();
         Elements tableObj = title.select("table.fleetinfo").select("tr");
         Resource resource = new Resource();
