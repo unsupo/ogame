@@ -1,10 +1,9 @@
 package ogame.pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import utilities.one.Email;
 import utilities.selenium.UIMethods;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jarndt on 9/19/16.
@@ -13,7 +12,11 @@ public class Login{
 	
 	public static String emailAppend = "@michaelgutin.one";
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception {
+        if(args != null && args.length == 1)
+            createNewAccount(args[0]);
+        else
+        	System.out.println("Must give a name 6 characters long");
 		
 //		try {
 //			String user = "test";
@@ -26,7 +29,12 @@ public class Login{
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		verify("test550850");
+//		verify("coolerthanyou");
+
+//	    createNewAccount("a1234567");
+//
+//        String name = "a1234567";
+//        new Login().register(name+emailAppend, name);
 	}
 	
     public Overview login(String uni, String username, String password){
@@ -56,9 +64,26 @@ public class Login{
         UIMethods.typeOnAttributeAndValue("name", "displayUsername", name+emailAppend);
         UIMethods.typeOnAttributeAndValue("type", "password", name);
         UIMethods.clickOnAttributeAndValue("class", "oneButton");
-		UIMethods.waitForText("Next", 2, TimeUnit.SECONDS);
-		UIMethods.clickOnText("Next");
-		UIMethods.clickOnAttributeAndValue("data-bind", "click:handler, text:label, css:className");
+        int count = 0;
+        while (count++ < 60000 && !UIMethods.doesPageContainText("OGame password")){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        ((JavascriptExecutor)UIMethods.getWebDriver()).executeScript("document.getElementsByClassName(\"overlay-container active\")[0].className = \"overlay-container\"");
+
+        UIMethods.clickOnText("OGame password");
+        count = 0;
+        while (count++ < 1000 && !UIMethods.doesPageContainAttributeAndValue("class","mailPart")){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        UIMethods.clickOnAttributeAndValue("target","_blank");
     }
 
     public Overview reLogin(String uni, String username, String password) {
@@ -76,6 +101,9 @@ public class Login{
     	}
     	Email.create(name, name);
     	new Login().register(name+emailAppend, name);
+        UIMethods.getInstance().chrome.close();
+        UIMethods.getInstance().chrome = null;
+        verify(name);
     }
     
     

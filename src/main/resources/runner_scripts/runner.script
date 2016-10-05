@@ -1,3 +1,4 @@
+build: Espionage Probe,1
 #DONE build: espionage probe,7
 #DONE build: espionage probe,5
 #DONE build: espionage probe,5
@@ -9,6 +10,11 @@ login: s141-en.ogame.gameforge.com,unsupo,supersmash,
 #DONE build: Small Cargo,100
 #DONE build: computer technology,6
 #DONE build: Espionage Technology,6
-build: Impulse Drive,6
+#DONE build: Impulse Drive,6
+build: espionage probe,20
 build: Small Cargo,300
+build: Espionage Technology,8
+build: computer technology,8
 build: Astrophysics,5
+build: Espionage Technology,10
+build: computer technology,10

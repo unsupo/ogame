@@ -52,7 +52,7 @@ public class ProfileFollower implements AI {
 
                     if(!couldntAttackLast) {
                         Utility.clickOnNewPage(ogame.pages.Fleet.FLEET);
-                        if (Initialize.getInstance().getFleetSlotsAvailable() == 0){//No Fleet Slots Available
+                        if (Initialize.getInstance().getFleetSlotsAvailable()-1  == 0){//No Fleet Slots Available
                             System.out.println("No fleet slots available");
                             couldntAttackLast = true;
                             reason = Fleet.FLEET;
