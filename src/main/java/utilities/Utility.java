@@ -312,10 +312,10 @@ public class Utility {
         for(Element e : table) {
             String[] contents = e.attr("title").split("<br>");
             String[] quantityName = contents[0].split(" ");
-            String name = quantityName[1];
+            String name = contents[0].replaceAll("[0-9]+","").trim();
             Buildable buildable = Initialize.getBuildableByName(name);
             int level = Integer.parseInt(quantityName[0]);
-            String time = contents[1].replace("Building duraiton ","");
+            String time = contents[1].replace("Building duration ","");
             long millis = getTimeConversion(time.split(" "))+System.currentTimeMillis();
             LocalDateTime done = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneOffset.UTC);
             buildTime.add(new BuildTask(buildable,done,level));

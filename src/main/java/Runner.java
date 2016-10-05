@@ -60,6 +60,8 @@ public class Runner {
                 Thread.sleep(Utility.getRandomIntRange(60000,25000)); //more human like, click every somewhere between 60 and 25 seconds.
             }catch (Exception e){
                 e.printStackTrace();
+                UIMethods.getInstance().chrome.close();
+                UIMethods.getInstance().chrome = null;
                 System.out.println("Got Logged out, logging back in");
                 try {
                     Thread.sleep(60000);

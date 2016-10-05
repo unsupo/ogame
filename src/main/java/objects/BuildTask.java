@@ -38,7 +38,6 @@ public class BuildTask{
     public String toString() {
         return "BuildTask{" +
                 "buildable=" + buildable +
-                ", line='" + line + '\'' +
                 ", startTime=" + startTime +
                 ", completeTime=" + completeTime +
                 ", countOrLevel=" + countOrLevel +

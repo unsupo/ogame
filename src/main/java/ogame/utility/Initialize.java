@@ -241,28 +241,33 @@ public class Initialize {
             preappender = Defence.WEB_ID_APPENDER;
         return getValues(ID,typeName,preappender);
     }public HashMap<String,Integer> getValues(String ID, String typeName, String prepender) throws IOException {
-        List<Integer> values = getMappings().get(typeName);
-        int v1 = values.get(0), v2 = values.get(1);
-        HashMap<String,Integer> map = new HashMap<>();
-        List<Buildable> buildableList = buildables.stream()
-                .filter(a -> a.getId() >= v1 && a.getId() <= v2).collect(Collectors.toList());
-        for(Buildable b : buildableList) {
-            String v = UIMethods.getTextFromAttributeAndValue(ID, prepender+b.getWebName());
-            if(v == null)
-                v = 0+"";
-            if(v.contains("(")){
-                String[] split = v.split("\\(");
-                split[0] = split[0].trim();
-                split[1] = split[1].replaceAll("\\)","").replaceAll("\\+", "");
-                v = Integer.parseInt(split[0]) + Integer.parseInt(split[1]) + "";
-                
+        HashMap<String, Integer> map = new HashMap<>();
+        try {
+            List<Integer> values = getMappings().get(typeName);
+            int v1 = values.get(0), v2 = values.get(1);
+            List<Buildable> buildableList = buildables.stream()
+                    .filter(a -> a.getId() >= v1 && a.getId() <= v2).collect(Collectors.toList());
+            for (Buildable b : buildableList) {
+                String v = UIMethods.getTextFromAttributeAndValue(ID, prepender + b.getWebName());
+                if (v == null)
+                    v = 0 + "";
+                if (v.contains("(")) {
+                    String[] split = v.split("\\(");
+                    split[0] = split[0].trim();
+                    split[1] = split[1].replaceAll("\\)", "").replaceAll("\\+", "");
+                    v = Integer.parseInt(split[0]) + Integer.parseInt(split[1]) + "";
+
+                }
+                if (v.contains("\n")) {
+                    v = v.split("\n")[1];
+                }
+                map.put(b.getName(), Integer.parseInt(v));
             }
-            if(v.contains("\n")){
-            	v = v.split("\n")[1];
-            }
-            map.put(b.getName(),Integer.parseInt(v));
+            return map;
+        }catch (Exception e){
+            e.printStackTrace();
+            return map;
         }
-        return map;
     }
 
     public HashMap<Coordinates, Planet> getPlanets() throws IOException { //planet name, Planet
