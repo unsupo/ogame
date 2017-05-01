@@ -1,3 +1,7 @@
+This is the based off the ogame_1.0 branch for now.  ogame_1.0 branch is in a usable state in the IDE only and has no more active development.  ogame_2.0 branch is the current active branch, but it isn't yet in a usable state.  Once ogame_2.0 is in a useable state, it will become the new master branch.
+
+- - - -
+
 # ogame
 
 src.main.java.Runner is the main class
