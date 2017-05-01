@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ogame.iml" filepath="$PROJECT_DIR$/ogame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ogame-bot.iml" filepath="$PROJECT_DIR$/ogame-bot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ogamebotapp/ogamebotapp.iml" filepath="$PROJECT_DIR$/ogamebotapp/ogamebotapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ogamebotserver/ogamebotserver.iml" filepath="$PROJECT_DIR$/ogamebotserver/ogamebotserver.iml" />
     </modules>
   </component>
 </project>
