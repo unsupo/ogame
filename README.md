@@ -1,3 +1,5 @@
+This is still a work in progress, once it's in a useable state, i will merge it with the master branch.  Currently ogame_1.0 branch is usable in the ide only.  This project will use that branch as a refernce point.
+- - - -
 # Ogame BOT #
 This is the parent folder for the ogame bot.  This is used to fully autonomize the game [Ogame.org](https://en.ogame.gameforge.com/).
 
