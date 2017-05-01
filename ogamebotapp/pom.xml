@@ -8,5 +8,10 @@
     <artifactId>ogamebot-app</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <parent>
+        <groupId>ogame</groupId>
+        <artifactId>ogame-bot</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
 </project>
