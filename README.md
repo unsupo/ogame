@@ -1,3 +1,6 @@
+This is the old branch.  This is working code, but only if used from an IDE.  ogame_2.0 branch is the current active branch, but isn't in a useable state yet.  This branch isn't active anymore, but will be kept for reference.
+
+- - - -
 # ogame
 
 src.main.java.Runner is the main class
