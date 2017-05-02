@@ -10,14 +10,14 @@ var app = angular.module('app',
         $mdThemingProvider.theme('input', 'default')
             .primaryPalette('grey')
 
-        // var lightGreenMap = $mdThemingProvider.extendPalette('light-green', {
-        //     '200': 'aecc5a'
-        // });
-        // $mdThemingProvider.definePalette('lighter-green', lightGreenMap);
-        // $mdThemingProvider.theme('default')
-        //     .primaryPalette('light-green')
-        //     .accentPalette('lighter-green', {
-        //         'default': '200'
-        //     })
-    }]);
+    // var lightGreenMap = $mdThemingProvider.extendPalette('light-green', {
+    //     '200': 'aecc5a'
+    // });
+    // $mdThemingProvider.definePalette('lighter-green', lightGreenMap);
+    // $mdThemingProvider.theme('default')
+    //     .primaryPalette('light-green')
+    //     .accentPalette('lighter-green', {
+    //         'default': '200'
+    //     })
+}]);
 
