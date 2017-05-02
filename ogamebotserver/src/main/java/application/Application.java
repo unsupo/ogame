@@ -28,7 +28,7 @@ public class Application {
         if(!(bowerComponents.exists() && bowerComponents.isDirectory())) {
             FileOptions.runProcess("./bower.sh", STATIC_DIR);
             System.out.println("Bower Components installed.  Please rerun Application");
-            System.exit();
+            System.exit(0);
         }
     }
 }
