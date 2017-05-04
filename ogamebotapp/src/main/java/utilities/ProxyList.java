@@ -4,28 +4,30 @@ import org.openqa.selenium.By;
 import utilities.fileio.FileOptions;
 import utilities.webdriver.Driver;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by jarndt on 5/4/17.
  */
 public class ProxyList {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         parallelTestIPS();
     }
 
+
     public final static String PROXY_LIST_DIR = FileOptions.cleanFilePath(FileOptions.DEFAULT_DIR+"/ogamebotapp/src/main/resources/proxylist/");
-    public static void parallelTestIPS() throws IOException {
+    public static void parallelTestIPS() throws IOException, InterruptedException {
         Set<String> ips = new HashSet<>(), removeIps = new HashSet<>();
 
         String path = PROXY_LIST_DIR;
-        FileOptions.getAllFiles(path).parallelStream()
+        FileOptions.getAllFilesEndsWith(path,".txt").parallelStream()
                 .forEach(a -> {
                     try {
                         List<String> files = FileOptions.readFileIntoListString(FileOptions.cleanFilePath(a.getAbsolutePath()))
@@ -38,14 +40,32 @@ public class ProxyList {
                             removeIps.addAll(files);
                     } catch (IOException e) { /*DO NOTHING*/ }
                 });
-        ips.removeAll(removeIps);
 
+        FileOptions.getAllFilesEndsWith(PROXY_LIST_DIR, ".zip").stream().forEach(a -> {
+            try {
+                HashMap<String, List<String>> zip = FileOptions.getZipFileContents(a.getAbsolutePath());
+                zip.keySet().stream().filter(b->b.toLowerCase().contains("failed"))
+                        .forEach(b->zip.get(b).stream()
+                                .filter(c->c.contains(":") && c.split("\\.").length == 4)
+                                .forEach(c->removeIps.add(c.trim())));
+                zip.keySet().stream().filter(b->!b.toLowerCase().contains("failed"))
+                        .forEach(b->zip.get(b).stream()
+                                .filter(c->c.contains(":") && c.split("\\.").length == 4)
+                                .forEach(c->ips.add(c.trim())));
+            } catch (IOException e) {
+//                e.printStackTrace();
+            }
+        });
+
+        ips.removeAll(removeIps);
         String nanoTime = System.nanoTime()+"";
-        new File(path+"/working"+nanoTime).mkdirs();
-        new File(path+"/failed"+nanoTime).mkdirs();
+        String workingPath = FileOptions.cleanFilePath(path+"/test/working"+nanoTime),
+                failedPath = FileOptions.cleanFilePath(path+"/test/failed"+nanoTime);
+        new File(workingPath).mkdirs();
+        new File(failedPath).mkdirs();
 
         Set<String> failedIPs = new HashSet<>();
-        HashMap<String,Long> workingIPs = new HashMap<>();
+        HashMap<String,String> workingIPs = new HashMap<>();
         ExecutorService service = Executors.newFixedThreadPool(100);
         ips.forEach(a->{
             service.submit(()->{
@@ -58,13 +78,13 @@ public class ProxyList {
                     String ip = driver.getDriver().findElements(By.id("ip")).get(0).getText();
                     t.stop();
                     System.out.println(a+"\tIP: "+ip+"\tTook: "+t.getTime());
-                    workingIPs.put(a+","+ip,t.getNanoTime());
-                    FileOptions.writeToFileOverWrite(path+"/working"+nanoTime+"/"+ UUID.randomUUID().toString()+".txt",a);
+                    workingIPs.put(a,t.getNanoTime()+","+ip);
+                    FileOptions.writeToFileOverWrite(FileOptions.cleanFilePath(workingPath+"/"+ UUID.randomUUID().toString()+".txt"),a);
                 }catch (Exception e){
                     System.out.println("IP FAILED: "+a);
                     failedIPs.add(a);
                     try {
-                        FileOptions.writeToFileOverWrite(path+"/failed"+nanoTime+"/"+UUID.randomUUID().toString()+".txt",a);
+                        FileOptions.writeToFileOverWrite(FileOptions.cleanFilePath(failedPath+"/"+UUID.randomUUID().toString()+".txt"),a);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -88,6 +108,8 @@ public class ProxyList {
             service.shutdownNow();
             System.out.println("shutdown finished");
         }
+        while (!service.isTerminated() && !service.isShutdown())
+            Thread.sleep(1000);
 
         Set<String> working = new HashSet<>();
         working.addAll(workingIPs.keySet());
@@ -95,11 +117,11 @@ public class ProxyList {
 
         failedIPs.addAll(FileOptions.readFileIntoListString(PROXY_LIST_DIR+"failed.txt").stream().map(a->a.trim()).collect(Collectors.toList()));
 
-        FileOptions.writeToFileAppend(PROXY_LIST_DIR+"working.txt",working.stream().reduce("",(u, s) -> u+"\n"+s));
-        FileOptions.writeToFileAppend(PROXY_LIST_DIR+"failed.txt",failedIPs.stream().reduce("",(u, s) -> u+"\n"+s));
+        FileOptions.writeToFileOverWrite(PROXY_LIST_DIR+"working.txt",working.stream().reduce("",(u, s) -> u+"\n"+s));
+        FileOptions.writeToFileOverWrite(PROXY_LIST_DIR+"failed.txt",failedIPs.stream().reduce("",(u, s) -> u+"\n"+s));
 
-        FileOptions.deleteDirectory(path+"/working"+nanoTime);
-        FileOptions.deleteDirectory(path+"/failed"+nanoTime);
+        FileOptions.deleteDirectory(workingPath);
+        FileOptions.deleteDirectory(failedPath);
     }
 
 }
