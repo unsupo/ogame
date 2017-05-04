@@ -1,6 +1,6 @@
-package utilities;
+package utilities.fileio;
 
-import utilities.webdriver.DriverHelper;
+import utilities.webdriver.Driver;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,13 +12,15 @@ import java.util.*;
  */
 public class JarUtility {
     public static final String  WINDOWS = "win", LINUX = "linux", MAC = "mac",
-                                CHROME = "chrome", GECKO = "gecko", FIREFOX = GECKO, PHANTOMJS = "phantomjs";
+                                CHROME = Driver.CHROME, GECKO = Driver.FIREFOX, FIREFOX = GECKO, PHANTOMJS = Driver.PHANTOMJS;
     public static final String s = FileOptions.SEPERATOR;
 
     private String  webDriverPath   = FileOptions.cleanFilePath(System.getProperty("user.dir")+"/ogamebotapp/src/main/resources/web_drivers"),
                     exportPath      = System.getProperty("user.dir")+s+"jarResources";
+
     private HashMap<String,HashMap<String,String>> drivers = new HashMap<>();
     private List<String> defaultDrivers = new ArrayList<>(Arrays.asList(PHANTOMJS));
+    private List<String> extractedFiles = new ArrayList<>();
 
     private void init(){
         List<String> os = Arrays.asList(WINDOWS,LINUX,MAC);
@@ -27,7 +29,7 @@ public class JarUtility {
             HashMap<String, String> map = new HashMap<>();
             String name = s.substring(0,3);
             for(String driver : driverName)
-                map.put(driver,name+driver+"driver"+(s.equals(WINDOWS)?".exe":""));
+                map.put(driver,name+"_"+driver+"driver"+(s.equals(WINDOWS)?".exe":""));
             drivers.put(s, map);
         }
 
@@ -69,6 +71,10 @@ public class JarUtility {
     public static List<String> extractFiles(List<String>...resourceFiles) throws IOException, URISyntaxException {
         return extractFiles(new ArrayList<>(), resourceFiles);
     }
+    public static List<String> getExtractedFiles(){
+        return getInstance().extractedFiles;
+    }
+
     public static List<String> extractFiles(List<String> files, List<String>...resourceFiles) throws URISyntaxException, IOException {
         List<String> resourcesFileList = new ArrayList<>();
         if(resourceFiles != null && resourceFiles.length != 0)
@@ -93,7 +99,7 @@ public class JarUtility {
             files.addAll(fil);
 
             //extract all webdrivers for your perticular os
-            String os = DriverHelper.OS;
+            String os = FileOptions.OS;
             String nPath = path+s+"web_drivers";
             if(new File(getWebDriverPath()).exists())
                 nPath = getWebDriverPath();
@@ -124,6 +130,7 @@ public class JarUtility {
                 files.add(FileOptions.findFile(System.getProperty("user.dir"),s)
                         .get(0).getAbsolutePath());
         }
+        getExtractedFiles().addAll(files);
         return files;
     }
     public static File exportJarResources(String destDir, String jarFileLocation, String fileToExtract) throws IOException {
