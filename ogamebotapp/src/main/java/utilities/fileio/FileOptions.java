@@ -1,6 +1,7 @@
 package utilities.fileio;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -9,10 +10,14 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class FileOptions {
     public final static String OS = System.getProperty("os.name").toLowerCase();
@@ -29,6 +34,37 @@ public class FileOptions {
 //		moveAllFiles(in, out);
 
         getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
+    }
+
+    public static HashMap<String,List<String>> getZipFileContents(String path) throws IOException {
+        HashMap<String,List<String>> fileContents = new HashMap<>();
+        ZipFile zip = new ZipFile(path);
+        for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
+            ZipEntry entry = (ZipEntry) e.nextElement();
+            if (!entry.isDirectory()) {
+                //TODO add other types of files to process
+//                if (FilenameUtils.getExtension(entry.getName()).equals("png")) {
+//                    byte[] image = getImage(zip.getInputStream(entry));
+//                    //do your thing
+//                } else
+                if (FilenameUtils.getExtension(entry.getName()).equals("txt")) {
+                    List<String> fileSeperator = new ArrayList<>();
+                    StringBuilder out = new StringBuilder();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(zip.getInputStream(entry)));
+                    String line;
+                    try {
+                        while ((line = reader.readLine()) != null)
+                            fileSeperator.add(line);
+//                            out.append(line);
+                    } catch (IOException ee) {
+                        // do something, probably not a text file
+//                            ee.printStackTrace();
+                    }
+                    fileContents.put(entry.getName(), fileSeperator);
+                }
+            }
+        }
+        return fileContents;
     }
 
     public static File[] getBaseDirectories() {
