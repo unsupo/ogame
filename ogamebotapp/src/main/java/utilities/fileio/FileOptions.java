@@ -1,4 +1,4 @@
-package utilities;
+package utilities.fileio;
 
 import org.apache.commons.io.FileUtils;
 
@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FileOptions {
+    public final static String OS = System.getProperty("os.name").toLowerCase();
+
     public static final String SEPERATOR = System.getProperty("file.separator"),
             DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR;
     public static final String WEB_DRIVER_DIR = DEFAULT_DIR + "config" + SEPERATOR + "web_drivers" + SEPERATOR;

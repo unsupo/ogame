@@ -1,4 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 *.iml
+target/
 ogamebotserver/src/main/resources/static/bower_components/
+*.log
