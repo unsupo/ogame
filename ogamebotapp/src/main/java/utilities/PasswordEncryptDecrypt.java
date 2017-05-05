@@ -6,6 +6,8 @@ package utilities;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import utilities.email.OneEmail;
+import utilities.fileio.FileOptions;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -26,7 +28,9 @@ public class PasswordEncryptDecrypt {
     };
 
     public static void main(String[] args) throws Exception {
-        encryptReader();
+//        encryptReader();
+
+//        System.out.println(encrypt(FileOptions.readFileIntoString(OneEmail.EMAILS_DIR+"email_list.txt")));
     }
     public static void encryptReader() throws IOException, GeneralSecurityException {
         Console console = System.console();

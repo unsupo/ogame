@@ -67,8 +67,10 @@ public class JarUtility {
     public static void setExportPath(String exportPath) {
         getInstance().exportPath = exportPath;
     }
-
-    public static List<String> extractFiles(List<String>...resourceFiles) throws IOException, URISyntaxException {
+    public static List<String> extractFiles() throws IOException, URISyntaxException {
+        return extractFiles(new ArrayList<>(), null);
+    }
+    public static List<String> extractFiles(List<String> resourceFiles) throws IOException, URISyntaxException {
         return extractFiles(new ArrayList<>(), resourceFiles);
     }
     public static List<String> getExtractedFiles(){
