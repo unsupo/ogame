@@ -6,6 +6,7 @@ import utilities.webdriver.Driver;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -66,48 +67,32 @@ public class ProxyList {
 
         Set<String> failedIPs = new HashSet<>();
         HashMap<String,String> workingIPs = new HashMap<>();
-        ExecutorService service = Executors.newFixedThreadPool(100);
-        ips.forEach(a->{
-            service.submit(()->{
-                Driver driver = new Driver();
+        List<Callable> callables = ips.stream().map(a -> (Callable) () -> {
+            Driver driver = new Driver();
+            try {
+                driver.setProxy(a);
+                driver.setDriverName(Driver.PHANTOMJS);
+                utilities.Timer t = new utilities.Timer().start();
+                driver.getDriver().navigate().to("http://www.whatsmyip.org/");
+                String ip = driver.getDriver().findElements(By.id("ip")).get(0).getText();
+                t.stop();
+                System.out.println(a+"\tIP: "+ip+"\tTook: "+t.getTime());
+                workingIPs.put(a,t.getNanoTime()+","+ip);
+                FileOptions.writeToFileOverWrite(FileOptions.cleanFilePath(workingPath+"/"+ UUID.randomUUID().toString()+".txt"),a);
+            }catch (Exception e){
+                System.out.println("IP FAILED: "+a);
+                failedIPs.add(a);
                 try {
-                    driver.setProxy(a);
-                    driver.setDriverName(Driver.PHANTOMJS);
-                    utilities.Timer t = new utilities.Timer().start();
-                    driver.getDriver().navigate().to("http://www.whatsmyip.org/");
-                    String ip = driver.getDriver().findElements(By.id("ip")).get(0).getText();
-                    t.stop();
-                    System.out.println(a+"\tIP: "+ip+"\tTook: "+t.getTime());
-                    workingIPs.put(a,t.getNanoTime()+","+ip);
-                    FileOptions.writeToFileOverWrite(FileOptions.cleanFilePath(workingPath+"/"+ UUID.randomUUID().toString()+".txt"),a);
-                }catch (Exception e){
-                    System.out.println("IP FAILED: "+a);
-                    failedIPs.add(a);
-                    try {
-                        FileOptions.writeToFileOverWrite(FileOptions.cleanFilePath(failedPath+"/"+UUID.randomUUID().toString()+".txt"),a);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
+                    FileOptions.writeToFileOverWrite(FileOptions.cleanFilePath(failedPath+"/"+UUID.randomUUID().toString()+".txt"),a);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
-                driver.getDriver().quit();
-            });
-        });
-
-        try {
-            System.out.println("attempt to shutdown executor");
-            service.shutdown();
-            service.awaitTermination(5, TimeUnit.MINUTES);
-        }
-        catch (InterruptedException e) {
-            System.err.println("tasks interrupted");
-        }
-        finally {
-            if (!service.isTerminated()) {
-                System.err.println("cancel non-finished tasks");
             }
-            service.shutdownNow();
-            System.out.println("shutdown finished");
-        }
+            driver.getDriver().quit();
+            return null;
+        }).collect(Collectors.toList());
+        ExecutorService service = FileOptions.runConcurrentProcess(callables);
+
         while (!service.isTerminated() && !service.isShutdown())
             Thread.sleep(1000);
 

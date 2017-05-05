@@ -22,8 +22,10 @@ import java.util.stream.Collectors;
 public class Runner {
     public static void main(String[] args) throws IOException, GeneralSecurityException, URISyntaxException, InterruptedException {
         parseCommandLineArgs(args);
-        JarUtility.extractFiles();
-        ProxyList.parallelTestIPS();
+        JarUtility.extractFiles(Arrays.asList("emails_list.txt","failed.txt","working.txt"));
+
+
+        //        ProxyList.parallelTestIPS();
 
 //        List<Driver> drivers = new ArrayList<>();
 //        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();

@@ -2,6 +2,7 @@ package utilities.fileio;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import utilities.email.OneEmail;
 
 import java.io.*;
 import java.net.URL;
@@ -9,10 +10,11 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -34,6 +36,40 @@ public class FileOptions {
 //		moveAllFiles(in, out);
 
         getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables){
+        return runConcurrentProcess(callables, 100, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables, int threads){
+        return runConcurrentProcess(callables, threads, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables, int time, TimeUnit timeUnit){
+        return runConcurrentProcess(callables, 100, time, timeUnit);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables, int threads, int time, TimeUnit timeUnit){
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        callables.forEach(a->{
+            service.submit(a);
+        });
+
+        try {
+            System.out.println("attempt to shutdown executor");
+            service.shutdown();
+            service.awaitTermination(time, timeUnit);
+        }
+        catch (InterruptedException e) {
+            System.err.println("tasks interrupted");
+        }
+        finally {
+            if (!service.isTerminated()) {
+                System.err.println("cancel non-finished tasks");
+            }
+            service.shutdownNow();
+            System.out.println("shutdown finished");
+        }
+//        while (!service.isTerminated() && !service.isShutdown())
+//            Thread.sleep(1000);
+        return service;
     }
 
     public static HashMap<String,List<String>> getZipFileContents(String path) throws IOException {

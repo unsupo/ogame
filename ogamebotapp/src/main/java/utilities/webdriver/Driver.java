@@ -16,7 +16,11 @@ import utilities.fileio.FileOptions;
 import utilities.fileio.JarUtility;
 
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,6 +79,55 @@ public class Driver {
         if(!checkProxy(proxyString))
             throw new IllegalArgumentException("Proxy passed in is wrong format must be host:port, given: "+proxyString);
         this.proxy = proxyString;
+    }
+
+    public void takeScreenShot(String output) throws IOException {
+        File scrShot = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
+        FileOptions.copyFileUtil(scrShot, new File(output));
+    }
+
+    public Object executeJavaScript(String javascript){
+        return ((JavascriptExecutor) getDriver()).executeScript(javascript);
+    }
+
+    public boolean waitForElement(By by, long time, TimeUnit timeUnit){
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        boolean b = true;
+        try {
+            exec.submit(new Callable<Boolean>(){
+                @Override public Boolean call() throws Exception {
+                    return _waitForText(by);
+                }
+            }).get(time, timeUnit);
+            exec.shutdown();
+            exec.awaitTermination(time, timeUnit);
+        } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
+            b = false;
+        }finally{
+            exec.shutdownNow();
+        }
+        return b;
+
+    }private boolean _waitForText(By by){
+        List<WebElement> e = driver.findElements(by);
+        while((e = driver.findElements(by)).size() == 0)
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e1) { /* DO NOTHING */ }
+        return true;
+    }
+
+    public void clickWait(By by, long time, TimeUnit timeUnit){
+        clickWait(by, 0, time, timeUnit);
+    }public void clickWait(By by, int index, long time, TimeUnit timeUnit){
+        waitForElement(by,time, timeUnit);
+        getDriver().findElements(by).get(index).click();
+    }
+    public WebElement getElementWait(By by, long time, TimeUnit timeUnit){
+        return getElementWait(by, 0, time, timeUnit);
+    }public WebElement getElementWait(By by, int index, long time, TimeUnit timeUnit){
+        waitForElement(by,time, timeUnit);
+        return getDriver().findElements(by).get(index);
     }
 
     private boolean checkProxy(String proxyString) {
