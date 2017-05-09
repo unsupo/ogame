@@ -15,10 +15,10 @@ public class JavaScriptFunctions {
             "};";
 
 
-    public static Object fillFormByXpath(Driver driver, String xpath, String value){
-        return fillFormByXpath(driver,xpath,value,0);
-    }public static Object fillFormByXpath(Driver driver, String xpath, String value, int indexNum){
-        return driver.executeJavaScript(XPATH_FUNCTION+
+    public static Object fillFormByXpath(DriverController driverController, String xpath, String value){
+        return fillFormByXpath(driverController,xpath,value,0);
+    }public static Object fillFormByXpath(DriverController driverController, String xpath, String value, int indexNum){
+        return driverController.executeJavaScript(XPATH_FUNCTION+
                 "$x(\""+xpath+"\")["+indexNum+"].value=\""+value+"\";"
         );
     }
