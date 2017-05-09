@@ -10,6 +10,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -23,9 +24,11 @@ import java.util.zip.ZipFile;
 
 public class FileOptions {
     public final static String OS = System.getProperty("os.name").toLowerCase();
+    final static public DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static final String SEPERATOR = System.getProperty("file.separator"),
-            DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR;
+            DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR,
+            RESOURCE_DIR = cleanFilePath(DEFAULT_DIR+"/ogamebotapp/src/main/resources/");
     public static final String WEB_DRIVER_DIR = DEFAULT_DIR + "config" + SEPERATOR + "web_drivers" + SEPERATOR;
 
     public static void main(String[] args) throws IOException {
@@ -53,19 +56,19 @@ public class FileOptions {
         });
 
         try {
-            System.out.println("attempt to shutdown executor");
+//            System.out.println("attempt to shutdown executor");
             service.shutdown();
             service.awaitTermination(time, timeUnit);
         }
         catch (InterruptedException e) {
-            System.err.println("tasks interrupted");
+//            System.err.println("tasks interrupted");
         }
         finally {
             if (!service.isTerminated()) {
-                System.err.println("cancel non-finished tasks");
+//                System.err.println("cancel non-finished tasks");
             }
             service.shutdownNow();
-            System.out.println("shutdown finished");
+//            System.out.println("shutdown finished");
         }
 //        while (!service.isTerminated() && !service.isShutdown())
 //            Thread.sleep(1000);

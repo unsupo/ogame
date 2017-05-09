@@ -12,7 +12,9 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
         })
         .state('main.dashboard',{
             url: '/dashboard',
-            templateUrl: 'dashboard/dashboard.view.html'
+            templateUrl: 'dashboard/dashboard.view.html',
+            controller: 'DashboardController',
+            controllerAs: 'vm'
         })
         .state('main.tests',{
             url: '/tests',

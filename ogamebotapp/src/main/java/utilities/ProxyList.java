@@ -2,17 +2,13 @@ package utilities;
 
 import org.openqa.selenium.By;
 import utilities.fileio.FileOptions;
-import utilities.webdriver.Driver;
+import utilities.webdriver.DriverController;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * Created by jarndt on 5/4/17.
@@ -68,13 +64,13 @@ public class ProxyList {
         Set<String> failedIPs = new HashSet<>();
         HashMap<String,String> workingIPs = new HashMap<>();
         List<Callable> callables = ips.stream().map(a -> (Callable) () -> {
-            Driver driver = new Driver();
+            DriverController driverController = new DriverController();
             try {
-                driver.setProxy(a);
-                driver.setDriverName(Driver.PHANTOMJS);
+                driverController.setProxy(a);
+                driverController.setDriverType(DriverController.PHANTOMJS);
                 utilities.Timer t = new utilities.Timer().start();
-                driver.getDriver().navigate().to("http://www.whatsmyip.org/");
-                String ip = driver.getDriver().findElements(By.id("ip")).get(0).getText();
+                driverController.getDriver().navigate().to("http://www.whatsmyip.org/");
+                String ip = driverController.getDriver().findElements(By.id("ip")).get(0).getText();
                 t.stop();
                 System.out.println(a+"\tIP: "+ip+"\tTook: "+t.getTime());
                 workingIPs.put(a,t.getNanoTime()+","+ip);
@@ -88,7 +84,7 @@ public class ProxyList {
                     e1.printStackTrace();
                 }
             }
-            driver.getDriver().quit();
+            driverController.getDriver().quit();
             return null;
         }).collect(Collectors.toList());
         ExecutorService service = FileOptions.runConcurrentProcess(callables);

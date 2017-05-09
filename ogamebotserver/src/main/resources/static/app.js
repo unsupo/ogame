@@ -4,7 +4,8 @@ var app = angular.module('app',
         'ui.router',
         'ngMdIcons',
         'ngCookies',
-        'ui.ace'
+        'ngSanitize',
+        'ngStomp'
     ])
     .config(['$mdThemingProvider', function($mdThemingProvider) {
         $mdThemingProvider.theme('input', 'default')

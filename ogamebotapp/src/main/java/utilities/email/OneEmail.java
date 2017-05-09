@@ -3,7 +3,7 @@ package utilities.email;
 import org.openqa.selenium.By;
 import utilities.PasswordEncryptDecrypt;
 import utilities.fileio.FileOptions;
-import utilities.webdriver.Driver;
+import utilities.webdriver.DriverController;
 import utilities.webdriver.JavaScriptFunctions;
 
 import java.io.File;
@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -84,30 +82,30 @@ public class OneEmail {
     public void createNewOneEmail(String username, String password) throws GeneralSecurityException, IOException {
         final String    oneUser = PasswordEncryptDecrypt.decrypt(oneUserName),
                         onePass = PasswordEncryptDecrypt.decrypt(onePassword);
-        Driver driver = new Driver();
+        DriverController driverController = new DriverController();
         try {
-            driver.setDriverName(Driver.PHANTOMJS);
-            driver.getDriver().navigate().to("https://login.one.com/");
+            driverController.setDriverType(DriverController.PHANTOMJS);
+            driverController.getDriver().navigate().to("https://login.one.com/");
 
-            JavaScriptFunctions.fillFormByXpath(driver, "/html/body/div[3]/div[2]/div[2]/div[1]/div/form/input[2]", oneUser);
-            JavaScriptFunctions.fillFormByXpath(driver, "/html/body/div[3]/div[2]/div[2]/div[1]/div/form/input[5]", onePass);
+            JavaScriptFunctions.fillFormByXpath(driverController, "/html/body/div[3]/div[2]/div[2]/div[1]/div/form/input[2]", oneUser);
+            JavaScriptFunctions.fillFormByXpath(driverController, "/html/body/div[3]/div[2]/div[2]/div[1]/div/form/input[5]", onePass);
 
-            driver.getDriver().findElements(By.xpath("/html/body/div[3]/div[2]/div[2]/div[1]/div/form/div[3]/button")).get(0).click();
+            driverController.getDriver().findElements(By.xpath("/html/body/div[3]/div[2]/div[2]/div[1]/div/form/div[3]/button")).get(0).click();
 
-            driver.clickWait(By.xpath("//*[@id=\"frontpageMailLink\"]"), 1l, TimeUnit.MINUTES);
-            driver.clickWait(By.xpath("//*[@id=\"content\"]/div[2]/fieldset[1]/a"), 1l, TimeUnit.MINUTES);
+            driverController.clickWait(By.xpath("//*[@id=\"frontpageMailLink\"]"), 1l, TimeUnit.MINUTES);
+            driverController.clickWait(By.xpath("//*[@id=\"content\"]/div[2]/fieldset[1]/a"), 1l, TimeUnit.MINUTES);
 
-            driver.waitForElement(By.xpath("//*[@id='name']"), 1l, TimeUnit.MINUTES);
+            driverController.waitForElement(By.xpath("//*[@id='name']"), 1l, TimeUnit.MINUTES);
 
-            JavaScriptFunctions.fillFormByXpath(driver, "//*[@id='name']", username, 1);
-            JavaScriptFunctions.fillFormByXpath(driver, "//*[@id='mailPassword1']", password);
-            JavaScriptFunctions.fillFormByXpath(driver, "//*[@id='mailPassword2']", password);
+            JavaScriptFunctions.fillFormByXpath(driverController, "//*[@id='name']", username, 1);
+            JavaScriptFunctions.fillFormByXpath(driverController, "//*[@id='mailPassword1']", password);
+            JavaScriptFunctions.fillFormByXpath(driverController, "//*[@id='mailPassword2']", password);
 
-            driver.getDriver().findElements(By.xpath("//*[@id=\"mailAccountForm\"]/div[2]/input[2]")).get(0).click();
+            driverController.getDriver().findElements(By.xpath("//*[@id=\"mailAccountForm\"]/div[2]/input[2]")).get(0).click();
         }catch (Exception e){
-            driver.getDriver().quit();
+            driverController.getDriver().quit();
             throw e;
         }
-        driver.getDriver().quit();
+        driverController.getDriver().quit();
     }
 }

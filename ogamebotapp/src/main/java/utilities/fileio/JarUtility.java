@@ -1,6 +1,6 @@
 package utilities.fileio;
 
-import utilities.webdriver.Driver;
+import utilities.webdriver.DriverController;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class JarUtility {
     public static final String  WINDOWS = "win", LINUX = "linux", MAC = "mac",
-                                CHROME = Driver.CHROME, GECKO = Driver.FIREFOX, FIREFOX = GECKO, PHANTOMJS = Driver.PHANTOMJS;
+                                CHROME = DriverController.CHROME, GECKO = DriverController.FIREFOX, FIREFOX = GECKO, PHANTOMJS = DriverController.PHANTOMJS;
     public static final String s = FileOptions.SEPERATOR;
 
     private String  webDriverPath   = FileOptions.cleanFilePath(System.getProperty("user.dir")+"/ogamebotapp/src/main/resources/web_drivers"),

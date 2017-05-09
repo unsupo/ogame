@@ -12,14 +12,14 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import utilities.database.DatabaseCommons;
 import utilities.fileio.FileOptions;
 import utilities.fileio.JarUtility;
 
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,26 +29,58 @@ import static utilities.fileio.FileOptions.OS;
 /**
  * Created by jarndt on 3/29/17.
  */
-public class Driver {
+public class DriverController {
     public static final String      FIREFOX     = "gecko", GECKO = FIREFOX,
                                     CHROME      = "chrome",
-                                    PHANTOMJS   = "phantomjs", DEFAULT_DRIVER = CHROME;
+                                    PHANTOMJS   = "phantomjs", DEFAULT_DRIVER = PHANTOMJS;
 
-    private String driverString, webDriverPath, proxy;
+    private static Set<String> allowedDriverNames = new HashSet();
+    static {
+        allowedDriverNames.addAll(Arrays.asList(FIREFOX,CHROME,PHANTOMJS));
+    }
+
+    private String driverString, webDriverPath, proxy, driverPath, driverName;
+    private Date startDate;
 
     private WebDriver driver;
     private DesiredCapabilities capabilities;
     private Dimension windowSize = new java.awt.Dimension(1440,900);
     private Point windowPosition = new Point(0,0);
 
-    public Driver(){init(null, null);}
-    public Driver(String driverName){init(driverName, null);}
-    public Driver(String driverName, String webDriverPath){init(driverName, webDriverPath);}
-    private void init(String driverName, String webDriverPath){
-        setDriverName(driverName);
+    public DriverController(String driverString, String webDriverPath, String proxy, String driverPath, String driverName, Dimension windowSize, Point windowPosition) {
+        this.driverName = UUID.randomUUID().toString();
+        this.driverString = driverString;
+        this.webDriverPath = webDriverPath;
+        this.proxy = proxy;
+        this.driverPath = driverPath;
+        this.driverName = driverName;
+        this.windowSize = windowSize;
+        this.windowPosition = windowPosition;
+        this.startDate = new Date();
+
+        init(driverString,webDriverPath);
+    }
+
+    public DriverController(){init(null, null);}
+    public DriverController(String driverName){init(driverName, null);}
+    public DriverController(String driverName, String webDriverPath){init(driverName, webDriverPath);}
+    private void init(String driverType, String webDriverPath){
+        if(this.driverName == null)
+            this.driverName = UUID.randomUUID().toString();
+        this.startDate = new Date();
+
+        DatabaseCommons.registerDriver(this);
+
+        setDriverType(driverType);
         setWebDriverPath(webDriverPath);
     }
-    public void setDriverName(String driverName){
+
+
+
+    public void setDriverType(String driverType){
+        if(!allowedDriverNames.contains(driverType))
+            throw new IllegalArgumentException("DriverController Type: "+driverType+" is not an allowed type. \nAllowed Types: "+allowedDriverNames);
+
         String driverNameValue = DEFAULT_DRIVER;
         if(driverName != null)
             driverNameValue = driverName.toLowerCase();
@@ -79,6 +111,10 @@ public class Driver {
         if(!checkProxy(proxyString))
             throw new IllegalArgumentException("Proxy passed in is wrong format must be host:port, given: "+proxyString);
         this.proxy = proxyString;
+    }
+
+    public Date getStartDate() {
+        return startDate;
     }
 
     public void takeScreenShot(String output) throws IOException {
@@ -130,6 +166,12 @@ public class Driver {
         return getDriver().findElements(by).get(index);
     }
 
+    public String getDriverNameValue(){
+        return this.driverName;
+    }public void setDriverNameValue(String driverName){
+        this.driverName = driverName;
+    }
+
     private boolean checkProxy(String proxyString) {
         if(!proxyString.contains(":"))
             return false;
@@ -142,7 +184,7 @@ public class Driver {
     }
 
     public WebDriver getDriver(String webDriverPath, String...driverName){
-        setDriverName(driverName != null && driverName.length == 1 ? driverName[0] : null);
+        setDriverType(driverName != null && driverName.length == 1 ? driverName[0] : null);
         setWebDriverPath(webDriverPath);
         return getDriver();
     }
@@ -169,10 +211,11 @@ public class Driver {
         String  path         = this.webDriverPath,
                 driverValue  = JarUtility.getDrivers().get(OS.substring(0,3)).get(driverString);
 
+        driverPath = path+driverValue;
         if(!PHANTOMJS.equalsIgnoreCase(driverString))
-            System.setProperty("webdriver."+driverString+".driver",path+driverValue);
+            System.setProperty("webdriver."+driverString+".driver",driverPath);
         else
-            System.setProperty("phantomjs.binary.path",path+driverValue);
+            System.setProperty("phantomjs.binary.path",driverPath);
 
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("acceptInsecureCerts", true);
@@ -207,7 +250,7 @@ public class Driver {
         caps.setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_SETTINGS_PREFIX + "resourceTimeout", 60000);
         caps.setCapability("phantomjs.page.settings.userAgent", "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0");
 //	    caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--webdriver-loglevel=ERROR"});//NONE,ERROR
-//        caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, phantomPath);
+        caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, driverPath);
         Logger.getLogger(PhantomJSDriverService.class.getName()).setLevel(Level.OFF);
 
         if(proxy != null)
@@ -222,6 +265,56 @@ public class Driver {
                 .setFtpProxy(proxyKey)
                 .setSslProxy(proxyKey);
         return proxy;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DriverController driverController1 = (DriverController) o;
+
+        if (driverString != null ? !driverString.equals(driverController1.driverString) : driverController1.driverString != null)
+            return false;
+        if (webDriverPath != null ? !webDriverPath.equals(driverController1.webDriverPath) : driverController1.webDriverPath != null)
+            return false;
+        if (proxy != null ? !proxy.equals(driverController1.proxy) : driverController1.proxy != null) return false;
+        if (driverPath != null ? !driverPath.equals(driverController1.driverPath) : driverController1.driverPath != null) return false;
+        if (driver != null ? !driver.equals(driverController1.driver) : driverController1.driver != null) return false;
+        if (capabilities != null ? !capabilities.equals(driverController1.capabilities) : driverController1.capabilities != null)
+            return false;
+        if (windowSize != null ? !windowSize.equals(driverController1.windowSize) : driverController1.windowSize != null) return false;
+        return windowPosition != null ? windowPosition.equals(driverController1.windowPosition) : driverController1.windowPosition == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = driverString != null ? driverString.hashCode() : 0;
+        result = 31 * result + (webDriverPath != null ? webDriverPath.hashCode() : 0);
+        result = 31 * result + (proxy != null ? proxy.hashCode() : 0);
+        result = 31 * result + (driverPath != null ? driverPath.hashCode() : 0);
+        result = 31 * result + (driver != null ? driver.hashCode() : 0);
+        result = 31 * result + (capabilities != null ? capabilities.hashCode() : 0);
+        result = 31 * result + (windowSize != null ? windowSize.hashCode() : 0);
+        result = 31 * result + (windowPosition != null ? windowPosition.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverController{" +
+                "driverString='" + driverString + '\'' +
+                ", webDriverPath='" + webDriverPath + '\'' +
+                ", proxy='" + proxy + '\'' +
+                ", driverPath='" + driverPath + '\'' +
+                ", driverName='" + driverName + '\'' +
+                ", startDate=" + startDate +
+                ", driver=" + driver +
+                ", capabilities=" + capabilities +
+                ", windowSize=" + windowSize +
+                ", windowPosition=" + windowPosition +
+                '}';
     }
 }
 

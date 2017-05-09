@@ -4,3 +4,11 @@
 target/
 ogamebotserver/src/main/resources/static/bower_components/
 *.log
+.DS_Store
+ogamebotapp/src/main/resources/ogame/xml_downloads/
+ogamebotapp/src/main/resources/proxylist/test/
+ogamebotapp/src/test/
+ogamebotserver/src/main/resources/static/app/
+ogamebotserver/src/main/resources/static/main/
+ogamebotserver/src/main/resources/static/node_modules/
+ogamebotserver/src/test/
