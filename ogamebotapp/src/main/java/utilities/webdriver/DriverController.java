@@ -78,14 +78,13 @@ public class DriverController {
 
 
     public void setDriverType(String driverType){
-        if(!allowedDriverNames.contains(driverType))
-            throw new IllegalArgumentException("DriverController Type: "+driverType+" is not an allowed type. \nAllowed Types: "+allowedDriverNames);
-
         String driverNameValue = DEFAULT_DRIVER;
-        if(driverName != null)
-            driverNameValue = driverName.toLowerCase();
+        if(driverString != null)
+            driverNameValue = driverString.toLowerCase();
         if("firefox".equalsIgnoreCase(driverNameValue))
             driverNameValue = GECKO;
+        if(!allowedDriverNames.contains(driverNameValue))
+            throw new IllegalArgumentException("DriverController Type: "+driverNameValue+" is not an allowed type. \nAllowed Types: "+allowedDriverNames);
 
         driverString = driverNameValue;
 //        setWebDriverPath(this.webDriverPath);

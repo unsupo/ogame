@@ -18,9 +18,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -34,39 +32,25 @@ public class XMLAPIDownloader {
             return null;
         }).collect(Collectors.toList()));
 
-//        _HSQLDB.executeQuery("DROP TABLE alliances;");
-//        parseAllFiles();
-//        parseFiles(141);
-        //"select * from server where number = 117" //server details
-        //"select * from players where universe_id = 117 and status in ('I','i')" //inactive players
-//        for(Map<String, Object> v : _HSQLDB.executeQuery("select * from highscore_player a join players p on p.universe_id = a.universe_id and p.id = a.id join planets t on t.universe_id = a.universe_id and t.player = p.id where universe_id = 117 and status in ('I','i') and score < 10000 order by position"))
-//            System.out.println(v);
-//        for(Map<String, Object> v : _HSQLDB.executeQuery("select * from planets"))
-//            System.out.println(v);
-//        System.out.println(_HSQLDB.executeQuery("INSERT INTO PLANETS(id,player,name,coords,moon_id,moon_name,moon_size,universe_id) " +
-//                "VALUES ('1620749','thanks urza (Moon)','8246','1126672','103949','Void','1:208:15',1);"));
-//        for(Coordinates c : Utility.getAllInactiveTargets(new Coordinates(5,414,12),117))
-//            System.out.println(c);
-
         System.exit(0);
     }
 
-    final static public String regReplace = "{UNI}";
+    final static public String regReplace = "{UNI}", numOneReplace = "{NUM1}", numTwoReplace = "{NUM2}";
     public static final String
             SERVER_DATA_FILE        = "server",
             UNIVERSE_FILE           = "planets",
             PLAYERS_FILE            = "players",
             ALLIANCES_FILE          = "alliances",
-            HIGHSCORE_PLAYER_FILE   = "highscore_player",
-            HIGHSCORE_ALLIANCE_FILE = "highscore_alliance";
+            HIGHSCORE_PLAYER_FILE   = "highscore";
+//            HIGHSCORE_ALLIANCE_FILE = "highscore_alliance";
 
     final static public String
             SERVER_DATA          = "https://"+regReplace+"/api/serverData.xml",
             UNIVERSE             = "https://"+regReplace+"/api/universe.xml",
             PLAYERS              = "https://"+regReplace+"/api/players.xml",
             ALLIANCES            = "https://"+regReplace+"/api/alliances.xml",
-            HIGHSCORE_PLAYER     = "https://"+regReplace+"/api/highscore.xml?category=1&type=1",
-            HIGHSCORE_ALLIANCE   = "https://"+regReplace+"/api/highscore.xml?category=2&type=1";
+            HIGHSCORE_PLAYER     = "https://"+regReplace+"/api/highscore.xml?category="+numOneReplace+"&type="+numTwoReplace;
+//            HIGHSCORE_ALLIANCE   = "https://"+regReplace+"/api/highscore.xml?category=2&type=1";
 
 
     final public static HashMap<String,String> FILE_DATA = new HashMap<>();
@@ -77,9 +61,11 @@ public class XMLAPIDownloader {
         FILE_DATA.put(UNIVERSE_FILE,UNIVERSE);
         FILE_DATA.put(PLAYERS_FILE,PLAYERS);
         FILE_DATA.put(ALLIANCES_FILE,ALLIANCES);
-        FILE_DATA.put(HIGHSCORE_PLAYER_FILE,HIGHSCORE_PLAYER);
-        FILE_DATA.put(HIGHSCORE_ALLIANCE_FILE,HIGHSCORE_ALLIANCE);
+//        FILE_DATA.put(HIGHSCORE_PLAYER_FILE,HIGHSCORE_PLAYER);
+//        FILE_DATA.put(HIGHSCORE_ALLIANCE_FILE,HIGHSCORE_ALLIANCE);
     }
+
+
     public static boolean readLastUpdate(String dir, String file){
         new File(dir).mkdirs();
         try {
@@ -96,6 +82,13 @@ public class XMLAPIDownloader {
     public static void downloadAllFiles(final String universeNumber){
         final String dir = DIR+universeNumber;
         new File(dir).mkdirs();
+
+        List<String> highscore = new ArrayList<>();
+        for(int i = 1; i<=2; i++)
+            for(int j = 0; j<7; j++)
+                FILE_DATA.put(HIGHSCORE_PLAYER_FILE+"_"+i+"_"+j,
+                        HIGHSCORE_PLAYER.replace(numOneReplace,i+"").replace(numTwoReplace,j+""));
+
         FileOptions.runConcurrentProcess(FILE_DATA.entrySet().stream().map(a->(Callable)()->{
             try {
                 URL website = new URL(a.getValue().replace(regReplace, "s"+universeNumber+"-en.ogame.gameforge.com"));
@@ -107,6 +100,8 @@ public class XMLAPIDownloader {
             }
             return null;
         }).collect(Collectors.toList()));
+
+
         writeDateToFile(dir,universeNumber);
     }
 
@@ -174,15 +169,6 @@ public class XMLAPIDownloader {
             return null;
         }).collect(Collectors.toList()));
 
-//        FILE_DATA.entrySet().stream().filter(a->!a.getKey().equals(ALLIANCES_FILE)).forEach(a-> { //TODO Alliance file
-//            try {
-//                new XMLFileParser(a,universeNumber).parse();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        });
     }
 
     private static class XMLFileParser{
@@ -206,7 +192,7 @@ public class XMLAPIDownloader {
                 case SERVER_DATA:
                     parseUniverseFiles(universeNumber); break;
                 case HIGHSCORE_PLAYER:
-                case HIGHSCORE_ALLIANCE:
+//                case HIGHSCORE_ALLIANCE:
                 case PLAYERS:
                 case UNIVERSE:
                 case ALLIANCES:
