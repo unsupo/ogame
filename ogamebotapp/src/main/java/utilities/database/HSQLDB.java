@@ -1,7 +1,9 @@
 package utilities.database;
 
+import org.hsqldb.DatabaseManager;
 import org.hsqldb.Server;
 import org.hsqldb.persist.HsqlProperties;
+import utilities.fileio.FileOptions;
 
 import java.io.IOException;
 import java.sql.*;
@@ -9,29 +11,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by jarndt on 5/8/17.
  */
 public class HSQLDB {
-    public static void main(String[] args) {
-        HSQLDB hs = null;
+    public static void main(String[] args) throws IOException, SQLException {
         try {
-            hs = new HSQLDB("tableMetaDataDB");
-            hs.executeQuery("CREATE TABLE test (num INT IDENTITY, answer VARCHAR(250));");
-            hs.executeQuery("INSERT INTO test (answer) values ('this is a new answer');");
-            List<Map<String, Object>> result = hs.executeQuery("select * from test;");
-            System.out.println();
-        } catch (IOException | SQLException e) {
+            HSQLDBCommons.executeQuery("CREATE TABLE test (num INT IDENTITY, answer VARCHAR(250));");
+            HSQLDBCommons.executeQuery("INSERT INTO test (answer) values ('this is a new answer');");
+            List<Map<String, Object>> result = HSQLDBCommons.executeQuery("select * from test;");
+            System.out.println(result);
+        }catch (Exception e){
             e.printStackTrace();
-        }finally{
-            hs.stopDBServer();
+        }finally {
+            HSQLDBCommons.getDatabase().stopDBServer();
         }
+//        HSQLDB hs = null;
+//        try {
+//            hs = new HSQLDB("tableMetaDataDB");
+//            hs.executeQuery("CREATE TABLE test (num INT IDENTITY, answer VARCHAR(250));");
+//            hs.executeQuery("INSERT INTO test (answer) values ('this is a new answer');");
+//            List<Map<String, Object>> result = hs.executeQuery("select * from test;");
+//            System.out.println(result);
+//        } catch (IOException | SQLException e) {
+////            e.printStackTrace();
+//        }finally{
+//            hs.stopDBServer();
+//        }
     }
 
     public String dbName;
-    final String dbLocation = System.getProperty("user.dir")+"/src/main/resources/HSQL/";
+    final String dbLocation = FileOptions.cleanFilePath(System.getProperty("user.dir")+"/HSQL/");
     public HSQLDB(String dbName) throws IOException{
+        Logger.getLogger("hsqldb.db").setLevel(Level.OFF);
+        System.setProperty("hsqldb.reconfig_logging", "false");
         this.dbName = dbName;
         startDBServer(dbName);
     }
@@ -45,6 +61,8 @@ public class HSQLDB {
         HsqlProperties props = new HsqlProperties();
         props.setProperty("server.database.0", "file:" + dbLocation + dbName+";");
         props.setProperty("server.dbname.0", "xdb");
+        props.setProperty("shutdown","true");
+        props.setProperty("hsqldb.reconfig_logging", "false");
         sonicServer = new org.hsqldb.Server();
         try {
             sonicServer.setProperties(props);
@@ -55,6 +73,7 @@ public class HSQLDB {
     }
 
     public void stopDBServer() {
+        DatabaseManager.closeDatabases(0);
         sonicServer.shutdown();
     }
 

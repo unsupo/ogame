@@ -14,25 +14,26 @@ public class HSQLDBCommons {
     private HSQLDB db = null;
     private HSQLDBCommons() throws IOException, SQLException {
         db = new HSQLDB(dbName);
-
+        try {
+            db.executeQuery(
+                    "CREATE TABLE BOTS(" +
+                            "name VARCHAR(100)," +
+                            "active INT," + //0 for no 1 for yes
+                            "startDate BIGINT," +
+                            "driverType VARCHAR(20)," +
+                            "webDriverPath VARCHAR(100)," +
+                            "proxy VARCHAR(50)," +
+                            "windowWidth INT," +
+                            "windowHeight INT," +
+                            "windowPositionX INT," +
+                            "windowPositionY INT," +
+                            "PRIMARY KEY (name)" +
+                            ");"
+            );
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS BOTS(" +
-                        "name VARCHAR(100)," +
-                        "active INT," + //0 for no 1 for yes
-                        "startDate BIGINT," +
-                        "driverType VARCHAR(20)," +
-                        "webDriverPath VARCHAR(100)," +
-                        "proxy VARCHAR(50)," +
-                        "windowWidth INT," +
-                        "windowHeight INT," +
-                        "windowPositionX INT," +
-                        "windowPositionY INT," +
-                        "PRIMARY KEY (name)" +
-                ");"
-        );
-
-        db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS SERVER(" +
+                "CREATE TABLE SERVER(" +
                         "name VARCHAR(50), " +
                         "number INT," +
                         "language VARCHAR(2)," +
@@ -63,27 +64,30 @@ public class HSQLDBCommons {
                         "globalDeuteriumSaveFactor INT, " +
                         "PRIMARY KEY (domain)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS HIGHSCORE_PLAYER( " +
+                "CREATE TABLE HIGHSCORE_PLAYER( " +
                         "position INT, " +
                         "id INT, " +
                         "score BIGINT, " +
                         "universe_id INT, " +
                         "PRIMARY KEY (id,universe_id)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS HIGHSCORE_ALLIANCE( " +
+                "CREATE TABLE HIGHSCORE_ALLIANCE( " +
                         "position INT, " +
                         "id INT, " +
                         "score BIGINT, " +
                         "universe_id INT, " +
                         "PRIMARY KEY (id,universe_id)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS PLAYERS( " +
+                "CREATE TABLE PLAYERS( " +
                         "id INT, " +
                         "name VARCHAR(100), " +
                         "status VARCHAR(3), " +
@@ -91,9 +95,10 @@ public class HSQLDBCommons {
                         "universe_id INT, " +
                         "PRIMARY KEY (id,universe_id)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS ALLIANCES( " +
+                "CREATE TABLE ALLIANCES( " +
                         "id INT, " +
                         "name VARCHAR(100), " +
                         "tag VARCHAR(10), " +
@@ -104,9 +109,10 @@ public class HSQLDBCommons {
                         "universe_id INT, " +
                         "PRIMARY KEY (id,universe_id)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS PLANETS( " +
+                "CREATE TABLE PLANETS( " +
                         "id BIGINT, " +
                         "player INT, " +
                         "name VARCHAR(100), " +
@@ -117,9 +123,10 @@ public class HSQLDBCommons {
                         "universe_id INT, " +
                         "PRIMARY KEY (id,universe_id)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS ESPIONAGE_REPORTS(" +
+                "CREATE TABLE ESPIONAGE_REPORTS(" +
                         "coords VARCHAR(20), " +
                         "msgDate BIGINT, " +
                         "activityType VARCHAR(5), " +
@@ -134,9 +141,10 @@ public class HSQLDBCommons {
                         "universe_id INT, " +
                         "PRIMARY KEY (coords, msgDate,universe_id)" +
                     ");");
-
+        }catch (Exception e){}
+        try{
         db.executeQuery(
-                "CREATE TABLE IF NOT EXISTS COMBAT_REPORTS(" +
+                "CREATE TABLE COMBAT_REPORTS(" +
                         "coords VARCHAR(20), " +
                         "msgDate BIGINT, " +
                         "attacker VARCHAR(100), " +
@@ -152,6 +160,7 @@ public class HSQLDBCommons {
                         "universe_id INT, " +
                         "PRIMARY KEY (coords, msgDate,universe_id)" +
                     ");");
+        }catch (Exception e){}
     }
 
     static HSQLDBCommons instance;
@@ -162,6 +171,7 @@ public class HSQLDBCommons {
         return instance;
     }
 
+    public static HSQLDB getDatabase() throws IOException, SQLException {return getInstance().db;}
     public static void setDbName(int dbNameNumber){
         dbName=defaultName+dbNameNumber;
     }

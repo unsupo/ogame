@@ -24,7 +24,6 @@ public class ScheduleTask {
             "https://www.w3schools.com/angular/ng_ng-src.asp"
     );
     public ScheduleTask(){
-        driverController.setDriverType(DriverController.PHANTOMJS);
         new Thread(()->{
             int i = 0;
             while (true) {
