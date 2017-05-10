@@ -14,3 +14,4 @@ ogamebotserver/src/test/
 dependency-reduced-pom.xml
 jarExecutables/jarResources/ogame/xml_downloads/
 ogamebotapp/src/main/resources/ogame/xml_downloads/
+*.jar
