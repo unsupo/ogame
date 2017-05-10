@@ -1,14 +1,20 @@
 package application;
 
+import org.quartz.SchedulerException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import runner.Runner;
 import utilities.FileOptions;
+import utilities.fileio.JarUtility;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +24,8 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 @EnableScheduling
 public class Application {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        init();
+    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException, GeneralSecurityException, SchedulerException {
+        Runner.run(args);
         SpringApplication.run(Application.class,args);
     }
 

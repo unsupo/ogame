@@ -110,6 +110,11 @@ public class FileOptions {
         return File.listRoots();
     }
 
+    public static List<File> getAllDirectories(String path){
+        return new ArrayList<>(Arrays.asList(new File(path).listFiles()))
+                .stream().filter(a->a.isDirectory()).collect(Collectors.toList());
+    }
+
     public static List<File> findOnFileSystem(String regex) throws IOException {
         Pattern p = Pattern.compile(regex);
         List<File> files = new ArrayList<>();
@@ -186,8 +191,15 @@ public class FileOptions {
         br.close();
         return result;
     }
-
-    public static List<File> getAllFilesRegex(String path, String regex) throws IOException {
+    public static List<File> getAllFilesWithName(String path, String name) throws IOException{
+        List<File> files = new ArrayList<>();
+        _getAllFiles(path, files);
+        return files.stream().filter(a->a.getName().equals(name)).collect(Collectors.toList());
+    }public static List<File> getAllFilesContains(String path, String contains) throws IOException {
+        List<File> files = new ArrayList<>();
+        _getAllFiles(path, files);
+        return files.stream().filter(a->a.getName().contains(contains)).collect(Collectors.toList());
+    }public static List<File> getAllFilesRegex(String path, String regex) throws IOException {
         List<File> files = new ArrayList<>();
         _getAllFiles(path, files);
         return files.stream().filter(a->Pattern.compile(regex).matcher(a.getName()).find()).collect(Collectors.toList());

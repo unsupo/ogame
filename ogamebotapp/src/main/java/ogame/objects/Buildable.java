@@ -1,6 +1,7 @@
 package ogame.objects;
 
 import utilities.fileio.FileOptions;
+import utilities.fileio.JarUtility;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,17 +16,16 @@ public class Buildable {
     }
 
     public static final String
-            DIR             = System.getProperty("user.dir"),
-            RESOURCE_DIR    = FileOptions.cleanFilePath(DIR+"/ogamebotapp/src/main/resources/ogame/buildable_files/"),
+            RESOURCE_DIR    = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"ogame/buildable_files/"),
             PROFILE_DIR     = RESOURCE_DIR+"/profile/",
-            SHIP_INFO       = RESOURCE_DIR+"ogame_ship_info.cvs",
+            SHIP_INFO       = RESOURCE_DIR+"ogame_ship_info.csv",
             BATTLE_INFO     = RESOURCE_DIR+"battle_info",
-            RESEARCH_INFO   = RESOURCE_DIR+"research_info.cvs",
-            FACILITIES_INFO = RESOURCE_DIR+"facilities_info.cvs",
-            BUILDING_INFO   = RESOURCE_DIR+"building_info.cvs",
-            SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.cvs",
-            DEFENSE_INFO    = RESOURCE_DIR+"defense_info.cvs",
-            MAPPINGS        = RESOURCE_DIR+"mapper.cvs",
+            RESEARCH_INFO   = RESOURCE_DIR+"research_info.csv",
+            FACILITIES_INFO = RESOURCE_DIR+"facilities_info.csv",
+            BUILDING_INFO   = RESOURCE_DIR+"building_info.csv",
+            SHIPYARD_INFO   = RESOURCE_DIR+"shipyard_info.csv",
+            DEFENSE_INFO    = RESOURCE_DIR+"defense_info.csv",
+            MAPPINGS        = RESOURCE_DIR+"mapper.csv",
             LAST_UPDATE     = RESOURCE_DIR+"last_update";
 
     private String name, webName, line, type, requires;

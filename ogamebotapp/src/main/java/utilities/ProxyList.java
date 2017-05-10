@@ -2,6 +2,7 @@ package utilities;
 
 import org.openqa.selenium.By;
 import utilities.fileio.FileOptions;
+import utilities.fileio.JarUtility;
 import utilities.webdriver.DriverController;
 
 import java.io.*;
@@ -19,7 +20,7 @@ public class ProxyList {
     }
 
 
-    public final static String PROXY_LIST_DIR = FileOptions.cleanFilePath(FileOptions.DEFAULT_DIR+"/ogamebotapp/src/main/resources/proxylist/");
+    public final static String PROXY_LIST_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"proxylist/");
     public static void parallelTestIPS() throws IOException, InterruptedException {
         Set<String> ips = new HashSet<>(), removeIps = new HashSet<>();
 

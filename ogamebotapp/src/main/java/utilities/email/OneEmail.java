@@ -3,6 +3,7 @@ package utilities.email;
 import org.openqa.selenium.By;
 import utilities.PasswordEncryptDecrypt;
 import utilities.fileio.FileOptions;
+import utilities.fileio.JarUtility;
 import utilities.webdriver.DriverController;
 import utilities.webdriver.JavaScriptFunctions;
 
@@ -24,7 +25,7 @@ public class OneEmail {
         cleanUpEmailDirectory();
     }
     public static final String EMAILS_DIR =
-            FileOptions.cleanFilePath(FileOptions.DEFAULT_DIR+"/ogamebotapp/src/main/resources/emails/");
+            FileOptions.cleanFilePath(JarUtility.getResourceDir()+"emails/");
 
     public static void cleanUpEmailDirectory() throws IOException {
         final String path = FileOptions.cleanFilePath(EMAILS_DIR+"working/");
