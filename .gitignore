@@ -9,7 +9,6 @@ ogamebotapp/src/main/resources/proxylist/test/
 ogamebotapp/src/test/
 ogamebotserver/src/main/resources/static/app/
 ogamebotserver/src/main/resources/static/main/
-ogamebotserver/src/main/resources/static/node_modules/
 ogamebotserver/src/test/
 dependency-reduced-pom.xml
 jarExecutables/jarResources/ogame/xml_downloads/
