@@ -19,6 +19,7 @@ import utilities.fileio.JarUtility;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;

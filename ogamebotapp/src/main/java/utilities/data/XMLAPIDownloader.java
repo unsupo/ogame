@@ -7,8 +7,12 @@ import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import utilities.database.HSQLDBCommons;
+import utilities.database.XMLToDatabase;
 import utilities.fileio.FileOptions;
+import utilities.fileio.JarUtility;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,17 +31,62 @@ import java.util.stream.Collectors;
  */
 public class XMLAPIDownloader {
     public static void main(String[] args) throws IOException, SQLException {
+        System.exit(0);
+    }
+
+    private static Scheduler scheduler;
+    private static Scheduler getScheduler() throws SchedulerException {
+        if(scheduler == null){
+            scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.start();
+        }
+        return scheduler;
+    }
+    public static void scheduleJob(String cronSchedule) throws SchedulerException {
+        JobDetail job = JobBuilder.newJob(DownloadXMLFileJob.class)
+                .withIdentity("dummyJobName", "group1").build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("dummyTriggerName", "group1")
+                .withSchedule(
+                        CronScheduleBuilder.cronSchedule(cronSchedule))
+                .build();
+
+        //schedule it
+        getScheduler().scheduleJob(job, trigger);
+    }
+    public static class DownloadXMLFileJob implements Job{
+        @Override
+        public void execute(JobExecutionContext context) throws JobExecutionException {
+            System.out.println("Downloading");
+            XMLAPIDownloader.downloadAllXML();
+            XMLToDatabase.parseAllFilesIntoDatabase();
+            System.out.println("Done Downloading");
+        }
+    }
+
+    public static void startDownloadXMLThreads() throws SchedulerException {
+//        scheduleJob("30 2 * * * ?"); //run download job at 2:30 am every day
+        scheduleJob("0 0 0/2 * * ?"); //run download job every 2 hours
+    }
+
+
+
+
+    public static void downloadAllXML(){
         FileOptions.runConcurrentProcess(Arrays.asList(universeNumbers).stream().map(a->(Callable)()->{
             downloadAllFiles(a+"");
             return null;
         }).collect(Collectors.toList()));
-
-        System.exit(0);
     }
 
     final static public String regReplace = "{UNI}", numOneReplace = "{NUM1}", numTwoReplace = "{NUM2}";
     public static final String
+            UNIVERSES               = "universes",
+            LOCALIZATION            = "localization",
             SERVER_DATA_FILE        = "server",
+            //The homeplanet is the one with the lowest planet id
             UNIVERSE_FILE           = "planets",
             PLAYERS_FILE            = "players",
             ALLIANCES_FILE          = "alliances",
@@ -45,6 +94,8 @@ public class XMLAPIDownloader {
 //            HIGHSCORE_ALLIANCE_FILE = "highscore_alliance";
 
     final static public String
+            UNIVERSES_DATA       = "https://"+regReplace+"/api/universes.xml",
+            LOCALIZATION_DATA    = "https://"+regReplace+"/api/localization.xml",
             SERVER_DATA          = "https://"+regReplace+"/api/serverData.xml",
             UNIVERSE             = "https://"+regReplace+"/api/universe.xml",
             PLAYERS              = "https://"+regReplace+"/api/players.xml",
@@ -53,14 +104,23 @@ public class XMLAPIDownloader {
 //            HIGHSCORE_ALLIANCE   = "https://"+regReplace+"/api/highscore.xml?category=2&type=1";
 
 
+    final static public String
+            PLAYERS_UPDATE_INTERVAL     = 1+"DAY",
+            UNIVERSE_UPDATE_INTERVAL    = 1+"WEEK",
+            HIGHSCORE_UPDATE_INTERVAL   = 1+"HOUR",
+            SERVER_UPDATE_INTERVAL      = 1+"DAY",
+            PLAYER_UPDATE_INTERVAL      = 1+"WEEK";
+
     final public static HashMap<String,String> FILE_DATA = new HashMap<>();
-    public static String DIR = FileOptions.cleanFilePath(FileOptions.RESOURCE_DIR + "ogame/xml_downloads/");
+    public static String DOWNLOAD_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/ogame/xml_downloads/");
 
     static{
         FILE_DATA.put(SERVER_DATA_FILE,SERVER_DATA);
         FILE_DATA.put(UNIVERSE_FILE,UNIVERSE);
         FILE_DATA.put(PLAYERS_FILE,PLAYERS);
         FILE_DATA.put(ALLIANCES_FILE,ALLIANCES);
+        FILE_DATA.put(LOCALIZATION,LOCALIZATION_DATA);
+        FILE_DATA.put(UNIVERSES,UNIVERSES_DATA);
 //        FILE_DATA.put(HIGHSCORE_PLAYER_FILE,HIGHSCORE_PLAYER);
 //        FILE_DATA.put(HIGHSCORE_ALLIANCE_FILE,HIGHSCORE_ALLIANCE);
     }
@@ -80,7 +140,7 @@ public class XMLAPIDownloader {
     }
 
     public static void downloadAllFiles(final String universeNumber){
-        final String dir = DIR+universeNumber;
+        final String dir = DOWNLOAD_DIR +universeNumber;
         new File(dir).mkdirs();
 
         List<String> highscore = new ArrayList<>();
@@ -116,7 +176,7 @@ public class XMLAPIDownloader {
 
     public static void parseAllFiles() {
         Arrays.asList(universeNumbers).stream().forEach(a->{
-            final String dir = DIR+a;
+            final String dir = DOWNLOAD_DIR +a;
             if(!readLastUpdate(dir,"/last_update_"+a)) {
                 downloadAllFiles(a + "");
                 parseFileIntoDatabase(a + "");
@@ -127,7 +187,7 @@ public class XMLAPIDownloader {
         if(!Arrays.asList(universeNumber).contains(universeNumber))
             throw new IllegalArgumentException(universeNumber+" is not a valid universeNumber");
 
-        final String dir = DIR+universeNumber;
+        final String dir = DOWNLOAD_DIR +universeNumber;
         new File(dir).mkdirs();
         if(!readLastUpdate(dir,"/last_update_"+universeNumber)) {
             downloadAllFiles(universeNumber + "");
@@ -156,7 +216,11 @@ public class XMLAPIDownloader {
             138,
             139,
             140,
-            141
+            141,
+            142,
+            143,
+            144,
+            145
     };
     //    private static List<String> unique = Arrays.asList(UNIVERSE,); //for debugging
     public static void parseFileIntoDatabase(final String universeNumber) {
@@ -178,7 +242,7 @@ public class XMLAPIDownloader {
         public XMLFileParser(Map.Entry<String, String> type,String universeNumber){
             SAXBuilder builder = new SAXBuilder();
             try {
-                xmlFile = builder.build(DIR+type.getKey()+"_"+universeNumber+".xml").getRootElement();
+                xmlFile = builder.build(DOWNLOAD_DIR +type.getKey()+"_"+universeNumber+".xml").getRootElement();
                 this.type = type.getValue();
                 this.universeNumber = universeNumber;
                 this.name = type.getKey();

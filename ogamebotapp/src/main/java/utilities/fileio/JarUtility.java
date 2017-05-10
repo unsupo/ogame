@@ -4,8 +4,10 @@ import utilities.webdriver.DriverController;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 5/2/17.
@@ -15,8 +17,13 @@ public class JarUtility {
                                 CHROME = DriverController.CHROME, GECKO = DriverController.FIREFOX, FIREFOX = GECKO, PHANTOMJS = DriverController.PHANTOMJS;
     public static final String s = FileOptions.SEPERATOR;
 
-    private String  webDriverPath   = FileOptions.cleanFilePath(System.getProperty("user.dir")+"/ogamebotapp/src/main/resources/web_drivers"),
+    private String  resourceDir     = FileOptions.cleanFilePath(System.getProperty("user.dir")+"/ogamebotapp/src/main/resources/"),
+                    webDriverPath   = resourceDir+"web_drivers",
                     exportPath      = System.getProperty("user.dir")+s+"jarResources";
+
+    Class className = JarUtility.class;
+    String classNameString = "JarUtility";
+
 
     private HashMap<String,HashMap<String,String>> drivers = new HashMap<>();
     private List<String> defaultDrivers = new ArrayList<>(Arrays.asList(PHANTOMJS));
@@ -30,7 +37,7 @@ public class JarUtility {
             String name = s.substring(0,3);
             for(String driver : driverName)
                 map.put(driver,name+"_"+driver+"driver"+(s.equals(WINDOWS)?".exe":""));
-            drivers.put(s, map);
+            drivers.put(name, map);
         }
 
     }
@@ -41,6 +48,19 @@ public class JarUtility {
             instance = new JarUtility();
         return instance;
     }
+
+    public static String getResourceDir(){
+        return getInstance().resourceDir;
+    }
+    public static void setResourceDir(String resourceDir){
+        getInstance().resourceDir = resourceDir;
+    }
+
+    public static void setClassAndClassString(Class className, String classNameString){
+        getInstance().className = className;
+        getInstance().classNameString = classNameString;
+    }
+
     public static String getWebDriverPath(){
         return getInstance().webDriverPath;
     }
@@ -81,23 +101,33 @@ public class JarUtility {
         List<String> resourcesFileList = new ArrayList<>();
         if(resourceFiles != null && resourceFiles.length != 0)
             resourcesFileList.addAll(resourceFiles[0]);
-        if(JarUtility.class.getResource("JarUtility.class").toString().startsWith("jar:")){
+        if(getInstance().className.getResource(getInstance().classNameString +".class").toString().startsWith("jar:")){
             System.out.println("Extracting jar resources, this is only done once");
             //YOU ARE IN A JAR FILE
             String path = getExportPath();
             new File(path).mkdir();
             List<String> findFiles = new ArrayList<>();
             findFiles.addAll(resourcesFileList);
-            String jarFileLocation = new File(JarUtility.class.getProtectionDomain()
-                    .getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
-            //you're in a jar file
+            String jarFileLocation = FileOptions.getAllFilesEndsWith(System.getProperty("user.dir"),".jar")
+                    .stream().filter(a->a.getName().contains("ogame")).collect(Collectors.toList()).get(0).getAbsolutePath();
+            try {
+                jarFileLocation = new File(getInstance().className.getProtectionDomain()
+                        .getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
+            }catch (Exception e){}
+
             List<String> fil = new ArrayList<>();
-            for(String v : findFiles)
-                if(!new File(path+"/"+v).exists())
-                    try{fil.add(exportJarResources(path,jarFileLocation,v).getAbsolutePath());}
-                    catch (NullPointerException e){}
+            for(String v : findFiles) {
+                List<File> f = FileOptions.getAllFilesWithName(path, v);
+                if(f != null && f.size()!=0) {
+                    fil.add(f.get(0).getAbsolutePath());
+                    continue;
+                }if (!new File(path + "/" + v).exists())
+                    try {
+                        fil.add(exportJarResources(path, jarFileLocation, v).getAbsolutePath());
+                    } catch (NullPointerException e) {}
                 else
-                    fil.add(path+"/"+v);
+                    fil.add(path + "/" + v);
+            }
             files.addAll(fil);
 
             //extract all webdrivers for your perticular os
@@ -111,7 +141,7 @@ public class JarUtility {
                 new File(nPath).mkdir();
             Map<String,String> filesDirs = new HashMap<>();
             for(String driver : getDefaultDrivers())
-                filesDirs.put(driver,getDrivers().get(os).get(driver));
+                filesDirs.put(driver,getDrivers().get(os.substring(0,3)).get(driver));
 
             final String p = path;
             for(String dir : filesDirs.keySet()){
@@ -119,12 +149,37 @@ public class JarUtility {
                     new File(p).mkdirs();
                 if(new File(nPath+s+dir+s+filesDirs.get(dir)).exists())
                     continue;
+                List<File> f = FileOptions.getAllFilesWithName(path, filesDirs.get(dir));
+                if(f != null && f.size()!=0) {
+                    files.add(f.get(0).getAbsolutePath());
+                    List<String> v = Arrays.asList(f.get(0).getAbsolutePath().split(FileOptions.SEPERATOR));
+                    String WDP = "";
+                    for(String vv : v)
+                        if (vv.equals("web_drivers")) {
+                            WDP += FileOptions.SEPERATOR+vv;
+                            break;
+                        }else WDP += FileOptions.SEPERATOR+vv;
+                    setWebDriverPath(WDP);
+                    continue;
+                }
+
                 File s = exportJarResources(p,jarFileLocation,filesDirs.get(dir));//.getAbsolutePath();
                 s.setExecutable(true);
+                files.add(s.getAbsolutePath());
+                List<String> v = Arrays.asList(s.getAbsolutePath().split(FileOptions.SEPERATOR));
+                String WDP = "";
+                for(String vv : v)
+                    if (vv.equals("web_drivers")) {
+                        WDP += FileOptions.SEPERATOR+vv;
+                        break;
+                    }else WDP += FileOptions.SEPERATOR+vv;
+                setWebDriverPath(WDP);
                 if(s != null)
                     System.out.println("Extracted: "+s.getAbsolutePath());
             }
-
+            File f = new File(FileOptions.cleanFilePath(getExportPath()+"/"));
+            f.mkdirs();
+            setResourceDir(f.getAbsolutePath());
         }else{
             //YOU ARE RUNNING FROM AN IDE
             List<String> v = resourcesFileList;

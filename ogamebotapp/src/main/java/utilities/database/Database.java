@@ -1,6 +1,7 @@
 package utilities.database;
 
 import utilities.fileio.FileOptions;
+import utilities.fileio.JarUtility;
 
 import java.io.IOException;
 import java.sql.*;
@@ -16,7 +17,14 @@ public class Database {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         Database d = new Database("localhost:5432/ogame","ogame_user","ogame");
 
-        d.executeQuery("delete from server");
+        d.executeQuery("DROP TABLE SERVER CASCADE;\n" +
+                "DROP TABLE ALLIANCE CASCADE;\n" +
+                "DROP TABLE PLAYER CASCADE;\n" +
+                "DROP TABLE PLANET CASCADE;\n" +
+                "DROP TABLE ALLIANCE_HIGHSCORE CASCADE;\n" +
+                "DROP TABLE PLAYER_HIGHSCORE CASCADE;");
+
+//        d.executeQuery("delete from server");
 //        d.executeQuery("select * from server")
 //                .forEach(System.out::println);
     }
@@ -34,7 +42,7 @@ public class Database {
         return false;
     }
 
-    private static String SQL_SCRIPT_DIR = FileOptions.cleanFilePath(FileOptions.RESOURCE_DIR+"database_config/");
+    private static String SQL_SCRIPT_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/database_config/");
     private Connection connection;
 
     public Database(String server, String username, String password) throws SQLException, ClassNotFoundException, IOException {
