@@ -263,4 +263,36 @@ public class Resource {
         result = 31 * result + (int) (energy ^ (energy >>> 32));
         return result;
     }
+
+    public long getMetal() {
+        return metal;
+    }
+
+    public void setMetal(long metal) {
+        this.metal = metal;
+    }
+
+    public long getCrystal() {
+        return crystal;
+    }
+
+    public void setCrystal(long crystal) {
+        this.crystal = crystal;
+    }
+
+    public long getDeuterium() {
+        return deuterium;
+    }
+
+    public void setDeuterium(long deuterium) {
+        this.deuterium = deuterium;
+    }
+
+    public long getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(long energy) {
+        this.energy = energy;
+    }
 }
