@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
  */
 public class Buildable {
     public static void main(String[] args) throws IOException {
-        Ship.getAllShips().forEach(a->System.out.println(a.getName()+Buildable.getBuildableRequirements(a.getName())));
+//        Ship.getAllShips().forEach(a->System.out.println(a.getName()+Buildable.getBuildableRequirements(a.getName())));
+        Buildable.getDefense().forEach(System.out::println);
     }
 
     public static final String
@@ -200,6 +201,48 @@ public class Buildable {
             getAllRequirements(b.getName());
         }
     }
+
+    private Set<Buildable> facilitites, resources, research, shipyard, defense;
+
+    public static Set<Buildable> getFacilitites() throws IOException {
+        if(getInstance().facilitites == null){
+            getInstance().facilitites = new HashSet<>();
+            List<Integer> fac = getMappings().get("facilities");
+            getInstance().facilitites.addAll(
+                    getBuildableObjects().stream()
+                            .filter(a->a.getId() <= fac.get(0) && a.getId() >= fac.get(1))
+                            .collect(Collectors.toList())
+            );
+        }
+        return getInstance().facilitites;
+    }
+    private static Set<Buildable> getBuildableType(String type, Set<Buildable> buildables) throws IOException {
+        if(buildables == null){
+            buildables = new HashSet<>();
+            List<Integer> fac = getMappings().get(type);
+            buildables.addAll(
+                    getBuildableObjects().stream()
+                            .filter(a->a.getId() <= fac.get(1) && a.getId() >= fac.get(0))
+                            .collect(Collectors.toList())
+            );
+        }
+        return buildables;
+    }
+
+    public static Set<Buildable> getResources() throws IOException {
+        return getBuildableType("resources",getInstance().resources);
+    }
+    public static Set<Buildable> getResearch() throws IOException {
+        return getBuildableType("research",getInstance().research);
+    }
+    public static Set<Buildable> getShipyard() throws IOException {
+        return getBuildableType("shipyard",getInstance().shipyard);
+    }
+    public static Set<Buildable> getDefense() throws IOException {
+        return getBuildableType("defense",getInstance().defense);
+    }
+
+
     public static List<Buildable> getBuildableObjects(){
         return getInstance().buildables;
     }
@@ -224,7 +267,7 @@ public class Buildable {
             List<String> v = FileOptions.readFileIntoListString(MAPPINGS);
             for(String s : v){
                 String[] split = s.split(",");
-                mappings.put(split[0], Arrays.asList(Integer.parseInt(split[1]),Integer.parseInt(split[2])));
+                mappings.put(split[0].toLowerCase(), Arrays.asList(Integer.parseInt(split[1]),Integer.parseInt(split[2])));
             }
         }
         return mappings;
