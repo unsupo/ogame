@@ -6,13 +6,8 @@ Once this is done, the server will be hosted on a website which will make a loca
 #### Requirements to run locally ####
 Java 8 download it [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)<br/>
 maven  download it [here](https://maven.apache.org/download.cgi)<br/>
-Postgres download it [here](https://www.postgresql.org/download/)
 
 - - - -
-
-Once postgres is downloaded run the the following file as postgres user:<br/>
-`./jarExecutables/jarResources/database_config/postgres_commands.sql`
-
 This is the parent folder for the ogame bot.  This is used to fully autonomize the game [Ogame.org](https://en.ogame.gameforge.com/).<br/>
 Since I can't store jars larger than 100MB on git, you'll have to build the jar yourself.<br/>
 Simply run in the root directory:<br/>
@@ -30,7 +25,7 @@ The description of each is below.
 ### Ogame Bot App ###
 This is the bot itself.  This uses the [Selenium Framework](http://www.seleniumhq.org/projects/webdriver/) with a [phantomjs headless browser](http://phantomjs.org/) to automate the game itself.
 
-It also uses [Postgres](https://www.postgresql.org) to store data to be used by all bots in a cluster to communicate with each other.
+It also uses [Postgres](https://www.postgresql.org) to store data to be used by all bots in a cluster to communicate with each other.  Postgres is shipped with the code.
 
 - - - -
 ### Ogame Bot Server ###

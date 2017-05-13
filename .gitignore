@@ -2,7 +2,7 @@
 .idea/
 *.iml
 target/
-ogamebotserver/src/main/resources/static/bower_components/
+#ogamebotserver/src/main/resources/static/bower_components/
 *.log
 .DS_Store
 ogamebotapp/src/main/resources/proxylist/test/

@@ -1,13 +1,20 @@
 package utilities.fileio;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import utilities.webdriver.DriverController;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.*;
+import java.net.JarURLConnection;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by jarndt on 5/2/17.
@@ -195,8 +202,8 @@ public class JarUtility {
             return null;
 //		if(new File(destDir+s+fileToExtract).exists())
 //			return null;
-        java.util.jar.JarFile jarfile = new java.util.jar.JarFile(new java.io.File(jarFileLocation)); //jar file path(here sqljdbc4.jar)
-        java.util.Enumeration<java.util.jar.JarEntry> enu= jarfile.entries();
+        java.util.jar.JarFile jarFile = new java.util.jar.JarFile(new java.io.File(jarFileLocation)); //jar file path(here sqljdbc4.jar)
+        java.util.Enumeration<java.util.jar.JarEntry> enu= jarFile.entries();
         File fl = null;
         while(enu.hasMoreElements()){
             java.util.jar.JarEntry je = enu.nextElement();
@@ -213,14 +220,162 @@ public class JarUtility {
             if(je.isDirectory())
                 continue;
 
-            java.io.InputStream is = jarfile.getInputStream(je);
-            java.io.FileOutputStream fo = new java.io.FileOutputStream(fl);
-            while(is.available()>0)
-                fo.write(is.read());
+//            InputStream in =
+//                    new BufferedInputStream(jarfile.getInputStream(je));
+//            OutputStream out =
+//                    new BufferedOutputStream(new FileOutputStream(fl));
+//            byte[] buffer = new byte[2048];
+//            for (;;)  {
+//                int nBytes = in.read(buffer);
+//                if (nBytes <= 0) break;
+//                out.write(buffer, 0, nBytes);
+//            }
+//            out.flush();
+//            out.close();
+//            in.close();
 
-            fo.close();
+            InputStream is = jarFile.getInputStream(je);
+            OutputStream out = FileUtils.openOutputStream(fl);
+            IOUtils.copy(is, out);
             is.close();
+            out.close();
+
+//            java.io.InputStream is = jarfile.getInputStream(je);
+//            java.io.FileOutputStream fo = new java.io.FileOutputStream(fl);
+//            while(is.available()>0)
+//                fo.write(is.read());
+//
+//            fo.close();
+//            is.close();
         }
         return fl;
+    }
+    public static String exportJarDirectory(String directory) throws IOException {
+        if(getInstance().className.getResource(getInstance().classNameString +".class").toString().startsWith("jar:")) {
+            System.out.println("Extracting jar resources, this is only done once");
+            //YOU ARE IN A JAR FILE
+            String path = getExportPath();
+            new File(path).mkdir();
+            String jarFileLocation = FileOptions.getAllFilesEndsWith(System.getProperty("user.dir"), ".jar")
+                    .stream().filter(a -> a.getName().contains("ogame")).collect(Collectors.toList()).get(0).getAbsolutePath();
+            try {
+                jarFileLocation = new File(getInstance().className.getProtectionDomain()
+                        .getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
+            } catch (Exception e) {
+            }
+
+            List<File> f = FileOptions.getAllFilesWithName(path, directory);
+            if (f != null && f.size() != 0)
+                return path;
+            if (!new File(path + "/" + directory).exists())
+                try {
+                    return exportJarDirectoryResource(path, jarFileLocation, directory);
+                } catch (NullPointerException e) {
+                }
+        }
+        return null;
+    }
+//    private void _exportZipResource(String destDir, String zip){
+//        InputStream is = getClass().getResourceAsStream(zip);
+//        ZipInputStream zis = new ZipInputStream(is);
+//        ZipEntry entry;
+//
+//
+//    }
+
+    public static String exportJarDirectoryResource(String destDir, String jarFileLocation, String directoryToExtract) throws IOException {
+        if(directoryToExtract == null)
+            return null;
+//		if(new File(destDir+s+fileToExtract).exists())
+//			return null;
+        java.util.jar.JarFile jarFile = new java.util.jar.JarFile(new java.io.File(jarFileLocation)); //jar file path(here sqljdbc4.jar)
+        java.util.Enumeration<java.util.jar.JarEntry> enu= jarFile.entries();
+//        List<Callable> v = new ArrayList<>();
+        File found = null;
+//        JarFile jarFile = new JarFile(jarFileLocation);//;((JarURLConnection)new URL(jarFileLocation).openConnection()).getJarFile();
+        while(enu.hasMoreElements()){
+            File fl = null;
+            java.util.jar.JarEntry je = enu.nextElement();
+            fl = new java.io.File(destDir, je.getName());
+            if(fl.getName().equals(directoryToExtract))
+                found = fl;
+
+            if(!Arrays.asList(fl.getAbsolutePath().split(FileOptions.SEPERATOR)).contains(directoryToExtract))
+                continue;
+
+            if(!fl.exists()){
+                fl.getParentFile().mkdirs();
+                fl = new java.io.File(destDir, je.getName());
+            }
+            if(je.isDirectory())
+                continue;
+
+//            java.io.FileOutputStream out = new java.io.FileOutputStream(fl);
+//            java.io.InputStream is = jarfile.getInputStream(je);
+//            BufferedInputStream bin = new BufferedInputStream(is);
+//            ZipInputStream zin = new ZipInputStream(bin);
+//            byte[] buffer = new byte[8192];
+//            int len;
+//            while ((len = zin.read(buffer)) != -1)
+//                out.write(buffer, 0, len);
+
+            InputStream is = jarFile.getInputStream(je);
+            OutputStream out = FileUtils.openOutputStream(fl);
+            IOUtils.copy(is, out);
+            is.close();
+            out.close();
+
+            out.close();
+            is.close();
+            System.out.println("Done with: "+fl.getAbsolutePath());
+        }
+//        FileOptions.runConcurrentProcess(v);
+        return found.getAbsolutePath();
+    }
+    /**
+     * This method will copy resources from the jar file of the current thread and extract it to the destination folder.
+     *
+     * @param jarConnection
+     * @param destDir
+     * @throws IOException
+     */
+    public void copyJarResourceToFolder(JarURLConnection jarConnection, File destDir) {
+
+        try {
+            JarFile jarFile = jarConnection.getJarFile();
+
+            /**
+             * Iterate all entries in the jar file.
+             */
+            for (Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements();) {
+
+                JarEntry jarEntry = e.nextElement();
+                String jarEntryName = jarEntry.getName();
+                String jarConnectionEntryName = jarConnection.getEntryName();
+
+                /**
+                 * Extract files only if they match the path.
+                 */
+                if (jarEntryName.startsWith(jarConnectionEntryName)) {
+
+                    String filename = jarEntryName.startsWith(jarConnectionEntryName) ? jarEntryName.substring(jarConnectionEntryName.length()) : jarEntryName;
+                    File currentFile = new File(destDir, filename);
+
+                    if (jarEntry.isDirectory()) {
+                        currentFile.mkdirs();
+                    } else {
+                        InputStream is = jarFile.getInputStream(jarEntry);
+                        OutputStream out = FileUtils.openOutputStream(currentFile);
+                        IOUtils.copy(is, out);
+                        is.close();
+                        out.close();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            // TODO add logger
+            e.printStackTrace();
+        }
+
     }
 }
