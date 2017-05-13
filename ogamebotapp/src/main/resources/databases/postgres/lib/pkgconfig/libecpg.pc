@@ -1,0 +1,9 @@
+Name: libecpg
+Description: PostgreSQL libecpg library
+Url: http://www.postgresql.org/
+Version: 9.6.2
+Requires: 
+Requires.private: libpq libpgtypes
+Cflags: -I/usr/local/Cellar/postgresql/9.6.2/include
+Libs: -L/usr/local/lib -lecpg
+Libs.private: -L/usr/local/opt/openssl/lib -L/usr/local/opt/readline/lib -lm

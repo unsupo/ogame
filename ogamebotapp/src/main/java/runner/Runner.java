@@ -5,16 +5,22 @@ import org.quartz.*;
 import org.quartz.impl.StdScheduler;
 import org.quartz.impl.StdSchedulerFactory;
 import utilities.data.XMLAPIDownloader;
+import utilities.database.Database;
 import utilities.database.XMLToDatabase;
+import utilities.fileio.FileOptions;
 import utilities.fileio.JarUtility;
 import utilities.PasswordEncryptDecrypt;
 import utilities.webdriver.DriverController;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
 import java.security.GeneralSecurityException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
@@ -24,7 +30,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * Created by jarndt on 5/2/17.
  */
 public class Runner {
-    public static void main(String[] args) throws IOException, GeneralSecurityException, URISyntaxException, InterruptedException, SchedulerException {
+    public static void main(String[] args) throws IOException, GeneralSecurityException, URISyntaxException, InterruptedException, SchedulerException, SQLException, ClassNotFoundException {
         run(args);
     }
 
@@ -44,6 +50,25 @@ public class Runner {
                 "facilities_info.csv", "building_info.csv", "shipyard_info.csv",
                 "defense_info.csv", "mapper.csv", "create_tables.sql","postgres_commands.sql"
         ));
+        String f = JarUtility.exportJarDirectory("postgres");
+        if(f!=null) {
+            String postgresDir = FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/postgres/");
+            FileOptions.runConcurrentProcess(
+                    FileOptions.readFileIntoListString(postgresDir + "permissions.txt")
+                            .stream().map(a -> (Callable) () -> {
+                        String[] file = a.split(",");
+                        file[0] = FileOptions.cleanFilePath(postgresDir + file[0].substring(1));
+//                            System.out.println("Working on : "+file[1]+"\t"+file[0]);
+                        if (file[3].equals("d"))
+                            new File(file[0]).mkdirs();
+                        else
+                            new File(file[0]).createNewFile();
+
+                        return FileOptions.setPermissionUnix(Integer.parseInt(file[2]), file[0]);
+                    }).collect(Collectors.toList())
+                    , 20);
+        }
+        Database.startDatabase();
         XMLAPIDownloader.startDownloadXMLThreads();
     }
 

@@ -9,7 +9,9 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -38,8 +40,90 @@ public class FileOptions {
 //				+ "jars";
 //		moveAllFiles(in, out);
 
-        getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
+//        getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
+
+//        getPermissionSet(755).forEach(System.out::println);
+        new File(DEFAULT_DIR+"test").createNewFile();
+
     }
+
+    public static Path setPermissionUnix(int octalPermission, String file) throws IOException{
+        return setPermissionUnix(convertOctalToText(octalPermission),file);
+    }public static Path setPermissionUnix(String unixPermission, String file) throws IOException {
+        return Files.setPosixFilePermissions(new File(file).toPath(),getPermissionSet(unixPermission));
+    }
+    /**
+     * Expects unixpermission like -r--r--r-- or
+     * owner read, group read, all users read
+     * read,write,execute
+     *
+     * o(r,w,e),g(r,w,e),u(r,w,e)
+     *
+     * @param unixPermission
+     * @return
+     */
+    private static Set<PosixFilePermission> getPermissionSet(String unixPermission){
+        Set<PosixFilePermission> perms = new HashSet<>();
+        char[] chars = unixPermission.toCharArray();
+        if(chars.length != 9 && chars.length != 10)
+            throw new IllegalArgumentException("Unix Permission must be of length 9 or 10: "+chars.length+" = "+unixPermission);
+        if(chars.length == 10)
+            chars = unixPermission.substring(1).toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i] == '-') continue;
+            if(i<3)
+                switch (chars[i]){
+                    case 'r': perms.add(PosixFilePermission.OWNER_READ); break;
+                    case 'w': perms.add(PosixFilePermission.OWNER_WRITE); break;
+                    case 'x': perms.add(PosixFilePermission.OWNER_EXECUTE); break;
+                }
+            if(i>=3 && i<6)
+                switch (chars[i]){
+                    case 'r': perms.add(PosixFilePermission.GROUP_READ); break;
+                    case 'w': perms.add(PosixFilePermission.GROUP_WRITE); break;
+                    case 'x': perms.add(PosixFilePermission.GROUP_EXECUTE); break;
+                }
+            if(i>=6)
+                switch (chars[i]){
+                    case 'r': perms.add(PosixFilePermission.OTHERS_READ); break;
+                    case 'w': perms.add(PosixFilePermission.OTHERS_WRITE); break;
+                    case 'x': perms.add(PosixFilePermission.OTHERS_EXECUTE); break;
+                }
+        }
+        return perms;
+    }
+    private static String convertOctalToText(int octal){
+        StringBuilder sb = new StringBuilder();
+        for (char s : (octal+"").toCharArray()) {
+            int num = Integer.parseInt(s+"");
+            sb.append((num & 4) == 0 ? '-' : 'r');
+            sb.append((num & 2) == 0 ? '-' : 'w');
+            sb.append((num & 1) == 0 ? '-' : 'x');
+        }
+        return sb.toString();
+    }
+    private static Set<PosixFilePermission> getPermissionSet(int octalPermission){
+        return getPermissionSet(convertOctalToText(octalPermission));
+    }
+
+
+    public static ExecutorService runSystemProcess(String command) throws IOException {
+        return runSystemProcess(Runtime.getRuntime().exec(command));
+    }public static ExecutorService runSystemProcess(String command, String directory) throws IOException {
+        return runSystemProcess(new ProcessBuilder(Arrays.asList(command.split(" ")))
+                .directory(new File(directory))
+                .start());
+    }public static ExecutorService runSystemProcess(Process process) throws IOException {
+        return runConcurrentProcess(Arrays.asList(process.getInputStream(),process.getErrorStream()).stream()
+                .map(a->(Callable)()->{
+                    BufferedReader br = new BufferedReader(new InputStreamReader(a));
+                    String l;
+                    while ((l = br.readLine()) != null)
+                        System.out.println(l);
+                    return null;
+                }).collect(Collectors.toList()));
+    }
+
     public static ExecutorService runConcurrentProcess(List<Callable> callables){
         return runConcurrentProcess(callables, 100, 5, TimeUnit.MINUTES);
     }
@@ -259,7 +343,9 @@ public class FileOptions {
             else if (f.isDirectory())
                 moveAllFiles(f.getAbsolutePath(), out);
     }
-
+    public static void copyFile(String source, String dest) throws IOException{
+        copyFile(new File(source), new File(dest));
+    }
     public static void copyFile(File source, File dest) throws IOException {
         InputStream input = null;
         OutputStream output = null;
