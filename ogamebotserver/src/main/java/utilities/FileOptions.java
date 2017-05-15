@@ -1,23 +1,47 @@
 package utilities;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.logging.log4j.LogManager;
+import utilities.database.Database;
+import utilities.email.OneEmail;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.attribute.PosixFilePermission;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class FileOptions {
+    public final static String OS = System.getProperty("os.name").toLowerCase();
+    final static public DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public static final String SEPERATOR = System.getProperty("file.separator"),
-            DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR;
+            DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR,
+            RESOURCE_DIR = cleanFilePath(DEFAULT_DIR+"/ogamebotapp/src/main/resources/");
     public static final String WEB_DRIVER_DIR = DEFAULT_DIR + "config" + SEPERATOR + "web_drivers" + SEPERATOR;
+
+    //    Logger LOGGER
+    static {
+        utilities.fileio.FileOptions.setLogger(utilities.fileio.FileOptions.DEFAULT_LOGGER_STRING);
+    }
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(FileOptions.class.getName());
+
 
     public static void main(String[] args) throws IOException {
 //		String path = System.getProperty("user.dir");
@@ -26,14 +50,164 @@ public class FileOptions {
 //				+ "jars";
 //		moveAllFiles(in, out);
 
-        getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
+//        getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
+
+//        getPermissionSet(755).forEach(System.out::println);
+        new File(DEFAULT_DIR+"test").createNewFile();
+
+    }
+
+    public static Path setPermissionUnix(int octalPermission, String file) throws IOException{
+        return setPermissionUnix(convertOctalToText(octalPermission),file);
+    }public static Path setPermissionUnix(String unixPermission, String file) throws IOException {
+        return Files.setPosixFilePermissions(new File(file).toPath(),getPermissionSet(unixPermission));
+    }
+    /**
+     * Expects unixpermission like -r--r--r-- or
+     * owner read, group read, all users read
+     * read,write,execute
+     *
+     * o(r,w,e),g(r,w,e),u(r,w,e)
+     *
+     * @param unixPermission
+     * @return
+     */
+    private static Set<PosixFilePermission> getPermissionSet(String unixPermission){
+        Set<PosixFilePermission> perms = new HashSet<>();
+        char[] chars = unixPermission.toCharArray();
+        if(chars.length != 9 && chars.length != 10)
+            throw new IllegalArgumentException("Unix Permission must be of length 9 or 10: "+chars.length+" = "+unixPermission);
+        if(chars.length == 10)
+            chars = unixPermission.substring(1).toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i] == '-') continue;
+            if(i<3)
+                switch (chars[i]){
+                    case 'r': perms.add(PosixFilePermission.OWNER_READ); break;
+                    case 'w': perms.add(PosixFilePermission.OWNER_WRITE); break;
+                    case 'x': perms.add(PosixFilePermission.OWNER_EXECUTE); break;
+                }
+            if(i>=3 && i<6)
+                switch (chars[i]){
+                    case 'r': perms.add(PosixFilePermission.GROUP_READ); break;
+                    case 'w': perms.add(PosixFilePermission.GROUP_WRITE); break;
+                    case 'x': perms.add(PosixFilePermission.GROUP_EXECUTE); break;
+                }
+            if(i>=6)
+                switch (chars[i]){
+                    case 'r': perms.add(PosixFilePermission.OTHERS_READ); break;
+                    case 'w': perms.add(PosixFilePermission.OTHERS_WRITE); break;
+                    case 'x': perms.add(PosixFilePermission.OTHERS_EXECUTE); break;
+                }
+        }
+        return perms;
+    }
+    private static String convertOctalToText(int octal){
+        StringBuilder sb = new StringBuilder();
+        for (char s : (octal+"").toCharArray()) {
+            int num = Integer.parseInt(s+"");
+            sb.append((num & 4) == 0 ? '-' : 'r');
+            sb.append((num & 2) == 0 ? '-' : 'w');
+            sb.append((num & 1) == 0 ? '-' : 'x');
+        }
+        return sb.toString();
+    }
+    private static Set<PosixFilePermission> getPermissionSet(int octalPermission){
+        return getPermissionSet(convertOctalToText(octalPermission));
+    }
+
+
+    public static ExecutorService runSystemProcess(String command) throws IOException {
+        return runSystemProcess(Runtime.getRuntime().exec(command));
+    }public static ExecutorService runSystemProcess(String command, String directory) throws IOException {
+        return runSystemProcess(new ProcessBuilder(Arrays.asList(command.split(" ")))
+                .directory(new File(directory))
+                .start());
+    }public static ExecutorService runSystemProcess(Process process) throws IOException {
+        return runConcurrentProcess(Arrays.asList(process.getInputStream(),process.getErrorStream()).stream()
+                .map(a->(Callable)()->{
+                    BufferedReader br = new BufferedReader(new InputStreamReader(a));
+                    String l;
+                    while ((l = br.readLine()) != null)
+                        System.out.println(l);
+                    return null;
+                }).collect(Collectors.toList()));
+    }
+
+    public static ExecutorService runConcurrentProcess(List<Callable> callables){
+        return runConcurrentProcess(callables, 100, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables, int threads){
+        return runConcurrentProcess(callables, threads, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables, int time, TimeUnit timeUnit){
+        return runConcurrentProcess(callables, 100, time, timeUnit);
+    }
+    public static ExecutorService runConcurrentProcess(List<Callable> callables, int threads, int time, TimeUnit timeUnit){
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        callables.forEach(a->{
+            service.submit(a);
+        });
+
+        try {
+//            System.out.println("attempt to shutdown executor");
+            service.shutdown();
+            service.awaitTermination(time, timeUnit);
+        }
+        catch (InterruptedException e) {
+//            System.err.println("tasks interrupted");
+        }
+        finally {
+            if (!service.isTerminated()) {
+//                System.err.println("cancel non-finished tasks");
+            }
+            service.shutdownNow();
+//            System.out.println("shutdown finished");
+        }
+//        while (!service.isTerminated() && !service.isShutdown())
+//            Thread.sleep(1000);
+        return service;
+    }
+
+    public static HashMap<String,List<String>> getZipFileContents(String path) throws IOException {
+        HashMap<String,List<String>> fileContents = new HashMap<>();
+        ZipFile zip = new ZipFile(path);
+        for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
+            ZipEntry entry = (ZipEntry) e.nextElement();
+            if (!entry.isDirectory()) {
+                //TODO add other types of files to process
+//                if (FilenameUtils.getExtension(entry.getName()).equals("png")) {
+//                    byte[] image = getImage(zip.getInputStream(entry));
+//                    //do your thing
+//                } else
+                if (FilenameUtils.getExtension(entry.getName()).equals("txt")) {
+                    List<String> fileSeperator = new ArrayList<>();
+                    StringBuilder out = new StringBuilder();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(zip.getInputStream(entry)));
+                    String line;
+                    try {
+                        while ((line = reader.readLine()) != null)
+                            fileSeperator.add(line);
+//                            out.append(line);
+                    } catch (IOException ee) {
+                        // do something, probably not a text file
+//                            ee.printStackTrace();
+                    }
+                    fileContents.put(entry.getName(), fileSeperator);
+                }
+            }
+        }
+        return fileContents;
     }
 
     public static File[] getBaseDirectories() {
         return File.listRoots();
     }
 
-
+    public static List<File> getAllDirectories(String path){
+        return new ArrayList<>(Arrays.asList(new File(path).listFiles()))
+                .stream().filter(a->a.isDirectory()).collect(Collectors.toList());
+    }
 
     public static List<File> findOnFileSystem(String regex) throws IOException {
         Pattern p = Pattern.compile(regex);
@@ -53,31 +227,6 @@ public class FileOptions {
         return files;
     }
 
-    public static void runProcess(String process, String...dir) throws IOException, InterruptedException {
-        String udir = System.getProperty("user.dir");
-        if(dir != null && dir.length != 0)
-            udir = dir[0];
-        List<String> evn = System.getenv().entrySet().stream().map(a -> a.getKey() + "=" + a.getValue()).collect(Collectors.toList());
-        Process p = Runtime.getRuntime().exec(process,evn.toArray(new String[evn.size()]),new File(udir));
-        new Thread(new Runnable() {
-            public void run() {
-                BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                BufferedReader error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                String line = null;
-
-                try {
-                    while ((line = input.readLine()) != null)
-                        System.out.println(line);
-                    while ((line = error.readLine()) != null)
-                        System.out.println(line);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-        p.waitFor();
-    }
     public static String cleanFilePath(String filePath) {
         String regex = "\\[\\*replace_me\\*\\]";
         filePath = filePath.replaceAll("/", regex);
@@ -136,8 +285,15 @@ public class FileOptions {
         br.close();
         return result;
     }
-
-    public static List<File> getAllFilesRegex(String path, String regex) throws IOException {
+    public static List<File> getAllFilesWithName(String path, String name) throws IOException{
+        List<File> files = new ArrayList<>();
+        _getAllFiles(path, files);
+        return files.stream().filter(a->a.getName().equals(name)).collect(Collectors.toList());
+    }public static List<File> getAllFilesContains(String path, String contains) throws IOException {
+        List<File> files = new ArrayList<>();
+        _getAllFiles(path, files);
+        return files.stream().filter(a->a.getName().contains(contains)).collect(Collectors.toList());
+    }public static List<File> getAllFilesRegex(String path, String regex) throws IOException {
         List<File> files = new ArrayList<>();
         _getAllFiles(path, files);
         return files.stream().filter(a->Pattern.compile(regex).matcher(a.getName()).find()).collect(Collectors.toList());
@@ -197,7 +353,9 @@ public class FileOptions {
             else if (f.isDirectory())
                 moveAllFiles(f.getAbsolutePath(), out);
     }
-
+    public static void copyFile(String source, String dest) throws IOException{
+        copyFile(new File(source), new File(dest));
+    }
     public static void copyFile(File source, File dest) throws IOException {
         InputStream input = null;
         OutputStream output = null;
@@ -224,6 +382,21 @@ public class FileOptions {
     private static int next = 0;
     public static int getNext() {
         return next++;
+    }
+
+    public static final String DEFAULT_LOGGER_STRING ="org.apache.logging.log4j.jul.LogManager";
+    public static void setLogger(String loggerString) {
+//        String cn = "org.apache.logging.log4j.jul.LogManager";
+        System.setProperty("java.util.logging.manager",loggerString);
+        java.util.logging.LogManager lm = java.util.logging.LogManager.getLogManager();
+        if (!loggerString.equals(lm.getClass().getName())) {
+            try {
+                ClassLoader.getSystemClassLoader().loadClass(loggerString);
+            } catch (ClassNotFoundException cnfe) {
+                throw new IllegalStateException("Jars not in system class path.", cnfe);
+            }
+            throw new IllegalStateException("Found " + lm.getClass().getName() + " set as launch param instead.");
+        }
     }
 }
 

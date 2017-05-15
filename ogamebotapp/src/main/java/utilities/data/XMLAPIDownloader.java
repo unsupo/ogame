@@ -3,12 +3,16 @@ package utilities.data;
 /**
  * Created by jarndt on 5/8/17.
  */
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
+import utilities.database.Database;
 import utilities.database.HSQLDBCommons;
 import utilities.database.XMLToDatabase;
 import utilities.fileio.FileOptions;
@@ -33,6 +37,12 @@ public class XMLAPIDownloader {
     public static void main(String[] args) throws IOException, SQLException {
         System.exit(0);
     }
+    static {
+        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+    }
+    private static final Logger LOGGER = LogManager.getLogger(XMLAPIDownloader.class.getName());
+
+
 
     private static Scheduler scheduler;
     private static Scheduler getScheduler() throws SchedulerException {
@@ -43,6 +53,9 @@ public class XMLAPIDownloader {
         return scheduler;
     }
     public static void scheduleJob(String cronSchedule) throws SchedulerException {
+//        getScheduler().getCurrentlyExecutingJobs().
+        if(getScheduler().getJobKeys(GroupMatcher.jobGroupEquals("group1")).stream().filter(a->a.getName().equals("dummyJobName")).collect(Collectors.toList()).size() != 0)
+            return;
         JobDetail job = JobBuilder.newJob(DownloadXMLFileJob.class)
                 .withIdentity("dummyJobName", "group1").build();
 
@@ -150,13 +163,14 @@ public class XMLAPIDownloader {
                         HIGHSCORE_PLAYER.replace(numOneReplace,i+"").replace(numTwoReplace,j+""));
 
         FileOptions.runConcurrentProcess(FILE_DATA.entrySet().stream().map(a->(Callable)()->{
+            String uni = "s"+universeNumber+"-en.ogame.gameforge.com";
             try {
-                URL website = new URL(a.getValue().replace(regReplace, "s"+universeNumber+"-en.ogame.gameforge.com"));
+                URL website = new URL(a.getValue().replace(regReplace, uni));
                 ReadableByteChannel rbc = Channels.newChannel(website.openStream());
                 FileOutputStream fos = new FileOutputStream(dir+"/"+a.getKey()+"_"+universeNumber+".xml");
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.debug("Download Failed for: "+uni,e);
             }
             return null;
         }).collect(Collectors.toList()));

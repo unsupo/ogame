@@ -1,28 +1,25 @@
 package utilities.database;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.postgresql.util.PSQLException;
 import utilities.fileio.FileOptions;
 import utilities.fileio.JarUtility;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.*;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import static org.bouncycastle.crypto.tls.ConnectionEnd.server;
 
 /**
  * Created by jarndt on 5/8/17.
  */
 public class Database {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
-        Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
+        stopDatabase();
+
+//        Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
 //        d.executeQuery("drop database if exists jarndt");
 //        d.executeQuery("select pg_terminate_backend(pid) from pg_stat_activity where datname='test';")
 //            .forEach(System.out::println);
@@ -38,10 +35,15 @@ public class Database {
 //                "DROP TABLE PLAYER_HIGHSCORE CASCADE;");
 
 //        d.executeQuery("delete from server");
-        d.executeQuery("select * from server")
-                .forEach(System.out::println);
+//        d.executeQuery("select * from users")
+//                .forEach(System.out::println);
     }
 
+    static {
+        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+    }
+
+    private static final Logger LOGGER = LogManager.getLogger(Database.class.getName());
     public static final String DATABASE = "localhost:9999/ogame", USERNAME = "ogame_user", PASSWORD = "ogame";
 
     public static boolean checkForPostgres(String server, String username, String password){ /*127.0.0.1:5432/testdb*/
@@ -52,7 +54,7 @@ public class Database {
                     "jdbc:postgresql://"+server, username, password);
             if (connection != null)
                 return true;
-        } catch (Exception e) { /* */ }
+        } catch (Exception e) { LOGGER.log(Level.DEBUG,"",e); /* */ }
         return false;
     }
 
@@ -78,6 +80,7 @@ public class Database {
                         startDatabase();
                     if (e.getMessage().equals("FATAL: database \"ogame\" does not exist"))
                         init();
+
                 }
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
@@ -134,22 +137,38 @@ public class Database {
         File postgresDir = new File(databaseDir+"/postgres");
         if(!(postgresDir.exists() && postgresDir.isDirectory())) {
             String zipFile = "postgres.zip";
+            if(!new File(databaseDir+zipFile).exists())
+                throw new IOException("No postgres.zip file found or no postgres directory at: "+postgresDir);
             String windowsCommand = "powershell.exe -nologo -noprofile -command \"& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('"+zipFile+"', '.'); }\"";
             String macCommand = "unzip "+zipFile;
             String command = macCommand;
             if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS))
                 command = windowsCommand;
             ExecutorService service = FileOptions.runSystemProcess(command, databaseDir);
-
         }
         if(!checkForPostgres(DATABASE,USERNAME,PASSWORD)) {
-            FileOptions.runSystemProcess("pg_ctl -D ../postgres -l server.log start",
-                    FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"));
+            String binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"),
+                    process = "pg_ctl";
+            if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX)) {
+                binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/linux_bin/");
+                process = binDir+"pg_ctl";
+            }if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
+                binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/win_bin/");
+                process = "pg_ctl.exe";
+            }
+            FileOptions.runSystemProcess(process+" -D ../postgres -l server.log start",
+                    binDir);
             try {
-                Thread.sleep(30000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void stopDatabase() throws IOException {
+        String databaseDir = FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/");
+        FileOptions.runSystemProcess("pg_ctl -D ../postgres -l server.log stop",
+                FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"));
     }
 }
