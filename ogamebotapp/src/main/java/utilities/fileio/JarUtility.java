@@ -2,6 +2,9 @@ package utilities.fileio;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import utilities.database.Database;
 import utilities.webdriver.DriverController;
 
 import java.io.*;
@@ -20,7 +23,14 @@ import java.util.zip.ZipInputStream;
  * Created by jarndt on 5/2/17.
  */
 public class JarUtility {
-    public static final String  WINDOWS = "win", LINUX = "linux", MAC = "mac",
+    static {
+        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+    }
+
+    private static final Logger LOGGER = LogManager.getLogger(JarUtility.class.getName());
+
+
+    public static final String  WINDOWS = "win", LINUX = "lin", MAC = "mac",
                                 CHROME = DriverController.CHROME, GECKO = DriverController.FIREFOX, FIREFOX = GECKO, PHANTOMJS = DriverController.PHANTOMJS;
     public static final String s = FileOptions.SEPERATOR;
 
@@ -187,12 +197,23 @@ public class JarUtility {
             File f = new File(FileOptions.cleanFilePath(getExportPath()+"/"));
             f.mkdirs();
             setResourceDir(f.getAbsolutePath());
+            files.forEach(a -> {
+                try {
+                    FileOptions.setPermissionUnix(777, a);
+                } catch (IOException e) {
+                    LOGGER.error(a,e);
+                }
+            });
         }else{
             //YOU ARE RUNNING FROM AN IDE
             List<String> v = resourcesFileList;
             for(String s : v)
-                files.add(FileOptions.findFile(System.getProperty("user.dir"),s)
-                        .get(0).getAbsolutePath());
+                try {
+                    files.add(FileOptions.findFile(FileOptions.DEFAULT_DIR, s)
+                            .get(0).getAbsolutePath());
+                }catch (IndexOutOfBoundsException e){
+                    LOGGER.error("Can't find file: "+s+" on path: "+FileOptions.DEFAULT_DIR);
+                }
         }
         getExtractedFiles().addAll(files);
         return files;
@@ -220,33 +241,11 @@ public class JarUtility {
             if(je.isDirectory())
                 continue;
 
-//            InputStream in =
-//                    new BufferedInputStream(jarfile.getInputStream(je));
-//            OutputStream out =
-//                    new BufferedOutputStream(new FileOutputStream(fl));
-//            byte[] buffer = new byte[2048];
-//            for (;;)  {
-//                int nBytes = in.read(buffer);
-//                if (nBytes <= 0) break;
-//                out.write(buffer, 0, nBytes);
-//            }
-//            out.flush();
-//            out.close();
-//            in.close();
-
             InputStream is = jarFile.getInputStream(je);
             OutputStream out = FileUtils.openOutputStream(fl);
             IOUtils.copy(is, out);
             is.close();
             out.close();
-
-//            java.io.InputStream is = jarfile.getInputStream(je);
-//            java.io.FileOutputStream fo = new java.io.FileOutputStream(fl);
-//            while(is.available()>0)
-//                fo.write(is.read());
-//
-//            fo.close();
-//            is.close();
         }
         return fl;
     }
@@ -275,13 +274,6 @@ public class JarUtility {
         }
         return null;
     }
-//    private void _exportZipResource(String destDir, String zip){
-//        InputStream is = getClass().getResourceAsStream(zip);
-//        ZipInputStream zis = new ZipInputStream(is);
-//        ZipEntry entry;
-//
-//
-//    }
 
     public static String exportJarDirectoryResource(String destDir, String jarFileLocation, String directoryToExtract) throws IOException {
         if(directoryToExtract == null)

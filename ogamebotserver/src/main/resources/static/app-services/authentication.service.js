@@ -41,7 +41,7 @@
 
         }
 
-        function SetCredentials(username, password) {
+        function SetCredentials(username, password, token) {
             var authdata = Base64.encode(username + ':' + password);
 
             var currentUser = {
@@ -59,7 +59,7 @@
 
             // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
             var cookieExp = new Date();
-            cookieExp.setDate(cookieExp.getDate() + 7);
+            cookieExp.setDate(cookieExp.getDate() + 1);
             $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
         }
 

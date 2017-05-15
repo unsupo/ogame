@@ -5,8 +5,8 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', 'AuthenticationService', 'UIHelper'];
-    function LoginController($state, AuthenticationService, UIHelper) {
+    LoginController.$inject = ['$state', 'AuthenticationService', 'UIHelper','$http'];
+    function LoginController($state, AuthenticationService, UIHelper,$http) {
         var vm = this;
 
         vm.login = login;
@@ -18,17 +18,29 @@
 
         function login() {
             vm.dataLoading = true;
-            AuthenticationService.Login(vm.username, vm.password, function (response) {
-                if (response.success) {
-                    AuthenticationService.SetCredentials(vm.username, vm.password);
-                    // $location.path('/');
-                    $state.go('main.dashboard',{}, {reload: true});
-                } else {
-                    // FlashService.Error(response.message);
-                    UIHelper.showToast("Invalid Credentials","Please Enter Correct Credentials:\n"+response.message);
-                    vm.dataLoading = false;
+            var loginreq = {
+                method:'POST',
+                url:'/login',
+                transformResponse: [],
+                headers:{
+                    'username': vm.username ,
+                    'password': vm.password
                 }
-            });
+            };
+            $http(loginreq)
+                .then(
+                    function(response){
+                        vm.dataLoading = false;
+                        // UIHelper.showToast('Registration successful', response.message);
+                        AuthenticationService.SetCredentials(vm.username, vm.password);
+                        $state.go('main.dashboard',{}, {reload: true});
+                    },
+                    function(result) {
+                        // console.log("Failed to Login" +JSON.stringify(result));
+                        UIHelper.showToast("Invalid Credentials","Please Enter Correct Credentials");
+                        vm.dataLoading = false;
+                    }
+                );
         };
     }
 

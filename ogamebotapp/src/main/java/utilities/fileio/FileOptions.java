@@ -373,5 +373,20 @@ public class FileOptions {
     public static int getNext() {
         return next++;
     }
+
+    public static final String DEFAULT_LOGGER_STRING ="org.apache.logging.log4j.jul.LogManager";
+    public static void setLogger(String loggerString) {
+//        String cn = "org.apache.logging.log4j.jul.LogManager";
+        System.setProperty("java.util.logging.manager",loggerString);
+        java.util.logging.LogManager lm = java.util.logging.LogManager.getLogManager();
+        if (!loggerString.equals(lm.getClass().getName())) {
+            try {
+                ClassLoader.getSystemClassLoader().loadClass(loggerString);
+            } catch (ClassNotFoundException cnfe) {
+                throw new IllegalStateException("Jars not in system class path.", cnfe);
+            }
+            throw new IllegalStateException("Found " + lm.getClass().getName() + " set as launch param instead.");
+        }
+    }
 }
 

@@ -7,6 +7,11 @@
 -- DROP TABLE ALLIANCE_HIGHSCORE CASCADE;
 -- DROP TABLE PLAYER_HIGHSCORE CASCADE;
 
+------------------------------------------------------------------------------------------------------------------------
+------------------------------- XML API TABLES
+------------------------------------------------------------------------------------------------------------------------
+
+
 CREATE TABLE IF NOT EXISTS SERVER(
   SERVER_ID                       INTEGER NOT NULL,
   SERVER_NAME                     VARCHAR(20),
@@ -114,4 +119,27 @@ CREATE TABLE IF NOT EXISTS ALLIANCE_HIGHSCORE(
   ALLIANCE_T  BIGINT,
   PRIMARY KEY (ALLIANCE_ID,SERVER_ID,TIMESTAMP),
   FOREIGN KEY (ALLIANCE_ID,SERVER_ID,ALLIANCE_T) REFERENCES ALLIANCE(ALLIANCE_ID,SERVER_ID,TIMESTAMP)
+);
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------- USER TABLES
+------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS USERS(
+  id          SERIAL PRIMARY KEY,
+  USERNAME    VARCHAR(100) NOT NULL UNIQUE,
+  PASSWORD    VARCHAR(100) NOT NULL,
+  FIRST_NAME  VARCHAR(100) NOT NULL,
+  LAST_NAME   VARCHAR(100) NOT NULL,
+  USER_TYPE   CHAR(1) DEFAULT 'N' CHECK(USER_TYPE in ('A'/*ADMIN*/, 'N' /*Normal User*/)),
+  ACTIVE      CHAR(1) DEFAULT 'A' CHECK(ACTIVE in ('A'/*ADMIN*/, 'N' /*Normal User*/))
+);
+
+CREATE TABLE IF NOT EXISTS TOKENS(
+  USERS_ID          INTEGER REFERENCES USERS(id) PRIMARY KEY,
+  TOKEN             VARCHAR(100) NOT NULL UNIQUE,
+  TIMESTAMP         timestamp DEFAULT current_timestamp,
+  EXPIRE_TIMESTAMP  TIMESTAMP DEFAULT current_timestamp + (1 || ' days')::INTERVAL
 );

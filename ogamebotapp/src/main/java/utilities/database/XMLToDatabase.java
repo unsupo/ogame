@@ -1,5 +1,7 @@
 package utilities.database;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -25,6 +27,11 @@ public class XMLToDatabase {
         parseAllFilesIntoDatabase();
     }
 
+    static {
+        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+    }
+    private static final Logger LOGGER = LogManager.getLogger(XMLToDatabase.class.getName());
+
     public static void parseAllFilesIntoDatabase(){
         FileOptions.runConcurrentProcess(
                 FileOptions.getAllDirectories(XMLAPIDownloader.DOWNLOAD_DIR)
@@ -38,7 +45,7 @@ public class XMLToDatabase {
                                         FileOptions.getAllFilesContains(a.getAbsolutePath(), "planets").get(0).getAbsolutePath()
                                         ),
                                         Arrays.asList("server", "alliance", "player", "planet"));
-                    }catch (Exception e){e.printStackTrace();}
+                    }catch (Exception e){LOGGER.debug("",e);}
                     return null;
                 }).collect(Collectors.toList())
         );
