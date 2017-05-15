@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;
@@ -70,7 +71,11 @@ public class DriverController {
             this.driverName = UUID.randomUUID().toString();
         this.startDate = new Date();
 
-        DatabaseCommons.registerDriver(this);
+        try {
+            DatabaseCommons.registerDriver(this);
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         setDriverType(driverType);
         setWebDriverPath(webDriverPath);

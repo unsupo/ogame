@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @EnableScheduling
 public class Application {
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException, GeneralSecurityException, SchedulerException {
+        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
         Runner.run(args);
         SpringApplication.run(Application.class,args);
     }
@@ -34,7 +35,7 @@ public class Application {
     public static void init() throws IOException, InterruptedException {
         File bowerComponents = new File(FileOptions.cleanFilePath(STATIC_DIR+"/bower_components"));
         if(!(bowerComponents.exists() && bowerComponents.isDirectory())) {
-            FileOptions.runProcess("./bower.sh", STATIC_DIR);
+            FileOptions.runSystemProcess("./bower.sh", STATIC_DIR);
             System.out.println("Bower Components installed.  Please rerun Application");
             System.exit(0);
         }

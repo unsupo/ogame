@@ -29,66 +29,13 @@
                     return;
                 vm.image = message;
                 // messageList.append("<li>" + message + "</li>");
-                var img = document.getElementById("100")[0];
+                var img = document.getElementById("100");//[0]
+                if(!img) return;
+                img = img[0];
                 if(!img) return;
                 img.setAttribute("data-ng-src", "data:image/png;base64,"+vm.image);
             });
 
-
-            // $stomp.setDebug(function (args) {
-            //     $log.debug(args)
-            // });
-
-            // $stomp.connect('/stomp')
-            //     // frame = CONNECTED headers
-            //     .then(function (frame) {
-            //         var subscription = $stomp.subscribe('/topic/message', function (payload) {
-            //             var message = payload;
-            //             if (vm.image == message)
-            //                 return;
-            //             vm.image = message;
-            //             // messageList.append("<li>" + message + "</li>");
-            //             var img = document.getElementById("100")[0];
-            //             if (!img) return;
-            //             img.setAttribute("data-ng-src", "data:image/png;base64," + vm.image);
-            //         }, {
-            //             'headers': 'are awesome'
-            //         });
-            //     });
-            //
-            //         // Unsubscribe
-            //         // subscription.unsubscribe();
-            //
-            //         // // Send message
-            //         // $stomp.send('/dest', {
-            //         //     message: 'body'
-            //         // }, {
-            //         //     priority: 9,
-            //         //     custom: 42 // Custom Headers
-            //         // });
-            //
-            //         // Disconnect
-            //         // $stomp.disconnect().then(function () {
-            //         //     $log.info('disconnected')
-            //         // })
-            //     });
-
-            // defined a connection to a new socket endpoint
-            // var socket = new SockJS('/stomp');
-            // var stompClient = Stomp.over(socket);
-            // stompClient.connect({ }, function(frame) {
-            //     // subscribe to the /topic/message endpoint
-            //     stompClient.subscribe("/topic/message", function(data) {
-            //         var message = data.body;
-            //         if(vm.image == message)
-            //             return;
-            //         vm.image = message;
-            //         // messageList.append("<li>" + message + "</li>");
-            //         var img = document.getElementById("100")[0];
-            //         if(!img) return;
-            //         img.setAttribute("data-ng-src", "data:image/png;base64,"+vm.image);
-            //     });
-            // });
         }
 
         function loadImages() {
