@@ -141,5 +141,5 @@ CREATE TABLE IF NOT EXISTS TOKENS(
   USERS_ID          INTEGER REFERENCES USERS(id) PRIMARY KEY,
   TOKEN             VARCHAR(100) NOT NULL UNIQUE,
   TIMESTAMP         timestamp DEFAULT current_timestamp,
-  EXPIRE_TIMESTAMP  TIMESTAMP DEFAULT current_timestamp + (1 || ' days')::INTERVAL
+  EXPIRE_TIMESTAMP  TIMESTAMP DEFAULT current_timestamp --+ (1 || ' days')::INTERVAL
 );

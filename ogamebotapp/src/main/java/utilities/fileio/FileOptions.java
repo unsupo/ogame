@@ -2,6 +2,9 @@ package utilities.fileio;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import utilities.database.Database;
 import utilities.email.OneEmail;
 
 import java.io.*;
@@ -27,6 +30,13 @@ import java.util.zip.ZipFile;
 public class FileOptions {
     public final static String OS = System.getProperty("os.name").toLowerCase();
     final static public DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    static {
+        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+    }
+
+    private static final Logger LOGGER = LogManager.getLogger(FileOptions.class.getName());
+
 
     public static final String SEPERATOR = System.getProperty("file.separator"),
             DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR,
@@ -119,7 +129,7 @@ public class FileOptions {
                     BufferedReader br = new BufferedReader(new InputStreamReader(a));
                     String l;
                     while ((l = br.readLine()) != null)
-                        System.out.println(l);
+                        LOGGER.debug(l);
                     return null;
                 }).collect(Collectors.toList()));
     }

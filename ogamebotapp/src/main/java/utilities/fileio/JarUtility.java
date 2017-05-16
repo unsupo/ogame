@@ -302,24 +302,13 @@ public class JarUtility {
             if(je.isDirectory())
                 continue;
 
-//            java.io.FileOutputStream out = new java.io.FileOutputStream(fl);
-//            java.io.InputStream is = jarfile.getInputStream(je);
-//            BufferedInputStream bin = new BufferedInputStream(is);
-//            ZipInputStream zin = new ZipInputStream(bin);
-//            byte[] buffer = new byte[8192];
-//            int len;
-//            while ((len = zin.read(buffer)) != -1)
-//                out.write(buffer, 0, len);
-
             InputStream is = jarFile.getInputStream(je);
             OutputStream out = FileUtils.openOutputStream(fl);
             IOUtils.copy(is, out);
             is.close();
             out.close();
 
-            out.close();
-            is.close();
-            System.out.println("Done with: "+fl.getAbsolutePath());
+            LOGGER.debug("Done with: "+fl.getAbsolutePath());
         }
 //        FileOptions.runConcurrentProcess(v);
         return found.getAbsolutePath();

@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS ALLIANCE_HIGHSCORE(
 ------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS USERS(
-  id          SERIAL PRIMARY KEY,
+  id          IDENTITY PRIMARY KEY,
   USERNAME    VARCHAR(100) NOT NULL UNIQUE,
   PASSWORD    VARCHAR(100) NOT NULL,
   FIRST_NAME  VARCHAR(100) NOT NULL,
@@ -141,5 +141,5 @@ CREATE TABLE IF NOT EXISTS TOKENS(
   USERS_ID          INTEGER REFERENCES USERS(id) PRIMARY KEY,
   TOKEN             VARCHAR(100) NOT NULL UNIQUE,
   TIMESTAMP         timestamp DEFAULT current_timestamp,
-  EXPIRE_TIMESTAMP  TIMESTAMP DEFAULT current_timestamp + (1 || ' days')::INTERVAL
+  EXPIRE_TIMESTAMP  TIMESTAMP DEFAULT current_timestamp-- + (1 || ' days')::INTERVAL
 );
