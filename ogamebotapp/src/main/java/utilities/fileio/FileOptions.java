@@ -245,7 +245,7 @@ public class FileOptions {
         String regex = "\\[\\*replace_me\\*\\]";
         filePath = filePath.replaceAll("/", regex);
         filePath = filePath.replaceAll("\\\\", regex);
-        return filePath.replaceAll(regex, Matcher.quoteReplacement(System.getProperty("file.separator")));
+        return filePath.replaceAll(regex, Matcher.quoteReplacement(SEPERATOR));
     }
 
     public static void copyFileUtil(File from, File to) throws IOException {
