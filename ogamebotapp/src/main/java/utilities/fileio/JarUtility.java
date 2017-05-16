@@ -169,7 +169,7 @@ public class JarUtility {
                 List<File> f = FileOptions.getAllFilesWithName(path, filesDirs.get(dir));
                 if(f != null && f.size()!=0) {
                     files.add(f.get(0).getAbsolutePath());
-                    List<String> v = Arrays.asList(f.get(0).getAbsolutePath().split(FileOptions.SEPERATOR));
+                    List<String> v = Arrays.asList(f.get(0).getAbsolutePath().split("\\\\"));
                     String WDP = "";
                     for(String vv : v)
                         if (vv.equals("web_drivers")) {
@@ -296,7 +296,9 @@ public class JarUtility {
             if(fl.getName().equals(directoryToExtract))
                 found = fl;
 
-            if(!Arrays.asList(fl.getAbsolutePath().split(FileOptions.SEPERATOR)).contains(directoryToExtract))
+            if(!Arrays.asList(fl.getAbsolutePath().split(FileOptions.OS.substring(0,3).equals(WINDOWS) ?
+                    "\\\\" :
+                    FileOptions.SEPERATOR)).contains(directoryToExtract))
                 continue;
 
             if(!fl.exists()){

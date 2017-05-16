@@ -20,11 +20,14 @@ public class Database {
 //        stopDatabase();
 
         Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
-        d.executeQuery("insert into users(username,password,first_name,last_name)values('a','a','a','a');");
+//        d.executeQuery("insert into users(username,password,first_name,last_name)values('a','a','a','a');");
         d.executeQuery("select * from users")
                 .forEach(System.out::println);
 
-        d.stopThisDatabase();
+        try {
+            d.stopThisDatabase();
+        }catch (Exception e){}
+        System.exit(0);
     }
 
     static {
