@@ -51,7 +51,11 @@ public class Database {
         return false;
     }
 
-    public static String SQL_SCRIPT_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/database_config/");
+    public static String SQL_SCRIPT_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/database_config/"),
+                            DATABASE_DIR= FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/postgres/");
+    public static void setDatabaseDir(String databaseDir){
+        DATABASE_DIR = databaseDir;
+    }
     private Connection connection;
     private String server,username,password;
 
@@ -153,7 +157,7 @@ public class Database {
 
     public static void startDatabase() throws IOException {
         String databaseDir = FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/");
-        File postgresDir = new File(databaseDir+"/postgres");
+        File postgresDir = new File(DATABASE_DIR);
         if(!(postgresDir.exists() && postgresDir.isDirectory())) {
             String zipFile = "postgres.zip";
             if(!new File(databaseDir+zipFile).exists())
@@ -166,17 +170,19 @@ public class Database {
             ExecutorService service = FileOptions.runSystemProcess(command, databaseDir);
         }
         if(!checkForPostgres(DATABASE,USERNAME,PASSWORD)) {
+            String dataDir = "../postgres";
             String binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"),
                     process = "pg_ctl";
             if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX)) {
                 binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/linux_bin/");
                 process = binDir+"pg_ctl";
             }if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
-                binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/win_bin/");
+                binDir = FileOptions.cleanFilePath(DATABASE_DIR+"/App/PgSQL/bin/");
+                dataDir = "../../../Data/data";
                 process = "pg_ctl.exe";
             }
             try {
-                FileOptions.runSystemProcess(process + " -D ../postgres -l server.log start",
+                FileOptions.runSystemProcess(process + " -D "+dataDir+" -l server.log start",
                         binDir);
             }catch (IOException io){
                 LOGGER.debug("Database connection failed",io);
@@ -195,7 +201,18 @@ public class Database {
 
     public static void stopDatabase() throws IOException {
         String databaseDir = FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/");
-        FileOptions.runSystemProcess("pg_ctl -D ../postgres -l server.log stop",
-                FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"));
+        String dataDir = "../postgres";
+        String binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"),
+                process = "pg_ctl";
+        if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX)) {
+            binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/linux_bin/");
+            process = binDir+"pg_ctl";
+        }if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
+            binDir = FileOptions.cleanFilePath(DATABASE_DIR+"/App/PgSQL/bin/");
+            dataDir = "../../../Data/data";
+            process = "pg_ctl.exe";
+        }
+        FileOptions.runSystemProcess(process + " -D "+dataDir+" -l server.log stop",
+                binDir);
     }
 }
