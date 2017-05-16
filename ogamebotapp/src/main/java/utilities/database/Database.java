@@ -17,26 +17,14 @@ import java.util.concurrent.ExecutorService;
  */
 public class Database {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
-        stopDatabase();
+//        stopDatabase();
 
-//        Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
-//        d.executeQuery("drop database if exists jarndt");
-//        d.executeQuery("select pg_terminate_backend(pid) from pg_stat_activity where datname='test';")
-//            .forEach(System.out::println);
-//        d.executeQuery("SELECT pid FROM pg_stat_activity where pid <> pg_backend_pid();")
-//                .forEach(System.out::println);
-//        Database d = new Database("localhost:5432/ogame","ogame_user","ogame");
+        Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
+        d.executeQuery("insert into users(username,password,first_name,last_name)values('a','a','a','a');");
+        d.executeQuery("select * from users")
+                .forEach(System.out::println);
 
-//        d.executeQuery("DROP TABLE SERVER CASCADE;\n" +
-//                "DROP TABLE ALLIANCE CASCADE;\n" +
-//                "DROP TABLE PLAYER CASCADE;\n" +
-//                "DROP TABLE PLANET CASCADE;\n" +
-//                "DROP TABLE ALLIANCE_HIGHSCORE CASCADE;\n" +
-//                "DROP TABLE PLAYER_HIGHSCORE CASCADE;");
-
-//        d.executeQuery("delete from server");
-//        d.executeQuery("select * from users")
-//                .forEach(System.out::println);
+        d.stopThisDatabase();
     }
 
     static {
@@ -45,6 +33,8 @@ public class Database {
 
     private static final Logger LOGGER = LogManager.getLogger(Database.class.getName());
     public static final String DATABASE = "localhost:9999/ogame", USERNAME = "ogame_user", PASSWORD = "ogame";
+
+    public static final String POSTGRES = "POSTGRES", HSQL = "HSQL";
 
     public static boolean checkForPostgres(String server, String username, String password){ /*127.0.0.1:5432/testdb*/
         try {
@@ -58,14 +48,20 @@ public class Database {
         return false;
     }
 
-    private static String SQL_SCRIPT_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/database_config/");
+    public static String SQL_SCRIPT_DIR = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/database_config/");
     private Connection connection;
     private String server,username,password;
 
     public Database(String server, String username, String password) throws SQLException, ClassNotFoundException, IOException {
         this.server = server; this.username = username; this.password = password;
         getConnection();
-        executeQuery(FileOptions.readFileIntoString(SQL_SCRIPT_DIR+"create_tables.sql"));
+        String file = null;
+        try {
+            executeQuery(file = FileOptions.readFileIntoString(SQL_SCRIPT_DIR + "create_tables.sql"));
+        }catch (Exception e){
+            if(!e.getMessage().equals("type not found or user lacks privilege: SERIAL"))
+                LOGGER.error(file,e);
+        }
     }
     int attempt = 0;
     private Connection getConnection() throws SQLException {
@@ -85,10 +81,27 @@ public class Database {
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
-            if(attempt++ > 10) return null;
+            if(attempt++ > 5){
+                LOGGER.error("Attempted to connect and start postgres 5 times, temporarily going to use hsql now....  " +
+                                "\n\tFix Postgres.  All future database transactions will be to a HSQL database." +
+                            "\nNext database connection will attempt to connect to postgres again.  On next successful" +
+                            "\npostgres connection will dump HSQL data to postgres.");
+                try {
+                    newHSQLConnection();
+                } catch (IOException e) {
+                    LOGGER.log(Level.DEBUG,"ERROR Starting HSQL database",e);
+                }
+                return null;
+            }
             return getConnection();
         }
         return connection;
+    }
+
+    String databaseType = POSTGRES;
+    private void newHSQLConnection() throws IOException, SQLException {
+        connection = HSQLDBCommons.getDatabase().getDBConn();
+        databaseType = HSQL;
     }
 
     private void init() throws ClassNotFoundException, SQLException, IOException {
@@ -107,6 +120,9 @@ public class Database {
 
     public List<Map<String,Object>> executeQuery(String query) throws SQLException {
         Statement stmt = getConnection().createStatement();
+        if(databaseType.equals(HSQL)){
+            query.replaceAll("SERIAL","IDENTITY");
+        }
         ResultSet rs = null;
         try{
             rs = stmt.executeQuery(query);
@@ -148,7 +164,7 @@ public class Database {
         }
         if(!checkForPostgres(DATABASE,USERNAME,PASSWORD)) {
             String binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"),
-                    process = "pg_ctl";
+                    process = "pg_ctlfdsa";
             if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX)) {
                 binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/linux_bin/");
                 process = binDir+"pg_ctl";
@@ -156,14 +172,22 @@ public class Database {
                 binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/win_bin/");
                 process = "pg_ctl.exe";
             }
-            FileOptions.runSystemProcess(process+" -D ../postgres -l server.log start",
-                    binDir);
             try {
-                Thread.sleep(10000);
+                FileOptions.runSystemProcess(process + " -D ../postgres -l server.log start",
+                        binDir);
+            }catch (IOException io){
+                LOGGER.debug("Database connection failed",io);
+            }
+            try {
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+    public void stopThisDatabase() throws IOException, SQLException {
+        stopDatabase();
+        HSQLDBCommons.getDatabase().stopDBServer();
     }
 
     public static void stopDatabase() throws IOException {
