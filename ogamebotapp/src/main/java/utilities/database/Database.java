@@ -164,7 +164,7 @@ public class Database {
         }
         if(!checkForPostgres(DATABASE,USERNAME,PASSWORD)) {
             String binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/bin/"),
-                    process = "pg_ctlfdsa";
+                    process = "pg_ctl";
             if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX)) {
                 binDir = FileOptions.cleanFilePath(databaseDir + "/postgres/linux_bin/");
                 process = binDir+"pg_ctl";
