@@ -49,7 +49,7 @@ public class Runner {
      * @throws URISyntaxException
      * @throws GeneralSecurityException
      */
-    public static void run(String[] args) throws IOException, URISyntaxException, GeneralSecurityException, SchedulerException {
+    public static void run(String[] args) throws IOException, URISyntaxException, GeneralSecurityException, SchedulerException, SQLException, ClassNotFoundException {
         parseCommandLineArgs(args);
         List<String> files = JarUtility.extractFiles(Arrays.asList(
                 "email_list.txt", "failed.txt", "working.txt",
@@ -86,12 +86,13 @@ public class Runner {
         JarUtility.extractFiles(Arrays.asList("email_list.txt","failed.txt","working.txt"));
     }
 
-    private static void parseCommandLineArgs(String[] args) throws IOException, GeneralSecurityException {
+    private static void parseCommandLineArgs(String[] args) throws IOException, GeneralSecurityException, SQLException, ClassNotFoundException {
         if(args!=null && args.length != 0){
             List<String> ecryptSwitches = new ArrayList<>(Arrays.asList("-encrypt","-e"));
             List<String> defaultDriver = new ArrayList<>(Arrays.asList("-defaultDriver","-dd"));
             List<String> exportPath = new ArrayList<>(Arrays.asList("-exportPath","-ep"));
             List<String> webDriverPath = new ArrayList<>(Arrays.asList("-webDriverPath","-wdp"));
+            List<String> runQuery = new ArrayList<>(Arrays.asList("-runQuery","-q"));
             for(int i = 0; i<args.length; i++){
                 if(ecryptSwitches.contains(args[i])){
                     try{
@@ -108,6 +109,11 @@ public class Runner {
                         JarUtility.setExportPath(args[i + 1]);
                     if(webDriverPath.contains(args[i]))
                         JarUtility.setWebDriverPath(args[i + 1]);
+                    if(runQuery.contains(args[i])) {
+                        new Database(Database.DATABASE, Database.USERNAME, Database.PASSWORD)
+                                .executeQuery(args[i + 1]);
+                        System.exit(0);
+                    }
                 }catch(IndexOutOfBoundsException e){
                     System.err.println("No given switch option for: "+args[i]);
                 }
