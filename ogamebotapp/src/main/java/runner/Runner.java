@@ -57,13 +57,15 @@ public class Runner {
                 "facilities_info.csv", "building_info.csv", "shipyard_info.csv",
                 "defense_info.csv", "mapper.csv", "create_tables.sql","postgres_commands.sql"
         ));
-        if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS))
-            JarUtility.exportJarDirectory("win_bin");
         if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX))
             JarUtility.exportJarDirectory("linux_bin");
-        String f = JarUtility.exportJarDirectory("postgres");
+        String f = null;
+        if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
+            f = JarUtility.exportJarDirectory("postgres_windows");
+            Database.setDatabaseDir(FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/postgres_windows/"));
+        }else f = JarUtility.exportJarDirectory("postgres");
         if(f!=null) {
-            String postgresDir = FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/postgres/");
+            String postgresDir = Database.DATABASE_DIR;
             FileOptions.runConcurrentProcess(
                     FileOptions.readFileIntoListString(postgresDir + "permissions.txt")
                             .stream().map(a -> (Callable) () -> {
