@@ -183,7 +183,11 @@ public class JarUtility {
                 File s = exportJarResources(p,jarFileLocation,filesDirs.get(dir));//.getAbsolutePath();
                 s.setExecutable(true);
                 files.add(s.getAbsolutePath());
-                List<String> v = Arrays.asList(s.getAbsolutePath().split(FileOptions.SEPERATOR));
+                List<String> v = Arrays.asList(s.getAbsolutePath().split(
+                        FileOptions.OS.substring(0,3).equals(WINDOWS) ?
+                        "\\\\" :
+                        FileOptions.SEPERATOR
+                ));
                 String WDP = "";
                 for(String vv : v)
                     if (vv.equals("web_drivers")) {

@@ -60,7 +60,21 @@ public class FileOptions {
     public static Path setPermissionUnix(int octalPermission, String file) throws IOException{
         return setPermissionUnix(convertOctalToText(octalPermission),file);
     }public static Path setPermissionUnix(String unixPermission, String file) throws IOException {
-        return Files.setPosixFilePermissions(new File(file).toPath(),getPermissionSet(unixPermission));
+        Set<PosixFilePermission> v = getPermissionSet(unixPermission);
+        if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
+            File f = new File(file);
+            if(v.contains(PosixFilePermission.GROUP_EXECUTE)||v.contains(PosixFilePermission.OWNER_EXECUTE)||v.contains(PosixFilePermission.OTHERS_EXECUTE))
+                f.setExecutable(true);
+            else f.setExecutable(false);
+            if(v.contains(PosixFilePermission.GROUP_READ)||v.contains(PosixFilePermission.OWNER_READ)||v.contains(PosixFilePermission.OTHERS_READ))
+                f.setReadable(true);
+            else f.setReadable(false);
+            if(v.contains(PosixFilePermission.GROUP_WRITE)||v.contains(PosixFilePermission.OWNER_WRITE)||v.contains(PosixFilePermission.OTHERS_WRITE))
+                f.setWritable(true);
+            else f.setWritable(false);
+            return f.toPath();
+        }
+        return Files.setPosixFilePermissions(new File(file).toPath(),v);
     }
     /**
      * Expects unixpermission like -r--r--r-- or
