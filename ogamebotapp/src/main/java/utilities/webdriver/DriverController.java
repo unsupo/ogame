@@ -19,7 +19,6 @@ import utilities.fileio.JarUtility;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
@@ -41,7 +40,7 @@ public class DriverController {
         allowedDriverNames.addAll(Arrays.asList(FIREFOX,CHROME,PHANTOMJS));
     }
 
-    private String driverString, webDriverPath, proxy, driverPath, driverName;
+    private String driverType, webDriverPath, proxy, driverPath, driverName;
     private Date startDate;
 
     private WebDriver driver;
@@ -49,18 +48,18 @@ public class DriverController {
     private Dimension windowSize = new java.awt.Dimension(1440,900);
     private Point windowPosition = new Point(0,0);
 
-    public DriverController(String driverString, String webDriverPath, String proxy, String driverPath, String driverName, Dimension windowSize, Point windowPosition) {
+    public DriverController(String driverType, String webDriverPath, String proxy, String driverPath, String driverName, Dimension windowSize, Point windowPosition) {
         this.driverName = UUID.randomUUID().toString();
-        this.driverString = driverString;
+        this.driverType = driverType;
         this.webDriverPath = webDriverPath;
         this.proxy = proxy;
         this.driverPath = driverPath;
-        this.driverName = driverName;
+        this.driverName = driverName != null ? driverName : this.driverName;
         this.windowSize = windowSize;
         this.windowPosition = windowPosition;
         this.startDate = new Date();
 
-        init(driverString,webDriverPath);
+        init(driverType,webDriverPath);
     }
 
     public DriverController(){init(null, null);}
@@ -85,21 +84,21 @@ public class DriverController {
 
     public void setDriverType(String driverType){
         String driverNameValue = DEFAULT_DRIVER;
-        if(driverString != null)
-            driverNameValue = driverString.toLowerCase();
+        if(this.driverType != null)
+            driverNameValue = this.driverType.toLowerCase();
         if("firefox".equalsIgnoreCase(driverNameValue))
             driverNameValue = GECKO;
         if(!allowedDriverNames.contains(driverNameValue))
             throw new IllegalArgumentException("DriverController Type: "+driverNameValue+" is not an allowed type. \nAllowed Types: "+allowedDriverNames);
 
-        driverString = driverNameValue;
+        this.driverType = driverNameValue;
 //        setWebDriverPath(this.webDriverPath);
-    }public String getDriverName(){
-        return driverString;
+    }public String getDriverType(){
+        return driverType;
     }
     public void setWebDriverPath(String webDriverPath){
         this.webDriverPath = webDriverPath != null ? webDriverPath :
-                FileOptions.cleanFilePath(JarUtility.getWebDriverPath()+"/"+driverString+"/");
+                FileOptions.cleanFilePath(JarUtility.getWebDriverPath()+"/"+ driverType +"/");
     }
     public void setWindowSize(Dimension dimension){
         windowSize = dimension;
@@ -171,9 +170,9 @@ public class DriverController {
         return getDriver().findElements(by).get(index);
     }
 
-    public String getDriverNameValue(){
+    public String getDriverName(){
         return this.driverName;
-    }public void setDriverNameValue(String driverName){
+    }public void setDriverName(String driverName){
         this.driverName = driverName;
     }
 
@@ -214,22 +213,22 @@ public class DriverController {
     private void initDriver() {
         setWebDriverPath(null);
         String  path         = this.webDriverPath,
-                driverValue  = JarUtility.getDrivers().get(OS.substring(0,3)).get(driverString);
+                driverValue  = JarUtility.getDrivers().get(OS.substring(0,3)).get(driverType);
 
         driverPath = path+driverValue;
-        if(!PHANTOMJS.equalsIgnoreCase(driverString))
-            System.setProperty("webdriver."+driverString+".driver",driverPath);
+        if(!PHANTOMJS.equalsIgnoreCase(driverType))
+            System.setProperty("webdriver."+ driverType +".driver",driverPath);
         else
             System.setProperty("phantomjs.binary.path",driverPath);
 
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("acceptInsecureCerts", true);
 
-        if(GECKO.equalsIgnoreCase(driverString))
+        if(GECKO.equalsIgnoreCase(driverType))
             driver = new FirefoxDriver(capabilities);
-        if(CHROME.equalsIgnoreCase(driverString))
+        if(CHROME.equalsIgnoreCase(driverType))
             driver = new ChromeDriver(getCaps());
-        if(PHANTOMJS.equalsIgnoreCase(driverString))
+        if(PHANTOMJS.equalsIgnoreCase(driverType))
             driver = new PhantomJSDriver(getCaps());
 
         driver.manage().window().setPosition(windowPosition);
@@ -280,7 +279,7 @@ public class DriverController {
 
         DriverController driverController1 = (DriverController) o;
 
-        if (driverString != null ? !driverString.equals(driverController1.driverString) : driverController1.driverString != null)
+        if (driverType != null ? !driverType.equals(driverController1.driverType) : driverController1.driverType != null)
             return false;
         if (webDriverPath != null ? !webDriverPath.equals(driverController1.webDriverPath) : driverController1.webDriverPath != null)
             return false;
@@ -295,7 +294,7 @@ public class DriverController {
 
     @Override
     public int hashCode() {
-        int result = driverString != null ? driverString.hashCode() : 0;
+        int result = driverType != null ? driverType.hashCode() : 0;
         result = 31 * result + (webDriverPath != null ? webDriverPath.hashCode() : 0);
         result = 31 * result + (proxy != null ? proxy.hashCode() : 0);
         result = 31 * result + (driverPath != null ? driverPath.hashCode() : 0);
@@ -309,7 +308,7 @@ public class DriverController {
     @Override
     public String toString() {
         return "DriverController{" +
-                "driverString='" + driverString + '\'' +
+                "driverType='" + driverType + '\'' +
                 ", webDriverPath='" + webDriverPath + '\'' +
                 ", proxy='" + proxy + '\'' +
                 ", driverPath='" + driverPath + '\'' +
@@ -320,6 +319,28 @@ public class DriverController {
                 ", windowSize=" + windowSize +
                 ", windowPosition=" + windowPosition +
                 '}';
+    }
+
+    public String getProxy() {
+        return proxy;
+    }
+
+    public double getWindowWidth() {
+        return windowSize.getWidth();
+    }
+    public double getWindowHeight() {
+        return windowSize.getHeight();
+    }
+    public int getWindowPositionX(){
+        return windowPosition.getX();
+    }
+    public int getWindowPositionY(){
+        return windowPosition.getY();
+    }
+
+    public void quit() throws SQLException, IOException, ClassNotFoundException {
+        DatabaseCommons.deregisterDriver(this);
+        getDriver().quit();
     }
 }
 

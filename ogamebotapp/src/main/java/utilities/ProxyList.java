@@ -85,7 +85,7 @@ public class ProxyList {
                     e1.printStackTrace();
                 }
             }
-            driverController.getDriver().quit();
+            driverController.quit();
             return null;
         }).collect(Collectors.toList());
         ExecutorService service = FileOptions.runConcurrentProcess(callables);
