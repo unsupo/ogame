@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 @EnableScheduling
 public class Application {
-    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException, GeneralSecurityException, SchedulerException {
+    public static void main(String[] args) throws Exception {
         FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
         Runner.run(args);
         SpringApplication.run(Application.class,args);
