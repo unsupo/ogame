@@ -4,6 +4,7 @@ import org.hsqldb.DatabaseManager;
 import org.hsqldb.Server;
 import org.hsqldb.persist.HsqlProperties;
 import utilities.fileio.FileOptions;
+import utilities.fileio.JarUtility;
 
 import java.io.IOException;
 import java.sql.*;
@@ -44,7 +45,7 @@ public class HSQLDB {
     }
 
     public String dbName;
-    final String dbLocation = FileOptions.cleanFilePath(System.getProperty("user.dir")+"/HSQL/");
+    final String dbLocation = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/databases/HSQLDB/");//FileOptions.cleanFilePath(System.getProperty("user.dir")+"/HSQL/");
     public HSQLDB(String dbName) throws IOException{
         Logger.getLogger("hsqldb.db").setLevel(Level.OFF);
         System.setProperty("hsqldb.reconfig_logging", "false");
