@@ -10,6 +10,7 @@ import utilities.webdriver.JavaScriptFunctions;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -80,7 +81,7 @@ public class OneEmail {
 
     String oneUserName = "Wz5qIq65vmbVV6x+8bX0zN+p50n7NvwK", onePassword = "+/xb61x36biew0c7oW6Mlg==";
 
-    public void createNewOneEmail(String username, String password) throws GeneralSecurityException, IOException {
+    public void createNewOneEmail(String username, String password) throws GeneralSecurityException, IOException, SQLException, ClassNotFoundException {
         final String    oneUser = PasswordEncryptDecrypt.decrypt(oneUserName),
                         onePass = PasswordEncryptDecrypt.decrypt(onePassword);
         DriverController driverController = new DriverController();
@@ -104,9 +105,9 @@ public class OneEmail {
 
             driverController.getDriver().findElements(By.xpath("//*[@id=\"mailAccountForm\"]/div[2]/input[2]")).get(0).click();
         }catch (Exception e){
-            driverController.getDriver().quit();
+            driverController.quit();
             throw e;
         }
-        driverController.getDriver().quit();
+        driverController.quit();
     }
 }
