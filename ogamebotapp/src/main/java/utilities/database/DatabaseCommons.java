@@ -28,7 +28,7 @@ public class DatabaseCommons {
         else
             d.executeQuery("insert into WEBDRIVER(name,active,driver_type,proxy,window_width,window_height,window_position_x,window_position_y) " +
                     "values('"+driverController.getDriverName()+"','A','"+driverController.getDriverType()+"'," +
-                    "'"+driverController.getProxy()+"','"+driverController.getWindowWidth()+"','"+driverController.getWindowHeight()+"'," +
+                    "'"+driverController.getProxy()+"','"+(int)driverController.getWindowWidth()+"','"+(int)driverController.getWindowHeight()+"'," +
                     "'"+driverController.getWindowPositionX()+"','"+driverController.getWindowPositionY()+"');");
     }
 
