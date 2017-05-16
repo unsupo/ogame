@@ -4,6 +4,8 @@ import utilities.webdriver.DriverController;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jarndt on 5/8/17.
@@ -11,9 +13,28 @@ import java.sql.SQLException;
 public class DatabaseCommons {
 
     public static void registerDriver(DriverController driverController) throws SQLException, IOException, ClassNotFoundException {
-        new Database(Database.DATABASE,Database.USERNAME,Database.PASSWORD);
+        Database d = new Database(Database.DATABASE,Database.USERNAME,Database.PASSWORD);
+        List<Map<String, Object>> v = d.executeQuery("select * from webdriver where name = '" + driverController.getDriverName() + "'");
+        if(v != null && v.size() == 1)
+            d.executeQuery("update webdriver set " +
+                    "active = 'A', " +
+                    "driver_type = '"+driverController.getDriverType()+"', " +
+                    "proxy = '"+driverController.getProxy()+"', " +
+                    "window_width = '"+driverController.getWindowWidth()+"', " +
+                    "window_height = '"+driverController.getWindowHeight()+"', " +
+                    "window_position_x = '"+driverController.getWindowPositionX()+"', " +
+                    "window_position_y = '"+driverController.getWindowPositionY()+"' " +
+                    "where id = '"+v.get(0).get("id")+"';");
+        else
+            d.executeQuery("insert into WEBDRIVER(name,active,driver_type,proxy,window_width,window_height,window_position_x,window_position_y) " +
+                    "values('"+driverController.getDriverName()+"','A','"+driverController.getDriverType()+"'," +
+                    "'"+driverController.getProxy()+"','"+driverController.getWindowWidth()+"','"+driverController.getWindowHeight()+"'," +
+                    "'"+driverController.getWindowPositionX()+"','"+driverController.getWindowPositionY()+"');");
     }
 
 
-
+    public static void deregisterDriver(DriverController driverController) throws SQLException, IOException, ClassNotFoundException {
+        new Database(Database.DATABASE,Database.USERNAME,Database.PASSWORD)
+            .executeQuery("update webdriver set active = 'N' where name = '" + driverController.getDriverName() + "'");
+    }
 }
