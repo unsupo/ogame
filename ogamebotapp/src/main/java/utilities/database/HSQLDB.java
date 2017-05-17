@@ -112,7 +112,7 @@ public class HSQLDB {
             Map<String, Object> subMap = new HashMap<String, Object>();
             ResultSetMetaData rsmd = rs.getMetaData();
             for(int i = 1; i<=rsmd.getColumnCount(); i++){
-                subMap.put(rsmd.getColumnLabel(i), rs.getObject(i));
+                subMap.put(rsmd.getColumnLabel(i).toLowerCase(), rs.getObject(i));
             }
             results.add(subMap);
         }

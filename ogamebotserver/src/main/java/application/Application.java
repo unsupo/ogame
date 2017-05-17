@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import runner.Runner;
 import utilities.FileOptions;
+import utilities.database.Database;
 import utilities.fileio.JarUtility;
 
 import java.io.BufferedReader;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class Application {
     public static void main(String[] args) throws Exception {
         FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+//        Database.DATABASE_TYPE = Database.HSQL;
         Runner.run(args);
         SpringApplication.run(Application.class,args);
     }
