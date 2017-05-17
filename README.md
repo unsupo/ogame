@@ -27,11 +27,12 @@ This is the bot itself.  This uses the [Selenium Framework](http://www.seleniumh
 
 It also uses [Postgres](https://www.postgresql.org) to store data to be used by all bots in a cluster to communicate with each other.  Postgres is shipped with the code.
 
+
+When postgres fails to load for whatever reason, it will fall back to [HSQLDB](http://hsqldb.org/) which shouldn't have any issues.  HSQL isn't as good as postgres however due to read/write speeds.
+
 - - - -
 ### Ogame Bot Server ###
 This is the website to control and monitor one or more ogame bots.<br/>
 The server consists of a java [Spring Boot](https://spring.io/docs) server that serves an [angularjs](https://angularjs.org/) website as well as holds the api for webrequests made from the website.
 
-To run the server in an IDE, you must first download the bower components, run the following command at `/ogamebotserver/src/main/resources/static/` folder.
-
-`bower install`
+The Server has a website that when run is located at [localhost:8080](localhost:8080).  It will then require a log in.  You may create a new one in the register page.

@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 public class Database {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
 //        stopDatabase();
-
+        DATABASE_TYPE = HSQL;
         Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
 //        d.executeQuery("insert into users(username,password,first_name,last_name)values('a','a','a','a');");
         d.executeQuery("select * from users")
@@ -34,10 +34,14 @@ public class Database {
         FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
     }
 
+
     private static final Logger LOGGER = LogManager.getLogger(Database.class.getName());
     public static final String DATABASE = "localhost:9999/ogame", USERNAME = "ogame_user", PASSWORD = "ogame";
 
     public static final String POSTGRES = "POSTGRES", HSQL = "HSQL";
+
+    public static String DATABASE_TYPE = POSTGRES;
+
 
     public static boolean checkForPostgres(String server, String username, String password){ /*127.0.0.1:5432/testdb*/
         try {
@@ -73,28 +77,31 @@ public class Database {
     int attempt = 0;
     private Connection getConnection() throws SQLException {
         if(connection == null) {
-            try {
-                Class.forName("org.postgresql.Driver");
+            if(DATABASE_TYPE.equals(POSTGRES)) {
                 try {
-                    connection = DriverManager.getConnection(
-                            "jdbc:postgresql://" + server, username, password);
-                } catch (PSQLException e) {
-                    if (e.getMessage().contains("Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections."))
-                        startDatabase();
-                    if (e.getMessage().equals("FATAL: database \"ogame\" does not exist"))
-                        init();
+                    Class.forName("org.postgresql.Driver");
+                    try {
+                        connection = DriverManager.getConnection(
+                                "jdbc:postgresql://" + server, username, password);
+                    } catch (PSQLException e) {
+                        if (e.getMessage().contains("Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections."))
+                            startDatabase();
+                        if (e.getMessage().equals("FATAL: database \"ogame\" does not exist"))
+                            init();
 
+                    }
+                } catch (ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (ClassNotFoundException | IOException e) {
-                e.printStackTrace();
             }
-            if(attempt++ > 5){
+            if(DATABASE_TYPE.equals(HSQL) || attempt++ > 5){
                 LOGGER.error("Attempted to connect and start postgres 5 times, temporarily going to use hsql now....  " +
                                 "\n\tFix Postgres.  All future database transactions will be to a HSQL database." +
                             "\nNext database connection will attempt to connect to postgres again.  On next successful" +
                             "\npostgres connection will dump HSQL data to postgres.");
                 try {
                     newHSQLConnection();
+                    DATABASE_TYPE = HSQL;
                 } catch (IOException e) {
                     LOGGER.log(Level.DEBUG,"ERROR Starting HSQL database",e);
                 }
@@ -148,7 +155,7 @@ public class Database {
             Map<String, Object> subMap = new HashMap<String, Object>();
             ResultSetMetaData rsmd = rs.getMetaData();
             for(int i = 1; i<=rsmd.getColumnCount(); i++){
-                subMap.put(rsmd.getColumnLabel(i), rs.getObject(i));
+                subMap.put(rsmd.getColumnLabel(i).toLowerCase(), rs.getObject(i));
             }
             results.add(subMap);
         }
