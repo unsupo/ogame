@@ -28,7 +28,7 @@ public class PasswordEncryptDecrypt {
     };
 
     public static void main(String[] args) throws Exception {
-//        encryptReader();
+        encryptReader();
 
 //        System.out.println(encrypt(FileOptions.readFileIntoString(OneEmail.EMAILS_DIR+"email_list.txt")));
     }

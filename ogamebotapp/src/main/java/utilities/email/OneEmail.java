@@ -79,7 +79,7 @@ public class OneEmail {
     }
 
 
-    String oneUserName = "Wz5qIq65vmbVV6x+8bX0zN+p50n7NvwK", onePassword = "+/xb61x36biew0c7oW6Mlg==";
+    String oneUserName = "Wz5qIq65vmbVV6x+8bX0zN+p50n7NvwK", onePassword = "CgviEZKrU1NjECiLH412+g==";
 
     public void createNewOneEmail(String username, String password) throws GeneralSecurityException, IOException, SQLException, ClassNotFoundException {
         final String    oneUser = PasswordEncryptDecrypt.decrypt(oneUserName),
