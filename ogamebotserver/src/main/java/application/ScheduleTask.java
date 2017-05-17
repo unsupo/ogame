@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import utilities.webdriver.DriverController;
+import utilities.webdriver.DriverControllerBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,13 +18,14 @@ import java.util.List;
  */
 @Service
 public class ScheduleTask {
-    DriverController driverController = new DriverController();
+    DriverController driverController;
     List<String> webpages = Arrays.asList(
             "http://google.com",
             "http://stackoverflow.com",
             "https://www.w3schools.com/angular/ng_ng-src.asp"
     );
     public ScheduleTask(){
+        driverController = new DriverControllerBuilder().setName("Application Bot").build();
         new Thread(()->{
             int i = 0;
             while (true) {
