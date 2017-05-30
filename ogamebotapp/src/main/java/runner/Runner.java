@@ -3,22 +3,17 @@ package runner;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.*;
 import org.quartz.*;
-import org.quartz.impl.StdScheduler;
-import org.quartz.impl.StdSchedulerFactory;
 import utilities.data.XMLAPIDownloader;
 import utilities.database.Database;
-import utilities.database.XMLToDatabase;
+import utilities.database.JsonPlanetData;
+import utilities.email.OneEmail;
 import utilities.fileio.FileOptions;
 import utilities.fileio.JarUtility;
-import utilities.PasswordEncryptDecrypt;
-import utilities.webdriver.DriverController;
+import utilities.password.PasswordEncryptDecrypt;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.attribute.PosixFilePermission;
 import java.security.GeneralSecurityException;
 import java.sql.SQLException;
 import java.util.*;
@@ -27,7 +22,6 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Created by jarndt on 5/2/17.
@@ -51,19 +45,21 @@ public class Runner {
      */
     public static void run(String[] args) throws IOException, URISyntaxException, GeneralSecurityException, SchedulerException, SQLException, ClassNotFoundException {
         parseCommandLineArgs(args);
-        List<String> files = JarUtility.extractFiles(Arrays.asList(
-                "email_list.txt", "failed.txt", "working.txt",
-                "ogame_ship_info.csv", "research_info.csv",
-                "facilities_info.csv", "building_info.csv", "shipyard_info.csv",
-                "defense_info.csv", "mapper.csv", "create_tables.sql","postgres_commands.sql"
-        ));
-        if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX))
-            JarUtility.exportJarDirectory("linux_bin");
+        extractFiles();
+        createAndStartDatabase();
+        startQuarzJobs();
+    }
+
+    private static void createAndStartDatabase() throws IOException {
+//        if(FileOptions.OS.substring(0,3).equals(JarUtility.LINUX))
+//            JarUtility.exportJarDirectory("linux_bin");
         String f = null;
         if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
-            f = JarUtility.exportJarDirectory("postgres_windows");
+//            f = JarUtility.exportJarDirectory("postgres_windows");
             Database.setDatabaseDir(FileOptions.cleanFilePath(JarUtility.getResourceDir() + "/databases/postgres_windows/"));
-        }else f = JarUtility.exportJarDirectory("postgres");
+        }
+//        }else
+        f = JarUtility.exportJarDirectory("postgres");
         if(f!=null) {
             String postgresDir = Database.DATABASE_DIR;
             FileOptions.runConcurrentProcess(
@@ -81,11 +77,22 @@ public class Runner {
                     , 20);
         }
         Database.startDatabase();
-        XMLAPIDownloader.startDownloadXMLThreads();
     }
 
-    public static void extractFiles() throws IOException, URISyntaxException {
-        JarUtility.extractFiles(Arrays.asList("email_list.txt","failed.txt","working.txt"));
+    public static void startQuarzJobs() throws SchedulerException {
+        XMLAPIDownloader.startDownloadXMLThreads();
+        OneEmail.startOneEmailCreateThread();
+        JsonPlanetData.startJsonToDatabaseThread();
+
+    }
+
+    public static List<String> extractFiles() throws IOException, URISyntaxException {
+        return JarUtility.extractFiles(Arrays.asList(
+            "email_list.txt", "failed.txt", "working.txt",
+            "ogame_ship_info.csv", "research_info.csv",
+            "facilities_info.csv", "building_info.csv", "shipyard_info.csv",
+            "defense_info.csv", "mapper.csv", "create_tables.sql","postgres_commands.sql"
+        ));
     }
 
     private static void parseCommandLineArgs(String[] args) throws IOException, GeneralSecurityException, SQLException, ClassNotFoundException {

@@ -2,7 +2,7 @@ package application;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import utilities.PasswordEncryptDecrypt;
+import utilities.password.PasswordEncryptDecrypt;
 import utilities.database.Database;
 
 import java.io.IOException;

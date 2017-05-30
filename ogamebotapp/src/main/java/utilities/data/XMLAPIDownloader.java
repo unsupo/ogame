@@ -35,6 +35,10 @@ import java.util.stream.Collectors;
  */
 public class XMLAPIDownloader {
     public static void main(String[] args) throws IOException, SQLException {
+        System.out.println("Downloading");
+        XMLAPIDownloader.downloadAllXML();
+        XMLToDatabase.parseAllFilesIntoDatabase();
+        System.out.println("Done Downloading");
         System.exit(0);
     }
     static {
@@ -53,7 +57,6 @@ public class XMLAPIDownloader {
         return scheduler;
     }
     public static void scheduleJob(String cronSchedule) throws SchedulerException {
-//        getScheduler().getCurrentlyExecutingJobs().
         if(getScheduler().getJobKeys(GroupMatcher.jobGroupEquals("group1")).stream().filter(a->a.getName().equals("dummyJobName")).collect(Collectors.toList()).size() != 0)
             return;
         JobDetail job = JobBuilder.newJob(DownloadXMLFileJob.class)
@@ -172,8 +175,11 @@ public class XMLAPIDownloader {
             } catch (IOException e) {
                 LOGGER.debug("Download Failed for: "+uni,e);
             }
+//            System.out.println("Downloaded: "+uni);
             return null;
         }).collect(Collectors.toList()));
+
+//        System.out.println("Done Downloading universe: "+universeNumber);
 
 
         writeDateToFile(dir,universeNumber);
