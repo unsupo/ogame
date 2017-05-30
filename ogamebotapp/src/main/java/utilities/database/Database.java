@@ -18,20 +18,32 @@ import java.util.concurrent.ExecutorService;
 public class Database {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
 //        stopDatabase();
-        DATABASE_TYPE = HSQL;
+//        DATABASE_TYPE = HSQL;
         Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
 //        d.executeQuery("insert into users(username,password,first_name,last_name)values('a','a','a','a');");
-        d.executeQuery("select * from users")
+        d.executeQuery("select * from server")
                 .forEach(System.out::println);
 
-        try {
-            d.stopThisDatabase();
-        }catch (Exception e){}
-        System.exit(0);
+//        try {
+//            d.stopThisDatabase();
+//        }catch (Exception e){}
+//        System.exit(0);
     }
 
     static {
         FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
+    }
+
+    private static Database databaseConnection;
+
+    public static synchronized Database getExistingDatabaseConnection() throws SQLException, IOException, ClassNotFoundException {
+        if(databaseConnection == null)
+            databaseConnection = newDatabaseConnection();
+        return databaseConnection;
+    }
+
+    public static Database newDatabaseConnection() throws SQLException, IOException, ClassNotFoundException {
+        return new Database(DATABASE,USERNAME,PASSWORD);
     }
 
 

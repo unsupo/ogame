@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -53,7 +54,20 @@ public class FileOptions {
 //        getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
 
 //        getPermissionSet(755).forEach(System.out::println);
-        new File(DEFAULT_DIR+"test").createNewFile();
+//        new File(DEFAULT_DIR+"test").createNewFile();
+
+        runConcurrentProcessNonBlocking(IntStream.range(0,10).boxed().map(a->(Callable)()->{Thread.sleep(2000);
+            System.out.println("Done with 2000: "+a);return null;}).collect(Collectors.toList()));
+
+
+        runConcurrentProcessNonBlocking(IntStream.range(0,10).boxed().map(a->(Callable)()->{Thread.sleep(1000);
+            System.out.println("Done with 1000: "+a);return null;}).collect(Collectors.toList()));
+
+
+        runConcurrentProcessNonBlocking(IntStream.range(0,10).boxed().map(a->(Callable)()->{Thread.sleep(3000);
+            System.out.println("Done with 3000: "+a);return null;}).collect(Collectors.toList()));
+
+        System.out.println("Done with all");
 
     }
 
@@ -134,6 +148,15 @@ public class FileOptions {
                 }).collect(Collectors.toList()));
     }
 
+    public static ExecutorService runConcurrentProcess(Callable callable){
+        return runConcurrentProcess(Arrays.asList(callable));
+    }    public static ExecutorService runConcurrentProcess(Callable callable, int threads){
+        return runConcurrentProcess(Arrays.asList(callable), threads);
+    }    public static ExecutorService runConcurrentProcess(Callable callable, int time, TimeUnit timeUnit){
+        return runConcurrentProcess(Arrays.asList(callable), time, timeUnit);
+    }    public static ExecutorService runConcurrentProcess(Callable callable, int threads, int time, TimeUnit timeUnit){
+        return runConcurrentProcess(Arrays.asList(callable), threads, time, timeUnit);
+    }
     public static ExecutorService runConcurrentProcess(List<Callable> callables){
         return runConcurrentProcess(callables, 100, 5, TimeUnit.MINUTES);
     }
@@ -158,14 +181,41 @@ public class FileOptions {
 //            System.err.println("tasks interrupted");
         }
         finally {
-            if (!service.isTerminated()) {
-//                System.err.println("cancel non-finished tasks");
-            }
+//            if (!service.isTerminated()) {
+////                System.err.println("cancel non-finished tasks");
+//            }
             service.shutdownNow();
-//            System.out.println("shutdown finished");
         }
 //        while (!service.isTerminated() && !service.isShutdown())
 //            Thread.sleep(1000);
+        return service;
+    }
+
+
+    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable));
+    }    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable, int threads){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable), threads);
+    }    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable, int time, TimeUnit timeUnit){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable), time, timeUnit);
+    }    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable, int threads, int time, TimeUnit timeUnit){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable), threads, time, timeUnit);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables){
+        return runConcurrentProcessNonBlocking(callables, 100, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int threads){
+        return runConcurrentProcessNonBlocking(callables, threads, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int time, TimeUnit timeUnit){
+        return runConcurrentProcessNonBlocking(callables, 100, time, timeUnit);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int threads, int time, TimeUnit timeUnit){
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        callables.forEach(a->{
+            service.submit(a);
+        });
+        service.shutdown();
         return service;
     }
 

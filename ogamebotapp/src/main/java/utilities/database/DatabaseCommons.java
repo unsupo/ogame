@@ -12,24 +12,28 @@ import java.util.Map;
  */
 public class DatabaseCommons {
 
-    public static void registerDriver(DriverController driverController) throws SQLException, IOException, ClassNotFoundException {
+    public static int registerDriver(DriverController driverController) throws SQLException, IOException, ClassNotFoundException {
         Database d = new Database(Database.DATABASE,Database.USERNAME,Database.PASSWORD);
         List<Map<String, Object>> v = d.executeQuery("select * from webdriver where name = '" + driverController.getDriverName() + "'");
-        if(v != null && v.size() == 1)
+        if(v != null && v.size() == 1) {
             d.executeQuery("update webdriver set " +
                     "active = 'A', " +
-                    "driver_type = '"+driverController.getDriverType()+"', " +
-                    "proxy = '"+driverController.getProxy()+"', " +
-                    "window_width = '"+driverController.getWindowWidth()+"', " +
-                    "window_height = '"+driverController.getWindowHeight()+"', " +
-                    "window_position_x = '"+driverController.getWindowPositionX()+"', " +
-                    "window_position_y = '"+driverController.getWindowPositionY()+"' " +
-                    "where id = '"+v.get(0).get("id")+"';");
-        else
-            d.executeQuery("insert into WEBDRIVER(name,active,driver_type,proxy,window_width,window_height,window_position_x,window_position_y) " +
-                    "values('"+driverController.getDriverName()+"','A','"+driverController.getDriverType()+"'," +
-                    "'"+driverController.getProxy()+"','"+(int)driverController.getWindowWidth()+"','"+(int)driverController.getWindowHeight()+"'," +
-                    "'"+driverController.getWindowPositionX()+"','"+driverController.getWindowPositionY()+"');");
+                    "driver_type = '" + driverController.getDriverType() + "', " +
+                    "proxy = '" + driverController.getProxy() + "', " +
+                    "window_width = '" + (int) driverController.getWindowWidth() + "', " +
+                    "window_height = '" + (int) driverController.getWindowHeight() + "', " +
+                    "window_position_x = '" + (int) driverController.getWindowPositionX() + "', " +
+                    "window_position_y = '" + (int) driverController.getWindowPositionY() + "' " +
+                    "where id = '" + v.get(0).get("id") + "';");
+            return Integer.parseInt(v.get(0).get("id").toString());
+        }
+        d.executeQuery("insert into WEBDRIVER(name,active,driver_type,proxy,window_width,window_height,window_position_x,window_position_y) " +
+                "values('"+driverController.getDriverName()+"','A','"+driverController.getDriverType()+"'," +
+                "'"+driverController.getProxy()+"','"+(int)driverController.getWindowWidth()+"','"+(int)driverController.getWindowHeight()+"'," +
+                "'"+driverController.getWindowPositionX()+"','"+driverController.getWindowPositionY()+"');");
+
+        v = d.executeQuery("select * from webdriver where name = '" + driverController.getDriverName() + "'");
+        return Integer.parseInt(v.get(0).get("id").toString());
     }
 
 

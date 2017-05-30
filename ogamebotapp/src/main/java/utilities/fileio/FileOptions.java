@@ -3,7 +3,6 @@ package utilities.fileio;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import utilities.database.Database;
 import utilities.email.OneEmail;
 
@@ -21,9 +20,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -31,17 +32,18 @@ public class FileOptions {
     public final static String OS = System.getProperty("os.name").toLowerCase();
     final static public DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    static {
-        FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);
-    }
-
-    private static final Logger LOGGER = LogManager.getLogger(FileOptions.class.getName());
-
-
     public static final String SEPERATOR = System.getProperty("file.separator"),
             DEFAULT_DIR = System.getProperty("user.dir") + SEPERATOR,
             RESOURCE_DIR = cleanFilePath(DEFAULT_DIR+"/ogamebotapp/src/main/resources/");
     public static final String WEB_DRIVER_DIR = DEFAULT_DIR + "config" + SEPERATOR + "web_drivers" + SEPERATOR;
+
+    //    Logger LOGGER
+    public static final String DEFAULT_LOGGER_STRING ="org.apache.logging.log4j.jul.LogManager";
+    static {
+        setLogger(DEFAULT_LOGGER_STRING);
+    }
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(FileOptions.class.getName());
+
 
     public static void main(String[] args) throws IOException {
 //		String path = System.getProperty("user.dir");
@@ -53,28 +55,27 @@ public class FileOptions {
 //        getAllFilesRegex(getBaseDirectories()[0].getAbsolutePath(), "mvn").forEach(System.out::println);
 
 //        getPermissionSet(755).forEach(System.out::println);
-        new File(DEFAULT_DIR+"test").createNewFile();
+//        new File(DEFAULT_DIR+"test").createNewFile();
+
+        runConcurrentProcessNonBlocking(IntStream.range(0,10).boxed().map(a->(Callable)()->{Thread.sleep(2000);
+            System.out.println("Done with 2000: "+a);return null;}).collect(Collectors.toList()));
+
+
+        runConcurrentProcessNonBlocking(IntStream.range(0,10).boxed().map(a->(Callable)()->{Thread.sleep(1000);
+            System.out.println("Done with 1000: "+a);return null;}).collect(Collectors.toList()));
+
+
+        runConcurrentProcessNonBlocking(IntStream.range(0,10).boxed().map(a->(Callable)()->{Thread.sleep(3000);
+            System.out.println("Done with 3000: "+a);return null;}).collect(Collectors.toList()));
+
+        System.out.println("Done with all");
 
     }
 
     public static Path setPermissionUnix(int octalPermission, String file) throws IOException{
         return setPermissionUnix(convertOctalToText(octalPermission),file);
     }public static Path setPermissionUnix(String unixPermission, String file) throws IOException {
-        Set<PosixFilePermission> v = getPermissionSet(unixPermission);
-        if(FileOptions.OS.substring(0,3).equals(JarUtility.WINDOWS)) {
-            File f = new File(file);
-            if(v.contains(PosixFilePermission.GROUP_EXECUTE)||v.contains(PosixFilePermission.OWNER_EXECUTE)||v.contains(PosixFilePermission.OTHERS_EXECUTE))
-                f.setExecutable(true);
-            else f.setExecutable(false);
-            if(v.contains(PosixFilePermission.GROUP_READ)||v.contains(PosixFilePermission.OWNER_READ)||v.contains(PosixFilePermission.OTHERS_READ))
-                f.setReadable(true);
-            else f.setReadable(false);
-            if(v.contains(PosixFilePermission.GROUP_WRITE)||v.contains(PosixFilePermission.OWNER_WRITE)||v.contains(PosixFilePermission.OTHERS_WRITE))
-                f.setWritable(true);
-            else f.setWritable(false);
-            return f.toPath();
-        }
-        return Files.setPosixFilePermissions(new File(file).toPath(),v);
+        return Files.setPosixFilePermissions(new File(file).toPath(),getPermissionSet(unixPermission));
     }
     /**
      * Expects unixpermission like -r--r--r-- or
@@ -143,11 +144,20 @@ public class FileOptions {
                     BufferedReader br = new BufferedReader(new InputStreamReader(a));
                     String l;
                     while ((l = br.readLine()) != null)
-                        LOGGER.debug(l);
+                        System.out.println(l);
                     return null;
                 }).collect(Collectors.toList()));
     }
 
+    public static ExecutorService runConcurrentProcess(Callable callable){
+        return runConcurrentProcess(Arrays.asList(callable));
+    }    public static ExecutorService runConcurrentProcess(Callable callable, int threads){
+        return runConcurrentProcess(Arrays.asList(callable), threads);
+    }    public static ExecutorService runConcurrentProcess(Callable callable, int time, TimeUnit timeUnit){
+        return runConcurrentProcess(Arrays.asList(callable), time, timeUnit);
+    }    public static ExecutorService runConcurrentProcess(Callable callable, int threads, int time, TimeUnit timeUnit){
+        return runConcurrentProcess(Arrays.asList(callable), threads, time, timeUnit);
+    }
     public static ExecutorService runConcurrentProcess(List<Callable> callables){
         return runConcurrentProcess(callables, 100, 5, TimeUnit.MINUTES);
     }
@@ -172,14 +182,41 @@ public class FileOptions {
 //            System.err.println("tasks interrupted");
         }
         finally {
-            if (!service.isTerminated()) {
-//                System.err.println("cancel non-finished tasks");
-            }
+//            if (!service.isTerminated()) {
+////                System.err.println("cancel non-finished tasks");
+//            }
             service.shutdownNow();
-//            System.out.println("shutdown finished");
         }
 //        while (!service.isTerminated() && !service.isShutdown())
 //            Thread.sleep(1000);
+        return service;
+    }
+
+
+    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable));
+    }    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable, int threads){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable), threads);
+    }    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable, int time, TimeUnit timeUnit){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable), time, timeUnit);
+    }    public static ExecutorService runConcurrentProcessNonBlocking(Callable callable, int threads, int time, TimeUnit timeUnit){
+        return runConcurrentProcessNonBlocking(Arrays.asList(callable), threads, time, timeUnit);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables){
+        return runConcurrentProcessNonBlocking(callables, 100, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int threads){
+        return runConcurrentProcessNonBlocking(callables, threads, 5, TimeUnit.MINUTES);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int time, TimeUnit timeUnit){
+        return runConcurrentProcessNonBlocking(callables, 100, time, timeUnit);
+    }
+    public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int threads, int time, TimeUnit timeUnit){
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        callables.forEach(a->{
+            service.submit(a);
+        });
+        service.shutdown();
         return service;
     }
 
@@ -245,7 +282,7 @@ public class FileOptions {
         String regex = "\\[\\*replace_me\\*\\]";
         filePath = filePath.replaceAll("/", regex);
         filePath = filePath.replaceAll("\\\\", regex);
-        return filePath.replaceAll(regex, Matcher.quoteReplacement(SEPERATOR));
+        return filePath.replaceAll(regex, Matcher.quoteReplacement(System.getProperty("file.separator")));
     }
 
     public static void copyFileUtil(File from, File to) throws IOException {
@@ -398,7 +435,7 @@ public class FileOptions {
         return next++;
     }
 
-    public static final String DEFAULT_LOGGER_STRING ="org.apache.logging.log4j.jul.LogManager";
+
     public static void setLogger(String loggerString) {
 //        String cn = "org.apache.logging.log4j.jul.LogManager";
         System.setProperty("java.util.logging.manager",loggerString);
