@@ -46,6 +46,7 @@ public class XMLToDatabase {
                                         ),
                                         Arrays.asList("server", "alliance", "player", "planet"));
                     }catch (Exception e){LOGGER.debug("",e);}
+//                    System.out.println("Done writing to Database: "+a.getName());
                     return null;
                 }).collect(Collectors.toList())
         );

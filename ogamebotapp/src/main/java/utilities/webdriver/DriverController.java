@@ -4,6 +4,7 @@ package utilities.webdriver;
  * Created by jarndt on 5/2/17.
  */
 
+import com.google.gson.Gson;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -31,6 +32,34 @@ import static utilities.fileio.FileOptions.OS;
  * Created by jarndt on 3/29/17.
  */
 public class DriverController {
+    public static void main(String[] args) {
+        DriverController d = new DriverControllerBuilder()
+                .setStartImageThread(true)
+                .setImageThreadValue(1)
+                .build();
+
+        System.out.println(new Gson().toJson(d));
+        List<String> webpages = Arrays.asList(
+                "http://google.com",
+                "http://stackoverflow.com",
+                "https://www.w3schools.com/angular/ng_ng-src.asp"
+        );
+        new Thread(()->{
+            int i = 0;
+            Thread t;
+            while (true) {
+                d.getDriver().navigate().to(webpages.get((i++) % webpages.size()));
+                try {
+                    Thread.sleep(1000);
+//                    t.interrupt();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
     public static final String      FIREFOX     = "gecko", GECKO = FIREFOX,
                                     CHROME      = "chrome",
                                     PHANTOMJS   = "phantomjs", DEFAULT_DRIVER = PHANTOMJS;
@@ -43,10 +72,34 @@ public class DriverController {
     private String driverType, webDriverPath, proxy, driverPath, driverName;
     private Date startDate;
 
+    private boolean startImageThread = false;
+    private TimeUnit imageThreadTimeUnit = TimeUnit.SECONDS;
+    private long imageThreadValue = 10;
+    private String imageOutputDirectory;
+
+    private transient ScheduledExecutorService imageThreadPool;
+
+    private int id;
     private WebDriver driver;
     private DesiredCapabilities capabilities;
     private Dimension windowSize = new java.awt.Dimension(1440,900);
     private Point windowPosition = new Point(0,0);
+
+    public DriverController(String driverType, String webDriverPath, String proxy, String driverPath, String driverName, boolean startImageThread, TimeUnit imageThreadTimeUnit, long imageThreadValue, String imageOutputDirectory, Dimension windowSize, Point windowPosition) {
+        this.driverType = driverType;
+        this.webDriverPath = webDriverPath;
+        this.proxy = proxy;
+        this.driverPath = driverPath;
+        this.driverName = driverName;
+        this.startImageThread = startImageThread;
+        this.imageThreadTimeUnit = imageThreadTimeUnit;
+        this.imageThreadValue = imageThreadValue;
+        this.imageOutputDirectory = imageOutputDirectory;
+        this.windowSize = windowSize;
+        this.windowPosition = windowPosition;
+
+        init(driverType,webDriverPath);
+    }
 
     public DriverController(String driverType, String webDriverPath, String proxy, String driverPath, String driverName, Dimension windowSize, Point windowPosition) {
         this.driverName = UUID.randomUUID().toString();
@@ -70,17 +123,90 @@ public class DriverController {
             this.driverName = UUID.randomUUID().toString();
         this.startDate = new Date();
 
-        try {
-            DatabaseCommons.registerDriver(this);
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        FileOptions.runConcurrentProcessNonBlocking((Callable)()-> {
+            try {
+                id = DatabaseCommons.registerDriver(this);
+            } catch (SQLException | IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
 
+        if(startImageThread)
+            startImageProcess();
         setDriverType(driverType);
         setWebDriverPath(webDriverPath);
     }
+    private class Counter{
+        private int value = 0;
 
+        public int getValue() {
+            int v = value;
+            increment();
+            return v;
+        }
 
+        synchronized private void increment() {
+            value++;
+        }
+    }
+    private void startImageProcess() {
+        if(imageOutputDirectory == null)
+            imageOutputDirectory = FileOptions.cleanFilePath(JarUtility.getResourceDir()+"/drivers/"+driverName+"/images/");
+        new File(imageOutputDirectory).mkdirs();
+        final Counter counter = new Counter();
+        imageThreadPool = Executors.newScheduledThreadPool(1);
+        imageThreadPool.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    takeScreenShot(imageOutputDirectory+"/image_"+counter.getValue()+"_"+System.nanoTime()+".png");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        },0,imageThreadValue,imageThreadTimeUnit);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public ExecutorService getImageThreadPool() {
+        return imageThreadPool;
+    }
+
+    public boolean isStartImageThread() {
+        return startImageThread;
+    }
+
+    public void setStartImageThread(boolean startImageThread) {
+        this.startImageThread = startImageThread;
+    }
+
+    public TimeUnit getImageThreadTimeUnit() {
+        return imageThreadTimeUnit;
+    }
+
+    public void setImageThreadTimeUnit(TimeUnit imageThreadTimeUnit) {
+        this.imageThreadTimeUnit = imageThreadTimeUnit;
+    }
+
+    public long getImageThreadValue() {
+        return imageThreadValue;
+    }
+
+    public void setImageThreadValue(int imageThreadValue) {
+        this.imageThreadValue = imageThreadValue;
+    }
+
+    public String getImageOutputDirectory() {
+        return imageOutputDirectory;
+    }
+
+    public void setImageOutputDirectory(String imageOutputDirectory) {
+        this.imageOutputDirectory = imageOutputDirectory;
+    }
 
     public void setDriverType(String driverType){
         String driverNameValue = DEFAULT_DRIVER;
@@ -272,6 +398,13 @@ public class DriverController {
     }
 
 
+    public boolean elementExists(By by){
+        List<WebElement> v = driver.findElements(by);
+        if(v != null && v.size() == 0)
+            return false;
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -341,6 +474,7 @@ public class DriverController {
     public void quit() throws SQLException, IOException, ClassNotFoundException {
         DatabaseCommons.deregisterDriver(this);
         getDriver().quit();
+        imageThreadPool.shutdown();
     }
 }
 

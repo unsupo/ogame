@@ -1,6 +1,6 @@
 package ogame.pages;
 
-import ogame.objects.Resource;
+import ogame.objects.game.Resource;
 
 /**
  * Created by jarndt on 5/8/17.
@@ -8,7 +8,8 @@ import ogame.objects.Resource;
 public class Resources {
     public static final String ID = "ref";
     public static final String RESOURCES = "Resources";
-    public static final String  METAL_MINE              = "Metal Mine",
+    public static final String
+            METAL_MINE              = "Metal Mine",
             CRYSTAL_MINE            = "Crystal Mine",
             DUETERIUM_SYNTHESIZER   = "Deuterium Synthesizer",
             SOLAR_PLANET            = "Solar Plant",
