@@ -1,5 +1,9 @@
 package runner;
 
+import bot.Bot;
+import ogame.objects.User;
+import ogame.objects.game.Server;
+import ogame.pages.Login;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +31,7 @@ import static org.quartz.CronScheduleBuilder.cronSchedule;
  * Created by jarndt on 5/2/17.
  */
 public class Runner {
-    public static void main(String[] args) throws IOException, GeneralSecurityException, URISyntaxException, InterruptedException, SchedulerException, SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws Exception {
         run(args);
     }
     static {
@@ -43,11 +47,18 @@ public class Runner {
      * @throws URISyntaxException
      * @throws GeneralSecurityException
      */
-    public static void run(String[] args) throws IOException, URISyntaxException, GeneralSecurityException, SchedulerException, SQLException, ClassNotFoundException {
+    public static void run(String[] args) throws Exception {
         parseCommandLineArgs(args);
         extractFiles();
         createAndStartDatabase();
         startQuarzJobs();
+
+        startBots();
+    }
+
+    private static void startBots() throws Exception {
+//        new Bot(new Login(User.newRandomUser(Server.QUANTUM))).startBot();
+        new Bot(new Login(new User("bc3ew9p4yh9qdv8wvj1h", Server.QUANTUM))).startBot();
     }
 
     private static void createAndStartDatabase() throws IOException {

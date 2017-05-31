@@ -6,4 +6,4 @@ ID,Name,WebName,Requires (id.level/id.level),costMultiplier,baseMetal,baseCrysta
 4,Fusion Reactor,12,16.3/2.5,1.8,900,360,180,0
 5,Metal Storage,22,,2,1000,0,0,0
 6,Crystal Storage,23,,2,1000,500,0,0
-7,Dueterium Tank,24,,2,1000,1000,0,0
+7,Deuterium Tank,24,,2,1000,1000,0,0
