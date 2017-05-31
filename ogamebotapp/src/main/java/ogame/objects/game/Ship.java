@@ -17,14 +17,6 @@ public class Ship {
         Ship.getAllShips().stream().forEach(System.out::println);
     }
 
-//    static{
-//        try {
-//            getAllShips();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     public static final String  SMALL_CARGO         = "Small Cargo",
             CRUISER             = "Cruiser",
