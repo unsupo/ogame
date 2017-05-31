@@ -318,4 +318,7 @@ public class Resource {
         this.energy = energy;
     }
 
+    public boolean lessThan(Resource r) {
+        return metal < r.getMetal() && crystal < r.getCrystal() && deuterium < r.getDeuterium();
+    }
 }

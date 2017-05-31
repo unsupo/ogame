@@ -22,11 +22,11 @@ public class Buildable {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, InterruptedException {
 //        Ship.getAllShips().forEach(a->System.out.println(a.getName()+Buildable.getBuildableRequirements(a.getName())));
 //        Buildable.getDefense().forEach(System.out::println);
-        Buildable crystalMine = Buildable.getBuildableByName(Resources.CRYSTAL_MINE);
-        for (int i = 0; i < 34; i++) {
-            System.out.println((crystalMine.getCurrentLevel()+1)+"="+crystalMine.getNextLevelCost());
-            crystalMine.setCurrentLevel(crystalMine.getCurrentLevel()+1);
-        }
+//        Buildable crystalMine = Buildable.getBuildableByName(Resources.CRYSTAL_MINE);
+//        for (int i = 0; i < 34; i++) {
+//            System.out.println((crystalMine.getCurrentLevel()+1)+"="+crystalMine.getNextLevelCost());
+//            crystalMine.setCurrentLevel(crystalMine.getCurrentLevel()+1);
+//        }
 //        try {
 //            getInstance().executor.awaitTermination(1L, TimeUnit.MINUTES);
 //        }finally {
@@ -34,8 +34,10 @@ public class Buildable {
 //        }//        }//            while (!getInstance().executor.isTerminated() && !getInstance().executor.isShutdown())
 //                Thread.sleep(1000);
 //        }
-        Database.newDatabaseConnection().executeQuery("select * from buildable;")
-            .forEach(System.out::println);
+//        Database.newDatabaseConnection().executeQuery("select * from buildable;")
+//            .forEach(System.out::println);
+
+        System.out.println(Buildable.getBuildableByName(Ship.BATTLECRUISER));
     }
 
     public static final String
@@ -62,8 +64,9 @@ public class Buildable {
         return currentLevel;
     }
 
-    public void setCurrentLevel(int currentLevel) {
+    public Buildable setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
+        return this;
     }
 
     public Resource getNextLevelCost() {
@@ -166,7 +169,10 @@ public class Buildable {
         String[] obj = line.split(",");
         if("ID".equals(obj[0])) return;
         id = Integer.parseInt(obj[0]);
-        name = obj[1].contains("/")?getObjName(obj[1]):obj[1];
+        Ship s = null;
+        if(obj[1].contains("/"))
+            s = getObjName(obj[1]);
+        name = s == null?obj[1]:s.getName();
         webName = obj[2];
         requires = obj.length <= 3 ? "" : obj[3];
         try {
@@ -174,8 +180,11 @@ public class Buildable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(obj.length <= 8)
+        if(obj.length <= 8) {
+            costMultiplier = 1;
+            baseCost = s.getCost();
             return;
+        }
 
         costMultiplier = Double.parseDouble(obj[4]);
         baseCost = new Resource(
@@ -186,10 +195,10 @@ public class Buildable {
         );
     }
     //if it's a ship then get the ship's name, else null
-    private String getObjName(String s) {
+    private Ship getObjName(String s) {
         String[] split = s.split("\\/");
         try {
-            return Ship.getShipByID(Integer.parseInt(split[1]),RESOURCE_DIR+split[0]).getName();
+            return Ship.getShipByID(Integer.parseInt(split[1]),RESOURCE_DIR+split[0]);//.getName();
         } catch (IOException e) {
             e.printStackTrace();
         }

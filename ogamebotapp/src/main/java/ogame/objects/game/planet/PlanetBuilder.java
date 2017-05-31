@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public class PlanetBuilder {
     private PlanetProperties planetSize;
-    private String planetName, webElement, attribute, value, id, className, link;
+    private String planetName, webElement, attribute, value, id, className, link, tacticalRetreat, botPlanetID;
     private Planet moon;
     private Resource resources;
     private String planetImageURL;
@@ -198,9 +198,19 @@ public class PlanetBuilder {
         return this;
     }
 
-    public Planet build(){
+    public PlanetBuilder setTacticalRetreat(String tacticalRetreat) {
+        this.tacticalRetreat = tacticalRetreat;
+        return this;
+    }
+
+    public PlanetBuilder setBotPlanetID(String botPlanetID) {
+        this.botPlanetID = botPlanetID;
+        return this;
+    }
+
+    public Planet build() throws IOException {
         return new Planet(link,planetSize, planetName, webElement, attribute, value, id, className, moon, resources, planetImageURL,
                 buildings, facilities, defense, ships, metalProduction, crystalProduction, dueteriumProduction,
-                coordinates, currentFacilityBeingBuild, currentBuildingBeingBuild, currentShipyardBeingBuild);
+                coordinates, currentFacilityBeingBuild, currentBuildingBeingBuild, currentShipyardBeingBuild,tacticalRetreat,botPlanetID);
     }
 }

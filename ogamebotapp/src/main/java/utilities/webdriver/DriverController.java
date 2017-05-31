@@ -25,6 +25,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static utilities.fileio.FileOptions.OS;
 
@@ -34,6 +36,7 @@ import static utilities.fileio.FileOptions.OS;
 public class DriverController {
     public static void main(String[] args) {
         DriverController d = new DriverControllerBuilder()
+                .setName("DriverController_MAIN")
                 .setStartImageThread(true)
                 .setImageThreadValue(1)
                 .build();
@@ -44,19 +47,31 @@ public class DriverController {
                 "http://stackoverflow.com",
                 "https://www.w3schools.com/angular/ng_ng-src.asp"
         );
-        new Thread(()->{
+        FileOptions.runConcurrentProcess(IntStream.range(0,4).boxed().map(a->(Callable)()->{
             int i = 0;
-            Thread t;
             while (true) {
                 d.getDriver().navigate().to(webpages.get((i++) % webpages.size()));
                 try {
                     Thread.sleep(1000);
-//                    t.interrupt();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }).collect(Collectors.toList()));
+
+//        new Thread(()->{
+//            int i = 0;
+//            Thread t;
+//            while (true) {
+//                d.getDriver().navigate().to(webpages.get((i++) % webpages.size()));
+//                try {
+//                    Thread.sleep(1000);
+////                    t.interrupt();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
     }
 
