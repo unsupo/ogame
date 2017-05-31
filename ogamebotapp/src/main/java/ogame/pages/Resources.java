@@ -1,11 +1,17 @@
 package ogame.pages;
 
+import bot.Bot;
+import ogame.objects.game.Buildable;
 import ogame.objects.game.Resource;
+import ogame.objects.game.planet.Planet;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Created by jarndt on 5/8/17.
  */
-public class Resources {
+public class Resources implements OgamePage{
     public static final String ID = "ref";
     public static final String RESOURCES = "Resources";
     public static final String
@@ -38,4 +44,40 @@ public class Resources {
     }
 
     public static Resource[] baseCosts;
+
+    @Override
+    public String getPageName() {
+        return RESOURCES;
+    }
+
+    @Override
+    public String getXPathSelector() {
+        return "//*[@id='menuTable']/li[2]/a/span";
+    }
+
+    @Override
+    public String getCssSelector() {
+        return "#menuTable > li:nth-child(2) > a > span";
+    }
+
+    @Override
+    public String uniqueXPath() {
+        return "//*[@id='slot01']/a";
+    }
+
+    @Override
+    public void parsePage(Bot b, Document document) {
+        Elements v = document.select("#buttonz > div.content").select("div.buildingimg");
+        Planet p = b.getCurrentPlanet();
+        for(Element e : v) {
+            String name = e.select("a > span > span > span").text().trim();
+            Integer level =Integer.parseInt(e.select("span.level").get(0).ownText().trim());
+            Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
+            p.addBuildable(bb);
+        }
+
+        //TODO Buildings being built
+
+        //TODO parse other planet's resources
+    }
 }

@@ -607,7 +607,7 @@ CLASS="QUOTE"
   expanded input value in-place if they receive a read-write pointer, but
   must not modify the input if they receive a read-only pointer; in that
   case they have to copy the value first, producing a new value to modify.
-  A C function that has constructed a new expanded value should always
+  A C function that has done a new expanded value should always
   return a read-write pointer to it.  Also, a C function that is modifying
   a read-write expanded value in-place should take care to leave the value
   in a sane state if it fails partway through.

@@ -49,6 +49,9 @@ public class Login {
 
     private void init() throws SQLException, IOException, ClassNotFoundException {
         this.server = new Server(user.getUniverse());
+
+        if(!user.isVerified())
+            verifyAccount();
     }
 
     public void setDriverController(DriverController controller){
@@ -73,8 +76,6 @@ public class Login {
                 user.setCreated(true);
             }
         }
-        if(user.isVerified())
-            verifyAccount();
 
         //after registration then play the game.
         if(!getDriverController().elementExists(By.xpath("//*[@id='playerName']")))

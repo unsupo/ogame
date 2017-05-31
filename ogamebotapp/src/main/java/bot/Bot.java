@@ -1,19 +1,10 @@
 package bot;
 
-import com.google.gson.Gson;
 import ogame.objects.User;
-import ogame.objects.game.Buildable;
-import ogame.objects.game.Coordinates;
-import ogame.objects.game.Resource;
+import ogame.objects.game.*;
+import ogame.objects.game.fleet.FleetInfo;
 import ogame.objects.game.planet.Planet;
-import ogame.objects.game.Server;
-import ogame.objects.game.planet.PlanetBuilder;
-import ogame.objects.game.planet.PlanetProperties;
-import ogame.pages.Login;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.openqa.selenium.By;
+import ogame.pages.*;
 import utilities.database.Database;
 import utilities.fileio.FileOptions;
 import utilities.webdriver.DriverController;
@@ -34,12 +25,18 @@ public class Bot {
     public static void main(String[] args) throws Exception {
 //        new Bot(new Login(User.newRandomUser(Server.QUANTUM))).startBot();
         new Bot(new Login(new User("bc3ew9p4yh9qdv8wvj1h",Server.QUANTUM))).startBot();
+        //password: ib5f982wc4oedy2q1xfn
     }
 
     private transient DriverController driverController;
     private transient Login login;
-    HashMap<String,Planet> planets = new HashMap<>();
-    HashMap<String,Integer> research;
+    private HashMap<Coordinates,Planet> planets = new HashMap<>(); //cords->Planet
+    private HashMap<String,Integer> research = new HashMap<>();
+    private String currentPage;
+    private Coordinates currentPlanetCoordinates;
+    private transient PageController pageController;
+    private FleetInfo fleetInfo = new FleetInfo();
+//    private HashMap<String,OgamePage> pages = new HashMap<>(); //pageName->OgamePage
 
     private long darkMatter = 0;
     private int unreadMessages = 0;
@@ -84,6 +81,7 @@ public class Bot {
     }
 
     private void init() throws SQLException, IOException, ClassNotFoundException {
+        pageController = new PageController(this);
         research = new HashMap<>();
         Buildable.getResearch().forEach(a->research.put(a.getName(),0));
 
@@ -127,26 +125,29 @@ public class Bot {
     }
 
     public void startBot() throws InterruptedException, ClassNotFoundException, SQLException, URISyntaxException, IOException {
-        while (true){
+        String ogamePage = Overview.OVERVIEW;
+        while (true){ //this is the main loop.  This will happen on every page change
             try {
                 //try to log in, if not logged in then sleep for a second and then try to log in again.
                 if (!login.login()) {
                     Thread.sleep(1000);
                     continue;
-                }
+                }else //parse information on current page
+                    pageController.goToPage(ogamePage);
+
 
                 //Check if being attacked perform attack action
                 //beingAttackedAction();
 
-                //parse information on current page
-                parsePage();
 
-                //are there any unread messages
-                if(unreadMessages != 0){
-                    //parse those messages
-                    //read messages which involves parsing the messages
-                    //probably do this in a new tab
-                }
+//                //are there any unread messages
+//                if(unreadMessages != 0){
+//                    //parse those messages
+//                    //read messages which involves parsing the messages
+//                    //probably do this in a new tab
+//                }
+
+                ogamePage = getNextBuildTask();
 
 
             }catch (Exception e){
@@ -155,63 +156,21 @@ public class Bot {
         }
     }
 
-    private void parsePage() throws IOException {
-        driverController.waitForElement(By.xpath("//*[@id='detailWrapper']"),1L,TimeUnit.MINUTES);
-        Document d = Jsoup.parse(driverController.getDriver().getPageSource());
-        FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
-            String currentPagePlanetName = d.select("#planetNameHeader").text().trim();
+    public String getNextBuildTask() throws SQLException, IOException, ClassNotFoundException {
+//        List<>
+//        for(Map.Entry<Coordinates, Planet> planet : getPlanets().entrySet())
 
-            planets = new HashMap<>();
-            for(Element planet : d.select("#planetList > div")){
-                String planetName = planet.select("span.planet-name").text();
-                planets.put(planetName,
-                        new PlanetBuilder()
-                                .setId(planet.id())
-                                .setClassName(planet.className())
-                                .setPlanetImageURL(planet.select("img").attr("src"))
-                                .setLink(planet.select("a").attr("href"))
-                                .setCoordinates(new Coordinates(planet.select("span.planet-koords").text())
-                                        .setUniverse(login.getUser().getUniverse()))
-                                .setPlanetName(planetName)
-                                .build()
-                );
-            }
-            Planet currentPlanet = planets.get(currentPagePlanetName);
-            currentPlanet.setPlanetSize(PlanetProperties.parsePlanetProperties(d));
-
-            List<Long> values = new ArrayList<>();
-            for(String v : Arrays.asList("metal","crystal","deuterium","energy","darkmatter"))
-                values.add(Long.parseLong(d.select("#resources_"+v).text().trim().replace(".","")));
-            currentPlanet.setResources(new Resource(values.get(0),values.get(1),values.get(2),values.get(3)));
-            darkMatter = values.get(4);
-
-            //TODO set currently being built: buildings, research, shipyard
-
-            //TODO parse fleet movement
-
-            //TODO get unread messages
-
-            FileOptions.runConcurrentProcessNonBlocking((Callable)()->{writeBotDataToFile(); return null;});
-
-            return null;
-        });
+        //TODO
+        return Overview.OVERVIEW;
     }
 
-    private void writeBotDataToFile() throws IOException {
-        FileOptions.writeToFileOverWrite(
-            botDataDirectory+"/"+name+"_data.json",
-                    new Gson().toJson(this)
-        );
+    public void addResearch(Buildable bb) {
+        research.put(bb.getName(),bb.getCurrentLevel());
     }
 
-//    private void updateDatabasePlanets() throws SQLException, IOException, ClassNotFoundException {
-//        List<Map<String, Object>> botPlanets = getDatabase().executeQuery("select * from bot_planets where ogame_user_id = " + ogameUserId + ";");
-//        if(botPlanets != null && botPlanets.size() > 0 && botPlanets.get(0) != null && botPlanets.get(0).size() > 0){
-//            //planets already in database for this user;
-//
-//        }
-//    }
-
+    public Planet getCurrentPlanet(){
+        return planets.get(currentPlanetCoordinates);
+    }
 
     public DriverController getDriverController() {
         return driverController;
@@ -229,11 +188,11 @@ public class Bot {
         this.login = login;
     }
 
-    public HashMap<String, Planet> getPlanets() {
+    public HashMap<Coordinates, Planet> getPlanets() {
         return planets;
     }
 
-    public void setPlanets(HashMap<String, Planet> planets) {
+    public void setPlanets(HashMap<Coordinates, Planet> planets) {
         this.planets = planets;
     }
 
@@ -315,6 +274,38 @@ public class Bot {
 
     public void setBotDataDirectory(String botDataDirectory) {
         this.botDataDirectory = botDataDirectory;
+    }
+
+    public String getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(String currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Coordinates getCurrentPlanetCoordinates() {
+        return currentPlanetCoordinates;
+    }
+
+    public void setCurrentPlanetCoordinates(Coordinates currentPlanetCoordinates) {
+        this.currentPlanetCoordinates = currentPlanetCoordinates;
+    }
+
+    public FleetInfo getFleetInfo() {
+        return fleetInfo;
+    }
+
+    public void setFleetInfo(FleetInfo fleetInfo) {
+        this.fleetInfo = fleetInfo;
+    }
+
+    public PageController getPageController() {
+        return pageController;
+    }
+
+    public void setPageController(PageController pageController) {
+        this.pageController = pageController;
     }
 
     @Override
