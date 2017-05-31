@@ -1,10 +1,16 @@
 package ogame.objects.game.planet;
 
+import bot.queue.QueueManager;
 import ogame.objects.game.*;
+import ogame.pages.Defense;
+import ogame.pages.Facilities;
+import ogame.pages.Resources;
+import ogame.pages.Shipyard;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,10 +18,13 @@ import java.util.Set;
  */
 public class Planet {
     private PlanetProperties planetSize;
-    private String planetName, webElement, attribute, value, id, className, link;
+    private String planetName, webElement, attribute, value, id, className, link, tacticalRetreat, botPlanetID;
     private Planet moon;
     private Resource resources;
     private String planetImageURL;
+    private QueueManager queueManager;
+
+    private HashMap<String, Buildable> allBuildables = new HashMap<>();
 
     private HashMap<String, Integer>
             buildings   = new HashMap<>(), //building name, level, facilities are included
@@ -37,7 +46,7 @@ public class Planet {
         init();
     }
 
-    public Planet(String link, PlanetProperties planetSize, String planetName, String webElement, String attribute, String value, String id, String className, Planet moon, Resource resources, String planetImageURL, HashMap<String, Integer> buildings, HashMap<String, Integer> facilities, HashMap<String, Integer> defense, HashMap<String, Integer> ships, long metalProduction, long crystalProduction, long dueteriumProduction, Coordinates coordinates, BuildTask currentFacilityBeingBuild, BuildTask currentBuildingBeingBuild, Set<BuildTask> currentShipyardBeingBuild) {
+    public Planet(String link, PlanetProperties planetSize, String planetName, String webElement, String attribute, String value, String id, String className, Planet moon, Resource resources, String planetImageURL, HashMap<String, Integer> buildings, HashMap<String, Integer> facilities, HashMap<String, Integer> defense, HashMap<String, Integer> ships, long metalProduction, long crystalProduction, long dueteriumProduction, Coordinates coordinates, BuildTask currentFacilityBeingBuild, BuildTask currentBuildingBeingBuild, Set<BuildTask> currentShipyardBeingBuild, String tacticalRetreat, String botPlanetID) throws IOException {
         this.link = link;
         this.planetSize = planetSize;
         this.planetName = planetName;
@@ -60,13 +69,83 @@ public class Planet {
         this.currentFacilityBeingBuild = currentFacilityBeingBuild;
         this.currentBuildingBeingBuild = currentBuildingBeingBuild;
         this.currentShipyardBeingBuild = currentShipyardBeingBuild;
+        this.tacticalRetreat = tacticalRetreat;
+        this.botPlanetID = botPlanetID;
+
+        init();
     }
 
     private void init() throws IOException {
-        Buildable.getResources().forEach(a->buildings.put(a.getName(),0));
-        Buildable.getFacilitites().forEach(a->facilities.put(a.getName(),0));
-        Buildable.getDefense().forEach(a->defense.put(a.getName(),0));
-        Buildable.getShipyard().forEach(a->ships.put(a.getName(),0));
+        initBuildables(buildings);
+        initBuildables(facilities);
+        initBuildables(ships);
+        initBuildables(defense);
+    }
+
+    private void initBuildables(HashMap<String,Integer> map){
+        map.forEach((a,b)->addBuildableNoOverride(Buildable.getBuildableByName(a).setCurrentLevel(b)));
+    }
+    private void initBuildables(List<Buildable> buildables){
+        buildables.forEach(a->addBuildableNoOverride(a.setCurrentLevel(0)));
+    }
+
+    public boolean isMetalOutOfStorage(){
+        if(getMetal() >= metalStorage - 100)
+            return true;
+        return false;
+    }
+    public boolean isCrystalOutOfStorage(){
+        if(getCrystal() >= crystalStorage - 100)
+            return true;
+        return false;
+    }
+    public boolean isDeueteriumOutOfStorage(){
+        if(getDueterium() >= dueteriumStorage - 100)
+            return true;
+        return false;
+    }
+    public void addBuildableNoOverride(Buildable b){
+        if(!allBuildables.containsKey(b.getName()))
+            addBuildable(b);
+    }
+    public void addBuildable(Buildable b){
+        allBuildables.put(b.getName(),b);
+        HashMap<String,Integer> map = null;
+        if(b.getType().equals(Resources.RESOURCES))
+            map = buildings;
+        else if(b.getType().equals(Facilities.FACILITIES))
+            map = facilities;
+        else if(b.getType().equals(Defense.DEFENSE))
+            map = defense;
+        else if(b.getType().equals(Shipyard.SHIPYARD))
+            map = ships;
+
+        map.put(b.getName(),b.getCurrentLevel());
+    }
+
+    public Buildable getBuildable(String name){
+        return allBuildables.get(name);
+    }
+
+    public boolean canAfford(String name){
+        Resource r = getBuildable(name).getNextLevelCost();
+        return r.lessThan(resources);
+    }
+
+    public HashMap<String, Buildable> getAllBuildables() {
+        return allBuildables;
+    }
+
+    public String getTacticalRetreat() {
+        return tacticalRetreat;
+    }
+
+    public void setTacticalRetreat(String tacticalRetreat) {
+        this.tacticalRetreat = tacticalRetreat;
+    }
+
+    public void setAllBuildables(HashMap<String, Buildable> allBuildables) {
+        this.allBuildables = allBuildables;
     }
 
     public long getMetalStorage() {
@@ -274,6 +353,14 @@ public class Planet {
         return id;
     }
 
+    public String getBotPlanetID() {
+        return botPlanetID;
+    }
+
+    public void setBotPlanetID(String botPlanetID) {
+        this.botPlanetID = botPlanetID;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -300,6 +387,14 @@ public class Planet {
 
     public void setPlanetImageURL(String planetImageURL) {
         this.planetImageURL = planetImageURL;
+    }
+
+    public QueueManager getQueueManager() {
+        return queueManager;
+    }
+
+    public void setQueueManager(QueueManager queueManager) {
+        this.queueManager = queueManager;
     }
 
     @Override

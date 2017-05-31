@@ -21,3 +21,5 @@ id,name,metal,crystal,deuterium,structural integrity,shield power,weapon power,c
 20,Plasma Turret,50000,50000,30000,100000,300,3000
 21,Small Shield Dome,10000,10000,0,20000,2000,1
 22,Large Shield Dome,50000,50000,0,100000,10000,1
+23,Anti-Ballistic Missiles,8000,0,2000,8000,1,1
+24,Interplanetary Missiles,12500,2500,10000,15000,1,12000
