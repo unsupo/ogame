@@ -19,7 +19,7 @@ public class Database {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
 //        stopDatabase();
 //        DATABASE_TYPE = HSQL;
-        Database d = new Database("localhost:9999/ogame","ogame_user","ogame");
+        Database d = Database.newDatabaseConnection();
 //        d.executeQuery("insert into users(username,password,first_name,last_name)values('a','a','a','a');");
         d.executeQuery("select * from server")
                 .forEach(System.out::println);
@@ -95,6 +95,7 @@ public class Database {
                     try {
                         connection = DriverManager.getConnection(
                                 "jdbc:postgresql://" + server, username, password);
+                        connection.setAutoCommit(true);
                     } catch (PSQLException e) {
                         if (e.getMessage().contains("Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections."))
                             startDatabase();

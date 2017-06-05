@@ -489,7 +489,8 @@ public class DriverController {
     public void quit() throws SQLException, IOException, ClassNotFoundException {
         DatabaseCommons.deregisterDriver(this);
         getDriver().quit();
-        imageThreadPool.shutdown();
+        if(imageThreadPool != null)
+            getImageThreadPool().shutdown();
     }
 }
 

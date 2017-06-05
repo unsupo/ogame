@@ -1,10 +1,8 @@
 package ogame.objects.game;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jarndt on 5/10/17.
@@ -29,6 +27,17 @@ public class BuildTask implements Comparable<BuildTask>{
     private LocalDateTime queuedTime, startTime, completeTime;
     private int countOrLevel, buildPriority;
     private boolean done = false;
+    private Coordinates coordinates;
+
+    public BuildTask(Map<String, Object> databaseMap) {
+        botPlanetID = databaseMap.get("bot_planets_id").toString();
+        buildable = Buildable.getBuildableByID((int)databaseMap.get("buildable_id"));
+        countOrLevel = (int) databaseMap.get("build_level");
+        buildPriority = (int) databaseMap.get("build_priority");
+        queuedTime = ((Timestamp) databaseMap.get("build_timestamp")).toLocalDateTime();
+        String d = databaseMap.get("done").toString();
+        done = d.equals("Y");
+    }
 
     public BuildTask(Buildable buildable, LocalDateTime completeTime) {
         this.buildable = buildable;
@@ -48,6 +57,14 @@ public class BuildTask implements Comparable<BuildTask>{
     }
 
     public BuildTask() {    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
 
     public String getBotPlanetID() {
         return botPlanetID;

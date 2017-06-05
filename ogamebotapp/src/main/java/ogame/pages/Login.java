@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -49,9 +51,6 @@ public class Login {
 
     private void init() throws SQLException, IOException, ClassNotFoundException {
         this.server = new Server(user.getUniverse());
-
-        if(!user.isVerified())
-            verifyAccount();
     }
 
     public void setDriverController(DriverController controller){
@@ -85,6 +84,9 @@ public class Login {
         if(!isLoggedIn)
             _login();
 
+        //verify the account if not verified
+        if(!user.isVerified())
+            verifyAccount();
 
         return isLoggedIn;
     }
@@ -117,7 +119,13 @@ public class Login {
         driverController.waitForElement(By.xpath("//*[@id='playerName']"),1L, TimeUnit.MINUTES);
     }
 
-    public boolean register(){
+    public boolean register() throws SQLException, IOException, ClassNotFoundException {
+        List<Map<String, Object>> v = Database.getExistingDatabaseConnection().executeQuery(
+                "select * from player where server_id = " + server.getServerID() + " and name = '" + user.getUsername() + "';"
+        );
+        if(v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0)
+            return true;
+
         getDriverController().getDriver().navigate().to(OGAME_HOMEPAGE);
         String usernameXPath = "//*[@id='username']";
         getDriverController().waitForElement(new By.ByXPath(usernameXPath),1L, TimeUnit.MINUTES);
@@ -131,6 +139,9 @@ public class Login {
         getDriverController().executeJavaScript(serverSelectScript);
 
         getDriverController().clickWait(By.xpath("//*[@id='regSubmit']"),1L,TimeUnit.MINUTES);
+        boolean alreadyExists = getDriverController().waitForElement(By.xpath("//*[@id='subscribeForm']/div[1]/div/div/div[1]/div"),1L,TimeUnit.MINUTES);
+        if(alreadyExists)
+            return true;
 
         boolean b = getDriverController().waitForElement(By.xpath("//*[@id='menuTable']/li[1]/a"), 1L, TimeUnit.MINUTES);
 
@@ -140,9 +151,15 @@ public class Login {
         return b;
     }
 
-    private boolean verifyAccount() {
+    private boolean verifyAccount() throws SQLException, IOException, ClassNotFoundException {
+        if(getDriverController().waitForElement(By.xpath("//*[@id='playerName']"),2L,TimeUnit.MINUTES))
+            if(getDriverController().getDriver().findElements(By.cssSelector("#advice-bar > a")).size() == 0) {
+                getUser().setVerified(true);
+                return true;
+            }
+
         try {
-            new OneEmail(driverController).verifyOneEmailAccount(user.getUsername(),user.getPassword());
+            new OneEmail(driverController).verifyOneEmailAccount(user.getEmail().getEmailAddress(),user.getEmail().getPassword());
             user.setVerified(true);
         } catch (Exception e) {
             e.printStackTrace();

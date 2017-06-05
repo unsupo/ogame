@@ -57,13 +57,17 @@ public class JsonPlanetData {
     public static class JsonToDatabaseJob implements Job{
         @Override
         public void execute(JobExecutionContext context) throws JobExecutionException {
-            System.out.println("Downloading");
-
-            System.out.println("Done Downloading");
+            System.out.println("Sending Json Data to Database");
+            try {
+                new JsonPlanetData().dataToDatabase();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Done sending json data to database");
         }
     }
     public static void startJsonToDatabaseThread() throws SchedulerException {
-        scheduleJob("0 0/10 * * * ?"); //run download job every 10 minutes
+        scheduleJob("0 0/5 * * * ?"); //run download job every 1 minutes
     }
 
 
@@ -96,6 +100,8 @@ public class JsonPlanetData {
             StringBuilder builder = new StringBuilder("");
             builder.append(writeJSONData(a));
             builder.append(writePlanetsData(a));
+            getConnection().executeQuery(builder.toString());
+            builder = new StringBuilder("");
             builder.append(writeResearchData(a));
             builder.append(writeResourceData(a));
             builder.append(writeDefenseData(a));
@@ -130,13 +136,13 @@ public class JsonPlanetData {
     private String writePlanetsData(Bot a) throws SQLException, IOException, ClassNotFoundException {
         String tableName = "bot_planets";
         StringBuilder builder = new StringBuilder("");
-        HashMap<Coordinates, Planet> planets = a.getPlanets();
-        List<Coordinates> planetNames = new ArrayList<>(planets.keySet()), removePlanetNames = new ArrayList<>();
+        HashMap<String, Planet> planets = a.getPlanets();
+        List<String> planetNames = new ArrayList<>(planets.keySet()), removePlanetNames = new ArrayList<>();
         List<Map<String, Object>> v = getConnection().executeQuery("select * from bot_planets where ogame_user_id = " + a.getOgameUserId());
         if(v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
             builder.append("");
             for(Map<String,Object> column : v){
-                Coordinates name = new Coordinates(column.get("coords").toString()).setUniverse(a.getLogin().getUser().getUniverse());
+                String name = column.get("coords").toString();
                 if(planets.containsKey(name)){
                     //update the planet
                     Planet p = planets.get(name);
@@ -145,7 +151,8 @@ public class JsonPlanetData {
                             " metal = "+p.getMetal()+", crystal = "+p.getCrystal()+", dueterium = "+p.getDueterium()+", solar_total = "+p.getEnergyProduction()+
                             ", solar_remaining = "+p.getEnergyAvailable()+", total_fields = "+p.getPlanetSize().getTotalFields()+", " +
                                     "available_fields = "+(p.getPlanetSize().getTotalFields()-p.getPlanetSize().getUsedFields())+", " +
-                                    "min_temp = "+p.getPlanetSize().getMinTemp()+", max_temp = "+p.getPlanetSize().getMaxTemp()+"; "
+                                    "min_temp = "+p.getPlanetSize().getMinTemp()+", max_temp = "+p.getPlanetSize().getMaxTemp()+"" +
+                            " where ogame_user_id = "+a.getOgameUserId()+" and id = "+column.get("id")+"; "
                     );
                 }else //delete the planet
                     builder.append("delete from "+tableName+" where ogame_user_id = "+a.getOgameUserId()+" and id = "+column.get("id")+";");
@@ -154,12 +161,12 @@ public class JsonPlanetData {
         }
         planetNames.removeAll(removePlanetNames);
         //insert the remaining planets
-        for(Coordinates name : planetNames) {
+        for(String name : planetNames) {
             Planet p = planets.get(name);
             builder.append("insert into "+tableName+"(ogame_user_id,name,coords,metal,crystal,dueterium,solar_total," +
                     "solar_remaining,total_fields,available_fields," +
                     "min_temp,max_temp) " +
-                    "values("+a.getOgameUserId()+",'"+name+"','"+p.getCoordinates().getStringValue()+"',"+p.getMetal()+","+p.getCrystal()+","+p.getDueterium()+","+p.getEnergyProduction()+"," +
+                    "values("+a.getOgameUserId()+",'"+p.getPlanetName()+"','"+p.getCoordinates().getStringValue()+"',"+p.getMetal()+","+p.getCrystal()+","+p.getDueterium()+","+p.getEnergyProduction()+"," +
                     p.getEnergyAvailable()+","+p.getPlanetSize().getTotalFields()+","+(p.getPlanetSize().getTotalFields()-p.getPlanetSize().getUsedFields())+"," +
                     p.getPlanetSize().getMinTemp()+","+p.getPlanetSize().getMaxTemp()+"); ");
         }
@@ -221,7 +228,7 @@ public class JsonPlanetData {
         );
         List<String> resourceNames = Arrays.asList(
                 "Metal Mine","Crystal Mine","Deuterium Synthesizer","Metal Storage",
-                "Crystal Storage","Dueterium Tank","Fusion Reactor","Solar Plant"
+                "Crystal Storage","Deuterium Tank","Fusion Reactor","Solar Plant"
         );
         return queryBuilder(a,"RESOURCES_DATA",resourceNamesDatabase,resourceNames);
     }
@@ -257,7 +264,7 @@ public class JsonPlanetData {
         );
         List<String> defenseNames = Arrays.asList(
                 "Rocket Launcher","Light Laser","Heavy Laser","Gauss Cannon","Ion Cannon","Plasma Turret",
-                "Small Shield Dome","Large Shield Dome"
+                "Small Shield Dome","Large Shield Dome","Anti-Ballistic Missiles","Interplanetary Missiles"
         );
         return queryBuilder(a,"DEFENSE_DATA",defenseNamesDatabase,defenseNames);
     }
@@ -268,14 +275,14 @@ public class JsonPlanetData {
                 "select * from "+tableName+" r, bot_planets b where r.BOT_PLANETS_ID = b.id and OGAME_USER_ID = "+a.getOgameUserId()
                 //this query gets a list of planets and it's resources buildings data belonging to this user
         );
-        HashMap<Coordinates, Planet> botPlanets = a.getPlanets();
-        List<Coordinates> botPlanetNames = new ArrayList<>(botPlanets.keySet()),
+        HashMap<String, Planet> botPlanets = a.getPlanets();
+        List<String> botPlanetNames = new ArrayList<>(botPlanets.keySet()),
                 removeList  = new ArrayList<>();
         HashMap<String,Integer> planetIds = new HashMap<>();
         if(v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
             v.forEach(b -> planetIds.put(b.get("name").toString(), (int) b.get("bot_planets_id")));
             for(Map<String, Object> planet : v){
-                Coordinates dbPlanetName = new Coordinates(planet.get("coords").toString()).setUniverse(a.getLogin().getUser().getUniverse());
+                String dbPlanetName = planet.get("coords").toString();
                 if(botPlanetNames.contains(dbPlanetName)){
                     removeList.add(dbPlanetName);
                     Planet currentPlanet = botPlanets.get(dbPlanetName);
@@ -288,7 +295,9 @@ public class JsonPlanetData {
                     boolean diff = false;
                     StringBuilder updateStatement = new StringBuilder("update "+tableName+" set ");
                     for (int i = 0; i < databaseNames.size(); i++) {
-                        int value = (int)planet.get(databaseNames.get(i).toLowerCase());
+                        int value = (Integer) planet.get(databaseNames.get(i).toLowerCase());
+                        if(buildables.get(codeNames.get(i))==null)
+                            continue;
                         int existing = buildables.get(codeNames.get(i));
                         if(value!=existing){
                             diff = true;
@@ -306,11 +315,11 @@ public class JsonPlanetData {
                     "select * from bot_planets where OGAME_USER_ID = " + a.getOgameUserId()
                     //this query gets a list of planets
             );
-            v.forEach(b -> planetIds.put(b.get("name").toString(), (int) b.get("id")));
+            v.forEach(b -> planetIds.put(b.get("coords").toString(), (int) b.get("id")));
         }
 
         botPlanetNames.removeAll(removeList);
-        for(Coordinates planet : botPlanetNames){
+        for(String planet : botPlanetNames){
             Planet currentPlanet = botPlanets.get(planet);
             HashMap<String, Integer> buildables = new HashMap<>();
             buildables.putAll(currentPlanet.getBuildings());
