@@ -35,7 +35,7 @@ public class PlanetBuilder {
 
     public PlanetBuilder() throws IOException {
         Buildable.getResources().forEach(a->buildings.put(a.getName(),0));
-        Buildable.getFacilitites().forEach(a->facilities.put(a.getName(),0));
+        Buildable.getFacilities().forEach(a->facilities.put(a.getName(),0));
         Buildable.getDefense().forEach(a->defense.put(a.getName(),0));
         Buildable.getShipyard().forEach(a->ships.put(a.getName(),0));
     }

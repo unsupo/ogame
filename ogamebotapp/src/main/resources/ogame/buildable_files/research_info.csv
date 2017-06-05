@@ -11,7 +11,7 @@ ID,Name,WebName,Requires (id.level/id.level),costMultiplier,baseMetal,baseCrysta
 25,Computer Technology,details108,10.1,2,0,400,600,0
 26,Astrophysics,details124,24.4/22.3,1.752,4000,8000,4000,0
 27,Intergalactic Research Network,details123,25.8/23.8/10.10,2,240000,400000,160000,0
-28,Graviton Technology,details199,10.12,2,0,0,0,300000
+28,Graviton Technology,details199,10.12,3,0,0,0,300000
 29,Weapons Technology,details109,10.4,2,800,200,0,0
 30,Shielding Technology,details110,10.6/16.3,2,200,600,0,0
 31,Armour Technology,details111,10.2,2,1000,0,0,0

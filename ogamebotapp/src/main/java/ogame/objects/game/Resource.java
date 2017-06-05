@@ -7,71 +7,27 @@ import org.apache.regexp.RE;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class Resource {
-    public static void main(String[] args) throws Exception {
+public class Resource implements Comparable<Resource> {
 
+    public static void main(String[] args)throws Exception {
+//        System.out.println(((6400-212)+(1920-63)*2+3200*3)/14.25);
+
+//        Buildable r = Buildable.getBuildableByName(Facilities.ROBOTICS_FACTORY);
+//        long cum = 0;
+//        for (int i = 0; i < 10; i++) {
+//            long dm = r.getNextLevelCost().getDarkMatterCost();
+//            System.out.println((i+1)+": "+dm);
+//            r.incrementLevel();
+//            cum += dm;
+//        }
+//        System.out.println("Total: "+cum);
+        System.out.println(Buildable.getBuildableByName(Facilities.ROBOTICS_FACTORY).getLevelCost(5)
+                .subtract(new Resource(348,104,0)).getDarkMatterCost());
     }
-
-    public static final Resource[] shipBaseCost = Resource.convertCosts(new long[] {
-            2000L,		2000L,		0L,			0L,
-            6000L,		6000L,		0L,			0L,
-            3000L,		1000L,		0L,			0L,
-            6000L,		4000L,		0L,			0L,
-            20000L,		7000L,		2000L,		0L,
-            45000L,		15000L,		0L,			0L,
-            30000L,	 	40000L,		15000L,		0L,
-            60000L,	 	50000L,		15000L,		0L,
-            5000000L,	4000000L,	1000000L,	0L,
-            50000L,		25000L,		15000L,		0L,
-            10000L,		6000L,		2000L,		0L,
-            0L,			1000L,		0L,			0L,
-            0L,			2000L,		500L,		0L,
-            10000L,		20000L,		10000L,		0L,
-            2000L,		0L,			0L,			0L,
-            1500L,		500L,		0L,			0L,
-            6000L,		2000L,		0L,			0L,
-            2000L,		6000L,		0L,			0L,
-            20000L,		15000L, 	2000L,		0L,
-            50000L,		50000L,		30000L,		0L,
-            10000L,		10000L,		0L,			0L,
-            500000L,	50000L,		0L,			0L
-    });
-
-    public static final Resource[] researchBaseCosts = Resource.convertCosts(new long[] {
-            0, 800, 400,0,
-            200, 100, 0,0,
-            1000, 300, 100,0,
-            0, 4000, 2000,0,
-            2000, 4000, 1000,0,
-            400, 0, 1200,0,
-            2000, 4000, 600,0,
-            10000, 20000, 6000,0,
-            200, 1000, 200,0,
-            0, 400, 600,0,
-            4000, 8000, 4000,0,
-            240000, 400000, 160000,0,
-            0, 0, 0,300000,
-            800, 200, 0,0,
-            200, 600, 0,0,
-            1000, 0, 0,0
-    });
-
-    public static final Resource[] facilitiesBaseCosts = Resource.convertCosts(new long[] {
-            400,        120,    200,0,
-            200,        400,    200,0,
-            200,        400,    200,0,
-            20000,      40000,  0,0,
-            20000,      40000,  1000,0,
-            1000000,    500000, 100000,0,
-            0,          50000,  100000,1000,
-            200,        0,      50,50,
-            20000,      40000,  20000,0,
-            20000,      40000,  20000,0,
-            2000000,    4000000,2000000,0
-    });
 
     public static final String METAL = "Metal";
     public static final String CRYSTAL = "Crystal";
@@ -84,22 +40,23 @@ public class Resource {
     public long energy = 0;
 
     private static List<String> names;
-    private static final List<Resource> baseCosts;
-
-    static{
-        names = new ArrayList<String>();
-        names.addAll(Arrays.asList(Ship.names));
-        names.addAll(Arrays.asList(Research.names));
-        names.addAll(Arrays.asList(Facilities.names));
-        names.addAll(Arrays.asList(Resources.names));
+    /**
+     * implementation:
+     *  ownedResources.getDarkMatterCost(wantResource)
+     */
+    double darkMatterFactor = 14.25;
+    public long getDarkMatterCost(Resource r){
+        Resource rr = r.subtract(this);
+        long res = (long) Math.ceil(((rr.getMetal() < 0 ? 0 : rr.getMetal()) + (rr.getCrystal() < 0 ? 0 : rr.getCrystal()) * 2 + (rr.getDeuterium() < 0 ? 0 : rr.getDeuterium()) * 3) / darkMatterFactor);
+        return res < 500 ? 500 : res;
     }
 
-    static{
-        baseCosts = new ArrayList<Resource>();
-        baseCosts.addAll(Arrays.asList(shipBaseCost));
-        baseCosts.addAll(Arrays.asList(researchBaseCosts));
-        baseCosts.addAll(Arrays.asList(facilitiesBaseCosts));
-        baseCosts.addAll(Arrays.asList(Resources.baseCosts));
+    /**
+     * get dark matter cost of this resource
+     * @return
+     */
+    public long getDarkMatterCost(){
+        return new Resource().getDarkMatterCost(this);
     }
 
     public Resource() {
@@ -108,9 +65,16 @@ public class Resource {
         this.deuterium = 0;
     }
 
-    public static Resource getCost(String name) throws IOException{
-        return getCost(name, 1);
+    public Resource(Resource initialResources) {
+        this.metal = initialResources.metal;
+        this.crystal = initialResources.crystal;
+        this.deuterium = initialResources.deuterium;
+        this.energy = initialResources.energy;
     }
+
+//    public static Resource getCost(String name) throws IOException{
+//        return getCost(name, 1);
+//    }
 
     public static Resource getMonoResource(String type, int amount){
         if(type == METAL || type == Resources.METAL_MINE){
@@ -128,26 +92,6 @@ public class Resource {
         return null;
     }
 
-    public static Resource getCost(String name, int level) throws IOException{
-        return getCumulativeCost(name, level, level);
-    }
-
-    public static Resource getCumulativeCost(String name, int level) throws IOException{
-        return getCumulativeCost(name, 1, level);
-    }
-
-    public static Resource getCumulativeCost(String name, int min, int max) throws IOException{
-        double multiplier = 2;
-        switch (name){
-            case Research.ASTROPHYSICS: 			multiplier = 1.75; break;
-            case Resources.METAL_MINE:				//fall through
-            case Resources.DUETERIUM_SYNTHESIZER:	//fall through
-            case Resources.SOLAR_PLANET: 			multiplier = 1.5; break;
-            case Resources.CRYSTAL_MINE: 			multiplier = 1.6; break;
-            case Resources.FUSION_REACTOR: 			multiplier = 1.8; break;
-        }
-        return getCumulativeCost(getBaseCost(name), min, max, multiplier);
-    }
     private static Resource getCumulativeCost(Resource base, int min, int max, double power){
         min--;
         Resource cost = base.multiply((Math.pow(power, max)-Math.pow(power, min))/(power-1));
@@ -155,10 +99,6 @@ public class Resource {
             cost.energy = (long) Math.ceil(base.energy*(max*Math.pow(1.1, max) - Math.pow(1.1, min)*min));
         }
         return cost;
-    }
-
-    public static Resource getBaseCost(String name) {
-        return baseCosts.get(getIndexOf(name));
     }
 
     private static int getIndexOf(String name){
@@ -230,7 +170,7 @@ public class Resource {
     }
 
 
-    private Resource multiply(double multiple) {
+    public Resource multiply(double multiple) {
         return new Resource((long)(metal * multiple),(long)(crystal * multiple),(long)(deuterium * multiple), (long)(energy*multiple));
     }
 
@@ -319,6 +259,25 @@ public class Resource {
     }
 
     public boolean lessThan(Resource r) {
-        return metal < r.getMetal() && crystal < r.getCrystal() && deuterium < r.getDeuterium();
+        return metal < r.getMetal() || crystal < r.getCrystal() || deuterium < r.getDeuterium();
+    }
+
+    public Resource normalize() {
+        return new Resource(metal == 0? metal : 1, crystal == 0? crystal:1, deuterium==0?deuterium:1,energy==0?energy:1);
+    }
+
+    public void setResources(Resource resources) {
+        this.metal = resources.metal;
+        this.crystal = resources.crystal;
+        this.deuterium = resources.deuterium;
+        this.energy = resources.energy;
+    }
+
+    public static double metalFactor = 1, crystalFactor = 2, deuteriumFactor = 3;
+    @Override
+    public int compareTo(Resource o) {
+        Long l  = (long)(metal*metalFactor+crystal*crystalFactor+deuterium*deuteriumFactor),
+             ll = (long)(o.metal*metalFactor+o.crystal*crystalFactor+o.deuterium*deuteriumFactor);
+        return l.compareTo(ll);
     }
 }

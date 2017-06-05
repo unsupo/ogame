@@ -78,6 +78,14 @@ public class Coordinates implements Comparable<Coordinates>{
         system = Integer.parseInt(split[1]);
         planet = Integer.parseInt(split[2]);
     }
+    public Coordinates(String coordinates, String universe) {
+        coordinates = coordinates.replace("[","").replace("]","");
+        String[] split = coordinates.split(":");
+        galaxy = Integer.parseInt(split[0]);
+        system = Integer.parseInt(split[1]);
+        planet = Integer.parseInt(split[2]);
+        this.universe = universe;
+    }
 
     public Coordinates(Coordinates coordinates) {
         this.universe = coordinates.getUniverse();

@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -230,31 +231,50 @@ public class OneEmail {
 
     public void verifyOneEmailAccount(String username, String password) throws Exception {
         DriverController driverController = getDriverController();
-        driverController.setDriverName(username+"_verify");
-
-        try{
-            driverController.getDriver().navigate().to("https://login.one.com/mail");
-
-            String emailXpath = "//*[@id='asyncWebmailLogin']/input[1]";
-            driverController.waitForElement(By.xpath(emailXpath),1L,TimeUnit.MINUTES);
-            JavaScriptFunctions.fillFormByXpath(driverController,emailXpath,username);
-            JavaScriptFunctions.fillFormByXpath(driverController,"//*[@id='asyncWebmailLogin']/input[2]",password);
-
-            driverController.clickWait(By.xpath("//*[@id='asyncWebmailLogin']/div[3]/button"),1L,TimeUnit.MINUTES);
-
-            String modelDialogXpath = "/html/body/div[2]/sequence-dialog[1]/modal-dialog/modal-overlay";
-            driverController.waitForElement(By.xpath(modelDialogXpath),1L,TimeUnit.MINUTES);
-            driverController.executeJavaScript(JavaScriptFunctions.XPATH_FUNCTION+
-                    "\n$x(\""+modelDialogXpath+"\")[0].style.visibility = 'hidden';");
-
-            driverController.clickWait(By.xpath("//text()[contains(., \\\"Welcome to OGame.org\\\")]/parent::*"),1L,TimeUnit.MINUTES);
-            driverController.clickWait(By.xpath("/html/body/div[2]/div[3]/div[2]/div[2]/div/div/div/div[2]/div[6]/div[2]/div/div/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td/a/font/b"),1L,TimeUnit.MINUTES);
-        }catch (Exception e){
-            String dirverName = driverController.getDriverName();
-            driverController.quit();
-            throw new Exception(dirverName+": "+e.getMessage()+"\n"+Arrays.asList(e.getStackTrace()));
-        }
-        driverController.quit();
+        driverController.getDriver().navigate().to(
+                new EmailUtility(username,password)
+                .getOgameVerifyLink()
+        );
+//        driverController.setDriverName(username+"_verify");
+//
+//        try{
+//            driverController.getDriver().navigate().to("https://login.one.com/mail");
+//
+//            String emailXpath = "//*[@id='asyncWebmailLogin']/input[1]";
+//            driverController.waitForElement(By.xpath(emailXpath),1L,TimeUnit.MINUTES);
+//            JavaScriptFunctions.fillFormByXpath(driverController,emailXpath,username);
+//            JavaScriptFunctions.fillFormByXpath(driverController,"//*[@id='asyncWebmailLogin']/input[2]",password);
+//
+//            driverController.clickWait(By.xpath("//*[@id='asyncWebmailLogin']/div[3]/button"),1L,TimeUnit.MINUTES);
+//
+//            FileOptions.runConcurrentProcess((Callable)()-> {
+//                List<WebElement> elements = driverController.getDriver().findElements(By.xpath("//text()[contains(.,'here')]/parent::*"));
+//                while(elements.size()==0)
+//                    elements = driverController.getDriver().findElements(By.xpath("//text()[contains(.,'here')]/parent::*"));
+//
+//                for (WebElement element : elements) {
+//                    try {
+//                        element.click();
+//                    } catch (Exception e) {
+//
+//                    }
+//                }
+//                return null;
+//            });
+//
+//            String modelDialogXpath = "/html/body/div[2]/sequence-dialog[1]/modal-dialog/modal-overlay";
+//            driverController.waitForElement(By.xpath(modelDialogXpath),1L,TimeUnit.MINUTES);
+//            driverController.executeJavaScript(JavaScriptFunctions.XPATH_FUNCTION+
+//                    "\n$x(\""+modelDialogXpath+"\")[0].style.visibility = 'hidden';");
+//
+//            driverController.clickWait(By.xpath("//text()[contains(., \\\"Welcome to OGame.org\\\")]/parent::*"),1L,TimeUnit.MINUTES);
+//            driverController.clickWait(By.xpath("/html/body/div[2]/div[3]/div[2]/div[2]/div/div/div/div[2]/div[6]/div[2]/div/div/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td/a/font/b"),1L,TimeUnit.MINUTES);
+//        }catch (Exception e){
+//            String dirverName = driverController.getDriverName();
+//            driverController.quit();
+//            throw new Exception(dirverName+": "+e.getMessage()+"\n"+Arrays.asList(e.getStackTrace()));
+//        }
+//        driverController.quit();
     }
 
     private static List<String> characters = Password.getCharacters();

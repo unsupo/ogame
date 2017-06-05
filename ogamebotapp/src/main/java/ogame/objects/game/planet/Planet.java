@@ -2,16 +2,14 @@ package ogame.objects.game.planet;
 
 import bot.queue.QueueManager;
 import ogame.objects.game.*;
-import ogame.pages.Defense;
-import ogame.pages.Facilities;
-import ogame.pages.Resources;
-import ogame.pages.Shipyard;
+import ogame.pages.*;
+import utilities.database.Database;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 /**
  * Created by jarndt on 5/10/17.
@@ -32,8 +30,10 @@ public class Planet {
             defense     = new HashMap<>(), //defense name, count
             ships       = new HashMap<>(); //ship name, count
 
-    private long metalProduction, crystalProduction, dueteriumProduction,
-                 metalStorage, crystalStorage, dueteriumStorage;
+    private double metalProduction, crystalProduction, dueteriumProduction;
+    private long metalStorage, crystalStorage, dueteriumStorage;
+
+    private String metalStorageString, crystalStorageString, dueteriumStorageString;
 
     private long energyAvailable, energyProduction, energyConsuption;
 
@@ -41,6 +41,8 @@ public class Planet {
 
     private BuildTask currentFacilityBeingBuild, currentBuildingBeingBuild;
     private Set<BuildTask> currentShipyardBeingBuild = new HashSet<>();
+
+    private LocalDateTime lastUpdate, lastMerchantItem;
 
     public Planet() throws IOException {
         init();
@@ -82,6 +84,30 @@ public class Planet {
         initBuildables(defense);
     }
 
+    public void update(){
+        LocalDateTime now = LocalDateTime.now();
+        if(lastUpdate!= null) {
+            Resource r = getResources(false);
+            long seconds = ChronoUnit.SECONDS.between(lastUpdate, now);
+            double metal = getMetalProduction()*seconds+r.getMetal(),
+                crystal = getCrystalProduction()*seconds+r.getCrystal(),
+                deueterium = getDueteriumProduction()*seconds+r.getDeuterium();
+            r.setMetal(Math.round(metal));
+            r.setCrystal(Math.round(crystal));
+            r.setDeuterium(Math.round(deueterium));
+
+            if(getCurrentBuildingBeingBuild() != null && getCurrentBuildingBeingBuild().isComplete())
+                currentBuildingBeingBuild = null;
+            List<BuildTask> remove = new ArrayList<>();
+            currentShipyardBeingBuild.forEach(a->{
+                if(a.isComplete())
+                    remove.add(a);
+            });
+            currentShipyardBeingBuild.removeAll(remove);
+        }
+        lastUpdate = now;
+    }
+
     private void initBuildables(HashMap<String,Integer> map){
         map.forEach((a,b)->addBuildableNoOverride(Buildable.getBuildableByName(a).setCurrentLevel(b)));
     }
@@ -109,15 +135,15 @@ public class Planet {
             addBuildable(b);
     }
     public void addBuildable(Buildable b){
-        allBuildables.put(b.getName(),b);
+        getAllBuildables().put(b.getName(),b);
         HashMap<String,Integer> map = null;
-        if(b.getType().equals(Resources.RESOURCES))
+        if(b.getType().equals(Resources.RESOURCES.toLowerCase()))
             map = buildings;
-        else if(b.getType().equals(Facilities.FACILITIES))
+        else if(b.getType().toLowerCase().equals(Facilities.FACILITIES.toLowerCase()))
             map = facilities;
-        else if(b.getType().equals(Defense.DEFENSE))
+        else if(b.getType().toLowerCase().equals(Defense.DEFENSE.toLowerCase()))
             map = defense;
-        else if(b.getType().equals(Shipyard.SHIPYARD))
+        else if(b.getType().toLowerCase().equals(Shipyard.SHIPYARD.toLowerCase()))
             map = ships;
 
         map.put(b.getName(),b.getCurrentLevel());
@@ -127,9 +153,37 @@ public class Planet {
         return allBuildables.get(name);
     }
 
+    public boolean canBuild(String name){
+        update();
+        if(!hasPrerequisites(name))
+            return false;
+        Buildable b = getAllBuildables().get(name);
+        if(b.getType().toLowerCase().equals(Resources.RESOURCES.toLowerCase()) || b.getType().toLowerCase().equals(Facilities.FACILITIES.toLowerCase())) {
+            if (currentBuildingBeingBuild != null) {
+                if (currentBuildingBeingBuild.isDone() && currentBuildingBeingBuild.isComplete())
+                    return canAfford(name);
+                else
+                    return false;
+            }
+        }
+        return canAfford(name);
+    }
+
+    public boolean hasPrerequisites(String name) {
+        HashMap<String, Integer> requirements = Buildable.getBuildableRequirements(name);
+        if(requirements.size() == 0) return true;
+        for(String m : requirements.keySet())
+            if(getAllBuildables().get(m).getCurrentLevel() < requirements.get(m))
+                return false;
+        return true;
+    }
+
     public boolean canAfford(String name){
-        Resource r = getBuildable(name).getNextLevelCost();
-        return r.lessThan(resources);
+        Resource r = getAllBuildables().get(name).getNextLevelCost();
+        return r.lessThan(getResources());
+    }public boolean canAfford(Buildable buildable){
+        Resource r = buildable.getNextLevelCost();
+        return r.lessThan(getResources());
     }
 
     public HashMap<String, Buildable> getAllBuildables() {
@@ -138,6 +192,30 @@ public class Planet {
 
     public String getTacticalRetreat() {
         return tacticalRetreat;
+    }
+
+    public String getMetalStorageString() {
+        return metalStorageString;
+    }
+
+    public void setMetalStorageString(String metalStorageString) {
+        this.metalStorageString = metalStorageString;
+    }
+
+    public String getCrystalStorageString() {
+        return crystalStorageString;
+    }
+
+    public void setCrystalStorageString(String crystalStorageString) {
+        this.crystalStorageString = crystalStorageString;
+    }
+
+    public String getDueteriumStorageString() {
+        return dueteriumStorageString;
+    }
+
+    public void setDueteriumStorageString(String dueteriumStorageString) {
+        this.dueteriumStorageString = dueteriumStorageString;
     }
 
     public void setTacticalRetreat(String tacticalRetreat) {
@@ -197,18 +275,38 @@ public class Planet {
     }
 
     public Resource getResources() {
+        update();
+        return resources;
+    }public Resource getResources(boolean b) {
         return resources;
     }
 
     public long getMetal(){
-        return resources.getMetal();
+        return getResources().getMetal();
     }public long getCrystal(){
-        return resources.getCrystal();
+        return getResources().getCrystal();
     }public long getDueterium(){
-        return resources.getDeuterium();
-    }public long getEnergy(){
-        return resources.getEnergy();
+        return getResources().getDeuterium();
     }
+
+    public boolean canGetMerchantItem(){
+        return getLastMerchantItem().plusDays(1).isAfter(LocalDateTime.now());
+    }
+
+    public LocalDateTime getLastMerchantItem() {
+        if(lastMerchantItem == null)
+            lastMerchantItem = LocalDateTime.now().minusDays(2);
+        return lastMerchantItem;
+    }
+
+    public void setLastMerchantItem(LocalDateTime lastMerchantItem) {
+        this.lastMerchantItem = lastMerchantItem;
+    }
+
+    public long getEnergy(){
+        return getResources().getEnergy();
+    }
+
     public void setResources(Resource resources) {
         this.resources = resources;
     }
@@ -293,27 +391,27 @@ public class Planet {
         this.ships = ships;
     }
 
-    public long getMetalProduction() {
+    public double getMetalProduction() {
         return metalProduction;
     }
 
-    public void setMetalProduction(long metalProduction) {
+    public void setMetalProduction(double metalProduction) {
         this.metalProduction = metalProduction;
     }
 
-    public long getCrystalProduction() {
+    public double getCrystalProduction() {
         return crystalProduction;
     }
 
-    public void setCrystalProduction(long crystalProduction) {
+    public void setCrystalProduction(double crystalProduction) {
         this.crystalProduction = crystalProduction;
     }
 
-    public long getDueteriumProduction() {
+    public double getDueteriumProduction() { //per second
         return dueteriumProduction;
     }
 
-    public void setDueteriumProduction(long dueteriumProduction) {
+    public void setDueteriumProduction(double dueteriumProduction) {
         this.dueteriumProduction = dueteriumProduction;
     }
 
@@ -389,7 +487,19 @@ public class Planet {
         this.planetImageURL = planetImageURL;
     }
 
-    public QueueManager getQueueManager() {
+    public QueueManager getQueueManager(int ogameUserId) throws SQLException, IOException, ClassNotFoundException {
+        if(queueManager == null) {
+            if(botPlanetID == null) {
+                List<Map<String, Object>> v = Database.getExistingDatabaseConnection().executeQuery(
+                        "select * from bot_planets where ogame_user_id = " + ogameUserId + " and coords = '" + coordinates.getStringValue() + "';"
+                );
+                if (v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
+                    botPlanetID = v.get(0).get("id").toString();
+                    queueManager = new QueueManager(botPlanetID);
+                }
+            }else
+                queueManager = new QueueManager(botPlanetID);
+        }
         return queueManager;
     }
 
@@ -404,9 +514,15 @@ public class Planet {
 
         Planet planet = (Planet) o;
 
-        if (metalProduction != planet.metalProduction) return false;
-        if (crystalProduction != planet.crystalProduction) return false;
-        if (dueteriumProduction != planet.dueteriumProduction) return false;
+        if (Double.compare(planet.metalProduction, metalProduction) != 0) return false;
+        if (Double.compare(planet.crystalProduction, crystalProduction) != 0) return false;
+        if (Double.compare(planet.dueteriumProduction, dueteriumProduction) != 0) return false;
+        if (metalStorage != planet.metalStorage) return false;
+        if (crystalStorage != planet.crystalStorage) return false;
+        if (dueteriumStorage != planet.dueteriumStorage) return false;
+        if (energyAvailable != planet.energyAvailable) return false;
+        if (energyProduction != planet.energyProduction) return false;
+        if (energyConsuption != planet.energyConsuption) return false;
         if (planetSize != null ? !planetSize.equals(planet.planetSize) : planet.planetSize != null) return false;
         if (planetName != null ? !planetName.equals(planet.planetName) : planet.planetName != null) return false;
         if (webElement != null ? !webElement.equals(planet.webElement) : planet.webElement != null) return false;
@@ -415,25 +531,43 @@ public class Planet {
         if (id != null ? !id.equals(planet.id) : planet.id != null) return false;
         if (className != null ? !className.equals(planet.className) : planet.className != null) return false;
         if (link != null ? !link.equals(planet.link) : planet.link != null) return false;
+        if (tacticalRetreat != null ? !tacticalRetreat.equals(planet.tacticalRetreat) : planet.tacticalRetreat != null)
+            return false;
+        if (botPlanetID != null ? !botPlanetID.equals(planet.botPlanetID) : planet.botPlanetID != null) return false;
         if (moon != null ? !moon.equals(planet.moon) : planet.moon != null) return false;
         if (resources != null ? !resources.equals(planet.resources) : planet.resources != null) return false;
         if (planetImageURL != null ? !planetImageURL.equals(planet.planetImageURL) : planet.planetImageURL != null)
+            return false;
+        if (queueManager != null ? !queueManager.equals(planet.queueManager) : planet.queueManager != null)
+            return false;
+        if (allBuildables != null ? !allBuildables.equals(planet.allBuildables) : planet.allBuildables != null)
             return false;
         if (buildings != null ? !buildings.equals(planet.buildings) : planet.buildings != null) return false;
         if (facilities != null ? !facilities.equals(planet.facilities) : planet.facilities != null) return false;
         if (defense != null ? !defense.equals(planet.defense) : planet.defense != null) return false;
         if (ships != null ? !ships.equals(planet.ships) : planet.ships != null) return false;
+        if (metalStorageString != null ? !metalStorageString.equals(planet.metalStorageString) : planet.metalStorageString != null)
+            return false;
+        if (crystalStorageString != null ? !crystalStorageString.equals(planet.crystalStorageString) : planet.crystalStorageString != null)
+            return false;
+        if (dueteriumStorageString != null ? !dueteriumStorageString.equals(planet.dueteriumStorageString) : planet.dueteriumStorageString != null)
+            return false;
         if (coordinates != null ? !coordinates.equals(planet.coordinates) : planet.coordinates != null) return false;
         if (currentFacilityBeingBuild != null ? !currentFacilityBeingBuild.equals(planet.currentFacilityBeingBuild) : planet.currentFacilityBeingBuild != null)
             return false;
         if (currentBuildingBeingBuild != null ? !currentBuildingBeingBuild.equals(planet.currentBuildingBeingBuild) : planet.currentBuildingBeingBuild != null)
             return false;
-        return currentShipyardBeingBuild != null ? currentShipyardBeingBuild.equals(planet.currentShipyardBeingBuild) : planet.currentShipyardBeingBuild == null;
+        if (currentShipyardBeingBuild != null ? !currentShipyardBeingBuild.equals(planet.currentShipyardBeingBuild) : planet.currentShipyardBeingBuild != null)
+            return false;
+        if (lastUpdate != null ? !lastUpdate.equals(planet.lastUpdate) : planet.lastUpdate != null) return false;
+        return lastMerchantItem != null ? lastMerchantItem.equals(planet.lastMerchantItem) : planet.lastMerchantItem == null;
     }
 
     @Override
     public int hashCode() {
-        int result = planetSize != null ? planetSize.hashCode() : 0;
+        int result;
+        long temp;
+        result = planetSize != null ? planetSize.hashCode() : 0;
         result = 31 * result + (planetName != null ? planetName.hashCode() : 0);
         result = 31 * result + (webElement != null ? webElement.hashCode() : 0);
         result = 31 * result + (attribute != null ? attribute.hashCode() : 0);
@@ -441,20 +575,38 @@ public class Planet {
         result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (className != null ? className.hashCode() : 0);
         result = 31 * result + (link != null ? link.hashCode() : 0);
+        result = 31 * result + (tacticalRetreat != null ? tacticalRetreat.hashCode() : 0);
+        result = 31 * result + (botPlanetID != null ? botPlanetID.hashCode() : 0);
         result = 31 * result + (moon != null ? moon.hashCode() : 0);
         result = 31 * result + (resources != null ? resources.hashCode() : 0);
         result = 31 * result + (planetImageURL != null ? planetImageURL.hashCode() : 0);
+        result = 31 * result + (queueManager != null ? queueManager.hashCode() : 0);
+        result = 31 * result + (allBuildables != null ? allBuildables.hashCode() : 0);
         result = 31 * result + (buildings != null ? buildings.hashCode() : 0);
         result = 31 * result + (facilities != null ? facilities.hashCode() : 0);
         result = 31 * result + (defense != null ? defense.hashCode() : 0);
         result = 31 * result + (ships != null ? ships.hashCode() : 0);
-        result = 31 * result + (int) (metalProduction ^ (metalProduction >>> 32));
-        result = 31 * result + (int) (crystalProduction ^ (crystalProduction >>> 32));
-        result = 31 * result + (int) (dueteriumProduction ^ (dueteriumProduction >>> 32));
+        temp = Double.doubleToLongBits(metalProduction);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(crystalProduction);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(dueteriumProduction);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (int) (metalStorage ^ (metalStorage >>> 32));
+        result = 31 * result + (int) (crystalStorage ^ (crystalStorage >>> 32));
+        result = 31 * result + (int) (dueteriumStorage ^ (dueteriumStorage >>> 32));
+        result = 31 * result + (metalStorageString != null ? metalStorageString.hashCode() : 0);
+        result = 31 * result + (crystalStorageString != null ? crystalStorageString.hashCode() : 0);
+        result = 31 * result + (dueteriumStorageString != null ? dueteriumStorageString.hashCode() : 0);
+        result = 31 * result + (int) (energyAvailable ^ (energyAvailable >>> 32));
+        result = 31 * result + (int) (energyProduction ^ (energyProduction >>> 32));
+        result = 31 * result + (int) (energyConsuption ^ (energyConsuption >>> 32));
         result = 31 * result + (coordinates != null ? coordinates.hashCode() : 0);
         result = 31 * result + (currentFacilityBeingBuild != null ? currentFacilityBeingBuild.hashCode() : 0);
         result = 31 * result + (currentBuildingBeingBuild != null ? currentBuildingBeingBuild.hashCode() : 0);
         result = 31 * result + (currentShipyardBeingBuild != null ? currentShipyardBeingBuild.hashCode() : 0);
+        result = 31 * result + (lastUpdate != null ? lastUpdate.hashCode() : 0);
+        result = 31 * result + (lastMerchantItem != null ? lastMerchantItem.hashCode() : 0);
         return result;
     }
 

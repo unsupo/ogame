@@ -41,6 +41,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.emailID = email.getID();
 
         init();
     }
@@ -66,7 +67,7 @@ public class User {
             String v = emailInfo.get("verified").toString();
             verified = v.equals("Y") ? true : false;
             emailID = emailInfo.get("email_id").toString();
-            if(email == null)
+            if(email != null)
                 this.email = Email.getEmailFromID(emailID);
             lastLogin = emailInfo.get("last_login").toString();
             created = emailInfo.get("created").equals("Y") ? true : false;
@@ -86,8 +87,9 @@ public class User {
         return email;
     }
 
-    public void setEmail(Email email) {
+    public User setEmail(Email email) {
         this.email = email;
+        return this;
     }
 
     public String getUsername() {

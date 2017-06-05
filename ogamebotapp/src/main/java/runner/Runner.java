@@ -1,6 +1,7 @@
 package runner;
 
 import bot.Bot;
+import ogame.objects.Email;
 import ogame.objects.User;
 import ogame.objects.game.Server;
 import ogame.pages.Login;
@@ -58,7 +59,12 @@ public class Runner {
 
     private static void startBots() throws Exception {
 //        new Bot(new Login(User.newRandomUser(Server.QUANTUM))).startBot();
-        new Bot(new Login(new User("bc3ew9p4yh9qdv8wvj1h", Server.QUANTUM))).startBot();
+        new Bot(
+                new Login(
+                        new User(new Email("bc3ew9p4yh9qdv8wvj1h@michaelgutin.one"),
+                                "bc3ew9p4yh9qdv8wvj1h","ib5f982wc4oedy2q1xfn", Server.QUANTUM)
+                )
+        ).startBot();
     }
 
     private static void createAndStartDatabase() throws IOException {
@@ -94,7 +100,6 @@ public class Runner {
         XMLAPIDownloader.startDownloadXMLThreads();
         OneEmail.startOneEmailCreateThread();
         JsonPlanetData.startJsonToDatabaseThread();
-
     }
 
     public static List<String> extractFiles() throws IOException, URISyntaxException {

@@ -18,6 +18,8 @@ public class PlanetProperties {
         this.maxTemp = maxTemp;
     }
 
+    public PlanetProperties() {}
+
     public int getTotalFields() {
         return totalFields;
     }
@@ -96,7 +98,10 @@ public class PlanetProperties {
     public static PlanetProperties parsePlanetProperties(String html){
         return parsePlanetProperties(Jsoup.parse(html));
     }
-    public static PlanetProperties parsePlanetProperties(Document html){
+    public static PlanetProperties parsePlanetProperties(Document html) {
+        return null;
+    }
+    public static PlanetProperties OLD_parsePlanetProperties(Document html){
         String diameterContentField = html.select("#diameterContentField").get(0).text();
         String[] split = diameterContentField.split("km \\(");
         int size = Integer.parseInt(split[0].replace(".",""));
