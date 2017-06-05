@@ -65,6 +65,7 @@ public class Research implements OgamePage{
             String name = e.select("span.textlabel").text().trim();
             Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
             Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
+            bb.setCssSelector(e.cssSelector());
             b.addResearch(bb);
         }
         //TODO Currently researching research

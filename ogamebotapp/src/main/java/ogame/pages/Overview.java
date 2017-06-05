@@ -32,8 +32,6 @@ public class Overview implements OgamePage {
 
     @Override
     public void parsePage(Bot b, Document d) {
-
-        b.getCurrentPlanet().setPlanetSize(PlanetProperties.parsePlanetProperties(d));
         //TODO set currently being built: buildings, research, shipyard
 
         //TODO parse fleet movement

@@ -1,17 +1,18 @@
 package ogame.pages;
 
 import bot.Bot;
-import ogame.objects.game.Buildable;
 import ogame.objects.game.Resource;
-import ogame.objects.game.planet.Planet;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  * Created by jarndt on 5/8/17.
  */
 public class Resources implements OgamePage{
+    public static void main(String[] args) {
+        for (int i = 0; i <= 31; i++)
+            System.out.println(i+": "+getStorageCapacityLevel(i));
+    }
+
     public static final String ID = "ref";
     public static final String RESOURCES = "Resources";
     public static final String
@@ -22,7 +23,7 @@ public class Resources implements OgamePage{
             FUSION_REACTOR          = "Fusion Reactor",
             METAL_STORAGE           = "Metal Storage",
             CRYSTAL_STORAGE         = "Crystal Storage",
-            DUETERIUM_TANK          = "Dueterium Tank";
+            DUETERIUM_TANK          = "Deuterium Tank";
 
     public static String[] names = {
             METAL_MINE, CRYSTAL_MINE, DUETERIUM_SYNTHESIZER,
@@ -30,17 +31,8 @@ public class Resources implements OgamePage{
             METAL_STORAGE, CRYSTAL_STORAGE,DUETERIUM_TANK
     };
 
-    static {
-        baseCosts = Resource.convertCosts(new long[] {
-                60,15,0,10,
-                48,24,0,10,
-                225,75,0,20,
-                75, 30, 0,0,
-                900, 360, 180,0,
-                1000, 0, 0,0,
-                1000,500, 0,0,
-                1000, 1000, 0,0
-        });
+    public static long getStorageCapacityLevel(int level){
+        return 5000*(int)(2.5*Math.pow(Math.E,20*level/33.));//-(level<2 || (level>= 5 && level <11)? 5000:0);
     }
 
     public static Resource[] baseCosts;
@@ -67,14 +59,7 @@ public class Resources implements OgamePage{
 
     @Override
     public void parsePage(Bot b, Document document) {
-        Elements v = document.select("#buttonz > div.content").select("div.buildingimg");
-        Planet p = b.getCurrentPlanet();
-        for(Element e : v) {
-            String name = e.select("a > span > span > span").text().trim();
-            Integer level =Integer.parseInt(e.select("span.level").get(0).ownText().trim());
-            Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
-            p.addBuildable(bb);
-        }
+        PageController.parseGenericBuildings(document,b);
 
         //TODO Buildings being built
 

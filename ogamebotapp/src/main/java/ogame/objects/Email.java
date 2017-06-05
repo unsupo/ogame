@@ -49,7 +49,7 @@ public class Email {
             this.domain = split[1];
 
         List<Map<String, Object>> email = getDatabaseConnection().executeQuery("select * from email where email = '" + emailAddress + "';");
-        if(email != null && email.get(0) != null && email.get(0).size() == 1){
+        if(email != null && email.size() > 0 && email.get(0) != null && email.get(0).size() > 0){
             Map<String, Object> emailInfo = email.get(0);
             String p = PasswordEncryptDecrypt.decrypt(emailInfo.get("password").toString());
 //            if(password == null)

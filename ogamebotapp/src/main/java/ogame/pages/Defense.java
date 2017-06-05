@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
  * Created by jarndt on 5/30/17.
  */
 public class Defense implements OgamePage{
-    public static final String DEFENSE = "Defence";
+    public static final String DEFENSE = "Defense";
 
     @Override
     public String getPageName() {
@@ -33,14 +33,8 @@ public class Defense implements OgamePage{
 
     @Override
     public void parsePage(Bot b, Document document) {
-        Planet p = b.getCurrentPlanet();
-        Elements v = document.select("#buttonz").select("div.buildingimg");
-        for (Element e : v) {
-            String name = e.select("span.textlabel").text().trim();
-            Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
-            Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
-            p.addBuildable(bb);
-        }
+        PageController.parseGenericBuildings(document,b);
+
         //TODO Currently building ships
     }
 }

@@ -42,8 +42,11 @@ public class Timer{
         return (end-start);
     }
 
-    public String getTime() {
-        double time = getNanoTime();
+    public String getTime(){
+        return getTime(getNanoTime());
+    }
+
+    public static String getTime(double time) {
         String unit = " nano seconds";
         if(time>=1000){
             time/=1000; unit = " micro seconds";
