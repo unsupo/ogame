@@ -203,13 +203,13 @@ public class FileOptions {
         return runConcurrentProcessNonBlocking(Arrays.asList(callable), threads, time, timeUnit);
     }
     public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables){
-        return runConcurrentProcessNonBlocking(callables, 100, 5, TimeUnit.MINUTES);
+        return runConcurrentProcessNonBlocking(callables, callables.size(), 5, TimeUnit.MINUTES);
     }
     public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int threads){
         return runConcurrentProcessNonBlocking(callables, threads, 5, TimeUnit.MINUTES);
     }
     public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int time, TimeUnit timeUnit){
-        return runConcurrentProcessNonBlocking(callables, 100, time, timeUnit);
+        return runConcurrentProcessNonBlocking(callables, callables.size(), time, timeUnit);
     }
     public static ExecutorService runConcurrentProcessNonBlocking(List<Callable> callables, int threads, int time, TimeUnit timeUnit){
         ExecutorService service = Executors.newFixedThreadPool(threads);

@@ -9,13 +9,16 @@ import ogame.objects.game.fleet.FleetInfo;
 import ogame.objects.game.planet.Planet;
 import ogame.pages.*;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import utilities.database.Database;
 import utilities.fileio.FileOptions;
 import utilities.password.PasswordEncryptDecrypt;
 import utilities.webdriver.DriverController;
 import utilities.webdriver.DriverControllerBuilder;
+import utilities.webdriver.JavaScriptFunctions;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,8 +39,11 @@ import static sun.jvm.hotspot.runtime.BasicObjectLock.size;
 public class Bot {
     public static void main(String[] args) throws Exception {
 //        new Bot(new Login(User.newRandomUser(Server.QUANTUM))).startBot();
-        new Bot(new Login(new User("bc3ew9p4yh9qdv8wvj1h", "ib5f982wc4oedy2q1xfn",Server.QUANTUM))).startBot();
+//        new Bot(new Login(new User("bc3ew9p4yh9qdv8wvj1h", "ib5f982wc4oedy2q1xfn",Server.QUANTUM))).startBot();
         //password: ib5f982wc4oedy2q1xfn
+        Bot b = new Bot(new Login(new User("bc3ew9p4yh9qdv8wvj1h", "ib5f982wc4oedy2q1xfn", Server.QUANTUM)));
+        System.out.println(b.getNextBuildTask());
+        System.out.println(new Gson().toJson(b));
     }
 
     private transient DriverController driverController;
@@ -55,7 +61,7 @@ public class Bot {
 
     private transient Database d;
 
-    private int id, ogameUserId, webdriverId;
+    private int id, ogameUserId, webdriverId, rank, totalRanks, honorPoints, points;
     private String name;
     private boolean isActive, isBeingAttacked;
     private String startDate;
@@ -175,6 +181,7 @@ public class Bot {
         startDate = bot.startDate;
     }
 
+    private transient boolean isGotInitialState = false;
     public void startBot() throws InterruptedException, ClassNotFoundException, SQLException, URISyntaxException, IOException {
         String ogamePage = Overview.OVERVIEW;
         while (true){ //this is the main loop.  This will happen on every page change
@@ -184,44 +191,73 @@ public class Bot {
                     Thread.sleep(1000);
                     continue;
                 }
-                setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{setBuildTasks(getNextBuildTask());return null;}));
-                getDriverController().getDriver().navigate().refresh();
+                setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
+                    pageController.parsePage(Overview.OVERVIEW);
+                    setBuildTasks(getNextBuildTask());return null;
+                }));
+
+                if(!isGotInitialState)
+                    getInitialState();
 
                 performNextAction();
 
-            }catch (Exception e){
-                /*DO NOTHING*/
+//                getDriverController().getDriver().navigate().refresh();
+
+            }catch (Exception | Error e){
+                /*Garbage collect and keep going*/
+                System.gc();
+                e.printStackTrace();
             }
         }
+    }
+
+
+    public void getInitialState() {
+        System.out.println("Getting inital state");
+        Arrays.asList(Resources.RESOURCES, Facilities.FACILITIES, Research.RESEARCH, Shipyard.SHIPYARD, Defense.DEFENSE)
+                .forEach(a -> {
+                    try {
+                        getPageController().goToPage(a);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+        isGotInitialState = true;
     }
 
     private void performNextAction() throws IOException, InterruptedException {
         //Check if being attacked perform attack action
         if(isBeingAttacked) {
+            System.out.println("Being attacked, performing attacked action");
             preformBeingAttackedAction();
             return;
         }
 
         //if the executor service is done and there are build task to do then do them
         //in other words build the next building that you can
-        if(getBuildTaskService().isShutdown() && getBuildTaskService().isTerminated())
-            if(getBuildTasks() != null && getBuildTasks().size() > 0) {
-                performNextBuildTask();
-                return;
-            }
+        if(getBuildTasks() != null && getBuildTasks().size() > 0) {
+            System.out.println("Performing build action");
+            performNextBuildTask();
+            return;
+        }
 
         performIdleTask();
 
         //Literally nothing to do, just go to the overview page.
-        Thread.sleep(30000); //wait 30 seconds before updating page.  This helps from ogame logging you out
         getPageController().goToPage(Overview.OVERVIEW);
+        System.out.println("Nothing to do, waiting");
+        Thread.sleep(r.nextInt(60000-10000+1)+30000); //wait 30 seconds before updating page.  This helps from ogame logging you out
+        getPageController().parsePage(Overview.OVERVIEW);
     }
+    private transient Random r = new Random();
 
     private void performIdleTask() throws IOException {
         //TODO
         //Unread messages
         if(getUnreadMessages() != 0){
             //TODO
+//            getPageController().goToPage(Messages.MESSAGES);
             return;
         }
 
@@ -235,13 +271,34 @@ public class Bot {
                 //TODO
                 if(driverController.waitForElement(By.xpath(pageController.getPage(Merchant.MERCHANT).uniqueXPath()),1L,TimeUnit.MINUTES)){
                     //You're on the merchant page
+                    getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
+                            getDriverController().getDriver().findElement(By.cssSelector("#js_traderImportExport")));
                     //buy the merchant item
+                    String selector = "#div_traderImportExport > div.content > div.left_box > div.left_content > div.price.js_import_price";
+                    getDriverController().waitForElement(By.cssSelector(selector),1L,TimeUnit.MINUTES);
+
+                    Document doc = Jsoup.parse(getDriverController().getDriver().getPageSource());
+                    long price = Long.parseLong(
+                            doc.select(selector).text().trim().replace(".","")
+                    );
+                    getCurrentPlanet().setMerchantItemCost(price);
+
+                    if(getCurrentPlanet().canGetMerchantItem()) {
+                        getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
+                                getDriverController().getDriver().findElement(By.cssSelector("#div_traderImportExport > div.content > div.right_box > div.right_content > div.payment > div > table > tbody > tr:nth-child(1) > td:nth-child(5) > a")));
+
+                        getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
+                                getDriverController().getDriver().findElement(By.cssSelector("#div_traderImportExport > div.content > div.right_box > div.right_content > div.payment > a")));
+
+                        getCurrentPlanet().setMerchantItemCost(-1);
+                    }
+
                     return;
                 }
                 //you're not on the merchant page, go to the merchant page
                 //this will go to the merchant page then cycle back through the other more important events all over again.
-                //TODO uncomment when if statement is complete or continuous loop
-//                pageController.goToPage(Merchant.MERCHANT);
+                pageController.goToPage(Merchant.MERCHANT);
+
                 return;
             }
 
@@ -272,16 +329,58 @@ public class Bot {
                 return;
             }
             BuildTask build = tasks.get(0);
+
             if(getDriverController().getDriver().findElements(By.xpath(pageController.getPage(build.getBuildable().getType()).uniqueXPath())).size() > 0) {
                 //YOU are on the correct page build the item in question
-                PageController.parseGenericBuildings(Jsoup.parse(getDriverController().getDriver().getPageSource()),this);
-                getDriverController().executeJavaScript(build.getBuildable().getQuickBuildLink());
-                //TODO dark matter
-//                driverController.clickWait(By.cssSelector(build.getBuildable().getCssSelector()+" > a"),1L,TimeUnit.MINUTES);
-//                driverController.waitForElement(By.cssSelector("#content"),1L,TimeUnit.MINUTES);
-//                if(parseOpenedPanel(getCurrentPlanet(),driverController.getDriver().getPageSource()))
-//                    driverController.clickWait(By.xpath("//*[@id=\"content\"]/div[2]/a"),1L,TimeUnit.MINUTES);
+                //if you can can only afford with dark matter
+                Buildable b = build.getBuildable();
+                boolean dm = false;
+                Resource cost = b.getLevelCost(b.getCurrentLevel());
+                Buildable currentPlanetBuildable = getCurrentPlanet().getBuildable(build.getBuildable().getName());
+                System.out.println("Trying to build: "+b.getName()+", level: "+b.getCurrentLevel()+", cost: "+cost+", dm: "+cost.subtract(getCurrentPlanet().getResources()).getDarkMatterCost());
+                if(getCurrentPlanet().getResources().lessThan(cost))
+                    if(cost.subtract(getCurrentPlanet().getResources()).getDarkMatterCost() <= getDarkMatter())
+                        dm = true;
 
+                List<String> useSmallButton = Arrays.asList(Resources.RESOURCES.toLowerCase(), Facilities.FACILITIES.toLowerCase(), Research.RESEARCH.toLowerCase());
+
+                BuildTask buildingBeingBuilt = getCurrentPlanet().getCurrentBuildingBeingBuild();
+                boolean isBuilding = useSmallButton.contains(build.getBuildable().getType().toLowerCase());
+                if(isBuilding && buildingBeingBuilt!= null && !(buildingBeingBuilt.isComplete() && buildingBeingBuilt.isDone())) {
+                    System.out.println("Can't build yet, building currently being built: "+
+                            buildingBeingBuilt.getBuildable().getName()+", level: "+buildingBeingBuilt.getBuildable().getCurrentLevel()+
+                            ", completeTime: "+buildingBeingBuilt.getCompleteTime());
+                    return;
+                }if(!dm && getCurrentPlanet().getResources().lessThan(cost)) {
+                    System.out.println("Can't build yet, can't afford.  Current resources: "+getCurrentPlanet().getResources()+", dm: "+getDarkMatter());
+                    setBuildTasks(new ArrayList<>());
+                    return;
+                }
+
+                if(!dm && isBuilding) {
+                    //use the quick build link
+                    PageController.parseGenericBuildings(Jsoup.parse(getDriverController().getDriver().getPageSource()), this);
+                    getDriverController().executeJavaScript(currentPlanetBuildable.getQuickBuildLink());
+                    tasks.set(0,null);
+                    System.out.println("Build complete");
+                    return;
+                }
+                //TODO test shipyard and defense
+                driverController.clickWait(By.cssSelector(currentPlanetBuildable.getCssSelector()+" > a"),1L,TimeUnit.MINUTES);
+                driverController.waitForElement(By.cssSelector("#content"),1L,TimeUnit.MINUTES);
+                if(parseOpenedPanel(getCurrentPlanet(),driverController.getDriver().getPageSource())) {
+                    //SHIPS
+                    if(!useSmallButton.contains(build.getBuildable().getType().toLowerCase())) {
+                        JavaScriptFunctions.fillFormByXpath(driverController, "//*[@id='number]", b.getCurrentLevel() + "");
+                        getDriverController().getDriver().findElement(By.xpath("//*[@id='content']/div[3]/a")).sendKeys(Keys.RETURN);
+                    }else
+                        getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
+                                getDriverController().getDriver().findElement(By.xpath("//*[@id=\"content\"]/div[2]/a")));
+
+                    getDriverController().clickWait(By.xpath("//*[@id='premiumConfirmButton']"),1L,TimeUnit.MINUTES);
+                }
+                tasks.set(0,null);
+                System.out.println("Build complete");
                 return;
             }
             //you are not on the correct page, go to the correct page
@@ -321,7 +420,7 @@ public class Bot {
         return canBuild;
     }
 
-    private long parseTime(String time) {
+    public static long parseTime(String time) {
         long t = 0;
         String[] split = time.split(" ");
         for(String s : split){
@@ -405,16 +504,16 @@ public class Bot {
         for(BuildTask buildTask : buildablePerPlanet) {
             Buildable b = buildTask.getBuildable();
             if(b.getType().toLowerCase().equals(Resources.RESOURCES.toLowerCase()) || b.getType().toLowerCase().equals(Facilities.FACILITIES.toLowerCase())) {
-                if (planetIDMap.get(buildTask.getBotPlanetID()).canBuild(buildTask.getBuildable().getName()))
+                if (  planetIDMap.get(buildTask.getBotPlanetID()).canBuild(buildTask.getBuildable().getName()))
                     canBuild.add(buildTask);
             }else if(b.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase())) {
                 if (currentResearchBeingBuilt != null) {
                     if (currentResearchBeingBuilt.isDone() && currentResearchBeingBuilt.isComplete())
-                        if (b.getNextLevelCost().canAfford(planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
+                        if (b.getNextLevelCost().canAfford(getDarkMatter(),planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
                             canBuild.add(buildTask);
-                }else if (b.getNextLevelCost().canAfford(planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
+                }else if (b.getNextLevelCost().canAfford(getDarkMatter(),planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
                     canBuild.add(buildTask);
-            }else if(b.getNextLevelCost().canAfford(planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
+            }else if(b.getNextLevelCost().canAfford(getDarkMatter(),planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
                 canBuild.add(buildTask);
         }
 
@@ -447,19 +546,27 @@ public class Bot {
     private boolean isDone(BuildTask task, Planet value) {
         Buildable buildable = task.getBuildable();
         boolean b = true;
-        if(buildable.getLevelNeeded() < 0)
+        int level = buildable.getLevelNeeded();
+        level = level == 0 ? buildable.getCurrentLevel() : level;
+        if(level < 0)
             b = false;
         else if(buildable.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase()))
-            b = research.get(buildable.getName()) >= buildable.getLevelNeeded();
-        else
-            b = value.getBuildings().get(buildable.getName()) >= buildable.getLevelNeeded();
-        if(b)
-            FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
-               getDatabase().executeQuery(
-                       "update planet_queue set done = 'Y' where bot_planet_id = "+task.getBotPlanetID()+" and buildable_id = "+buildable.getId()
+            b = research.get(buildable.getName()) >= level;
+        else {
+            int currentLevel = value.getAllBuildables().get(buildable.getName()).getCurrentLevel();
+            b = currentLevel >= level;
+        }if(b) {
+            final int buildLevel = level;
+            FileOptions.runConcurrentProcessNonBlocking((Callable) () -> {
+                getDatabase().executeQuery(
+                        "update planet_queue set done = 'Y' " +
+                                "where bot_planets_id = " + task.getBotPlanetID() + " and " +
+                                "buildable_id = " + buildable.getId() + " and " +
+                                "build_level = " + buildLevel
                );
-               return null;
+                return null;
             });
+        }
         return b;
     }
 
@@ -469,6 +576,38 @@ public class Bot {
 
     public void setCurrentResearchBeingBuilt(BuildTask currentResearchBeingBuilt) {
         this.currentResearchBeingBuilt = currentResearchBeingBuilt;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public int getTotalRanks() {
+        return totalRanks;
+    }
+
+    public void setTotalRanks(int totalRanks) {
+        this.totalRanks = totalRanks;
+    }
+
+    public int getHonorPoints() {
+        return honorPoints;
+    }
+
+    public void setHonorPoints(int honorPoints) {
+        this.honorPoints = honorPoints;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public ExecutorService getBuildTaskService() {

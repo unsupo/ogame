@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class BuildingSimulator {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
         List<Buildable> v = new BuildingSimulator().simulate();
+//        v.forEach(System.out::println);
         Collections.reverse(v);
         StringBuilder b = new StringBuilder("");
         int i = 1;
@@ -27,16 +28,6 @@ public class BuildingSimulator {
         };
         Database.newDatabaseConnection().executeQuery(b.toString());
 
-
-//        Buildable ds = Buildable.getBuildableByName(Resources.DUETERIUM_SYNTHESIZER);
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println(ds.getCurrentLevel()+": "+
-//                    ds.getCurrentProduction(61)+": "+
-//                    ds.getLevelCost(ds.getCurrentLevel())+": "+
-//                    ds.getCurrentConsuption()
-//            );
-//            ds.incrementLevel();
-//        }
     }
 
     /*
@@ -73,10 +64,10 @@ public class BuildingSimulator {
     }private void init() throws IOException {
         Buildable.getBuildableObjects().stream().filter(a->!buildables.containsKey(a)).forEach(a->buildables.put(a.getName(),a.setCurrentLevel(0)));
 
-        goalState.put(Resources.METAL_MINE,Buildable.getBuildableByName(Resources.METAL_MINE).setCurrentLevel(16));
-        goalState.put(Resources.CRYSTAL_MINE,Buildable.getBuildableByName(Resources.CRYSTAL_MINE).setCurrentLevel(13));
-        goalState.put(Resources.DUETERIUM_SYNTHESIZER,Buildable.getBuildableByName(Resources.DUETERIUM_SYNTHESIZER).setCurrentLevel(12));
-        goalState.put(Facilities.ROBOTICS_FACTORY,Buildable.getBuildableByName(Facilities.ROBOTICS_FACTORY).setCurrentLevel(4));
+        goalState.put(Resources.METAL_MINE,Buildable.getBuildableByName(Resources.METAL_MINE).setCurrentLevel(22));
+        goalState.put(Resources.CRYSTAL_MINE,Buildable.getBuildableByName(Resources.CRYSTAL_MINE).setCurrentLevel(18));
+        goalState.put(Resources.DUETERIUM_SYNTHESIZER,Buildable.getBuildableByName(Resources.DUETERIUM_SYNTHESIZER).setCurrentLevel(18));
+        goalState.put(Facilities.ROBOTICS_FACTORY,Buildable.getBuildableByName(Facilities.ROBOTICS_FACTORY).setCurrentLevel(10));
     }
     public List<Buildable> simulate() {
         return simulate(new Resource(500,500,0));
@@ -121,7 +112,7 @@ public class BuildingSimulator {
         return buildables;
     }
 
-    int maxDepth = 15, maxDepthInterval = maxDepth;
+    int maxDepth = 14, maxDepthInterval = maxDepth;
 
     public class Simulation{
         private Resource initialResources, finalResources, initalProduction, finalProduction;

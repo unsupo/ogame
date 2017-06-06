@@ -1,7 +1,6 @@
 package ogame.objects.game;
 
 import ogame.pages.Resources;
-import ogame.pages.Shipyard;
 import utilities.database.Database;
 import utilities.fileio.FileOptions;
 import utilities.fileio.JarUtility;
@@ -35,7 +34,21 @@ public class Buildable {
 //        Database.newDatabaseConnection().executeQuery("select * from buildable;")
 //            .forEach(System.out::println);
 
-        System.out.println(Buildable.getBuildableByName(Ship.BATTLECRUISER));
+//        "metalProduction": 0.37566070571306,
+//                "crystalProduction": 0.30075214701031,
+//                "dueteriumProduction": 0.16254376566924,
+
+        System.out.println(
+                utilities.Timer.getTime(
+                    Buildable.getBuildableByName(Resources.SOLAR_PLANET)
+                        .setCurrentLevel(8).getNextLevelCost()
+                        .subtract(new Resource(659,2302,1161))
+                        .getTimeUntilCanAfford(0.37566070571306, 0.30075214701031, 0.16254376566924)
+                        * 1e9
+                )
+        );
+
+//        System.out.println(new Gson().toJson(Buildable.getBuildableByID(0)));
     }
 
     public static final String
@@ -65,7 +78,9 @@ public class Buildable {
         this.currentLevel = currentLevel;
         return this;
     }
-
+    public Resource getCurrentLevelCost(){
+        return getLevelCost(currentLevel);
+    }
     public Resource getNextLevelCost() {
         if(currentLevel == 0)
             return baseCost;
@@ -74,6 +89,8 @@ public class Buildable {
     public Resource getLevelCost(int level){
         if(level == 0)
             return new Resource(0,0,0);
+        if(costMultiplier == 1)
+            return baseCost.multiply(level);
         return baseCost.geometricPower(costMultiplier,level);
     }
 
