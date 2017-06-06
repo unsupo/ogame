@@ -25,8 +25,11 @@ public class Resource implements Comparable<Resource> {
 //            cum += dm;
 //        }
 //        System.out.println("Total: "+cum);
-        System.out.println(Buildable.getBuildableByName(Facilities.ROBOTICS_FACTORY).getLevelCost(5)
-                .subtract(new Resource(348,104,0)).getDarkMatterCost());
+//        System.out.println(Buildable.getBuildableByName(Facilities.ROBOTICS_FACTORY).getLevelCost(5)
+//                .subtract(new Resource(348,104,0)).getDarkMatterCost());
+
+        System.out.println(Buildable.getBuildableByName(Ship.SMALL_CARGO).getLevelCost(3)
+                .subtract(new Resource(2243,51,7)).getDarkMatterCost());
     }
 
     public static final String METAL = "Metal";
@@ -131,12 +134,23 @@ public class Resource implements Comparable<Resource> {
         this.energy = energy;
     }
 
+    public long getTimeUntilCanAfford(double metalProduction, double crystalProduction, double deuteriumProduction){
+        long tm = (long)(getMetal()/metalProduction), tc = (long)(getCrystal()/crystalProduction), td = (long)(getDeuterium()/deuteriumProduction);
+        return Math.max(Math.max(tm,tc),td);
+    }
+
     public Resource add(Resource other){
         return new Resource(metal + other.metal, crystal + other.crystal, deuterium + other.deuterium, energy + other.energy);
     }
 
-    public Resource subtract(Resource other){
+    public Resource subtractR(Resource other){
         return new Resource(metal - other.metal, crystal - other.crystal, deuterium - other.deuterium, energy - other.energy);
+    }public Resource subtract(Resource other){
+        return new Resource(subNonZero(metal,other.metal), subNonZero(crystal,other.crystal), subNonZero(deuterium,other.deuterium), energy - other.energy);
+    }
+    private long subNonZero(long l1, long l2){
+        long l3 = l1-l2;
+        return l3 < 0 ? 0 : l3;
     }
 
     public Resource getDeficit(Resource goal){
@@ -154,6 +168,11 @@ public class Resource implements Comparable<Resource> {
 
     public boolean canAfford(Resource other){
         return other.getDeficit(this).isZero();
+    }
+    public boolean canAfford(long darkMatter, Resource resources) {
+        if(canAfford(resources))
+            return true;
+        return this.subtract(resources).getDarkMatterCost() <= darkMatter;
     }
 
     public Resource multiply(int multiple){
@@ -259,7 +278,7 @@ public class Resource implements Comparable<Resource> {
     }
 
     public boolean lessThan(Resource r) {
-        return metal < r.getMetal() || crystal < r.getCrystal() || deuterium < r.getDeuterium();
+        return metal < r.getMetal() && crystal < r.getCrystal() && deuterium < r.getDeuterium();
     }
 
     public Resource normalize() {
@@ -280,4 +299,5 @@ public class Resource implements Comparable<Resource> {
              ll = (long)(o.metal*metalFactor+o.crystal*crystalFactor+o.deuterium*deuteriumFactor);
         return l.compareTo(ll);
     }
+
 }

@@ -35,7 +35,7 @@ public class Planet {
 
     private String metalStorageString, crystalStorageString, dueteriumStorageString;
 
-    private long energyAvailable, energyProduction, energyConsuption;
+    private long energyAvailable, energyProduction, energyConsuption, merchantItemCost = -1;
 
     private Coordinates coordinates;
 
@@ -218,6 +218,14 @@ public class Planet {
         this.dueteriumStorageString = dueteriumStorageString;
     }
 
+    public long getMerchantItemCost() {
+        return merchantItemCost;
+    }
+
+    public void setMerchantItemCost(long merchantItemCost) {
+        this.merchantItemCost = merchantItemCost;
+    }
+
     public void setTacticalRetreat(String tacticalRetreat) {
         this.tacticalRetreat = tacticalRetreat;
     }
@@ -290,7 +298,14 @@ public class Planet {
     }
 
     public boolean canGetMerchantItem(){
-        return getLastMerchantItem().plusDays(1).isAfter(LocalDateTime.now());
+        boolean canGet = true;
+        if(merchantItemCost >= 0) {
+            Resource r = getResources();
+//            long total = (long) (r.metal+r.crystal*1.5+r.deuterium*3);
+            long total = r.metal;
+            canGet = total >= merchantItemCost;
+        }
+        return canGet && getLastMerchantItem().plusDays(1).isAfter(LocalDateTime.now());
     }
 
     public LocalDateTime getLastMerchantItem() {

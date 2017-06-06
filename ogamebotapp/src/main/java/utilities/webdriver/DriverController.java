@@ -20,6 +20,8 @@ import utilities.fileio.JarUtility;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
@@ -176,11 +178,32 @@ public class DriverController {
             public void run() {
                 try {
                     takeScreenShot(imageOutputDirectory+"/image_"+counter.getValue()+"_"+System.nanoTime()+".png");
+                    FileOptions.runConcurrentProcessNonBlocking((Callable)()->{cleanImageDirectory(); return null;});
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         },0,imageThreadValue,imageThreadTimeUnit);
+    }
+
+    private void cleanImageDirectory() throws IOException {
+        List<File> files = FileOptions.getAllFilesEndsWith(imageOutputDirectory, ".png");
+        if(files.size() <= 100)
+            return;
+
+        Collections.sort(files,(a,b)->{
+            try {
+                BasicFileAttributes attrA = Files.readAttributes(a.toPath(),BasicFileAttributes.class),
+                                    attrB = Files.readAttributes(b.toPath(),BasicFileAttributes.class);
+                return attrB.creationTime().compareTo(attrA.creationTime());
+            } catch (IOException e) { /*DO NOTHING*/ }
+            return 0;
+        });
+        files.subList(100, files.size()).forEach(a->a.delete());
+    }
+
+    public JavascriptExecutor getJavaScriptExecutor(){
+        return (JavascriptExecutor) driver;
     }
 
     public int getId() {
@@ -387,6 +410,7 @@ public class DriverController {
         caps.setJavascriptEnabled(true);
         String[] args1 = {"--ignore-ssl-errors=yes","--webdriver-loglevel=NONE"};
         caps.setJavascriptEnabled(true);
+        caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,"--ssl-protocol=any");
         caps.setCapability("takesScreenshot", true);
 //        caps.setCapability("screen-resolution", resolution);
         caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, args1);
