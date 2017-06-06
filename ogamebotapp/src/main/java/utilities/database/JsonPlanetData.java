@@ -97,17 +97,21 @@ public class JsonPlanetData {
 
     public void dataToDatabase() throws IOException {
         FileOptions.runConcurrentProcess(getBotData().stream().map(a->(Callable)()->{
-            StringBuilder builder = new StringBuilder("");
-            builder.append(writeJSONData(a));
-            builder.append(writePlanetsData(a));
-            getConnection().executeQuery(builder.toString());
-            builder = new StringBuilder("");
-            builder.append(writeResearchData(a));
-            builder.append(writeResourceData(a));
-            builder.append(writeDefenseData(a));
-            builder.append(writeFacilitiesData(a));
-            builder.append(writeShipsData(a));
-            getConnection().executeQuery(builder.toString());
+            try {
+                StringBuilder builder = new StringBuilder("");
+                builder.append(writeJSONData(a));
+                builder.append(writePlanetsData(a));
+                getConnection().executeQuery(builder.toString());
+                builder = new StringBuilder("");
+                builder.append(writeResearchData(a));
+                builder.append(writeResourceData(a));
+                builder.append(writeDefenseData(a));
+                builder.append(writeFacilitiesData(a));
+                builder.append(writeShipsData(a));
+                getConnection().executeQuery(builder.toString());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return null;
         }).collect(Collectors.toList()));
     }
@@ -128,7 +132,7 @@ public class JsonPlanetData {
             String json = v.get(0).get("json_data").toString();
             if(json.equals(botJson))
                 return "";
-            builder.append("update json_data set json_data = '"+botJson+"' where bot_id = "+a.getId());
+            builder.append("update json_data set json_data = '"+botJson+"' where bot_id = "+a.getId()+"; ");
         }else
             builder.append("insert into json_data(bot_id,json_data) values("+a.getId()+",'"+botJson+"');");
         return builder.toString();
@@ -301,14 +305,16 @@ public class JsonPlanetData {
                         int existing = buildables.get(codeNames.get(i));
                         if(value!=existing){
                             diff = true;
-                            updateStatement.append(databaseNames.get(i)+" = "+existing);
+                            updateStatement.append(databaseNames.get(i)+" = "+existing+", ");
                         }
                     }
-                    updateStatement.append(" where id = "+planet.get("id")+"; ");
+                    String update = updateStatement.toString();
+                    updateStatement = new StringBuilder(update.substring(0,update.length()-", ".length()));
+                    updateStatement.append(" where bot_planets_id = "+planet.get("id")+"; ");
                     if(diff)
                         builder.append(updateStatement.toString());
                 }else //the planet isn't in the json, must mean the user deleted the planet.  Thus delete the planet from database
-                    builder.append("delete from "+tableName+" where id = "+planet.get("id")+"; ");
+                    builder.append("delete from "+tableName+" where bot_planets_id = "+planet.get("id")+"; ");
             }
         }else {
             v = getConnection().executeQuery(

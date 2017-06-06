@@ -1,5 +1,7 @@
 package ogame.objects.game;
 
+import com.google.gson.Gson;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -10,16 +12,18 @@ import java.util.*;
 public class BuildTask implements Comparable<BuildTask>{
     public static void main(String[] args) {
         List<BuildTask> buildTasks = new ArrayList<>(Arrays.asList(
-                new BuildTask().setBuildPriority(100).setCompleteTime(LocalDateTime.now().minusSeconds(1)),
-                new BuildTask().setQueuedTime(LocalDateTime.now().plusSeconds(100)),
-                new BuildTask().setQueuedTime(LocalDateTime.now().plusSeconds(10)),
-                new BuildTask().setBuildPriority(0),
-                new BuildTask().setBuildPriority(1000)
+                new BuildTask().setBuildable(Buildable.getBuildableByID(0)).setBuildPriority(100).setCompleteTime(LocalDateTime.now().minusSeconds(1)),
+                new BuildTask().setBuildable(Buildable.getBuildableByID(1)).setQueuedTime(LocalDateTime.now().plusSeconds(100)),
+                new BuildTask().setBuildable(Buildable.getBuildableByID(2)).setQueuedTime(LocalDateTime.now().plusSeconds(10)),
+                new BuildTask().setBuildable(Buildable.getBuildableByID(3)).setBuildPriority(0),
+                new BuildTask().setBuildable(Buildable.getBuildableByID(4)).setBuildPriority(1000)
         ));
-        buildTasks.forEach(System.out::println);
-        System.out.println("\n\n\n");
-        Collections.sort(buildTasks);
-        buildTasks.forEach(System.out::println);
+//        buildTasks.forEach(System.out::println);
+//        System.out.println("\n\n\n");
+//        Collections.sort(buildTasks);
+//        buildTasks.forEach(System.out::println);
+
+        System.out.println(new Gson().toJson(buildTasks));
     }
 
     private Buildable buildable;
@@ -30,13 +34,26 @@ public class BuildTask implements Comparable<BuildTask>{
     private Coordinates coordinates;
 
     public BuildTask(Map<String, Object> databaseMap) {
-        botPlanetID = databaseMap.get("bot_planets_id").toString();
-        buildable = Buildable.getBuildableByID((int)databaseMap.get("buildable_id"));
-        countOrLevel = (int) databaseMap.get("build_level");
-        buildPriority = (int) databaseMap.get("build_priority");
-        queuedTime = ((Timestamp) databaseMap.get("build_timestamp")).toLocalDateTime();
-        String d = databaseMap.get("done").toString();
-        done = d.equals("Y");
+        if(databaseMap.containsKey("bot_planets_id"))
+            botPlanetID = databaseMap.get("bot_planets_id").toString();
+        if(databaseMap.containsKey("buildable_id"))
+            buildable = Buildable.getBuildableByID((int)databaseMap.get("buildable_id"));
+        if(databaseMap.containsKey("build_level")) {
+            countOrLevel = (int) databaseMap.get("build_level");
+            if(buildable!=null)
+                buildable.setCurrentLevel(countOrLevel);
+        }if(databaseMap.containsKey("build_priority"))
+            buildPriority = (int) databaseMap.get("build_priority");
+        if(databaseMap.containsKey("build_timestamp")) {
+            Timestamp o = ((Timestamp) databaseMap.get("build_timestamp"));
+            if(o != null)
+                queuedTime = o.toLocalDateTime();
+            else
+                queuedTime = LocalDateTime.now();
+        }if(databaseMap.containsKey("done")) {
+            String d = databaseMap.get("done").toString();
+            done = d.equals("Y");
+        }
     }
 
     public BuildTask(Buildable buildable, LocalDateTime completeTime) {
@@ -214,8 +231,8 @@ public class BuildTask implements Comparable<BuildTask>{
         if(isComplete()||isDone())
             return Integer.MAX_VALUE;
         if(queuedTime != null)
-            score = LocalDateTime.now().compareTo(queuedTime);
-        score+=new Integer(buildPriority).compareTo(Integer.MAX_VALUE);
+            score = o.getQueuedTime().compareTo(queuedTime);
+        score+=new Integer(o.getBuildPriority()).compareTo(buildPriority);
         return score;
     }
 }

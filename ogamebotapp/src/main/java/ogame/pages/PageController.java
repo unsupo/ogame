@@ -2,27 +2,30 @@ package ogame.pages;
 
 import bot.Bot;
 import com.google.gson.Gson;
+import ogame.objects.game.BuildTask;
 import ogame.objects.game.Buildable;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Resource;
 import ogame.objects.game.planet.Planet;
 import ogame.objects.game.planet.PlanetBuilder;
 import ogame.objects.game.planet.PlanetProperties;
+import org.apache.regexp.RE;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import utilities.Timer;
 import utilities.fileio.FileOptions;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
  * Created by jarndt on 5/30/17.
@@ -34,6 +37,7 @@ public class PageController {
     public PageController(Bot b){this.b = b; init();}
 
     private void init(){
+        ogamePages.put(Messages.MESSAGES.toLowerCase(),new Messages());
         ogamePages.put(Overview.OVERVIEW.toLowerCase(),new Overview());
         ogamePages.put(Resources.RESOURCES.toLowerCase(),new Resources());
         ogamePages.put(Facilities.FACILITIES.toLowerCase(),new Facilities());
@@ -56,7 +60,10 @@ public class PageController {
         parsePage(page);
         return r;
     }
-    private void parsePage(OgamePage page) throws IOException {
+    public void parsePage(String pageName) throws IOException {
+        parsePage(ogamePages.get(pageName.toLowerCase()));
+    }
+    public void parsePage(OgamePage page) throws IOException {
         b.getDriverController().waitForElement(By.xpath("//*[@id='metal_box']/div"),1L, TimeUnit.MINUTES);
         Document d = Jsoup.parse(b.getDriverController().getDriver().getPageSource());
         FileOptions.runConcurrentProcess((Callable)()->{
@@ -71,6 +78,8 @@ public class PageController {
     }
 
     private void parseAllPageContent(Document d) throws IOException {
+        //TODO parse fleet movement
+
         for(Element planet : d.select("#planetList > div")){
             Coordinates coords = new Coordinates(planet.select("span.planet-koords").text())
                     .setUniverse(b.getLogin().getUser().getUniverse());
@@ -142,6 +151,10 @@ public class PageController {
         try{
             boolean validated = d.select("#advice-bar > a").attr("title").trim().isEmpty();
             b.getLogin().getUser().setVerified(validated);
+        }catch (Exception e){/*DO NOTHING*/}
+        try {
+            String rank = d.select("#bar > ul > li:nth-child(2)").get(0).ownText().trim().replaceAll("[\\(|\\)]", "");
+            b.setRank(Integer.parseInt(rank));
         }catch (Exception e){/*DO NOTHING*/}
     }
 
@@ -236,13 +249,45 @@ public class PageController {
         Elements v = document.select("#buttonz > div.content").select("div.buildingimg");
         Planet p = b.getCurrentPlanet();
         for(Element e : v) {
-            String name = e.select("a > span > span > span").text().trim();
-            Integer level =Integer.parseInt(e.select("span.level").get(0).ownText().trim());
-            Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
-            bb.setCssSelector(e.cssSelector());
-            bb.setQuickBuildLink(e.select("a").attr("onclick").trim());
-            bb.setRef(e.select("a").attr("ref").trim());
-            p.addBuildable(bb);
+            try {
+                String name = e.select("a > span > span > span").text().trim();
+                Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
+                Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
+                bb.setCssSelector(e.cssSelector());
+                bb.setQuickBuildLink(e.select("a").attr("onclick").trim());
+                bb.setRef(e.select("a").attr("ref").trim());
+                p.addBuildable(bb);
+            }catch (IndexOutOfBoundsException ioobe){/*DO NOTHING, building is currently being built*/}
+        }
+
+        Elements activeConstruction = document.select("#inhalt > div.content-box-s > div.content > table");
+        boolean works = activeConstruction.select("tr").size() == 5;
+        if(works) {
+            BuildTask buildTask = new BuildTask();
+            String name = activeConstruction.select("tr > th").text().trim();
+            buildTask.setBuildable(p.getBuildable(name));
+
+            int level = Integer.parseInt(activeConstruction.select("span.level").text().replace("Level ", "").trim());
+            buildTask.setCountOrLevel(level);
+
+            long time = Bot.parseTime(activeConstruction.select("td.desc.timer > span").text().trim());
+            buildTask.setCompleteTime(LocalDateTime.now().plusSeconds(time));
+
+            if(activeConstruction.select("#researchCountdown").size() != 0) {
+                b.setCurrentResearchBeingBuilt(buildTask);
+                b.getResearch().put(name,level);
+            }else {
+                p.setCurrentBuildingBeingBuild(buildTask);
+                p.addBuildable(buildTask.getBuildable());
+            }
+        }else{
+            String headerText = document.select("#header_text").text();
+            if(headerText.startsWith(Research.RESEARCH))
+                b.setCurrentResearchBeingBuilt(null);
+            else if(headerText.startsWith(Facilities.FACILITIES) || headerText.startsWith(Resources.RESOURCES))
+                p.setCurrentBuildingBeingBuild(null);
+            else if(headerText.startsWith(Shipyard.SHIPYARD) || headerText.startsWith(Defense.DEFENSE))
+                p.setCurrentShipyardBeingBuild(new HashSet<>());
         }
     }
 }
