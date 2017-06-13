@@ -1,6 +1,7 @@
 package ogame.pages;
 
 import bot.Bot;
+import bot.settings.SettingsManager;
 import com.google.gson.Gson;
 import ogame.objects.game.messages.EspionageMessage;
 import ogame.objects.game.messages.MessageObject;
@@ -164,24 +165,26 @@ public class Messages implements OgamePage {
                 );
             Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
 
-            b.getMessages().forEach(a -> { //added to the database, may safely delete messages
-                try {
-                    new HttpsClient().deleteMessage(b.getServerDomain(), a.getMessageId() + "", b.getCookies());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            });
-            //the following is to mark the messages as read instead
-//            String newMessages = "";
-//            for(MessageObject m : b.getMessages())
-//                if(m.isNewMessage())
-//                    newMessages+=m.getMessageId()+",";
-//            newMessages = newMessages.substring(0,newMessages.length()-",".length());
-//
-//            new HttpsClient().markMessagesAsRead(b.getLogin().getServer().getDomain(), newMessages, builder.toString());
+            if(b.getCurrentPlanet().getSetting(SettingsManager.DELETE_MESSAGES,b.getOgameUserId()).equalsIgnoreCase("true"))
+                b.getMessages().forEach(a -> { //added to the database, may safely delete messages
+                    try {
+                        new HttpsClient().deleteMessage(b.getServerDomain(), a.getMessageId() + "", b.getCookies());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                });
+            else {
+//              the following is to mark the messages as read instead
+                String newMessages = "";
+                for (MessageObject m : b.getMessages())
+                    if (m.isNewMessage())
+                        newMessages += m.getMessageId() + ",";
+                newMessages = newMessages.substring(0, newMessages.length() - ",".length());
 
+                new HttpsClient().markMessagesAsRead(b.getLogin().getServer().getDomain(), newMessages, builder.toString());
+            }
             return null;
         });
     }

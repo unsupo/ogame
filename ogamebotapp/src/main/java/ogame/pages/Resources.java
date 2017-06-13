@@ -19,7 +19,7 @@ public class Resources implements OgamePage{
             METAL_MINE              = "Metal Mine",
             CRYSTAL_MINE            = "Crystal Mine",
             DUETERIUM_SYNTHESIZER   = "Deuterium Synthesizer",
-            SOLAR_PLANET            = "Solar Plant",
+            SOLAR_PLANT = "Solar Plant",
             FUSION_REACTOR          = "Fusion Reactor",
             METAL_STORAGE           = "Metal Storage",
             CRYSTAL_STORAGE         = "Crystal Storage",
@@ -27,7 +27,7 @@ public class Resources implements OgamePage{
 
     public static String[] names = {
             METAL_MINE, CRYSTAL_MINE, DUETERIUM_SYNTHESIZER,
-            SOLAR_PLANET, FUSION_REACTOR,
+            SOLAR_PLANT, FUSION_REACTOR,
             METAL_STORAGE, CRYSTAL_STORAGE,DUETERIUM_TANK
     };
 

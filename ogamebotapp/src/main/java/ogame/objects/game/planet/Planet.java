@@ -1,6 +1,7 @@
 package ogame.objects.game.planet;
 
 import bot.queue.QueueManager;
+import bot.settings.SettingsManager;
 import ogame.objects.game.*;
 import ogame.pages.*;
 import utilities.database.Database;
@@ -15,12 +16,15 @@ import java.util.*;
  * Created by jarndt on 5/10/17.
  */
 public class Planet {
+    public static final String OVERMARK = "overmark", UNDERMARK = "undermark";
+
     private PlanetProperties planetSize;
     private String planetName, webElement, attribute, value, id, className, link, tacticalRetreat, botPlanetID;
     private Planet moon;
     private Resource resources;
     private String planetImageURL;
     private QueueManager queueManager;
+    private SettingsManager settingsManager;
 
     private HashMap<String, Buildable> allBuildables = new HashMap<>();
 
@@ -212,6 +216,40 @@ public class Planet {
     }public boolean canAfford(Buildable buildable){
         Resource r = buildable.getNextLevelCost();
         return r.lessThan(getResources());
+    }
+
+    public String getSetting(String setting, int ogameUserId) throws SQLException, IOException, ClassNotFoundException {
+        if(getSettingsManager(ogameUserId).getSettings().containsKey(setting))
+            return getSettingsManager(ogameUserId).getSettings().get(setting);
+        return "";
+    }public String getSetting(String setting, String botPlanetID) throws SQLException, IOException, ClassNotFoundException {
+        if(getSettingsManager(botPlanetID).getSettings().containsKey(setting))
+            return getSettingsManager(botPlanetID).getSettings().get(setting);
+        return "";
+    }
+    public SettingsManager getSettingsManager(int ogameUserId) throws SQLException, IOException, ClassNotFoundException {
+        if(settingsManager == null) {
+            if(botPlanetID == null) {
+                List<Map<String, Object>> v = Database.getExistingDatabaseConnection().executeQuery(
+                        "select * from bot_planets where ogame_user_id = " + ogameUserId + " and coords = '" + coordinates.getStringValue() + "';"
+                );
+                if (v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
+                    botPlanetID = v.get(0).get("id").toString();
+                    settingsManager = new SettingsManager(this);
+                }
+            }else
+                settingsManager = new SettingsManager(this);
+        }
+        return settingsManager;
+    }public SettingsManager getSettingsManager(String botPlanetID) throws SQLException, IOException, ClassNotFoundException {
+        if(settingsManager == null)
+            settingsManager = new SettingsManager(this);
+        return settingsManager;
+    }
+
+
+    public void setSettingsManager(SettingsManager settingsManager) {
+        this.settingsManager = settingsManager;
     }
 
     public HashMap<String, Buildable> getAllBuildables() {
@@ -531,6 +569,11 @@ public class Planet {
 
     public String getPlanetImageURL() {
         return planetImageURL;
+    }
+
+
+    public double getEnergyPercent() {
+        return energyConsuption/(double)energyProduction;
     }
 
     public void setPlanetImageURL(String planetImageURL) {

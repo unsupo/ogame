@@ -197,7 +197,7 @@ public class BuildingSimulator {
             Buildable   mm = newBuildables.get(Resources.METAL_MINE),
                         cm = newBuildables.get(Resources.CRYSTAL_MINE),
                         ds = newBuildables.get(Resources.DUETERIUM_SYNTHESIZER),
-                        sp = newBuildables.get(Resources.SOLAR_PLANET),
+                        sp = newBuildables.get(Resources.SOLAR_PLANT),
                         fr = newBuildables.get(Resources.FUSION_REACTOR),
                         ms = newBuildables.get(Resources.METAL_STORAGE),
                         cs = newBuildables.get(Resources.CRYSTAL_STORAGE),
