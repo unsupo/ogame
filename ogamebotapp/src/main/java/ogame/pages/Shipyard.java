@@ -1,11 +1,16 @@
 package ogame.pages;
 
 import bot.Bot;
+import ogame.objects.game.BuildTask;
 import ogame.objects.game.Buildable;
 import ogame.objects.game.planet.Planet;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jarndt on 5/30/17.
@@ -35,6 +40,7 @@ public class Shipyard implements OgamePage{
     @Override
     public void parsePage(Bot b, Document document) {
         PageController.parseGenericBuildings(document,b);
-        //TODO Currently building ships
+
+        PageController.parseShips(b,document);
     }
 }

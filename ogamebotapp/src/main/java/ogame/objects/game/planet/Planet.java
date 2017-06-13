@@ -108,6 +108,10 @@ public class Planet {
         lastUpdate = now;
     }
 
+    public String getLinkToPage(String pageName){
+        return getLink().replaceAll("=.*&","="+pageName+"&");
+    }
+
     private void initBuildables(HashMap<String,Integer> map){
         map.forEach((a,b)->addBuildableNoOverride(Buildable.getBuildableByName(a).setCurrentLevel(b)));
     }
@@ -154,8 +158,11 @@ public class Planet {
     }
 
     public boolean canBuild(String name){
+        return canBuild(name,new HashMap<>());
+    }
+    public boolean canBuild(String name, HashMap<String,Integer> research){
         update();
-        if(!hasPrerequisites(name))
+        if(!hasPrerequisites(name,research))
             return false;
         Buildable b = getAllBuildables().get(name);
         if(b.getType().toLowerCase().equals(Resources.RESOURCES.toLowerCase()) || b.getType().toLowerCase().equals(Facilities.FACILITIES.toLowerCase())) {
@@ -166,6 +173,16 @@ public class Planet {
                     return false;
             }
         }
+        //if it is a defense or shipyard and the shipyard or nanite factory is build built, then you can't build it.
+        if(Arrays.asList(Defense.DEFENSE.toLowerCase(),Shipyard.SHIPYARD.toLowerCase()).contains(b.getType().toLowerCase()))
+            if (currentBuildingBeingBuild != null &&
+                    Arrays.asList(Facilities.SHIPYARD,Facilities.NANITE_FACTORY)
+                            .contains(currentBuildingBeingBuild.getBuildable().getName().toLowerCase())) {
+                if (currentBuildingBeingBuild.isDone() && currentBuildingBeingBuild.isComplete())
+                    return canAfford(name);
+                else
+                    return false;
+            }
         return canAfford(name);
     }
 
@@ -174,6 +191,17 @@ public class Planet {
         if(requirements.size() == 0) return true;
         for(String m : requirements.keySet())
             if(getAllBuildables().get(m).getCurrentLevel() < requirements.get(m))
+                return false;
+        return true;
+    }public boolean hasPrerequisites(String name, HashMap<String,Integer> research) {
+        HashMap<String, Integer> allBs = new HashMap<>();
+        getAllBuildables().forEach((a,b)->allBs.put(a,b.getCurrentLevel()));
+        allBs.putAll(research);
+
+        HashMap<String, Integer> requirements = Buildable.getBuildableRequirements(name);
+        if(requirements.size() == 0) return true;
+        for(String m : requirements.keySet())
+            if(allBs.get(m) < requirements.get(m))
                 return false;
         return true;
     }
@@ -455,6 +483,13 @@ public class Planet {
     }
 
     public Set<BuildTask> getCurrentShipyardBeingBuild() {
+        if(currentShipyardBeingBuild == null)
+            currentShipyardBeingBuild = new HashSet<>();
+        Set<BuildTask> remove = new HashSet<>();
+        for(BuildTask b : currentShipyardBeingBuild)
+            if(b.isComplete() && b.isDone())
+                remove.add(b);
+        currentShipyardBeingBuild.removeAll(remove);
         return currentShipyardBeingBuild;
     }
 
@@ -510,10 +545,10 @@ public class Planet {
                 );
                 if (v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
                     botPlanetID = v.get(0).get("id").toString();
-                    queueManager = new QueueManager(botPlanetID);
+                    queueManager = new QueueManager(this);
                 }
             }else
-                queueManager = new QueueManager(botPlanetID);
+                queueManager = new QueueManager(this);
         }
         return queueManager;
     }

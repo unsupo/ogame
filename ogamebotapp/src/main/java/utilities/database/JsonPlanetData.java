@@ -132,9 +132,9 @@ public class JsonPlanetData {
             String json = v.get(0).get("json_data").toString();
             if(json.equals(botJson))
                 return "";
-            builder.append("update json_data set json_data = '"+botJson+"' where bot_id = "+a.getId()+"; ");
+            builder.append("update json_data set json_data = '"+botJson+"' where bot_id = "+a.getId()+" ; ");
         }else
-            builder.append("insert into json_data(bot_id,json_data) values("+a.getId()+",'"+botJson+"');");
+            builder.append("insert into json_data(bot_id,json_data) values("+a.getId()+",'"+botJson+"') ON CONFLICT DO NOTHING;");
         return builder.toString();
     }
     private String writePlanetsData(Bot a) throws SQLException, IOException, ClassNotFoundException {
@@ -172,7 +172,7 @@ public class JsonPlanetData {
                     "min_temp,max_temp) " +
                     "values("+a.getOgameUserId()+",'"+p.getPlanetName()+"','"+p.getCoordinates().getStringValue()+"',"+p.getMetal()+","+p.getCrystal()+","+p.getDueterium()+","+p.getEnergyProduction()+"," +
                     p.getEnergyAvailable()+","+p.getPlanetSize().getTotalFields()+","+(p.getPlanetSize().getTotalFields()-p.getPlanetSize().getUsedFields())+"," +
-                    p.getPlanetSize().getMinTemp()+","+p.getPlanetSize().getMaxTemp()+"); ");
+                    p.getPlanetSize().getMinTemp()+","+p.getPlanetSize().getMaxTemp()+") ON CONFLICT DO NOTHING; ");
         }
 
         return builder.toString();
@@ -203,13 +203,15 @@ public class JsonPlanetData {
                 int databaseLevel = (int)databaseLevels.get(tableResearchNames.get(i).toLowerCase());
                 if(actualLevel!=databaseLevel){
                     diff = true;
-                    builder.append(tableResearchNames.get(i)+" = "+actualLevel);
+                    builder.append(tableResearchNames.get(i)+" = "+actualLevel+", ");
                 }
             }
+            String update = builder.toString();
+            builder = new StringBuilder(update.substring(0,update.length()-", ".length()));
             if(!diff)
                 return "";
 
-            builder.append(" where ogame_user_id = "+a.getOgameUserId()+" and id = "+databaseLevels.get("id"));
+            builder.append(" where ogame_user_id = "+a.getOgameUserId()+" and id = "+databaseLevels.get("id")+"; ");
         }else {
             builder.append("insert into research_data(ogame_user_id,");
             StringBuilder values = new StringBuilder(" values("+a.getOgameUserId()+",");
@@ -219,7 +221,7 @@ public class JsonPlanetData {
                 Integer value = researches.get(researchNames.get(i));
                 values.append((value==null?0:value)+sep);
             }
-            builder.append(") "+values.toString()+"); ");
+            builder.append(") "+values.toString()+") ON CONFLICT DO NOTHING; ");
         }
 
         return builder.toString();
@@ -343,7 +345,7 @@ public class JsonPlanetData {
                 values.append((vv==null?0:vv)+sep);
             }
 
-            builder.append(insert.toString()+")"+values.toString()+"); ");
+            builder.append(insert.toString()+")"+values.toString()+") ON CONFLICT DO NOTHING; ");
         }
 
         return builder.toString();

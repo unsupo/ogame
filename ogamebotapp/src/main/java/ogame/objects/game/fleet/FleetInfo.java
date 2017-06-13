@@ -7,7 +7,7 @@ import java.util.*;
  * Created by jarndt on 5/10/17.
  */
 public class FleetInfo {
-    private int fleetsTotal, fleetsUsed, fleetsRemaining;
+    private int fleetsTotal, fleetsUsed, fleetsRemaining, expeditionsUsed, expeditionsTotal;
     private Set<FleetObject> fleets = new HashSet<>();
 
     public FleetInfo(){}
@@ -36,7 +36,7 @@ public class FleetInfo {
     }
 
     public int getFleetsRemaining() {
-        return fleetsRemaining;
+        return getFleetsTotal()-getFleetsUsed();
     }
 
     public void setFleetsRemaining(int fleetsRemaining) {
