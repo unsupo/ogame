@@ -40,7 +40,7 @@ public class Buildable {
 
         System.out.println(
                 utilities.Timer.getTime(
-                    Buildable.getBuildableByName(Resources.SOLAR_PLANET)
+                    Buildable.getBuildableByName(Resources.SOLAR_PLANT)
                         .setCurrentLevel(8).getNextLevelCost()
                         .subtract(new Resource(659,2302,1161))
                         .getTimeUntilCanAfford(0.37566070571306, 0.30075214701031, 0.16254376566924)
@@ -370,7 +370,7 @@ public class Buildable {
                 .multiply(currentLevel);
         if(name.equals(Resources.FUSION_REACTOR))
             return base.multiply(Math.pow(1.05+energyTechLevel*productionMultiplier,currentLevel));
-        if(name.equals(Resources.SOLAR_PLANET))
+        if(name.equals(Resources.SOLAR_PLANT))
             return base.multiply(Math.pow(productionPower,currentLevel));
         base = baseProduction.normalize();
         if(name.equals(Resources.DUETERIUM_SYNTHESIZER))
@@ -430,7 +430,7 @@ public class Buildable {
             productionPower = pp;
             consuptionMultiplier = 20;
             consuptionPower = ep;
-        }else if(name.equals(Resources.SOLAR_PLANET)){
+        }else if(name.equals(Resources.SOLAR_PLANT)){
             baseProduction = baseConsuption;
             productionMultiplier = 20;
             productionPower = pp;

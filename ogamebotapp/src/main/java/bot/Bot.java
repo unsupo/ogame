@@ -1,5 +1,6 @@
 package bot;
 
+import bot.settings.SettingsManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import ogame.objects.User;
@@ -53,7 +54,6 @@ public class Bot {
     private transient PageController pageController;
     private FleetInfo fleetInfo = new FleetInfo();
     private Set<MessageObject> messages = new HashSet<>();
-//    private HashMap<String,OgamePage> pages = new HashMap<>(); //pageName->OgamePage
 
     private long darkMatter = 0;
     private int unreadMessages = 0;
@@ -619,7 +619,14 @@ public class Bot {
             b = false;
         else if(buildable.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase()))
             b = research.get(buildable.getName()) >= level;
-        else {
+        else if(Arrays.asList(Defense.DEFENSE.toLowerCase(),Shipyard.SHIPYARD.toLowerCase()).contains(buildable.getType().toLowerCase())) {
+            int currentLevel = value.getAllBuildables().get(buildable.getName()).getCurrentLevel();
+            if(value.getCurrentShipyardBeingBuild() != null && value.getCurrentShipyardBeingBuild().size() != 0)
+                for (BuildTask bb : value.getCurrentShipyardBeingBuild())
+                    if (bb.getBuildable().getName().equals(task.getBuildable().getName()))
+                        currentLevel+=bb.getCountOrLevel();
+            b = currentLevel >= level;
+        }else {
             int currentLevel = value.getAllBuildables().get(buildable.getName()).getCurrentLevel();
             b = currentLevel >= level;
         }if(b) {
