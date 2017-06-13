@@ -1,23 +1,33 @@
 package bot.queue;
 
 import ogame.objects.game.BuildTask;
+import ogame.objects.game.Buildable;
+import ogame.objects.game.planet.Planet;
+import ogame.simulators.BuildingSimulator;
 import utilities.database.Database;
+import utilities.fileio.FileOptions;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 5/31/17.
  */
 public class QueueManager {
+//    public static int MAX_METAL = 22, MAX_CRYSTAL = 18, MAX_DEUTERIUM = 18, MAX_ROBOTICS = 10;
+
     private String planetId;
+    private transient Planet planet;
 
     private transient List<BuildTask> queue = new ArrayList<>();
 
-    public QueueManager(String planetId) {
-        this.planetId = planetId;
+    public QueueManager(Planet planet) {
+        //TODO auto build;
+        this.planet = planet;
+        this.planetId = planet.getBotPlanetID();
     }
 
     private transient Database d;
@@ -49,7 +59,6 @@ public class QueueManager {
                 "select * from planet_queue where done = 'N' and bot_planets_id = " + planetId+"" +
                         " order by build_priority desc, build_timestamp;"
         );
-        //TODO profiles
         List<BuildTask> profile = new ArrayList<>(), queueList = new ArrayList<>();
         if(vv != null && vv.size() > 0 && vv.get(0) != null && vv.get(0).size() > 0)
             profile = vv.stream()
@@ -62,18 +71,40 @@ public class QueueManager {
 
         List<BuildTask> diff = new ArrayList<>(profile);
         diff.removeAll(queueList);
-        StringBuilder builder = new StringBuilder("");
-        for(BuildTask b : diff)
-            builder.append("insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority) " +
-                    "   values("+planetId+","+b.getBuildable().getId()+","+b.getCountOrLevel()+","+b.getBuildPriority()+");");
-        getDatabase().executeQuery(builder.toString());
+        insertBuildTasks(diff);
 
         Set<BuildTask> allQueue = new HashSet<>();
         allQueue.addAll(queueList);
         allQueue.addAll(profile);
         queue = new ArrayList<>();
         queue.addAll(allQueue);
+        if(queue.isEmpty())
+            simulateQueue();
+
         return queue;
+    }
+
+    private void insertBuildTasks(List<BuildTask> diff) throws SQLException, IOException, ClassNotFoundException {
+        StringBuilder builder = new StringBuilder("");
+        for(BuildTask b : diff)
+            builder.append("insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority) " +
+                    "   values("+planetId+","+b.getBuildable().getId()+","+b.getCountOrLevel()+","+b.getBuildPriority()+");");
+        if(!builder.toString().isEmpty())
+            getDatabase().executeQuery(builder.toString());
+    }
+
+    private void simulateQueue(){
+        try {
+            List<Buildable> v = new BuildingSimulator(planet.getAllBuildables()).simulate();
+            Collections.reverse(v);
+            List<BuildTask> buildTasks = new ArrayList<>();
+            for (int i = 0; i < v.size(); i++)
+                buildTasks.add(new BuildTask().setBuildable(v.get(i)).setBuildPriority(i));
+            setQueue(buildTasks);
+            FileOptions.runConcurrentProcessNonBlocking((Callable)()->{insertBuildTasks(buildTasks); return null;});
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setQueue(List<BuildTask> queue) {

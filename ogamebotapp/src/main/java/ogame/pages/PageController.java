@@ -6,16 +6,15 @@ import ogame.objects.game.BuildTask;
 import ogame.objects.game.Buildable;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Resource;
+import ogame.objects.game.fleet.FleetObject;
 import ogame.objects.game.planet.Planet;
 import ogame.objects.game.planet.PlanetBuilder;
 import ogame.objects.game.planet.PlanetProperties;
-import org.apache.regexp.RE;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
-import utilities.Timer;
 import utilities.fileio.FileOptions;
 
 import java.io.IOException;
@@ -24,8 +23,6 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static org.hamcrest.core.StringStartsWith.startsWith;
 
 /**
  * Created by jarndt on 5/30/17.
@@ -55,6 +52,7 @@ public class PageController {
     public boolean goToPage(String pageName) throws IOException {
         //TODO utilize tooltip on each planet (right side) to navigate to pages this allows direct navigation to different planets
         OgamePage page = ogamePages.get(pageName.toLowerCase());
+        b.setCurrentPage(pageName);
         b.getDriverController().clickWait(By.xpath(page.getXPathSelector()),1L,TimeUnit.MINUTES);
         boolean r = b.getDriverController().waitForElement(By.xpath(page.uniqueXPath()), 1L, TimeUnit.MINUTES);
         parsePage(page);
@@ -78,7 +76,11 @@ public class PageController {
     }
 
     private void parseAllPageContent(Document d) throws IOException {
-        //TODO parse fleet movement
+        //TODO test fleet movement
+        FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
+            b.getFleetInfo().setFleets(new HashSet<>(FleetObject.getFleetObjects(b)));
+            return null;
+        });
 
         for(Element planet : d.select("#planetList > div")){
             Coordinates coords = new Coordinates(planet.select("span.planet-koords").text())
@@ -240,23 +242,32 @@ public class PageController {
         return ogamePages.get(pageName.toLowerCase());
     }
 
-    public void goToPageOnPlanet(Coordinates planetCoordinates, String page) {
-        //TODO learn how to switch between planets
-        //pageName.toLowerCase()
+    public void goToPageOnPlanet(Coordinates planetCoordinates, String page) throws IOException {
+        //TODO test navigating between planets
+        b.getDriverController().getDriver().navigate().to(b.getPlanets().get(planetCoordinates.getStringValue()).getLinkToPage(page.toLowerCase()));
+        goToPage(page);
     }
 
     public static void parseGenericBuildings(Document document, Bot b){
-        Elements v = document.select("#buttonz > div.content").select("div.buildingimg");
+        Elements v = document.select("div.buildingimg");
         Planet p = b.getCurrentPlanet();
         for(Element e : v) {
             try {
                 String name = e.select("a > span > span > span").text().trim();
-                Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
-                Buildable bb = Buildable.getBuildableByName(name).setCurrentLevel(level);
-                bb.setCssSelector(e.cssSelector());
-                bb.setQuickBuildLink(e.select("a").attr("onclick").trim());
+                Buildable bb = Buildable.getBuildableByName(name);
+                try {
+                    Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
+                    bb.setCurrentLevel(level);
+                    bb.setCssSelector(e.cssSelector());
+                    bb.setQuickBuildLink(e.select("a").attr("onclick").trim());
+                }catch (Exception ee){
+                    bb.setQuickBuildLink(null);
+                }
                 bb.setRef(e.select("a").attr("ref").trim());
-                p.addBuildable(bb);
+                if(b.getCurrentPage().equalsIgnoreCase(Research.RESEARCH))
+                    b.addResearch(bb);
+                else
+                    p.addBuildable(bb);
             }catch (IndexOutOfBoundsException ioobe){/*DO NOTHING, building is currently being built*/}
         }
 
@@ -269,8 +280,12 @@ public class PageController {
 
             int level = Integer.parseInt(activeConstruction.select("span.level").text().replace("Level ", "").trim());
             buildTask.setCountOrLevel(level);
-
-            long time = Bot.parseTime(activeConstruction.select("td.desc.timer > span").text().trim());
+            long time;
+            try {
+                time = Bot.parseTime(activeConstruction.select("td.desc.timer > span").text().trim());
+            }catch (NumberFormatException nfe){
+                return;
+            }
             buildTask.setCompleteTime(LocalDateTime.now().plusSeconds(time));
 
             if(activeConstruction.select("#researchCountdown").size() != 0) {
@@ -288,6 +303,39 @@ public class PageController {
                 p.setCurrentBuildingBeingBuild(null);
             else if(headerText.startsWith(Shipyard.SHIPYARD) || headerText.startsWith(Defense.DEFENSE))
                 p.setCurrentShipyardBeingBuild(new HashSet<>());
+        }
+    }
+
+    public static void parseShips(Bot b, Document document) {
+        List<Element> elements = new ArrayList<>();
+        elements.addAll(document.select("table.construction.active"));
+        elements.addAll(document.select("ul.item > li.tooltip"));
+
+        Planet p = b.getCurrentPlanet();
+        p.setCurrentShipyardBeingBuild(null);
+        for(Element e : elements){
+            BuildTask buildTask = new BuildTask();
+            String name = "";
+            int count = 0;
+            long time = 0;
+            if(e.tagName().equals("li")){
+                String[] dd = e.attr("title").split("<br>");
+                name = dd[0].replaceAll("[0-9]+","").trim();
+                count = Integer.parseInt(dd[0].replaceAll("[A-Za-z ]+",""));
+                time = Bot.parseTime(dd[1].replace("Building duration ",""));
+            }else {
+                name = e.select("tr > th").text();
+                count = Integer.parseInt(e.select("div.shipSumCount").text().trim());
+                time = Bot.parseTime(e.select("span.shipCountdown").text());
+            }
+
+            Buildable bb = Buildable.getBuildableByName(name);
+            bb.setCurrentLevel(count);
+            buildTask.setBuildable(bb);
+            buildTask.setCountOrLevel(count);
+            buildTask.setCompleteTime(LocalDateTime.now().plusSeconds(time));
+
+            p.getCurrentShipyardBeingBuild().add(buildTask);
         }
     }
 }

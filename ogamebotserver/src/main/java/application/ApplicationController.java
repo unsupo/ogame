@@ -90,7 +90,7 @@ public class ApplicationController {
                 token = validateUser(username,password);
             } catch (SQLException | IOException | ClassNotFoundException | GeneralSecurityException e) {
                 e.printStackTrace();
-//                return e.getMessage();
+//                return e.getMessages();
             }
             if (token != null)
                 return token;

@@ -80,7 +80,7 @@ public class FileOptions {
     /**
      * Expects unixpermission like -r--r--r-- or
      * owner read, group read, all users read
-     * read,write,execute
+     * read,write,getMessages
      *
      * o(r,w,e),g(r,w,e),u(r,w,e)
      *

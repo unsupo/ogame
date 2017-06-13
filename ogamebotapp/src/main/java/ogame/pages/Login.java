@@ -2,7 +2,7 @@ package ogame.pages;
 
 import com.google.gson.Gson;
 import ogame.objects.User;
-import ogame.objects.game.Server;
+import ogame.objects.game.data.Server;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
@@ -13,7 +13,6 @@ import utilities.webdriver.DriverControllerBuilder;
 import utilities.webdriver.JavaScriptFunctions;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;

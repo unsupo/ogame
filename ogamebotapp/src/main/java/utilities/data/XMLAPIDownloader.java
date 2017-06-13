@@ -161,7 +161,7 @@ public class XMLAPIDownloader {
 
         List<String> highscore = new ArrayList<>();
         for(int i = 1; i<=2; i++)
-            for(int j = 0; j<7; j++)
+            for(int j = 0; j<=7; j++)
                 FILE_DATA.put(HIGHSCORE_PLAYER_FILE+"_"+i+"_"+j,
                         HIGHSCORE_PLAYER.replace(numOneReplace,i+"").replace(numTwoReplace,j+""));
 

@@ -92,7 +92,7 @@ public class Ship {
 
     private boolean isDefenseStructure = true;
 
-    private String name;
+    private String name, shipID;
 
     private HashMap<String,Integer> rapidFire;
 
@@ -171,6 +171,14 @@ public class Ship {
     public int getId() {
 
         return id;
+    }
+
+    public String getShipID() {
+        initNames();return shipID;
+    }
+
+    public void setShipID(String shipID) {
+        this.shipID = shipID;
     }
 
     public Resource getCost(){
@@ -317,7 +325,37 @@ public class Ship {
         return this;
     }
 
-    public Ship(){}
+    public Ship(){
+
+    }
+    private void initNames(){
+        if(this.name.equals(SMALL_CARGO))
+            this.shipID = "am202";
+        if(this.name.equals(LARGE_CARGO))
+            this.shipID = "am203";
+        if(this.name.equals(LIGHT_FIGHTER))
+            this.shipID = "am204";
+        if(this.name.equals(HEAVY_FIGHTER))
+            this.shipID = "am205";
+        if(this.name.equals(CRUISER))
+            this.shipID = "am206";
+        if(this.name.equals(BATTLESHIP))
+            this.shipID = "am207";
+        if(this.name.equals(COLONY_SHIP))
+            this.shipID = "am208";
+        if(this.name.equals(RECYCLER))
+            this.shipID = "am209";
+        if(this.name.equals(ESPIONAGE_PROBE))
+            this.shipID = "am210";
+        if(this.name.equals(BOMBER))
+            this.shipID = "am211";
+        if(this.name.equals(DESTROYER))
+            this.shipID = "am213";
+        if(this.name.equals(DEATHSTAR))
+            this.shipID = "am214";
+        if(this.name.equals(BATTLECRUISER))
+            this.shipID = "am215";
+    }
 
     public int getWeighedPrice(){
         return (metal_cost+crystal_cost*4+deuterium_cost*5)/1000;
