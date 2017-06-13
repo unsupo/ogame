@@ -7,6 +7,7 @@ package utilities.webdriver;
 import com.google.gson.Gson;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -324,8 +325,10 @@ public class DriverController {
     public void clickWait(By by, long time, TimeUnit timeUnit){
         clickWait(by, 0, time, timeUnit);
     }public void clickWait(By by, int index, long time, TimeUnit timeUnit){
-        waitForElement(by,time, timeUnit);
-        getDriver().findElements(by).get(index).click();
+        if(waitForElement(by,time, timeUnit))
+        try {
+            getDriver().findElements(by).get(index).click();
+        }catch (TimeoutException t){ /*DO NOTHING*/ }
     }
     public WebElement getElementWait(By by, long time, TimeUnit timeUnit){
         return getElementWait(by, 0, time, timeUnit);
@@ -512,6 +515,7 @@ public class DriverController {
 
     public void quit() throws SQLException, IOException, ClassNotFoundException {
         DatabaseCommons.deregisterDriver(this);
+        getDriver().close();
         getDriver().quit();
         if(imageThreadPool != null)
             getImageThreadPool().shutdown();

@@ -3,7 +3,7 @@ package runner;
 import bot.Bot;
 import ogame.objects.Email;
 import ogame.objects.User;
-import ogame.objects.game.Server;
+import ogame.objects.game.data.Server;
 import ogame.pages.Login;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -98,7 +98,7 @@ public class Runner {
 
     public static void startQuarzJobs() throws SchedulerException {
         XMLAPIDownloader.startDownloadXMLThreads();
-        OneEmail.startOneEmailCreateThread();
+//        OneEmail.startOneEmailCreateThread();
         JsonPlanetData.startJsonToDatabaseThread();
     }
 

@@ -1,21 +1,20 @@
 package bot;
 
-import bot.queue.QueueManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import ogame.objects.User;
 import ogame.objects.game.*;
+import ogame.objects.game.data.Server;
 import ogame.objects.game.fleet.FleetInfo;
+import ogame.objects.game.messages.MessageObject;
 import ogame.objects.game.planet.Planet;
 import ogame.pages.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.*;
 import utilities.database.Database;
 import utilities.fileio.FileOptions;
-import utilities.password.PasswordEncryptDecrypt;
 import utilities.webdriver.DriverController;
 import utilities.webdriver.DriverControllerBuilder;
 import utilities.webdriver.JavaScriptFunctions;
@@ -30,8 +29,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static sun.jvm.hotspot.runtime.BasicObjectLock.size;
 
 /**
  * Created by jarndt on 5/10/17.
@@ -50,10 +47,12 @@ public class Bot {
     private transient Login login;
     private HashMap<String,Planet> planets = new HashMap<>(); //cords->Planet
     private HashMap<String,Integer> research = new HashMap<>();
+    private HashMap<String,Buildable> researchBuildable = new HashMap<>();
     private String currentPage;
     private Coordinates currentPlanetCoordinates;
     private transient PageController pageController;
     private FleetInfo fleetInfo = new FleetInfo();
+    private Set<MessageObject> messages = new HashSet<>();
 //    private HashMap<String,OgamePage> pages = new HashMap<>(); //pageName->OgamePage
 
     private long darkMatter = 0;
@@ -218,15 +217,18 @@ public class Bot {
                 .forEach(a -> {
                     try {
                         getPageController().goToPage(a);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        if(e instanceof TimeoutException)
+                            System.err.println("Failed to wait for page to load in 1 minute: "+a);
+                        else
+                            e.printStackTrace();
                     }
                 });
 
         isGotInitialState = true;
     }
 
-    private void performNextAction() throws IOException, InterruptedException {
+    private void performNextAction() throws IOException, InterruptedException, SQLException, ClassNotFoundException {
         //Check if being attacked perform attack action
         if(isBeingAttacked) {
             System.out.println("Being attacked, performing attacked action");
@@ -256,20 +258,20 @@ public class Bot {
         //TODO
         //Unread messages
         if(getUnreadMessages() != 0){
-            //TODO
-//            getPageController().goToPage(Messages.MESSAGES);
+//            ((Messages)getPageController().getPage(Messages.MESSAGES)).parseAllMessages(this);
+            getPageController().goToPage(Messages.MESSAGES);
             return;
         }
-
+        //PUT BREAKPOINT HERE
         List<Planet> merchantItems = getPlanets().values().stream().filter(a -> a.canGetMerchantItem()).collect(Collectors.toList());
         if(merchantItems.size() != 0){
             //TODO
-            List<Planet> currentPlanet = merchantItems.stream().filter(a -> a.getCoordinates().equals(currentPlanetCoordinates)).collect(Collectors.toList());
+            List<Planet> currentPlanet = merchantItems.stream().filter(a -> a.getCoordinates().equals(getCurrentPlanetCoordinates())).collect(Collectors.toList());
             if(currentPlanet.size() == 1){
                 //you are on the current planet
                 //get the merchant item
                 //TODO
-                if(driverController.waitForElement(By.xpath(pageController.getPage(Merchant.MERCHANT).uniqueXPath()),1L,TimeUnit.MINUTES)){
+                if(getDriverController().waitForElement(By.xpath(getPageController().getPage(Merchant.MERCHANT).uniqueXPath()),1L,TimeUnit.MINUTES)){
                     //You're on the merchant page
                     getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
                             getDriverController().getDriver().findElement(By.cssSelector("#js_traderImportExport")));
@@ -297,7 +299,7 @@ public class Bot {
                 }
                 //you're not on the merchant page, go to the merchant page
                 //this will go to the merchant page then cycle back through the other more important events all over again.
-                pageController.goToPage(Merchant.MERCHANT);
+                getPageController().goToPage(Merchant.MERCHANT);
 
                 return;
             }
@@ -306,8 +308,12 @@ public class Bot {
 //            pageController.goToPageOnPlanet(merchantItems.get(0).getCoordinates(),Merchant.MERCHANT);
         }
 
-        //Send fleet out
-        if(fleetInfo.getFleetsRemaining() == 1 || fleetInfo.getFleetsRemaining() - 1 > 0){
+        //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
+        if(fleetInfo.getFleetsTotal() == 1 || fleetInfo.getFleetsRemaining() - 1 > 0){
+            if(getCurrentPlanet().getShips().size() == 0) {
+                System.out.println("No ships to send fleets");
+                return;
+            }
             //TODO
             //probably shouldn't loop over each planet?????
             //loop over each planet one by one and try to send out fleets.
@@ -317,7 +323,7 @@ public class Bot {
 
     }
 
-    private void performNextBuildTask() throws IOException {
+    private void performNextBuildTask() throws IOException, SQLException, ClassNotFoundException {
         //TODO
         //TODO research at same time as buildings
         List<BuildTask> tasks = getBuildTasks();
@@ -328,7 +334,27 @@ public class Bot {
 //                pageController.goToPageOnPlanet(tasks.get(0).getCoordinates(),tasks.get(0).getBuildable().getType());
                 return;
             }
+
             BuildTask build = tasks.get(0);
+            HashMap<String, Integer> requirements = Buildable.getBuildableRequirements(build.getBuildable().getName());
+            if(!(requirements.size() == 1 && requirements.containsValue(build.getBuildable().getName())))
+                for(Map.Entry<String, Integer> e : requirements.entrySet()) {
+                    Buildable b = Buildable.getBuildableByName(e.getKey());
+                    b.setCurrentLevel(e.getValue());
+                    if (b.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase())) {
+                        if (getResearch().get(e.getKey()) < e.getValue()) {
+                            System.out.println("Don't have prerequisites, can't build yet");
+                            getNextBuildTask().add(0,new BuildTask(b,LocalDateTime.now()));
+                            return;
+                        }else continue;
+                    }if(getCurrentPlanet().getAllBuildables().containsKey(e.getKey()))
+                        if(getCurrentPlanet().getBuildable(e.getKey()).getCurrentLevel() < e.getValue()) {
+                            System.out.println("Don't have prerequisites, can't build yet");
+                            getNextBuildTask().add(0,new BuildTask(b,LocalDateTime.now()));
+                            return;
+                        }
+                }
+
 
             if(getDriverController().getDriver().findElements(By.xpath(pageController.getPage(build.getBuildable().getType()).uniqueXPath())).size() > 0) {
                 //YOU are on the correct page build the item in question
@@ -336,7 +362,11 @@ public class Bot {
                 Buildable b = build.getBuildable();
                 boolean dm = false;
                 Resource cost = b.getLevelCost(b.getCurrentLevel());
-                Buildable currentPlanetBuildable = getCurrentPlanet().getBuildable(build.getBuildable().getName());
+                Buildable currentPlanetBuildable = null;
+                if(build.getBuildable().getType().toLowerCase().equalsIgnoreCase(Research.RESEARCH))
+                    currentPlanetBuildable = researchBuildable.get(build.getBuildable().getName());
+                else
+                    currentPlanetBuildable = getCurrentPlanet().getBuildable(build.getBuildable().getName());
                 System.out.println("Trying to build: "+b.getName()+", level: "+b.getCurrentLevel()+", cost: "+cost+", dm: "+cost.subtract(getCurrentPlanet().getResources()).getDarkMatterCost());
                 if(getCurrentPlanet().getResources().lessThan(cost))
                     if(cost.subtract(getCurrentPlanet().getResources()).getDarkMatterCost() <= getDarkMatter())
@@ -350,9 +380,14 @@ public class Bot {
                     System.out.println("Can't build yet, building currently being built: "+
                             buildingBeingBuilt.getBuildable().getName()+", level: "+buildingBeingBuilt.getBuildable().getCurrentLevel()+
                             ", completeTime: "+buildingBeingBuilt.getCompleteTime());
+                    setBuildTasks(new ArrayList<>());
                     return;
                 }if(!dm && getCurrentPlanet().getResources().lessThan(cost)) {
                     System.out.println("Can't build yet, can't afford.  Current resources: "+getCurrentPlanet().getResources()+", dm: "+getDarkMatter());
+                    setBuildTasks(new ArrayList<>());
+                    return;
+                }if(!canBuild(build)){
+                    System.out.println("can't build yet");
                     setBuildTasks(new ArrayList<>());
                     return;
                 }
@@ -360,26 +395,35 @@ public class Bot {
                 if(!dm && isBuilding) {
                     //use the quick build link
                     PageController.parseGenericBuildings(Jsoup.parse(getDriverController().getDriver().getPageSource()), this);
-                    getDriverController().executeJavaScript(currentPlanetBuildable.getQuickBuildLink());
-                    tasks.set(0,null);
+                    if(currentPlanetBuildable != null && currentPlanetBuildable.getQuickBuildLink() != null && !currentPlanetBuildable.getQuickBuildLink().isEmpty())
+                        getDriverController().executeJavaScript(currentPlanetBuildable.getQuickBuildLink());
+                    else
+                        System.out.println("Can't build, something went wrong");
+                    tasks.remove(0);
                     System.out.println("Build complete");
                     return;
                 }
-                //TODO test shipyard and defense
+                //TODO test shipyard and defense with dark matter
                 driverController.clickWait(By.cssSelector(currentPlanetBuildable.getCssSelector()+" > a"),1L,TimeUnit.MINUTES);
                 driverController.waitForElement(By.cssSelector("#content"),1L,TimeUnit.MINUTES);
                 if(parseOpenedPanel(getCurrentPlanet(),driverController.getDriver().getPageSource())) {
                     //SHIPS
                     if(!useSmallButton.contains(build.getBuildable().getType().toLowerCase())) {
-                        JavaScriptFunctions.fillFormByXpath(driverController, "//*[@id='number]", b.getCurrentLevel() + "");
-                        getDriverController().getDriver().findElement(By.xpath("//*[@id='content']/div[3]/a")).sendKeys(Keys.RETURN);
-                    }else
+                        String xpath = "//*[@id='number']";
+                        getDriverController().waitForElement(By.xpath(xpath),1L, TimeUnit.MINUTES);
+                        WebElement e = getDriverController().getDriver().findElement(By.xpath(xpath));
+                        e.clear();
+                        e.sendKeys(b.getCurrentLevel()+"",Keys.ENTER);
+                    }else {
+                        String xpath = "//*[@id='content']/div[2]/a";
+                        getDriverController().waitForElement(By.xpath(xpath),1L, TimeUnit.MINUTES);
                         getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
-                                getDriverController().getDriver().findElement(By.xpath("//*[@id=\"content\"]/div[2]/a")));
-
-                    getDriverController().clickWait(By.xpath("//*[@id='premiumConfirmButton']"),1L,TimeUnit.MINUTES);
+                                getDriverController().getDriver().findElement(By.xpath(xpath)));
+                    }
+                    if(dm)
+                        getDriverController().clickWait(By.xpath("//*[@id='premiumConfirmButton']"),1L,TimeUnit.MINUTES);
                 }
-                tasks.set(0,null);
+                tasks.remove(0);
                 System.out.println("Build complete");
                 return;
             }
@@ -412,7 +456,8 @@ public class Bot {
         Elements build = v.select("a.build-it");
         boolean canBuild = v.select("a.build-it_disabled").size() != 0 ? false : true;
         Buildable b = currentPlanet.getBuildable(name);
-        b.setCurrentLevel(Integer.parseInt(currentLevel.replace("Level ","").trim()));
+        try{b.setCurrentLevel(Integer.parseInt(currentLevel.replace("Level ","").trim()));}
+        catch (NumberFormatException nfe){/*DO NOTHING*/}
         BuildTask bt = new BuildTask(b, LocalDateTime.now().plusSeconds(parseTime(time)));
         if(canBuild)
             currentPlanet.setCurrentBuildingBeingBuild(bt);
@@ -455,7 +500,11 @@ public class Bot {
             for(BuildTask b : queue){
                 if(b.isDone())
                     removeList.add(b);
-                Buildable buildable = planet.getValue().getBuildable(b.getBuildable().getName());
+                Buildable buildable;
+                if(getResearch().containsKey(b.getBuildable().getName()))
+                    buildable = Buildable.getBuildableByName(b.getBuildable().getName());
+                else
+                    buildable = planet.getValue().getBuildable(b.getBuildable().getName());
                 b.setCoordinates(new Coordinates(planet.getKey(),getLogin().getUser().getUniverse()));
                 if(b.getCountOrLevel() < 0)
                     buildable.setLevelNeeded(buildable.getCurrentLevel()+1);
@@ -465,7 +514,7 @@ public class Bot {
                 buildTasks.add(b);
             }
             //TODO if cost has energy then put solar sates to get that cost if you don't have it
-            HashMap<String,Integer> totalRequirements = new HashMap<>();
+            HashMap<String,BuildTask> totalRequirements = new HashMap<>();
             for(BuildTask b : buildTasks) {
                 HashMap<String, Integer> requirements = getBotRemainingRequirements(b.getBuildable(), planet);
                 for (BuildTask buildTask : queue) {
@@ -475,10 +524,18 @@ public class Bot {
                 }
                 for(String name : requirements.keySet())
                     if(totalRequirements.containsKey(name)) {
-                        if (totalRequirements.get(name) < requirements.get(name))
-                            totalRequirements.put(name, requirements.get(name));
+                        if (totalRequirements.get(name).getBuildable().getCurrentLevel() < requirements.get(name))
+                            totalRequirements.put(name,
+                                    totalRequirements.get(name).setBuildable(
+                                            totalRequirements.get(name).getBuildable().setCurrentLevel(requirements.get(name))
+                                    )
+                            );
                     }else
-                        totalRequirements.put(name,requirements.get(name));
+                        totalRequirements.put(name,
+                                new BuildTask().setBuildable(
+                                        Buildable.getBuildableByName(name).setCurrentLevel(requirements.get(name))
+                                ).setBuildPriority(b.getBuildPriority())
+                        );
             }
             if(totalRequirements.size()!=0) {
                 addTotalRequirements(totalRequirements, planet.getValue());
@@ -489,57 +546,67 @@ public class Bot {
             return new ArrayList<>();
 
         Collections.sort(buildTasks);
-        List<BuildTask> buildablePerPlanet = new ArrayList<>();
-        String currentPlanetID = buildTasks.get(0).getBotPlanetID();
-        buildablePerPlanet.add(buildTasks.get(0));
-        for(BuildTask buildTask : buildTasks){
-            if(buildTask.getBotPlanetID().equals(currentPlanetID))
-                continue;
-            buildablePerPlanet.add(buildTask);
-            currentPlanetID = buildTask.getBotPlanetID();
-        }
+//        List<BuildTask> buildablePerPlanet = new ArrayList<>();
+//        String currentPlanetID = buildTasks.get(0).getBotPlanetID();
+//        buildablePerPlanet.add(buildTasks.get(0));
+//        for(BuildTask buildTask : buildTasks){
+//            if(buildTask.getBotPlanetID().equals(currentPlanetID))
+//                continue;
+//            buildablePerPlanet.add(buildTask);
+//            currentPlanetID = buildTask.getBotPlanetID();
+//        }
 
         //hopefully by this point, buildablePerPlanet has one buildTask per planet of the highest priority
         List<BuildTask> canBuild = new ArrayList<>();
-        for(BuildTask buildTask : buildablePerPlanet) {
-            Buildable b = buildTask.getBuildable();
-            if(b.getType().toLowerCase().equals(Resources.RESOURCES.toLowerCase()) || b.getType().toLowerCase().equals(Facilities.FACILITIES.toLowerCase())) {
-                if (  planetIDMap.get(buildTask.getBotPlanetID()).canBuild(buildTask.getBuildable().getName()))
-                    canBuild.add(buildTask);
-            }else if(b.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase())) {
-                if (currentResearchBeingBuilt != null) {
-                    if (currentResearchBeingBuilt.isDone() && currentResearchBeingBuilt.isComplete())
-                        if (b.getNextLevelCost().canAfford(getDarkMatter(),planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
-                            canBuild.add(buildTask);
-                }else if (b.getNextLevelCost().canAfford(getDarkMatter(),planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
-                    canBuild.add(buildTask);
-            }else if(b.getNextLevelCost().canAfford(getDarkMatter(),planetIDMap.get(buildTask.getBotPlanetID()).getResources()))
+        for(BuildTask buildTask : buildTasks)
+            if(canBuild(buildTask))
                 canBuild.add(buildTask);
-        }
 
         return canBuild;
     }
 
-    private void addTotalRequirements(HashMap<String, Integer> totalRequirements, Planet value) throws SQLException, IOException, ClassNotFoundException {
-        //TODO add to database the prerequisites
+    private boolean canBuild(BuildTask buildTask){
+        Buildable b = buildTask.getBuildable();
+        Planet p = getPlanets().get(buildTask.getCoordinates().getStringValue());
+        //if you don't have the prerequisites, you can't build it
+        if(!p.hasPrerequisites(b.getName(),getResearch()))
+            return false;
+
+        //it is a research or the research lab
+        if(b.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase()) || b.getName().equalsIgnoreCase(Facilities.RESEARCH_LAB))
+            if(getCurrentResearchBeingBuilt() != null) {
+                if (getCurrentResearchBeingBuilt().isDone() && getCurrentResearchBeingBuilt().isComplete()) {
+                    return b.getCurrentLevelCost().canAfford(getDarkMatter(), p.getResources());
+                } else return false;
+            }else
+                return b.getCurrentLevelCost().canAfford(getDarkMatter(), p.getResources());
+
+        return p.canBuild(b.getName(),getResearch());
+    }
+
+    private void addTotalRequirements(HashMap<String, BuildTask> totalRequirements, Planet value) throws SQLException, IOException, ClassNotFoundException {
+        //TODO add to database the prerequisites  needs priority
         for(String s : totalRequirements.keySet())
             getDatabase().executeQuery(
                     "insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority)" +
-                    "   values("+value.getBotPlanetID()+","+Buildable.getBuildableByName(s).getId()+","+totalRequirements.get(s)+","+10+");"
+                    "   values("+value.getBotPlanetID()+","+totalRequirements.get(s).getBuildable().getId()+","+totalRequirements.get(s).getBuildable().getCurrentLevel()+","+totalRequirements.get(s).getBuildPriority()+");"
             );
     }
 
     private HashMap<String, Integer> getBotRemainingRequirements(Buildable buildable, Map.Entry<String, Planet> planet) {
         HashMap<String, Integer> requirements = Buildable.getBuildableRequirements(buildable.getName());
         List<String> removeMe = new ArrayList<>();
-        requirements.forEach((a,z)->{
-            Buildable bb = Buildable.getBuildableByName(a);
-            if(bb.getType().toLowerCase().equals(Research.RESEARCH)
-                    && getResearch().get(a) >= z)
-                requirements.remove(a);
-            else if(planet.getValue().getAllBuildables().get(a).getCurrentLevel() >= z)
-                requirements.remove(a);
-        });
+        for(Map.Entry<String, Integer> s : requirements.entrySet()){
+            Buildable bb = Buildable.getBuildableByName(s.getKey());
+            if(bb.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase())){
+                if(getResearch().get(s.getKey()) >= s.getValue())
+                    removeMe.add(s.getKey());
+                continue;
+            }else if(planet.getValue().getAllBuildables().get(s.getKey()).getCurrentLevel() >= s.getValue())
+                removeMe.add(s.getKey());
+        }
+        for(String s : removeMe)
+            requirements.remove(s);
         return requirements;
     }
 
@@ -576,6 +643,43 @@ public class Bot {
 
     public void setCurrentResearchBeingBuilt(BuildTask currentResearchBeingBuilt) {
         this.currentResearchBeingBuilt = currentResearchBeingBuilt;
+    }
+
+    public String getServerDomain(){
+        return getLogin().getServer().getDomain();
+    }
+    public String getCookies(){
+        Set<Cookie> cookies = getDriverController().getDriver().manage().getCookies();
+        StringBuilder builder = new StringBuilder("");
+        for(Cookie c : cookies)
+            builder.append(c.getName() + "=" + c.getValue() + "; ");
+        return builder.toString();
+    }
+
+    public boolean canGetAnotherPlanet(Coordinates toCoordinates) {
+        return canGetAnotherPlanet(getPlanets().size(),getResearch().get(Research.ASTROPHYSICS),toCoordinates);
+    }
+    public boolean canGetAnotherPlanet(Integer numPlanets,Integer astroLevel, Coordinates toCoordinates){
+        if(astroLevel < 1)
+            return false;
+        int planets = numPlanets, allowedPlanets = 1+(astroLevel+1)/2;
+        if(planets >= allowedPlanets)
+            return false;
+        if(astroLevel < 4 && (toCoordinates.getPlanet() > 12 || toCoordinates.getPlanet() < 4))
+            return false;
+        if(astroLevel < 6 && (toCoordinates.getPlanet() > 13 || toCoordinates.getPlanet() < 3))
+            return false;
+        if(astroLevel < 8 && (toCoordinates.getPlanet() > 14 || toCoordinates.getPlanet() < 2))
+            return false;
+        return true;
+    }
+
+    public Set<MessageObject> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<MessageObject> messages) {
+        this.messages = messages;
     }
 
     public int getRank() {
@@ -635,6 +739,7 @@ public class Bot {
     }
 
     public void addResearch(Buildable bb) {
+        researchBuildable.put(bb.getName(),bb);
         research.put(bb.getName(),bb.getCurrentLevel());
     }
 

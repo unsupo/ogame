@@ -272,7 +272,7 @@ public class OneEmail {
 //        }catch (Exception e){
 //            String dirverName = driverController.getDriverName();
 //            driverController.quit();
-//            throw new Exception(dirverName+": "+e.getMessage()+"\n"+Arrays.asList(e.getStackTrace()));
+//            throw new Exception(dirverName+": "+e.getMessages()+"\n"+Arrays.asList(e.getStackTrace()));
 //        }
 //        driverController.quit();
     }

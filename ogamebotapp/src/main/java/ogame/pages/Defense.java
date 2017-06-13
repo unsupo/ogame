@@ -35,6 +35,6 @@ public class Defense implements OgamePage{
     public void parsePage(Bot b, Document document) {
         PageController.parseGenericBuildings(document,b);
 
-        //TODO Currently building ships
+        PageController.parseShips(b,document);
     }
 }

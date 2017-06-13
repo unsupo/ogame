@@ -31,5 +31,9 @@ public class Fleet implements OgamePage{
     @Override
     public void parsePage(Bot b, Document document) {
         //TODO
+        String[] fleets = document.select("#slots > div:nth-child(1) > span > span").text().trim().split("/");
+        int fleetSlots = Integer.parseInt(fleets[1]), remaining = Integer.parseInt(fleets[0]);
+        b.getFleetInfo().setFleetsTotal(fleetSlots);
+        b.getFleetInfo().setFleetsUsed(remaining);
     }
 }
