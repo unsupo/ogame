@@ -10,6 +10,26 @@ The difficulties in this include determining the best targets to attack
 based off the database from ogame xml data, and the already gathered espionage 
 and combat reports.
 
+Attacking:
+
+query database for espionage and combat reports where no defense was present
+and player is inactive get only latest based on date and coordinates.
+Sort this by resources either gathered last or in the espionage report.
+make sure espionage report shows defense and fleets if it can.
+
+if no results come back then query ogame xml players for inactive
+and points less than or equal to current points.
+
+if no probes then send 1 small cargo into the closest planet in the 
+above list.
+
+else send 1 probe. at some point you send more probes to get more info
+if you don't have defense and ship info.
+
+get number of small/largo cargos preferably small and send it to the planet
+if you don't have enough then build more in the queue and send what you have.
+
+
 #### STILL TO DO ####
 - Clean up Bot class. Way too big <br/>
 - Better way to get settings from SettingManager class.<br/>
@@ -38,3 +58,4 @@ Calculating best targets based on previous data, ect.
 - add more info to database
 - add a column to the database, planet_queue and profile for maintain, where if true it will make sure the planet has that many ships/defense always on the planet, this can never be set to done
 - will it ever be an issue to worry about fields remaining on planet
+- when to think about IRN

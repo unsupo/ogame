@@ -393,11 +393,13 @@ public class Bot {
 
                 if(!dm && isBuilding) {
                     //use the quick build link
+                    //TODO fix, sometimes it builds it even though its already building it
                     PageController.parseGenericBuildings(Jsoup.parse(getDriverController().getDriver().getPageSource()), this);
                     if(currentPlanetBuildable != null && currentPlanetBuildable.getQuickBuildLink() != null && !currentPlanetBuildable.getQuickBuildLink().isEmpty())
                         getDriverController().executeJavaScript(currentPlanetBuildable.getQuickBuildLink());
                     else
                         System.out.println("Can't build, something went wrong");
+                    currentPlanetBuildable.setQuickBuildLink("");
                     tasks.remove(0);
                     System.out.println("Build complete");
                     return;
