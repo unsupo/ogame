@@ -249,8 +249,8 @@ public class Bot {
         //Literally nothing to do, just go to the overview page.
         getPageController().goToPage(Overview.OVERVIEW);
         System.out.println("Nothing to do, waiting");
-        Thread.sleep(r.nextInt(60000-10000+1)+30000); //wait 30 seconds before updating page.  This helps from ogame logging you out
-        getPageController().parsePage(Overview.OVERVIEW);
+        Thread.sleep(r.nextInt(60000-10000+1)+30000); //wait between 30 and 60 seconds before updating page.  This helps from ogame logging you out
+        getPageController().goToPage(Overview.OVERVIEW);
     }
     private transient Random r = new Random();
 
@@ -305,7 +305,7 @@ public class Bot {
             }
 
             //go to next planet in merchantItems list that can get a merchant item and
-//            pageController.goToPageOnPlanet(merchantItems.get(0).getCoordinates(),Merchant.MERCHANT);
+            pageController.goToPageOnPlanet(merchantItems.get(0).getCoordinates(),Merchant.MERCHANT);
         }
 
         //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
@@ -325,13 +325,12 @@ public class Bot {
 
     private void performNextBuildTask() throws IOException, SQLException, ClassNotFoundException {
         //TODO
-        //TODO research at same time as buildings
         List<BuildTask> tasks = getBuildTasks();
         if(tasks != null && tasks.size() > 0){
             List<BuildTask> currentPlanetBuild = tasks.stream().filter(a -> a.getCoordinates().equals(currentPlanetCoordinates)).collect(Collectors.toList());
+            //no currentPlanetBuild, but there are BuildTasks then the build task isn't on this planet
             if(currentPlanetBuild.size() == 0) {
-                //TODO change planet
-//                pageController.goToPageOnPlanet(tasks.get(0).getCoordinates(),tasks.get(0).getBuildable().getType());
+                pageController.goToPageOnPlanet(tasks.get(0).getCoordinates(),tasks.get(0).getBuildable().getType());
                 return;
             }
 
@@ -488,6 +487,8 @@ public class Bot {
 
     public List<BuildTask> getNextBuildTask() throws SQLException, IOException, ClassNotFoundException {
         //TODO buildable requirements
+        //TODO maintain add a column to database and check for it here
+        //TODO if maintain then make sure that defense/ships count is >= level else add to build queue the difference
         List<BuildTask> buildTasks = new ArrayList<>();
         HashMap<String,Planet> planetIDMap = new HashMap<>();
         for(Map.Entry<String, Planet> planet : getPlanets().entrySet()) {
@@ -576,10 +577,10 @@ public class Bot {
         if(b.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase()) || b.getName().equalsIgnoreCase(Facilities.RESEARCH_LAB))
             if(getCurrentResearchBeingBuilt() != null) {
                 if (getCurrentResearchBeingBuilt().isDone() && getCurrentResearchBeingBuilt().isComplete()) {
-                    return b.getCurrentLevelCost().canAfford(getDarkMatter(), p.getResources());
+                    return Buildable.getBuildableByName(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
                 } else return false;
             }else
-                return b.getCurrentLevelCost().canAfford(getDarkMatter(), p.getResources());
+                return Buildable.getBuildableByName(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
 
         return p.canBuild(b.getName(),getResearch());
     }

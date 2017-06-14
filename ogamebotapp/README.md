@@ -1,14 +1,23 @@
 # Ogame Bot App #
 This is the bot itself.  This uses the [Selenium Framework](http://www.seleniumhq.org/projects/webdriver/) with a [phantomjs headless browser](http://phantomjs.org/) to automate the game itself.
 
+The bot is working and will build and maintain itself based on a queue.  
+
+It is a long way from done.
+
+Next major hurdle is farming inactives.<br/>
+The difficulties in this include determining the best targets to attack
+based off the database from ogame xml data, and the already gathered espionage 
+and combat reports.
 
 #### STILL TO DO ####
-- Clean up Bot class.  <br/>
+- Clean up Bot class. Way too big <br/>
 - Better way to get settings from SettingManager class.<br/>
 - Improve BuildingSimulator class, include research in simulation as well<br/>
 - Combat report parsing (espionage report parsing complete)
 - Finding targets, this includes blind attacking, calculating correct number of probes needed based on previous data.  
 Calculating best targets based on previous data, ect.
+- when to research more levels of computer, astrophysics, espionage, weapons, armour and shielding technologies
 - Fleet sending
 - Rocket sending
 - fleet saving, how?, when?, ect
@@ -25,3 +34,7 @@ Calculating best targets based on previous data, ect.
 - finding human targets
 - moons, how to create them, how to move between them
 - alliance stuff, should bots be in alliance with each other, could allow for wars
+- Fix ogame logging me out for no reason (might have been fixed due to refreshing page instead of clicking on the link to the page again)
+- add more info to database
+- add a column to the database, planet_queue and profile for maintain, where if true it will make sure the planet has that many ships/defense always on the planet, this can never be set to done
+- will it ever be an issue to worry about fields remaining on planet

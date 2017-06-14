@@ -10,6 +10,8 @@ import ogame.objects.game.fleet.FleetObject;
 import ogame.objects.game.planet.Planet;
 import ogame.objects.game.planet.PlanetBuilder;
 import ogame.objects.game.planet.PlanetProperties;
+import ogame.objects.game.planet.ResourceObject;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -53,7 +55,10 @@ public class PageController {
         //TODO utilize tooltip on each planet (right side) to navigate to pages this allows direct navigation to different planets
         OgamePage page = ogamePages.get(pageName.toLowerCase());
         b.setCurrentPage(pageName);
-        b.getDriverController().clickWait(By.xpath(page.getXPathSelector()),1L,TimeUnit.MINUTES);
+        if(getCurrentPage().equals(pageName))
+            b.getDriverController().getDriver().navigate().refresh();
+        else
+            b.getDriverController().clickWait(By.xpath(page.getXPathSelector()),1L,TimeUnit.MINUTES);
         boolean r = b.getDriverController().waitForElement(By.xpath(page.uniqueXPath()), 1L, TimeUnit.MINUTES);
         parsePage(page);
         return r;
@@ -119,12 +124,12 @@ public class PageController {
 
         //parse resources
         List<Long> values = new ArrayList<>();
-        String[] storage = new String[3];
+        String[] storage = new String[4];
         int i = 0;
         for(String v : Arrays.asList("metal","crystal","deuterium","energy","darkmatter")) {
             Elements vv = d.select("#resources_" + v);
             values.add(Long.parseLong(vv.text().trim().replace(".", "")));
-            if(i<3)
+            if(i<4)
                 storage[i] = vv.attr("class").trim();
 
             i++;
@@ -132,6 +137,7 @@ public class PageController {
         currentPlanet.setMetalStorageString(storage[0]);
         currentPlanet.setCrystalStorageString(storage[1]);
         currentPlanet.setDueteriumStorageString(storage[2]);
+        currentPlanet.setEnergyStorageString(storage[3]);
 
         currentPlanet.setResources(new Resource(values.get(0),values.get(1),values.get(2),values.get(3)));
 
@@ -202,32 +208,17 @@ public class PageController {
         List<String> resources = new ArrayList<>(Arrays.asList(functions.get(0).split("[{|}]")))
                 .stream().filter(a -> a.contains("actualFormat")).collect(Collectors.toList());
 
-        List<String> order = Arrays.asList("metal","crystal","deuterium","energy","darkmatter");
-        for (int i = 0; i < resources.size(); i++){
-//            System.out.print(order.get(i)+": ");
-            String[] res = resources.get(i).split(":");
-            String actual = res[2].split(",")[0];
-            String max = "", production = "";
-            if(res.length > 3) {
-                max = res[3].split(",")[0];
-                production = res[4];
+        JSONObject jo = new JSONObject(functions.get(0).replaceAll(".*\\(","").replace(");}",""));
+
+        for(String s : jo.keySet()){
+            if("honorScore".equals(s)) {
+                b.setHonorPoints(jo.getInt(s));
+                continue;
             }
-            Planet p = b.getCurrentPlanet();
-            if(order.get(i).equals("metal")){
-                p.setMetalStorage(Long.parseLong(max));
-                p.getResources(true).setMetal(Long.parseLong(actual));
-                p.setMetalProduction(Double.parseDouble(production));
-            }
-            if(order.get(i).equals("crystal")){
-                p.setCrystalStorage(Long.parseLong(max));
-                p.getResources(true).setCrystal(Long.parseLong(actual));
-                p.setCrystalProduction(Double.parseDouble(production));
-            }
-            if(order.get(i).equals("deuterium")){
-                p.setDueteriumStorage(Long.parseLong(max));
-                p.getResources(true).setDeuterium(Long.parseLong(actual));
-                p.setDueteriumProduction(Double.parseDouble(production));
-            }
+            ResourceObject ro = new ResourceObject(s,jo.getJSONObject(s));
+            if(ResourceObject.DARK_MATTER.equals(s))
+                b.setDarkMatter(ro.getActual());
+            b.getCurrentPlanet().getResourceObjects().add(ro);
         }
     }
 
@@ -337,5 +328,13 @@ public class PageController {
 
             p.getCurrentShipyardBeingBuild().add(buildTask);
         }
+    }
+
+    public String getCurrentPage() {
+        for(OgamePage p : ogamePages.values())
+            if(b.getDriverController().getDriver().findElements(By.xpath(p.uniqueXPath())).size() > 0)
+                return p.getPageName();
+
+        return Overview.OVERVIEW;
     }
 }
