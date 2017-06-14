@@ -255,39 +255,12 @@ public class ResourceObject {
 
         ResourceObject that = (ResourceObject) o;
 
-        if (storageCapacity != that.storageCapacity) return false;
-        if (denCapacity != that.denCapacity) return false;
-        if (available != that.available) return false;
-        if (purchased != that.purchased) return false;
-        if (found != that.found) return false;
-        if (consumption != that.consumption) return false;
-        if (max != that.max) return false;
-        if (actual != that.actual) return false;
-        if (Double.compare(that.currentProduction, currentProduction) != 0) return false;
-        if (Double.compare(that.production, production) != 0) return false;
-        if (resourceName != null ? !resourceName.equals(that.resourceName) : that.resourceName != null) return false;
-        if (availableClassName != null ? !availableClassName.equals(that.availableClassName) : that.availableClassName != null)
-            return false;
-        if (storageCapacityClassName != null ? !storageCapacityClassName.equals(that.storageCapacityClassName) : that.storageCapacityClassName != null)
-            return false;
-        if (currentProductionClassName != null ? !currentProductionClassName.equals(that.currentProductionClassName) : that.currentProductionClassName != null)
-            return false;
-        if (denCapacityClassName != null ? !denCapacityClassName.equals(that.denCapacityClassName) : that.denCapacityClassName != null)
-            return false;
-        if (purchasedClassName != null ? !purchasedClassName.equals(that.purchasedClassName) : that.purchasedClassName != null)
-            return false;
-        if (foundClassName != null ? !foundClassName.equals(that.foundClassName) : that.foundClassName != null)
-            return false;
-        if (consumptionClassName != null ? !consumptionClassName.equals(that.consumptionClassName) : that.consumptionClassName != null)
-            return false;
-        return className != null ? className.equals(that.className) : that.className == null;
+        return resourceName != null ? resourceName.equals(that.resourceName) : that.resourceName == null;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        result = resourceName != null ? resourceName.hashCode() : 0;
-        return result;
+        return resourceName != null ? resourceName.hashCode() : 0;
     }
 
     @Override

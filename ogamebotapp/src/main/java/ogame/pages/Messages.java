@@ -165,6 +165,8 @@ public class Messages implements OgamePage {
                 );
             Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
 
+            //TODO Combat reports
+
             if(b.getCurrentPlanet().getSetting(SettingsManager.DELETE_MESSAGES,b.getOgameUserId()).equalsIgnoreCase("true"))
                 b.getMessages().forEach(a -> { //added to the database, may safely delete messages
                     try {
