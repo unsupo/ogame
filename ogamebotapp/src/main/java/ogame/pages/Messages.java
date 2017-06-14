@@ -93,7 +93,7 @@ public class Messages implements OgamePage {
 //            String sep = i++<cookies.size()-1?"; ":"";
         for(Cookie c : cookies)
             builder.append(c.getName() + "=" + c.getValue() + "; ");
-//      NO CONCURRENCY
+//      NO CONCURRENCY to avoid getting logged off
 //        ExecutorService executor = FileOptions.runConcurrentProcessNonBlocking(tabIds.stream().map(a -> (Callable) () -> {
         for(int a : tabIds)
             try {
