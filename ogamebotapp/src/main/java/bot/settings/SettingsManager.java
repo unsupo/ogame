@@ -5,10 +5,7 @@ import utilities.database.Database;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -46,10 +43,10 @@ public class SettingsManager {
         this.planetId = planet.getBotPlanetID();
     }
 
-    public HashMap<String, String> getSettings() throws SQLException {
+    public HashMap<String, String> getSettings() throws SQLException, IOException, ClassNotFoundException {
         if(settings == null)
             settings = new HashMap<>();
-        List<Map<String, Object>> v = d.executeQuery("select * from config where bot_planets_id = " + planetId);
+        List<Map<String, Object>> v = getDatabase().executeQuery("select * from config where bot_planets_id = " + planetId);
         if(v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0)
             v.get(0).forEach((a, b)->settings.put(a,b!=null?b.toString():null));
         fillInDefaults();
@@ -82,5 +79,10 @@ public class SettingsManager {
 
     public void setPlanetId(String planetId) {
         this.planetId = planetId;
+    }
+
+    public SettingsManager setPlanet(Planet planet) {
+        this.planet = planet;
+        return this;
     }
 }

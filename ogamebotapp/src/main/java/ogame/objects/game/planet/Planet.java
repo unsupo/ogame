@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 5/10/17.
@@ -37,9 +38,11 @@ public class Planet {
     private double metalProduction, crystalProduction, dueteriumProduction;
     private long metalStorage, crystalStorage, dueteriumStorage;
 
-    private String metalStorageString, crystalStorageString, dueteriumStorageString;
+    private String metalStorageString, crystalStorageString, dueteriumStorageString, energyStorageString;
 
     private long energyAvailable, energyProduction, energyConsuption, merchantItemCost = -1;
+
+    private Set<ResourceObject> resourceObjects = new HashSet<>();
 
     private Coordinates coordinates;
 
@@ -103,11 +106,11 @@ public class Planet {
             if(getCurrentBuildingBeingBuild() != null && getCurrentBuildingBeingBuild().isComplete())
                 currentBuildingBeingBuild = null;
             List<BuildTask> remove = new ArrayList<>();
-            currentShipyardBeingBuild.forEach(a->{
+            getCurrentShipyardBeingBuild().forEach(a->{
                 if(a.isComplete())
                     remove.add(a);
             });
-            currentShipyardBeingBuild.removeAll(remove);
+            getCurrentShipyardBeingBuild().removeAll(remove);
         }
         lastUpdate = now;
     }
@@ -240,13 +243,30 @@ public class Planet {
             }else
                 settingsManager = new SettingsManager(this);
         }
-        return settingsManager;
+        return settingsManager.setPlanet(this);
     }public SettingsManager getSettingsManager(String botPlanetID) throws SQLException, IOException, ClassNotFoundException {
         if(settingsManager == null)
             settingsManager = new SettingsManager(this);
-        return settingsManager;
+        return settingsManager.setPlanet(this);
     }
 
+
+
+    public void setEnergyStorageString(String energyStorageString) {
+        this.energyStorageString = energyStorageString;
+    }
+
+    public String getEnergyStorageString(){
+        return energyStorageString;
+    }
+
+    public Set<ResourceObject> getResourceObjects() {
+        return resourceObjects;
+    }
+
+    public void setResourceObjects(Set<ResourceObject> resourceObjects) {
+        this.resourceObjects = resourceObjects;
+    }
 
     public void setSettingsManager(SettingsManager settingsManager) {
         this.settingsManager = settingsManager;
@@ -325,15 +345,15 @@ public class Planet {
     }
 
     public long getEnergyAvailable() {
-        return energyAvailable;
+        return getResourceObject(ResourceObject.ENERGY).getActual();
     }
 
     public void setEnergyAvailable(long energyAvailable) {
         this.energyAvailable = energyAvailable;
     }
 
-    public long getEnergyProduction() {
-        return energyProduction;
+    public double getEnergyProduction() {
+        return getResourceObject(ResourceObject.ENERGY).getProduction();
     }
 
     public void setEnergyProduction(long energyProduction) {
@@ -341,7 +361,11 @@ public class Planet {
     }
 
     public long getEnergyConsuption() {
-        return energyConsuption;
+        return getResourceObject(ResourceObject.ENERGY).getConsumption();
+    }
+
+    public ResourceObject getResourceObject(String resourceName){
+        return getResourceObjects().stream().filter(a -> a.getResourceName().equals(resourceName)).collect(Collectors.toList()).get(0);
     }
 
     public void setEnergyConsuption(long energyConsuption) {
@@ -473,7 +497,7 @@ public class Planet {
     }
 
     public double getMetalProduction() {
-        return metalProduction;
+        return getResourceObject(ResourceObject.METAL).getCurrentProduction();
     }
 
     public void setMetalProduction(double metalProduction) {
@@ -481,7 +505,7 @@ public class Planet {
     }
 
     public double getCrystalProduction() {
-        return crystalProduction;
+        return getResourceObject(ResourceObject.CRYSTAL).getCurrentProduction();
     }
 
     public void setCrystalProduction(double crystalProduction) {
@@ -489,7 +513,7 @@ public class Planet {
     }
 
     public double getDueteriumProduction() { //per second
-        return dueteriumProduction;
+        return getResourceObject(ResourceObject.DEUETERIUM).getCurrentProduction();
     }
 
     public void setDueteriumProduction(double dueteriumProduction) {
@@ -573,7 +597,10 @@ public class Planet {
 
 
     public double getEnergyPercent() {
-        return energyConsuption/(double)energyProduction;
+        double d = Math.abs(getEnergyConsuption()/(getEnergyProduction() == 0?1:(double)getEnergyProduction())),
+                productionFactor = d > 1 ? 1 : d;
+
+        return productionFactor;
     }
 
     public void setPlanetImageURL(String planetImageURL) {
@@ -593,7 +620,7 @@ public class Planet {
             }else
                 queueManager = new QueueManager(this);
         }
-        return queueManager;
+        return queueManager.setPlanet(this);
     }
 
     public void setQueueManager(QueueManager queueManager) {

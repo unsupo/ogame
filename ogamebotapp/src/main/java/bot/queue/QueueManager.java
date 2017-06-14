@@ -92,34 +92,43 @@ public class QueueManager {
         return v.get(0).getBuildPriority();
     }
 
+//    public Planet getPlanet() {
+//        if(planet == null)
+//            planet = b
+//        return planet;
+//    }
+
     private void autoBuild() throws SQLException, IOException, ClassNotFoundException {
         List<BuildTask> buildTasks = new ArrayList<>();
         if(queue.isEmpty() &&
             planet.getSetting(SettingsManager.SIMULATE_QUEUE_ON_EMPTY,planetId).equalsIgnoreCase("true"))
             buildTasks.addAll(simulateQueue());
         if(planet.getSetting(SettingsManager.AUTO_BUILD_METAL_STORAGE,planetId).equalsIgnoreCase("true")
-                && (planet.getMetalStorageString() == null || (planet.getMetalStorageString() != null && planet.getMetalStorageString().isEmpty())))
+                && (planet.getMetalStorageString() == null || (planet.getMetalStorageString() != null && !planet.getMetalStorageString().isEmpty())))
             buildTasks.add(
                     new BuildTask().setBuildable(
                             Buildable.getBuildableByName(Resources.METAL_STORAGE)
                                     .setCurrentLevel(planet.getBuildable(Resources.METAL_STORAGE).getCurrentLevel()+1)
                     ).setBuildPriority(getMaxPriority()+1)
+                    .setCountOrLevel(planet.getBuildable(Resources.METAL_STORAGE).getCurrentLevel()+1)
             );
         if(planet.getSetting(SettingsManager.AUTO_BUILD_CRYSTAL_STORAGE,planetId).equalsIgnoreCase("true")
-                && (planet.getCrystalStorageString() == null || (planet.getCrystalStorageString() != null && planet.getCrystalStorageString().isEmpty())))
+                && (planet.getCrystalStorageString() == null || (planet.getCrystalStorageString() != null && !planet.getCrystalStorageString().isEmpty())))
             buildTasks.add(
                     new BuildTask().setBuildable(
                         Buildable.getBuildableByName(Resources.CRYSTAL_STORAGE)
                                 .setCurrentLevel(planet.getBuildable(Resources.CRYSTAL_STORAGE).getCurrentLevel()+1)
                     ).setBuildPriority(getMaxPriority()+1)
+                    .setCountOrLevel(planet.getBuildable(Resources.CRYSTAL_STORAGE).getCurrentLevel()+1)
             );
         if(planet.getSetting(SettingsManager.AUTO_BUILD_DEUTERIUM_STORAGE,planetId).equalsIgnoreCase("true")
-                && (planet.getDueteriumStorageString() == null || (planet.getDueteriumStorageString() != null && planet.getDueteriumStorageString().isEmpty())))
+                && (planet.getDueteriumStorageString() == null || (planet.getDueteriumStorageString() != null && !planet.getDueteriumStorageString().isEmpty())))
             buildTasks.add(
                     new BuildTask().setBuildable(
                             Buildable.getBuildableByName(Resources.DUETERIUM_TANK)
                                     .setCurrentLevel(planet.getBuildable(Resources.DUETERIUM_TANK).getCurrentLevel()+1)
                     ).setBuildPriority(getMaxPriority()+1)
+                    .setCountOrLevel(planet.getBuildable(Resources.DUETERIUM_TANK).getCurrentLevel()+1)
             );
         if(planet.getSetting(SettingsManager.AUTO_BUILD_SOLAR,planetId).equalsIgnoreCase("true")
                 && planet.getEnergyPercent()*100 < Integer.parseInt(planet.getSetting(SettingsManager.AUTO_BUILD_SOLAR_PERCENT,planetId)))
@@ -128,9 +137,11 @@ public class QueueManager {
                             Buildable.getBuildableByName(Resources.SOLAR_PLANT)
                                     .setCurrentLevel(planet.getBuildable(Resources.SOLAR_PLANT).getCurrentLevel()+1)
                     ).setBuildPriority(getMaxPriority()+1)
+                    .setCountOrLevel(planet.getBuildable(Resources.SOLAR_PLANT).getCurrentLevel()+1)
             );
 
-        FileOptions.runConcurrentProcessNonBlocking((Callable)()->{insertBuildTasks(buildTasks); return null;});
+        if(buildTasks.size() > 0)
+            FileOptions.runConcurrentProcessNonBlocking((Callable)()->{insertBuildTasks(buildTasks); return null;});
     }
 
     private void insertBuildTasks(List<BuildTask> diff) throws SQLException, IOException, ClassNotFoundException {
@@ -159,6 +170,12 @@ public class QueueManager {
 
     public void setQueue(List<BuildTask> queue) {
         this.queue = queue;
+    }
+
+
+    public QueueManager setPlanet(Planet planet) {
+        this.planet = planet;
+        return this;
     }
 
     @Override
