@@ -25,6 +25,7 @@ public class MessageObject {
     private boolean isNewMessage = false;
 
     private EspionageMessage espionageMessage;
+    private CombatMessage combatMessage;
 
     public MessageObject(long messageId, String messageStatus, String messageTitle, String messageDate, String from, Elements messageContent) {
         this.messageId = messageId;
@@ -49,7 +50,7 @@ public class MessageObject {
         if(type == null){
             if(tabId == 20 && messageTitle.contains("Espionage report from"))
                 type = ESPIONAGE;
-            else if(tabId == 21)
+            else if(tabId == 21 && messageTitle.contains("Combat Report"))
                 type = COMBAT_REPORT;
             else
                 type = OTHER;
@@ -143,6 +144,11 @@ public class MessageObject {
         if(getType().equals(ESPIONAGE) && espionageMessage == null)
             espionageMessage = new EspionageMessage(this, server, cookies);
         return espionageMessage;
+    }
+    public CombatMessage getCombatMessage(String server, String cookies) throws IOException {
+        if(getType().equals(COMBAT_REPORT) && combatMessage == null)
+            combatMessage = new CombatMessage(this, server, cookies);
+        return combatMessage;
     }
 
     public void setEspionageMessage(EspionageMessage espionageMessage) {
