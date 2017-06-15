@@ -23,8 +23,8 @@ public class Shop implements OgamePage{
         return "#menuTable > li:nth-child(12) > a > span";
     }
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='buttonz']/div[2]/button[1]";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

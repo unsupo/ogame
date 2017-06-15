@@ -33,8 +33,8 @@ public class Shipyard implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='buttonz']/div[1]/h2/span[1]";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

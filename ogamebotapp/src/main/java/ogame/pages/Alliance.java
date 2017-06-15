@@ -24,8 +24,8 @@ public class Alliance implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='eins']";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override
