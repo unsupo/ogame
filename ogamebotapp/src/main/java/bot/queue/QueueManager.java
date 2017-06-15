@@ -25,11 +25,13 @@ public class QueueManager {
     private transient Planet planet;
 
     private transient List<BuildTask> queue = new ArrayList<>();
+    private transient HashMap<String,Integer> research;
 
-    public QueueManager(Planet planet) {
+    public QueueManager(Planet planet,HashMap<String,Integer> research) {
         //TODO auto build;
         this.planet = planet;
         this.planetId = planet.getBotPlanetID();
+        this.research = research;
     }
 
     private transient Database d;
@@ -155,7 +157,9 @@ public class QueueManager {
 
     private List<BuildTask> simulateQueue(){
         try {
-            List<Buildable> v = new BuildingSimulator(planet.getAllBuildables()).simulate();
+            HashMap<String, Buildable> q = planet.getAllBuildables();
+            research.forEach((a,b)->q.put(a,Buildable.getBuildableByName(a).setCurrentLevel(b)));
+            List<Buildable> v = new BuildingSimulator(q).simulate();
             Collections.reverse(v);
             List<BuildTask> buildTasks = new ArrayList<>();
             for (int i = 0; i < v.size(); i++)

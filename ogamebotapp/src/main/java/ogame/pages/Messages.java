@@ -3,6 +3,7 @@ package ogame.pages;
 import bot.Bot;
 import bot.settings.SettingsManager;
 import com.google.gson.Gson;
+import ogame.objects.game.messages.CombatMessage;
 import ogame.objects.game.messages.EspionageMessage;
 import ogame.objects.game.messages.MessageObject;
 import org.jsoup.Jsoup;
@@ -138,7 +139,8 @@ public class Messages implements OgamePage {
                 );
 
             try {
-                Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
+                if(!builder1.toString().isEmpty())
+                    Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
             }catch (Exception e){}
 
             List<EspionageMessage> espionageMessages = b.getMessages().stream().map(a -> {
@@ -150,12 +152,12 @@ public class Messages implements OgamePage {
                 return null;
             }).filter(a -> a != null).collect(Collectors.toList());
 
-            String insert = "insert into espionage_messages(messages_id,loot,counter_esp_percent,small_cargo_needed,largo_cargo_needed," +
+            String insert = "insert into espionage_messages(server_id,messages_id,loot,counter_esp_percent,small_cargo_needed,largo_cargo_needed," +
                     "loot_percent,message_date,planet_name,player_name,status,activity,api,coordinates,is_honorable,metal,crystal,deuterium," +
                     "solar,json_levels,json_active_repair) values(";
             builder1 = new StringBuilder("");
             for(EspionageMessage m : espionageMessages)
-                builder1.append(
+                builder1.append( b.getLogin().getServer().getServerID()+","+
                         insert+m.getMessageId()+","+m.getLoot()+","+m.getCounterEspionagePercent()+","+m.getSmallCargosNeeded()+","+
                         m.getLargeCargosNeeded()+","+m.getLootPercent()+",'"+ Timestamp.valueOf(m.getMessageDate())+"'::timestamp,'"+
                         m.getPlanetName()+"','"+m.getPlayerName()+"','"+m.getStatus()+"','"+m.getActivity()+"','"+m.getApi()+"','"+
@@ -163,9 +165,47 @@ public class Messages implements OgamePage {
                         m.getResources().getCrystal()+","+m.getResources().getDeuterium()+","+m.getResources().getEnergy()+",'"+
                         new Gson().toJson(m.getLevels())+"','"+new Gson().toJson(m.getActiveRepair())+"') ON CONFLICT DO NOTHING;"
                 );
-            Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
+            if(!builder1.toString().isEmpty())
+                Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
 
             //TODO Combat reports
+            List<CombatMessage> combatMessages = b.getMessages().stream().map(a -> {
+                try {
+                    return a.getCombatMessage(b.getServerDomain(), b.getCookies());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }).filter(a -> a != null).collect(Collectors.toList());
+
+            insert = "insert into COMBAT_MESSAGES(" +
+                    "server_id,message_id,message_date," +
+                    "attacker_gains,defender_gains,debris_size," +
+                    "actually_repaired,attacker_honor,defender_honor," +
+                    "recycler_count,moon_change_percent,attacker_weapons,attacker_shields," +
+                    "attacker_armour,defender_weapons,defender_shields,defender_armour," +
+                    "loot_metal,loot_crystal,loot_deueterium,debris_metal," +
+                    "debris_cyrstal,attacker_name,defender_name,api,attacker_status," +
+                    "defender_status,attacker_planet_coords,defender_planet_coords," +
+                    "json_attacker_ships,json_attacker_ships_lost,json_defender_ships," +
+                    "json_defender_ships_lost) values(";
+            builder1 = new StringBuilder("");
+            for(CombatMessage m : combatMessages)
+                builder1.append(
+                        b.getLogin().getServer().getServerID()+","+m.getMessageId()+",'"+Timestamp.valueOf(m.getMessageDate())+"'::timestamp,"+
+                                m.getAttackerGainsOrLosses()+","+m.getDefenderGainsOrLosses()+","+m.getDebrisFieldSize()+","+
+                                m.getActuallyRepaired()+","+m.getAttackerHonorPointsGainOrLoss()+","+m.getDefenderHonorPointsGainOrLoss()+","+
+                                m.getRecyclerCount()+","+m.getMoonChancePercent()+","+m.getAttackerWeapons()+","+m.getAttackerShields()+","+
+                                m.getAttackerArmour()+","+m.getDefenderWeapons()+","+m.getDefenderShields()+","+m.getDefenderArmour()+","+
+                                m.getLoot().getMetal()+","+m.getLoot().getCrystal()+","+m.getLoot().getDeuterium()+","+m.getDebrisField().getMetal()+","+
+                                m.getDebrisField().getCrystal()+",'"+m.getAttackerName()+"','"+m.getDefenderName()+"','"+m.getApi()+"','"+m.getAttackerStatus()+"','"+
+                                m.getDefenderStatus()+"','"+m.getAttackerCoordinates().getStringValue()+"','"+m.getDefenderCoordinates().getStringValue()+"','"+
+                                new Gson().toJson(m.getAttackerShips())+"','"+new Gson().toJson(m.getAttackerShipsLost())+"','" +
+                                new Gson().toJson(m.getDefenderShipsDefence())+"','"+new Gson().toJson(m.getDefenderShipsLost())+"'" +
+                                ") ON CONFLICT DO NOTHING; "
+                );
+            if(!builder1.toString().isEmpty())
+                Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
 
             if(b.getCurrentPlanet().getSetting(SettingsManager.DELETE_MESSAGES,b.getOgameUserId()).equalsIgnoreCase("true"))
                 b.getMessages().forEach(a -> { //added to the database, may safely delete messages

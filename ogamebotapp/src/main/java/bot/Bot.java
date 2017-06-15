@@ -1,5 +1,7 @@
 package bot;
 
+import bot.attacking.AttackManager;
+import bot.attacking.Target;
 import bot.settings.SettingsManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,6 +54,7 @@ public class Bot {
     private String currentPage;
     private Coordinates currentPlanetCoordinates;
     private transient PageController pageController;
+    private AttackManager attackManager;
     private FleetInfo fleetInfo = new FleetInfo();
     private Set<MessageObject> messages = new HashSet<>();
 
@@ -314,12 +317,33 @@ public class Bot {
                 System.out.println("No ships to send fleets");
                 return;
             }
+            if(!getCurrentPlanet().hasPrerequisites(Ship.ESPIONAGE_PROBE,getResearch())) {
+                quickAttack(getAttackManager().getAttackTargets().get(0));
+                return;
+            }
+            if(getAttackManager().getSafeAttackTargets().size() == 0) {
+                sendProbe(getAttackManager().getEspionageTargets().get(0));
+                return;
+            }
+            quickAttack(getAttackManager().getSafeAttackTargets().get(0));
+            return;
+
             //TODO
             //probably shouldn't loop over each planet?????
             //loop over each planet one by one and try to send out fleets.
-            //first see if you can send a probe or check databse info etc
+            //first see if you can send a probe or check database info etc
             //check if this bot should send fleet out
         }
+
+    }
+
+    private void sendProbe(Target espionageTargets) {
+        //TODO send probes out
+    }
+
+    private void quickAttack(Target attackTargets) {
+        //TODO send fleet out
+        int smallCargoCount = getCurrentPlanet().getBuildable(Ship.SMALL_CARGO).getCurrentLevel();
 
     }
 
@@ -485,6 +509,7 @@ public class Bot {
 
     private void preformBeingAttackedAction() {
         //TODO
+        //i'd imagine you'd first try to send everything away, then spend remaining resources
     }
 
     public List<BuildTask> getNextBuildTask() throws SQLException, IOException, ClassNotFoundException {
@@ -494,7 +519,7 @@ public class Bot {
         List<BuildTask> buildTasks = new ArrayList<>();
         HashMap<String,Planet> planetIDMap = new HashMap<>();
         for(Map.Entry<String, Planet> planet : getPlanets().entrySet()) {
-            List<BuildTask> queue = planet.getValue().getQueueManager(getOgameUserId()).getQueue(id)
+            List<BuildTask> queue = planet.getValue().getQueueManager(getOgameUserId(),getResearch()).getQueue(id)
                     .stream().filter(a->!isDone(a,planet.getValue())).collect(Collectors.toList());
 
             planetIDMap.put(planet.getValue().getBotPlanetID(),planet.getValue());
@@ -547,17 +572,7 @@ public class Bot {
         }
         if(buildTasks.size() <= 0)
             return new ArrayList<>();
-
         Collections.sort(buildTasks);
-//        List<BuildTask> buildablePerPlanet = new ArrayList<>();
-//        String currentPlanetID = buildTasks.get(0).getBotPlanetID();
-//        buildablePerPlanet.add(buildTasks.get(0));
-//        for(BuildTask buildTask : buildTasks){
-//            if(buildTask.getBotPlanetID().equals(currentPlanetID))
-//                continue;
-//            buildablePerPlanet.add(buildTask);
-//            currentPlanetID = buildTask.getBotPlanetID();
-//        }
 
         //hopefully by this point, buildablePerPlanet has one buildTask per planet of the highest priority
         List<BuildTask> canBuild = new ArrayList<>();
@@ -682,6 +697,16 @@ public class Bot {
         if(astroLevel < 8 && (toCoordinates.getPlanet() > 14 || toCoordinates.getPlanet() < 2))
             return false;
         return true;
+    }
+
+    public AttackManager getAttackManager() {
+        if(attackManager == null)
+            attackManager = new AttackManager(login.getServer(), getOgameUserId(), getPoints(), getRank(),getCurrentPlanetCoordinates());
+        return attackManager;
+    }
+
+    public void setAttackManager(AttackManager attackManager) {
+        this.attackManager = attackManager;
     }
 
     public Set<MessageObject> getMessages() {

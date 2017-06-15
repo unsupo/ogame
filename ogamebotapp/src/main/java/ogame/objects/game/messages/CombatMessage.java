@@ -24,7 +24,8 @@ public class CombatMessage {
     private String attackerName, defenderName, api, tacticalRetreat, attackerPlanetName, defenderPlanetName, attackerStatus, defenderStatus;
     private Coordinates attackedPlanetCoordinates, attackerCoordinates, defenderCoordinates;
     private LocalDateTime messageDate;
-    private HashMap<String,Integer> attackerShips, defenderShipsDefence;
+    private HashMap<String,Integer> attackerShips = new HashMap<>(), attackerShipsLost = new HashMap<>(),
+            defenderShipsDefence = new HashMap<>(), defenderShipsLost = new HashMap<>();
 
     public CombatMessage(MessageObject messageObject, String server, String cookies) throws IOException {
         messageId = messageObject.getMessageId();
@@ -45,8 +46,70 @@ public class CombatMessage {
         );
     }
 
-    private void parseMoreDetails(Document parse) {
-        //TODO parse more details
+    private void parseMoreDetails(Document moreDetails) {
+        tacticalRetreat = moreDetails.select("p.detail_txt > span").get(0).text().trim()+","+
+                            moreDetails.select("div.detailReport > p > span").get(1).text();
+
+        Elements debris = moreDetails.select("div.resourcedisplay");
+        recyclerCount = Long.parseLong(debris.select("div > span").get(2).text().trim());
+        debrisField = new Resource();
+        for(Element e : debris.get(1).select("li"))
+            if(e.select("div.metal").size() > 0)
+                debrisField.setMetal(Long.parseLong(e.select("span.res_value").text()));
+            else if(e.select("div.crystal").size() > 0)
+                debrisField.setMetal(Long.parseLong(e.select("span.res_value").text()));
+        Elements honor = moreDetails.select("div.fightdetails > span");
+        attackerHonorPointsGainOrLoss = Long.parseLong(honor.get(0).text().trim().replaceAll("[A-Za-z:+ ]",""));
+        defenderHonorPointsGainOrLoss = Long.parseLong(honor.get(1).text().trim().replaceAll("[A-Za-z:+ ]",""));
+
+        Elements attacker = moreDetails.select("div.combat_participant.attacker");
+        attackerStatus = attacker.attr("class").replace("combat_participant","").replace("attacker","").trim();
+        String attackNamePlanet = attacker.select("div.common_info > span").get(0).text();
+        attackerPlanetName = attackNamePlanet.replaceAll(".*from ","").replaceAll("[0-9]:[0-9]{3}:[0-9]+.*","").trim();
+        attackerCoordinates = new Coordinates(attackNamePlanet.replaceAll(".*"+attackerPlanetName,"").trim());
+
+        for(Element e : attacker.select("ul.common_info > li"))
+            if(e.text().contains("Weapons")) {
+                String v = e.text().replace("Weapons: ", "");
+                attackerWeapons = Integer.parseInt(v.equals("-")?"0":v);
+            }else if(e.text().contains("Shields")) {
+                String v = e.text().replace("Shields: ", "");
+                attackerShields = Integer.parseInt(v.equals("-")?"0":v);
+            }else if(e.text().contains("Armour")) {
+                String v = e.text().replace("Armour: ", "");
+                attackerArmour = Integer.parseInt(v.equals("-")?"0":v);
+            }
+
+        for(Element e : attacker.select("div.buildingimg")){
+            Elements span = e.select("span");
+            attackerShips.put(span.get(0).text().trim(),Integer.parseInt(span.get(1).text().trim()));
+            attackerShipsLost.put(span.get(0).text().trim(),Integer.parseInt(span.get(2).text().trim().equals("-")?"0":span.get(2).text().trim()));
+        }
+
+        Elements defender = moreDetails.select("div.combat_participant.defender");
+        defenderStatus = defender.attr("class").replace("combat_participant","").replace("defender","").trim();
+        String defenderNamePlanet = defender.select("div.common_info > span").get(0).text();
+        defenderPlanetName = defenderNamePlanet.replaceAll(".*from ","").replaceAll("[0-9]:[0-9]{3}:[0-9]+.*","").trim();
+        defenderCoordinates = new Coordinates(defenderNamePlanet.replaceAll(".*"+defenderPlanetName,"").trim());
+
+        for(Element e : defender.select("ul.common_info > li"))
+            if(e.text().contains("Weapons")) {
+                String v = e.text().replace("Weapons: ", "");
+                defenderWeapons = Integer.parseInt(v.equals("-")?"0":v);
+            }else if(e.text().contains("Shields")) {
+                String v = e.text().replace("Shields: ", "");
+                defenderShields = Integer.parseInt(v.equals("-")?"0":v);
+            }else if(e.text().contains("Armour")) {
+                String v = e.text().replace("Armour: ", "");
+                defenderArmour = Integer.parseInt(v.equals("-")?"0":v);
+            }
+
+        for(Element e : defender.select("div.buildingimg")){
+            Elements span = e.select("span");
+            defenderShipsDefence.put(span.get(0).text().trim(),Integer.parseInt(span.get(1).text().trim()));
+            defenderShipsLost.put(span.get(0).text().trim(),Integer.parseInt(span.get(2).text().trim().equals("-")?"0":span.get(2).text().trim()));
+        }
+
     }
 
     private void parseMessageContent(Elements messageContent) {
@@ -79,6 +142,9 @@ public class CombatMessage {
 
         actuallyRepaired = Long.parseLong(defender.get(1).text().replaceAll("[A-Za-z: ]",""));
         moonChancePercent = Integer.parseInt(defender.get(2).text().replaceAll("[A-Za-z:% ]",""));
+
+        api = messageContent.select("div.msg_actions.clearfix > div > span").attr("title")
+                .replaceAll(".*value='","").replaceAll("' .*","");
     }
 
     public long getMessageId() {
@@ -337,6 +403,22 @@ public class CombatMessage {
         this.recyclerCount = recyclerCount;
     }
 
+    public HashMap<String, Integer> getAttackerShipsLost() {
+        return attackerShipsLost;
+    }
+
+    public void setAttackerShipsLost(HashMap<String, Integer> attackerShipsLost) {
+        this.attackerShipsLost = attackerShipsLost;
+    }
+
+    public HashMap<String, Integer> getDefenderShipsLost() {
+        return defenderShipsLost;
+    }
+
+    public void setDefenderShipsLost(HashMap<String, Integer> defenderShipsLost) {
+        this.defenderShipsLost = defenderShipsLost;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -384,7 +466,11 @@ public class CombatMessage {
         if (messageDate != null ? !messageDate.equals(that.messageDate) : that.messageDate != null) return false;
         if (attackerShips != null ? !attackerShips.equals(that.attackerShips) : that.attackerShips != null)
             return false;
-        return defenderShipsDefence != null ? defenderShipsDefence.equals(that.defenderShipsDefence) : that.defenderShipsDefence == null;
+        if (attackerShipsLost != null ? !attackerShipsLost.equals(that.attackerShipsLost) : that.attackerShipsLost != null)
+            return false;
+        if (defenderShipsDefence != null ? !defenderShipsDefence.equals(that.defenderShipsDefence) : that.defenderShipsDefence != null)
+            return false;
+        return defenderShipsLost != null ? defenderShipsLost.equals(that.defenderShipsLost) : that.defenderShipsLost == null;
     }
 
     @Override
@@ -420,7 +506,9 @@ public class CombatMessage {
         result = 31 * result + (defenderCoordinates != null ? defenderCoordinates.hashCode() : 0);
         result = 31 * result + (messageDate != null ? messageDate.hashCode() : 0);
         result = 31 * result + (attackerShips != null ? attackerShips.hashCode() : 0);
+        result = 31 * result + (attackerShipsLost != null ? attackerShipsLost.hashCode() : 0);
         result = 31 * result + (defenderShipsDefence != null ? defenderShipsDefence.hashCode() : 0);
+        result = 31 * result + (defenderShipsLost != null ? defenderShipsLost.hashCode() : 0);
         return result;
     }
 
@@ -458,7 +546,9 @@ public class CombatMessage {
                 ", defenderCoordinates=" + defenderCoordinates +
                 ", messageDate=" + messageDate +
                 ", attackerShips=" + attackerShips +
+                ", attackerShipsLost=" + attackerShipsLost +
                 ", defenderShipsDefence=" + defenderShipsDefence +
+                ", defenderShipsLost=" + defenderShipsLost +
                 '}';
     }
 }
