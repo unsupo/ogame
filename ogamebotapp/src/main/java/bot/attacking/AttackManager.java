@@ -6,15 +6,21 @@ import utilities.database.Database;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 6/14/17.
  */
 public class AttackManager {
     private Server server;
-    private int ogameUserId, points, rank;
+    private int ogameUserId;
+    private long points;
+    private int rank;
     private Coordinates mainPlanet;
+    private String name;
+    private HashMap<String,Target> targetHashMap = new HashMap<>();
 
     private transient Database d;
     private Database getDatabase() throws SQLException, IOException, ClassNotFoundException {
@@ -23,31 +29,101 @@ public class AttackManager {
         return d;
     }
 
-    public AttackManager(Server server, int ogameUserId, int points, int rank, Coordinates coordinates) {
+    public AttackManager(String username, Server server, int ogameUserId, int points, int rank, Coordinates coordinates) {
         this.server = server;
         this.ogameUserId = ogameUserId;
         this.points = points;
         this.rank = rank;
         mainPlanet = coordinates;
+        this.name = username;
     }
 
-    public List<Target> getEspionageTargets(){
+    public AttackManager setRankPoints(int rank, int points) {
+        this.rank = rank;
+        this.points = points;
+        return this;
+    }
 
-        return null;
+    public long getPoints() throws SQLException, IOException, ClassNotFoundException {
+        if(points <= 0) {
+            List<Map<String, Object>> v = getDatabase().executeQuery(
+                    queryPoints.replace(serverR, server.getServerID() + "").replace(nameR, name)
+            );
+            if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
+                points = (long) v.get(0).get("score");
+                rank = (int) v.get(0).get("position");
+            }
+            return points;
+        }
+        return points;
+    }
+
+    public List<Target> getEspionageTargets() throws SQLException, IOException, ClassNotFoundException {
+        //TODO better espionage targets?
+        return getBlindAttackTargets();
+    }
+
+    public List<Target> getBlindAttackTargets() throws SQLException, IOException, ClassNotFoundException {
+        List<Map<String, Object>> v = getDatabase().executeQuery(
+                queryPlayers.replace(serverR, server.getServerID() + "").replace(scoreR, getPoints() + "")
+        );
+        List<Target> targets;
+        if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
+            List<Target> coords = v.stream().map(a ->new Target(server,new Coordinates(a.get("coords").toString()))).collect(Collectors.toList());
+            for(Target t : coords)
+                if(!targetHashMap.containsKey(t.getCoordinates().getStringValue()))
+                    targetHashMap.put(t.getCoordinates().getStringValue(),t);
+        }
+        targets = new ArrayList<>(targetHashMap.values()).stream().filter(a->a.getLastAttack().plusHours(1).isBefore(LocalDateTime.now())).collect(Collectors.toList());
+        Collections.sort(targets,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
+
+        return targets;
     }
 
     public List<Target> getAttackTargets(){
-
-        return null;
+        //TODO
+        return new ArrayList<>();
     }
 
     public List<Target> getSafeAttackTargets(){
+        //TODO targets from espioange and combat reports
 
-        return null;
+        return  new ArrayList<>();
     }
 
     public List<Target> getRecyclerTargets(){
-
-        return null;
+        //TODO recycler targets
+        return  new ArrayList<>();
     }
+
+    private String serverR = "[SERVER]", scoreR = "[SCORE]", nameR = "[NAME]";
+    //this query gets the players who are inactive (I or i) who have a score between 5*yourScore and 1/5*yourScore
+    private String
+            queryPlayers = "" +
+            "select * from planet where server_id = "+serverR+" and (coords,timestamp) in (\n" +
+            "    select coords,max(timestamp)\n" +
+            "    \tfrom planet where server_id = "+serverR+" and player_id in (\n" +
+            "            select p.player_id from player p, player_highscore h\n" +
+            "                where p.player_id = h.player_id and p.timestamp = h.player_t\n" +
+            "                    and h.type = '0'\n" +
+            "                    and status in ('I','i')\n" +
+            "                    and p.server_id = "+serverR+"\n" +
+            "                    and p.timestamp = (select timestamp from player where server_id = "+serverR+" order by timestamp desc limit 1)\n" +
+            "                    and score > "+scoreR+"/5 and score < "+scoreR+" * 5\n" +
+            "                order by h.position desc\n" +
+            "    \t\t) group by coords)\n" +
+            "order by coords;",
+
+            queryPoints = "" +
+                    "select position,score from player p, player_highscore h \n" +
+                    "\twhere p.player_id = h.player_id and p.timestamp = h.player_t\n" +
+                    "    \tand p.server_id = "+serverR+"\n" +
+                    "        and h.type = '0'\n" +
+                    "        and (p.player_id,p.timestamp) in (\n" +
+                    "            \tselect player_id, timestamp from player \n" +
+                    "            \t\twhere server_id = "+serverR+" and name = '"+nameR+"' \n" +
+                    "            \t\torder by timestamp desc limit 1\n" +
+                    "            );"
+    ;
+
 }

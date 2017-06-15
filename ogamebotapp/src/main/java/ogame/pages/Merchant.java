@@ -25,8 +25,8 @@ public class Merchant implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='js_traderResources']";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

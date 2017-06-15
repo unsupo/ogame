@@ -53,8 +53,8 @@ public class Resources implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='slot01']/a";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

@@ -59,7 +59,7 @@ public class PageController {
             b.getDriverController().getDriver().navigate().refresh();
         else
             b.getDriverController().clickWait(By.xpath(page.getXPathSelector()),1L,TimeUnit.MINUTES);
-        boolean r = b.getDriverController().waitForElement(By.xpath(page.uniqueXPath()), 1L, TimeUnit.MINUTES);
+        boolean r = b.getDriverController().waitForElement(By.cssSelector(page.uniqueCssSelector()), 1L, TimeUnit.MINUTES);
         parsePage(page);
         return r;
     }
@@ -267,7 +267,10 @@ public class PageController {
         if(works) {
             BuildTask buildTask = new BuildTask();
             String name = activeConstruction.select("tr > th").text().trim();
-            buildTask.setBuildable(p.getBuildable(name));
+            Buildable bb = p.getBuildable(name);
+            if(bb == null)
+                bb = Buildable.getBuildableByName(name).setCurrentLevel(b.getResearch().get(name));
+            buildTask.setBuildable(bb);
 
             int level = Integer.parseInt(activeConstruction.select("span.level").text().replace("Level ", "").trim());
             buildTask.setCountOrLevel(level);
@@ -332,7 +335,7 @@ public class PageController {
 
     public String getCurrentPage() {
         for(OgamePage p : ogamePages.values())
-            if(b.getDriverController().getDriver().findElements(By.xpath(p.uniqueXPath())).size() > 0)
+            if(b.getDriverController().getDriver().findElements(By.cssSelector(p.uniqueCssSelector())).size() > 0)
                 return p.getPageName();
 
         return Overview.OVERVIEW;

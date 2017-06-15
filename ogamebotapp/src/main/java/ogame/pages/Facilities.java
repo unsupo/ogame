@@ -62,8 +62,8 @@ public class Facilities implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='stationbuilding']";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

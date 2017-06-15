@@ -10,6 +10,6 @@ public interface OgamePage {
     public String getPageName();
     public String getXPathSelector();
     public String getCssSelector();
-    public String uniqueXPath();
+    public String uniqueCssSelector();
     public void parsePage(Bot b, Document document);
 }

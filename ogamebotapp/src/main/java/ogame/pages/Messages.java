@@ -48,8 +48,8 @@ public class Messages implements OgamePage {
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id=\"buttonz\"]/div[2]/div[1]/ul";
+    public String uniqueCssSelector() {
+        return "#ui-id-1 > div";
     }
 
     @Override

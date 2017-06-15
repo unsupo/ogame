@@ -27,8 +27,8 @@ public class Defense implements OgamePage{
         return "#menuTable > li:nth-child(7) > a > span";
     }
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='details405']";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override
