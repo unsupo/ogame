@@ -1,22 +1,48 @@
 package ogame.objects.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import utilities.database.Database;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarndt on 5/8/17.
  */
 public class Coordinates implements Comparable<Coordinates>{
-    public static void main(String[] args) {
-        Random r = new Random();
-        List<Coordinates> coordinates = new ArrayList<>();
-        for(int i = 0; i<100; i++)
-            coordinates.add(new Coordinates(r.nextInt(9)+1,r.nextInt(499)+1,r.nextInt(15)+1));
-        System.out.println(coordinates);
-        Collections.sort(coordinates);
-        System.out.println(coordinates);
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
+        String query = "" +
+                "select * from planet where server_id = 135 and (coords,timestamp) in (\n" +
+                "    select coords,max(timestamp)\n" +
+                "    \tfrom planet where server_id = 135 and player_id in (\n" +
+                "            select p.player_id from player p, player_highscore h\n" +
+                "                where p.player_id = h.player_id and p.timestamp = h.player_t\n" +
+                "                    and h.type = '0'\n" +
+                "                    and status in ('I','i')\n" +
+                "                    and p.server_id = 135\n" +
+                "                    and p.timestamp = (select timestamp from player where server_id = 135 order by timestamp desc limit 1)\n" +
+                "                    and score > 709/5 and score < 709 * 5\n" +
+                "                order by h.position desc\n" +
+                "    \t\t) group by coords)\n" +
+                "order by coords;";
+
+        Coordinates mainPlanet = new Coordinates("8:307:8");
+        List<Map<String, Object>> v = Database.getExistingDatabaseConnection().executeQuery(query);
+        if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
+            List<Coordinates> coords = v.stream().map(a -> new Coordinates(a.get("coords").toString())).collect(Collectors.toList());
+            Collections.sort(coords,(a,b)->new Integer(a.getDistance(mainPlanet)).compareTo(b.getDistance(mainPlanet)));
+//            System.out.println(coords.get(0));
+            coords.forEach(System.out::println);
+        }
+
+//        Random r = new Random();
+//        List<Coordinates> coordinates = new ArrayList<>();
+//        for(int i = 0; i<100; i++)
+//            coordinates.add(new Coordinates(r.nextInt(9)+1,r.nextInt(499)+1,r.nextInt(15)+1));
+//        System.out.println(coordinates);
+//        Collections.sort(coordinates);
+//        System.out.println(coordinates);
     }
 
     private String universe;

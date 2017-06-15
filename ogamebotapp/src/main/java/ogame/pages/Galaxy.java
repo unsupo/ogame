@@ -24,8 +24,8 @@ public class Galaxy implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='galaxytable']/tbody";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

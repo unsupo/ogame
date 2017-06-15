@@ -300,4 +300,11 @@ public class Resource implements Comparable<Resource> {
         return l.compareTo(ll);
     }
 
+    public long getValue() {
+        return (long) (getMetal()*metalFactor+getCrystal()*crystalFactor+getDeuterium()*deuteriumFactor);
+    }
+
+    public long getTotal(){
+        return getMetal()+getCrystal()+getDeuterium();
+    }
 }

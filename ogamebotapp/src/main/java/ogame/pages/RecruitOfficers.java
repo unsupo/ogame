@@ -23,8 +23,8 @@ public class RecruitOfficers implements OgamePage{
         return "#menuTable > li:nth-child(11) > a > span";
     }
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='building']/li[8]";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

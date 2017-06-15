@@ -2,13 +2,14 @@ package bot;
 
 import bot.attacking.AttackManager;
 import bot.attacking.Target;
-import bot.settings.SettingsManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import ogame.objects.User;
 import ogame.objects.game.*;
 import ogame.objects.game.data.Server;
 import ogame.objects.game.fleet.FleetInfo;
+import ogame.objects.game.fleet.FleetObject;
+import ogame.objects.game.fleet.Mission;
 import ogame.objects.game.messages.MessageObject;
 import ogame.objects.game.planet.Planet;
 import ogame.pages.*;
@@ -20,7 +21,6 @@ import utilities.database.Database;
 import utilities.fileio.FileOptions;
 import utilities.webdriver.DriverController;
 import utilities.webdriver.DriverControllerBuilder;
-import utilities.webdriver.JavaScriptFunctions;
 
 import java.io.File;
 import java.io.IOException;
@@ -216,7 +216,7 @@ public class Bot {
 
     public void getInitialState() {
         System.out.println("Getting inital state");
-        Arrays.asList(Resources.RESOURCES, Facilities.FACILITIES, Research.RESEARCH, Shipyard.SHIPYARD, Defense.DEFENSE)
+        Arrays.asList(Resources.RESOURCES, Facilities.FACILITIES, Research.RESEARCH, Shipyard.SHIPYARD, Defense.DEFENSE, Fleet.FLEET)
                 .forEach(a -> {
                     try {
                         getPageController().goToPage(a);
@@ -257,7 +257,7 @@ public class Bot {
     }
     private transient Random r = new Random();
 
-    private void performIdleTask() throws IOException {
+    private void performIdleTask() throws IOException, SQLException, ClassNotFoundException {
         //TODO
         //Unread messages
         if(getUnreadMessages() != 0){
@@ -265,7 +265,7 @@ public class Bot {
             getPageController().goToPage(Messages.MESSAGES);
             return;
         }
-        //PUT BREAKPOINT HERE
+        //TODO PUT BREAKPOINT HERE
         List<Planet> merchantItems = getPlanets().values().stream().filter(a -> a.canGetMerchantItem()).collect(Collectors.toList());
         if(merchantItems.size() != 0){
             //TODO
@@ -274,7 +274,7 @@ public class Bot {
                 //you are on the current planet
                 //get the merchant item
                 //TODO
-                if(getDriverController().waitForElement(By.xpath(getPageController().getPage(Merchant.MERCHANT).uniqueXPath()),1L,TimeUnit.MINUTES)){
+                if(getDriverController().waitForElement(By.cssSelector(getPageController().getPage(Merchant.MERCHANT).uniqueCssSelector()),1L,TimeUnit.MINUTES)){
                     //You're on the merchant page
                     getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
                             getDriverController().getDriver().findElement(By.cssSelector("#js_traderImportExport")));
@@ -312,20 +312,20 @@ public class Bot {
         }
 
         //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
-        if(fleetInfo.getFleetsTotal() == 1 || fleetInfo.getFleetsRemaining() - 1 > 0){
+        if((getFleetInfo().getFleetsTotal() == 1 && getFleetInfo().getFleetsUsed() != 1 ) || getFleetInfo().getFleetsRemaining() - 1 > 0){
             if(getCurrentPlanet().getShips().size() == 0) {
                 System.out.println("No ships to send fleets");
                 return;
             }
-            if(!getCurrentPlanet().hasPrerequisites(Ship.ESPIONAGE_PROBE,getResearch())) {
-                quickAttack(getAttackManager().getAttackTargets().get(0));
+            if(getAttackManager().getSafeAttackTargets().size() > 0) {
+                quickAttack(getAttackManager().getSafeAttackTargets().get(0));
                 return;
             }
-            if(getAttackManager().getSafeAttackTargets().size() == 0) {
+            if(getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel()>0){
                 sendProbe(getAttackManager().getEspionageTargets().get(0));
                 return;
             }
-            quickAttack(getAttackManager().getSafeAttackTargets().get(0));
+            quickAttack(getAttackManager().getBlindAttackTargets().get(0));
             return;
 
             //TODO
@@ -337,14 +337,54 @@ public class Bot {
 
     }
 
-    private void sendProbe(Target espionageTargets) {
+    private void sendProbe(Target espionageTargets) throws SQLException, IOException, ClassNotFoundException {
         //TODO send probes out
+        int espionageProbesCount = getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel();
+        int espionageProbesNeeded = espionageTargets.getEspionageProbesNeeded(getResearch());
+        if(espionageProbesCount < espionageProbesNeeded)
+            buildRequest(new BuildTask().setBuildable(
+                    Buildable
+                            .getBuildableByName(Ship.ESPIONAGE_PROBE))
+                    .setCountOrLevel((espionageProbesNeeded-espionageProbesCount))
+                    .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
+            );
+        new Mission().sendFleet(
+                new FleetObject()
+                        .setMission(Mission.ESPIONAGE)
+                        .setToCoordinates(espionageTargets.getCoordinates())
+                        .addShip(Ship.ESPIONAGE_PROBE,espionageProbesCount)
+                ,this
+        );
+        System.out.println("Finished probing: "+espionageTargets);
     }
 
-    private void quickAttack(Target attackTargets) {
+    private void quickAttack(Target attackTargets) throws IOException, SQLException, ClassNotFoundException {
         //TODO send fleet out
         int smallCargoCount = getCurrentPlanet().getBuildable(Ship.SMALL_CARGO).getCurrentLevel();
+        int smallCargoNeeded = attackTargets.getSmallCargosNeeded();
+        if(smallCargoCount < smallCargoNeeded)
+            buildRequest(new BuildTask().setBuildable(
+                    Buildable
+                        .getBuildableByName(Ship.SMALL_CARGO))
+                        .setCountOrLevel((smallCargoNeeded-smallCargoCount))
+                        .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
+            );
+        new Mission().sendFleet(
+                new FleetObject()
+                    .setMission(Mission.ATTACKING)
+                    .setToCoordinates(attackTargets.getCoordinates())
+                    .addShip(Ship.SMALL_CARGO,smallCargoCount)
+                ,this
+        );
+        attackTargets.setLastAttack(LocalDateTime.now());
+        System.out.println("Finished attacking: "+attackTargets);
+    }
 
+    private void buildRequest(BuildTask buildTask) throws SQLException, IOException, ClassNotFoundException {
+        //TODO insert into planet_queue;
+        getDatabase().executeQuery(
+                "insert into planet_queue(bot_planets_id,buildable_id,build_level,priority) " +
+                "   values("+getCurrentPlanet().getBotPlanetID()+","+buildTask.getBuildable().getId()+","+buildTask.getBuildPriority()+") ON CONFLICT DO NOTHING; ");
     }
 
     private void performNextBuildTask() throws IOException, SQLException, ClassNotFoundException {
@@ -379,7 +419,7 @@ public class Bot {
                 }
 
 
-            if(getDriverController().getDriver().findElements(By.xpath(pageController.getPage(build.getBuildable().getType()).uniqueXPath())).size() > 0) {
+            if(getDriverController().getDriver().findElements(By.cssSelector(pageController.getPage(build.getBuildable().getType()).uniqueCssSelector())).size() > 0) {
                 //YOU are on the correct page build the item in question
                 //if you can can only afford with dark matter
                 Buildable b = build.getBuildable();
@@ -412,6 +452,14 @@ public class Bot {
                 }if(!canBuild(build)){
                     System.out.println("can't build yet");
                     setBuildTasks(new ArrayList<>());
+                    return;
+                }if(!dm &&
+                        Jsoup.parse(getDriverController().getDriver().getPageSource())
+                                .select("li.off").select("span.textlabel").stream()
+                                .map(a->a.text().trim()).collect(Collectors.toList())
+                                .contains(b.getName())
+                        ){
+                    System.out.println("Can't build yet");
                     return;
                 }
 
@@ -599,11 +647,15 @@ public class Bot {
             }else
                 return Buildable.getBuildableByName(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
 
+        HashMap<String, Integer> rr = getResearch();
+        if(getCurrentResearchBeingBuilt() != null && !(getCurrentResearchBeingBuilt().isDone() && getCurrentResearchBeingBuilt().isComplete()))
+            rr.put(getCurrentResearchBeingBuilt().getBuildable().getName(),getCurrentResearchBeingBuilt().getCountOrLevel()-1);
         return p.canBuild(b.getName(),getResearch());
     }
 
     private void addTotalRequirements(HashMap<String, BuildTask> totalRequirements, Planet value) throws SQLException, IOException, ClassNotFoundException {
         //TODO add to database the prerequisites  needs priority
+        //TODO check if queue already has it
         for(String s : totalRequirements.keySet())
             getDatabase().executeQuery(
                     "insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority)" +
@@ -701,8 +753,8 @@ public class Bot {
 
     public AttackManager getAttackManager() {
         if(attackManager == null)
-            attackManager = new AttackManager(login.getServer(), getOgameUserId(), getPoints(), getRank(),getCurrentPlanetCoordinates());
-        return attackManager;
+            attackManager = new AttackManager(login.getUser().getUsername(),login.getServer(), getOgameUserId(), getPoints(), getRank(),getCurrentPlanetCoordinates());
+        return attackManager.setRankPoints(getRank(),getPoints());
     }
 
     public void setAttackManager(AttackManager attackManager) {

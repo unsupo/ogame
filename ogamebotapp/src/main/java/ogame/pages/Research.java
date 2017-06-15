@@ -54,8 +54,8 @@ public class Research implements OgamePage{
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='wrapBattle']/h2";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override

@@ -37,8 +37,8 @@ public class Overview implements OgamePage {
     }
 
     @Override
-    public String uniqueXPath() {
-        return "//*[@id='detailWrapper']";
+    public String uniqueCssSelector() {
+        return getCssSelector()+".selected";
     }
 
     @Override
@@ -52,8 +52,10 @@ public class Overview implements OgamePage {
         p.setCurrentShipyardBeingBuild(null);
         for (int i = 0; i < v.size(); i++) {
             Elements activeConstruction = d.select(v.get(i));
-            boolean works = !(activeConstruction.select("tr").size() == 1
-                    && activeConstruction.select("a").attr("title").contains("There is no"));
+            boolean works = !(activeConstruction.select("tr").size() == 1 &&
+                    (activeConstruction.select("a").attr("title").toLowerCase().contains("There is no".toLowerCase()) ||
+                            activeConstruction.select("a").attr("title").toLowerCase().contains("There are no".toLowerCase())
+                    ));
             if (works) {
                 List<Element> ac = activeConstruction;
                 if(i != 2)

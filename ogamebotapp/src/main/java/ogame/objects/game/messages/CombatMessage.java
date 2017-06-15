@@ -51,16 +51,16 @@ public class CombatMessage {
                             moreDetails.select("div.detailReport > p > span").get(1).text();
 
         Elements debris = moreDetails.select("div.resourcedisplay");
-        recyclerCount = Long.parseLong(debris.select("div > span").get(2).text().trim());
+        recyclerCount = Long.parseLong(debris.select("div > span").get(2).text().replace(".","").trim());
         debrisField = new Resource();
         for(Element e : debris.get(1).select("li"))
             if(e.select("div.metal").size() > 0)
-                debrisField.setMetal(Long.parseLong(e.select("span.res_value").text()));
+                debrisField.setMetal(Long.parseLong(e.select("span.res_value").text().replace(".","")));
             else if(e.select("div.crystal").size() > 0)
-                debrisField.setMetal(Long.parseLong(e.select("span.res_value").text()));
+                debrisField.setMetal(Long.parseLong(e.select("span.res_value").text().replace(".","")));
         Elements honor = moreDetails.select("div.fightdetails > span");
-        attackerHonorPointsGainOrLoss = Long.parseLong(honor.get(0).text().trim().replaceAll("[A-Za-z:+ ]",""));
-        defenderHonorPointsGainOrLoss = Long.parseLong(honor.get(1).text().trim().replaceAll("[A-Za-z:+ ]",""));
+        attackerHonorPointsGainOrLoss = Long.parseLong(honor.get(0).text().trim().replaceAll("[A-Za-z:+\\. ]",""));
+        defenderHonorPointsGainOrLoss = Long.parseLong(honor.get(1).text().trim().replaceAll("[A-Za-z:+\\. ]",""));
 
         Elements attacker = moreDetails.select("div.combat_participant.attacker");
         attackerStatus = attacker.attr("class").replace("combat_participant","").replace("attacker","").trim();
@@ -82,8 +82,8 @@ public class CombatMessage {
 
         for(Element e : attacker.select("div.buildingimg")){
             Elements span = e.select("span");
-            attackerShips.put(span.get(0).text().trim(),Integer.parseInt(span.get(1).text().trim()));
-            attackerShipsLost.put(span.get(0).text().trim(),Integer.parseInt(span.get(2).text().trim().equals("-")?"0":span.get(2).text().trim()));
+            attackerShips.put(span.get(0).text().trim(),Integer.parseInt(span.get(1).text().replace(".","").trim()));
+            attackerShipsLost.put(span.get(0).text().trim(),Integer.parseInt(span.get(2).text().trim().equals("-")?"0":span.get(2).text().replace(".","").trim()));
         }
 
         Elements defender = moreDetails.select("div.combat_participant.defender");
@@ -124,7 +124,7 @@ public class CombatMessage {
         }
         String[] v = nameLosses.replace("Attacker:", "").replaceAll("[\\(\\)]", "").split(": ");
         attackerName = v[0].trim();
-        attackerGainsOrLosses = Integer.parseInt(v[1].trim());
+        attackerGainsOrLosses = Integer.parseInt(v[1].replace(".","").trim());
         loot = new Resource();
         for(String s : attacker.get(1).attr("title").split("<br/>"))
             if(s.contains("Metal"))
@@ -134,14 +134,14 @@ public class CombatMessage {
             else if(s.contains("Deuterium"))
                 loot.setDeuterium(Long.parseLong(s.replaceAll("[A-Za-z: ]","")));
         lootPercent = Integer.parseInt(attacker.get(1).text().replaceAll(".*Loot: ","").replaceAll("[A-Za-z:% ]",""));
-        debrisFieldSize = Long.parseLong(attacker.get(2).text().replaceAll("[A-Za-z:\\(\\) ]",""));
+        debrisFieldSize = Long.parseLong(attacker.get(2).text().replaceAll("[A-Za-z:\\.\\(\\) ]",""));
 
         String[] defString = defender.get(0).text().replace("Defender:", "").replaceAll("[\\(\\)]", "").split(": ");
         defenderName = defString[0].trim();
-        defenderGainsOrLosses = Long.parseLong(defString[1]);
+        defenderGainsOrLosses = Long.parseLong(defString[1].replace(".",""));
 
-        actuallyRepaired = Long.parseLong(defender.get(1).text().replaceAll("[A-Za-z: ]",""));
-        moonChancePercent = Integer.parseInt(defender.get(2).text().replaceAll("[A-Za-z:% ]",""));
+        actuallyRepaired = Long.parseLong(defender.get(1).text().replaceAll("[A-Za-z:\\. ]",""));
+        moonChancePercent = Integer.parseInt(defender.get(2).text().replaceAll("[A-Za-z:%\\. ]",""));
 
         api = messageContent.select("div.msg_actions.clearfix > div > span").attr("title")
                 .replaceAll(".*value='","").replaceAll("' .*","");

@@ -204,6 +204,8 @@ public class Planet {
         HashMap<String, Integer> allBs = new HashMap<>();
         getAllBuildables().forEach((a,b)->allBs.put(a,b.getCurrentLevel()));
         allBs.putAll(research);
+        if(getCurrentBuildingBeingBuild() != null && !(getCurrentBuildingBeingBuild().isComplete() && getCurrentBuildingBeingBuild().isDone()))
+            allBs.put(getCurrentBuildingBeingBuild().getBuildable().getName(),getCurrentBuildingBeingBuild().getCountOrLevel()-1);
 
         HashMap<String, Integer> requirements = Buildable.getBuildableRequirements(name);
         if(requirements.size() == 0) return true;

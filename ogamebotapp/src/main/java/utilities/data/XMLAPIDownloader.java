@@ -34,12 +34,14 @@ import java.util.stream.Collectors;
  * Created by jarndt on 9/27/16.
  */
 public class XMLAPIDownloader {
-    public static void main(String[] args) throws IOException, SQLException {
-        System.out.println("Downloading");
-        XMLAPIDownloader.downloadAllXML();
-        XMLToDatabase.parseAllFilesIntoDatabase();
-        System.out.println("Done Downloading");
-        System.exit(0);
+    public static void main(String[] args) throws IOException, SQLException, SchedulerException {
+//        System.out.println("Downloading");
+//        XMLAPIDownloader.downloadAllXML();
+//        XMLToDatabase.parseAllFilesIntoDatabase();
+//        System.out.println("Done Downloading");
+//        System.exit(0);
+
+        startDownloadXMLThreads();
     }
     static {
         FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);

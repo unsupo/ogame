@@ -26,6 +26,7 @@ public class FleetObject {
     private Resource resourcesBeingCarried;
     private long dataArrivalTime, playerId, shipCount;
     private boolean isReturnFlight = false;
+    private int speed = 10;
 
     LocalDateTime returnTime, sentTime, arrivalTime;
 
@@ -86,7 +87,14 @@ public class FleetObject {
         }
     }
 
+    public FleetObject addShip(String smallCargo, int smallCargoCount) {
+        getShips().put(smallCargo, smallCargoCount);
+        return this;
+    }
+
     public HashMap<String, Integer> getShips() {
+        if(ships == null)
+            ships = new HashMap<>();
         return ships;
     }
 
@@ -98,8 +106,9 @@ public class FleetObject {
         return toCoordinates;
     }
 
-    public void setToCoordinates(Coordinates toCoordinates) {
+    public FleetObject setToCoordinates(Coordinates toCoordinates) {
         this.toCoordinates = toCoordinates;
+        return this;
     }
 
     public Coordinates getFromCoordinates() {
@@ -114,8 +123,9 @@ public class FleetObject {
         return mission;
     }
 
-    public void setMission(String mission) {
+    public FleetObject setMission(String mission) {
         this.mission = mission;
+        return this;
     }
 
     public Resource getResourcesBeingCarried() {

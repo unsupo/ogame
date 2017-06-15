@@ -220,7 +220,7 @@ public class XMLToDatabase {
             res.append(vv[1]+",");
         }
         query = new StringBuilder(query.substring(0,query.length()-1));
-        res = new StringBuilder(res.substring(0,res.length()-1)).append(");");
+        res = new StringBuilder(res.substring(0,res.length()-1)).append(") ON CONFLICT DO NOTHING;");
         return query.append(res).toString();
     }
 
