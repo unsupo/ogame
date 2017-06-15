@@ -607,7 +607,7 @@ public class Planet {
         this.planetImageURL = planetImageURL;
     }
 
-    public QueueManager getQueueManager(int ogameUserId) throws SQLException, IOException, ClassNotFoundException {
+    public QueueManager getQueueManager(int ogameUserId, HashMap<String,Integer> research) throws SQLException, IOException, ClassNotFoundException {
         if(queueManager == null) {
             if(botPlanetID == null) {
                 List<Map<String, Object>> v = Database.getExistingDatabaseConnection().executeQuery(
@@ -615,10 +615,10 @@ public class Planet {
                 );
                 if (v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
                     botPlanetID = v.get(0).get("id").toString();
-                    queueManager = new QueueManager(this);
+                    queueManager = new QueueManager(this, research);
                 }
             }else
-                queueManager = new QueueManager(this);
+                queueManager = new QueueManager(this, research);
         }
         return queueManager.setPlanet(this);
     }
