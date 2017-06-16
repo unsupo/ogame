@@ -59,7 +59,7 @@ public class PageController {
             b.getDriverController().getDriver().navigate().refresh();
         else
             b.getDriverController().clickWait(By.xpath(page.getXPathSelector()),1L,TimeUnit.MINUTES);
-        boolean r = b.getDriverController().waitForElement(By.cssSelector(page.uniqueCssSelector()), 1L, TimeUnit.MINUTES);
+        boolean r = page.waitForPageToLoad(b.getDriverController(),TimeUnit.MINUTES,1L);
         parsePage(page);
         return r;
     }

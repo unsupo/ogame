@@ -15,7 +15,18 @@ import java.util.Map;
 public class PlayerData {
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         Server server = new Server(Server.IZAR);
-        System.out.println(new PlayerData("unsupo", server));
+//        System.out.println(new PlayerData("unsupo", server));
+
+        List<Map<String, Object>> v = Database.newDatabaseConnection().executeQuery(
+                "select * from player p, player_highscore h " +
+                        "   where p.player_id = h.player_id and p.timestamp = h.player_t" +
+                        "       and name = 'unsupo'" +
+                        "       and p.server_id = 135" +
+                        "       and type = '0'" +
+                        "   order by player_t"
+        );
+
+        v.forEach(System.out::println);
     }
 
     public static final String INACTIVE = "i", INACTIVE_30_DAYS = "I", VACTION_MODE = "v", SUSPENDED = "b", OUTLAW = "o";

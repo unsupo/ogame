@@ -9,10 +9,12 @@ import ogame.objects.game.messages.MessageObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import utilities.data.HttpsClient;
 import utilities.database.Database;
 import utilities.fileio.FileOptions;
+import utilities.webdriver.DriverController;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -21,8 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -50,6 +51,38 @@ public class Messages implements OgamePage {
     @Override
     public String uniqueCssSelector() {
         return "#ui-id-1 > div";
+    }
+
+    @Override
+    public boolean isPageLoaded(DriverController driverController) {
+        String style = Jsoup.parse(driverController.getDriver().getPageSource()).select("div.ajax_load_shadow").attr("style");
+        return style.contains("display:") && style.contains("none");
+    }
+
+    @Override
+    public boolean waitForPageToLoad(DriverController driverController, TimeUnit timeUnit, long l) {
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        boolean b = true;
+        try {
+            exec.submit(new Callable<Boolean>(){
+                @Override public Boolean call() throws Exception {
+                    return _waitForText(driverController);
+                }
+            }).get(l, timeUnit);
+            exec.shutdown();
+            exec.awaitTermination(l, timeUnit);
+        } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
+            b = false;
+        }finally{
+            exec.shutdownNow();
+        }
+        return b;
+    }private boolean _waitForText(DriverController driverController){
+        while(!isPageLoaded(driverController))
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e1) { /* DO NOTHING */ }
+        return true;
     }
 
     @Override
