@@ -5,6 +5,10 @@ import ogame.objects.game.Buildable;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import utilities.webdriver.DriverController;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jarndt on 5/8/17.
@@ -50,12 +54,22 @@ public class Research implements OgamePage{
 
     @Override
     public String getCssSelector() {
-        return "#menuTable > li:nth-child(5) > a > span";
+        return "#menuTable > li:nth-child(5) > a";
     }
 
     @Override
     public String uniqueCssSelector() {
         return getCssSelector()+".selected";
+    }
+
+    @Override
+    public boolean isPageLoaded(DriverController driverController) {
+        return driverController.getDriver().findElements(By.cssSelector("#details122")).size() > 0;
+    }
+
+    @Override
+    public boolean waitForPageToLoad(DriverController driverController, TimeUnit timeUnit, long l) {
+        return driverController.waitForElement(By.cssSelector("#details122"),l,timeUnit);
     }
 
     @Override
