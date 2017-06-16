@@ -5,15 +5,20 @@ import ogame.objects.game.BuildTask;
 import ogame.objects.game.Buildable;
 import ogame.objects.game.planet.Planet;
 import ogame.objects.game.planet.PlanetProperties;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import utilities.Timer;
+import utilities.webdriver.DriverController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Created by jarndt on 5/30/17.
@@ -33,12 +38,49 @@ public class Overview implements OgamePage {
 
     @Override
     public String getCssSelector() {
-        return "#menuTable > li:nth-child(1) > a > span";
+        return "#menuTable > li:nth-child(1) > a";
     }
 
     @Override
     public String uniqueCssSelector() {
         return getCssSelector()+".selected";
+    }
+
+    @Override
+    public boolean isPageLoaded(DriverController driverController) {
+        String v = Jsoup.parse(driverController.getDriver().getPageSource()).select("#honorContentField").text().trim();
+        try{
+            Integer.parseInt(v);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean waitForPageToLoad(DriverController driverController, TimeUnit timeUnit, long l) {
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        boolean b = true;
+        try {
+            exec.submit(new Callable<Boolean>(){
+                @Override public Boolean call() throws Exception {
+                    return _waitForText(driverController);
+                }
+            }).get(l, timeUnit);
+            exec.shutdown();
+            exec.awaitTermination(l, timeUnit);
+        } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
+            b = false;
+        }finally{
+            exec.shutdownNow();
+        }
+        return b;
+    }private boolean _waitForText(DriverController driverController){
+        while(!isPageLoaded(driverController))
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e1) { /* DO NOTHING */ }
+        return true;
     }
 
     @Override

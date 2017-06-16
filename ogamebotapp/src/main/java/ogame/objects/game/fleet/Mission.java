@@ -81,6 +81,7 @@ public class Mission {
         String shipIdR = "[SHIP_ID]", shipCountR = "[SHIP_COUNT]";
         String jsSelectShip = "toggleMaxShips(\"#shipsChosen\", "+shipIdR+","+shipCountR+"); ",
                 jsSubmit    = "checkShips(\"shipsChosen\"); trySubmit();";
+        //TODO this somehow added more than expected ships, ment to send 1, sent max instead
         StringBuilder page1 = new StringBuilder("");
         for(Map.Entry<String, Integer> s : fleetObject.getShips().entrySet())
             page1.append(

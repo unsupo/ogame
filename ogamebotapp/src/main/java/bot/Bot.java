@@ -274,7 +274,7 @@ public class Bot {
                 //you are on the current planet
                 //get the merchant item
                 //TODO
-                if(getDriverController().waitForElement(By.cssSelector(getPageController().getPage(Merchant.MERCHANT).uniqueCssSelector()),1L,TimeUnit.MINUTES)){
+                if(getPageController().getCurrentPage().equals(Merchant.MERCHANT)){
                     //You're on the merchant page
                     getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
                             getDriverController().getDriver().findElement(By.cssSelector("#js_traderImportExport")));
@@ -418,8 +418,7 @@ public class Bot {
                         }
                 }
 
-
-            if(getDriverController().getDriver().findElements(By.cssSelector(pageController.getPage(build.getBuildable().getType()).uniqueCssSelector())).size() > 0) {
+            if(getPageController().getCurrentPage().equals(build.getBuildable().getType())) {
                 //YOU are on the correct page build the item in question
                 //if you can can only afford with dark matter
                 Buildable b = build.getBuildable();

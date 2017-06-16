@@ -77,6 +77,8 @@ public class AttackManager {
         targets = new ArrayList<>(targetHashMap.values()).stream().filter(a->a.getLastAttack().plusHours(1).isBefore(LocalDateTime.now())).collect(Collectors.toList());
         Collections.sort(targets,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
 
+        //TODO remove targets who have defenses ie targets who's combat reports have a failed attack mission (or draw)
+
         return targets;
     }
 
