@@ -8,6 +8,7 @@ import ogame.objects.game.messages.CombatMessage;
 import ogame.objects.game.messages.EspionageMessage;
 import ogame.pages.Research;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -30,6 +31,20 @@ public class Target {
     public Target(Server server, Coordinates coordinates) {
         this.server = server;
         this.coordinates = coordinates;
+    }
+
+    public Target(Server server, CombatMessage combatMessage) {
+        this.server = server;
+        this.combatMessage = combatMessage;
+        this.coordinates = combatMessage.getDefenderCoordinates();
+        this.lastAttack = combatMessage.getMessageDate();
+    }
+
+    public Target(Server server, EspionageMessage json_esp_object) {
+        this.server = server;
+        this.espionageMessage = json_esp_object;
+        this.coordinates = espionageMessage.getCoordinates();
+        this.lastEspionage = espionageMessage.getMessageDate();
     }
 
     public int getSmallCargosNeeded() {
@@ -63,6 +78,22 @@ public class Target {
         if(lastProbeSentCount == 11)
             return 16;
         return 1;
+    }
+
+    public boolean hasDefense() throws IOException {
+        if(espionageMessage != null)
+            return espionageMessage.hasDefense();
+        if(combatMessage != null)
+            return combatMessage.hasDefense();
+        return false;
+    }
+
+    public int getLastProbeSentCount() {
+        return lastProbeSentCount;
+    }
+
+    public void setLastProbeSentCount(int lastProbeSentCount) {
+        this.lastProbeSentCount = lastProbeSentCount;
     }
 
     public EspionageMessage getEspionageMessage() {

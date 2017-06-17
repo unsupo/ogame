@@ -53,6 +53,7 @@ public class Mission {
         missionSelector = new HashMap<>();
         missionSelector.put(TRANSPORT,"#missionButton"+transport);
         missionSelector.put(ATTACKING,"#missionButton"+attack);
+        missionSelector.put(ESPIONAGE,"#missionButton"+espionageMission);
     }
 
     private int type = 1;
@@ -75,13 +76,15 @@ public class Mission {
             return;
         }if(fleetObject.getMission().equals(Mission.ESPIONAGE) &&
                 fleetObject.getShips().containsKey(Ship.ESPIONAGE_PROBE) &&
-                fleetObject.getShips().get(Ship.ESPIONAGE_PROBE) == 1)
-            sendProbe(b.getDriverController(),fleetObject.getToCoordinates());
+                fleetObject.getShips().get(Ship.ESPIONAGE_PROBE) == 1) {
+            sendProbe(b.getDriverController(), fleetObject.getToCoordinates());
+            return;
+        }
 
         String shipIdR = "[SHIP_ID]", shipCountR = "[SHIP_COUNT]";
         String jsSelectShip = "toggleMaxShips(\"#shipsChosen\", "+shipIdR+","+shipCountR+"); ",
                 jsSubmit    = "checkShips(\"shipsChosen\"); trySubmit();";
-        //TODO this somehow added more than expected ships, ment to send 1, sent max instead
+        //TODO this somehow added more than expected ships, ment to send 1, sent max instead this was probably an issue with something else
         StringBuilder page1 = new StringBuilder("");
         for(Map.Entry<String, Integer> s : fleetObject.getShips().entrySet())
             page1.append(

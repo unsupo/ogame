@@ -1,8 +1,10 @@
 package ogame.objects.game.messages;
 
 import bot.Bot;
+import ogame.objects.game.Buildable;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Resource;
+import ogame.objects.game.Ship;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import static ogame.objects.game.messages.MessageObject.FORMATTER;
 
@@ -22,7 +25,7 @@ import static ogame.objects.game.messages.MessageObject.FORMATTER;
  */
 public class EspionageMessage {
     private long messageId, loot;
-    private int counterEspionagePercent, smallCargosNeeded, largeCargosNeeded, lootPercent;
+    private int counterEspionagePercent, smallCargosNeeded, largeCargosNeeded, lootPercent, maxInfo = 0;
     private LocalDateTime messageDate;
     private String planetName, playerName, status, activity, api;
     private Coordinates coordinates;
@@ -52,15 +55,31 @@ public class EspionageMessage {
         );
     }
 
-    private void parseMoreDetails(Document moreDetails) {
-        resources.setEnergy(Long.parseLong(moreDetails.select("li.resource_list_el").get(3).attr("title")));
-        List<Element> results = moreDetails.select("ul").subList(2, 7);
+    private void parseMoreDetails(Document moreDetails) throws IOException {
+        resources.setEnergy(Long.parseLong(moreDetails.select("li.resource_list_el").get(3).attr("title").replace(".","")));
+        List<Element> results = moreDetails.select("ul").subList(2, 6);
         for (int i = 0; i < results.size(); i++) {
-            if(results.get(i).select("li").hasAttr("detail_list_fail"))
+            if(results.get(i).select("li").hasClass("detail_list_fail"))
                 continue;
-            System.out.println("TODO, evaluate ships,buildings,ect");
+            if(results.get(i).text().isEmpty()) {
+                Element type = results.get(i);
+                String typeName = type.attr("data-type");
+                if("ships".equals(typeName))
+                    Buildable.getShipyard().forEach(a->levels.put(a.getName(),0));
+                else if("defense".equals(typeName))
+                    Buildable.getDefense().forEach(a->levels.put(a.getName(),0));
+                else if("buildings".equals(typeName)) {
+                    Buildable.getResources().forEach(a -> levels.put(a.getName(), 0));
+                    Buildable.getFacilities().forEach(a -> levels.put(a.getName(), 0));
+                }else if("research".equals(typeName))
+                    Buildable.getResearch().forEach(a->levels.put(a.getName(),0));
+                continue;
+            }
+            for(Element e : results.get(i).select("li.detail_list_el"))
+                levels.put(e.select("span.detail_list_txt").text().trim(),Integer.parseInt(e.select("span").get(1).text().trim().replace(".","")));
+
+            maxInfo = i+1;
         }
-        System.out.println();
     }
 
     private void parseMessageContent(Elements messageContent) {
@@ -95,6 +114,23 @@ public class EspionageMessage {
         }
     }
 
+    public boolean hasDefense() throws IOException {
+        Set<Buildable> builds = Buildable.getDefense();
+        builds.addAll(Buildable.getShipyard());
+        builds.removeIf(a->a.getName().equals(Ship.SOLAR_SATELLITE));
+        for(Buildable b : builds)
+            if(levels.containsKey(b.getName()) && levels.get(b.getName()) > 0)
+                return true;
+        return false;
+    }
+
+    public int getMaxInfo() {
+        return maxInfo;
+    }
+
+    public void setMaxInfo(int maxInfo) {
+        this.maxInfo = maxInfo;
+    }
 
     public long getMessageId() {
         return messageId;
