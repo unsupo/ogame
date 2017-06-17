@@ -1,7 +1,11 @@
 package ogame.objects.game.messages;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import ogame.objects.game.Buildable;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Resource;
+import ogame.objects.game.Ship;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,8 +13,11 @@ import org.jsoup.select.Elements;
 import utilities.data.HttpsClient;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jarndt on 6/14/17.
@@ -46,12 +53,50 @@ public class CombatMessage {
         );
     }
 
+    public CombatMessage(Map<String, Object> a) {
+        messageId = (int) a.get("message_id");
+        messageDate = ((Timestamp)a.get("message_date")).toLocalDateTime();
+        attackerGainsOrLosses = (int) a.get("attacker_gains");
+        defenderGainsOrLosses = (int) a.get("defender_gains");
+        debrisFieldSize = (int) a.get("debris_size");
+        actuallyRepaired = (int) a.get("actually_repaired");
+        attackerHonorPointsGainOrLoss = (int) a.get("attacker_honor");
+        defenderHonorPointsGainOrLoss = (int) a.get("defender_honor");
+        recyclerCount = (int) a.get("recycler_count");
+        moonChancePercent = (int) a.get("moon_change_percent");
+        attackerWeapons = (int) a.get("attacker_weapons");
+        attackerShields = (int) a.get("attacker_shields");
+        attackerArmour = (int) a.get("attacker_armour");
+        defenderWeapons = (int) a.get("defender_weapons");
+        defenderShields = (int) a.get("defender_shields");
+        defenderArmour = (int) a.get("defender_armour");
+        loot = new Resource();
+        loot.setMetal((long)a.get("loot_metal"));
+        loot.setCrystal((long)a.get("loot_crystal"));
+        loot.setDeuterium((long)a.get("loot_deueterium"));
+        debrisField = new Resource();
+        debrisField.setMetal((long)a.get("debris_metal"));
+        debrisField.setCrystal((long)a.get("debris_cyrstal"));
+        attackerName = a.get("attacker_name").toString();
+        defenderName = a.get("defender_name").toString();
+        api = a.get("api").toString();
+        attackerStatus = a.get("attacker_status").toString();
+        defenderStatus = a.get("defender_status").toString();
+        attackerCoordinates = new Coordinates(a.get("attacker_planet_coords").toString());
+        defenderCoordinates = new Coordinates(a.get("defender_planet_coords").toString());
+        attackerShips = new Gson().fromJson(a.get("json_attacker_ships").toString(),new TypeToken<HashMap<String,Integer>>(){}.getType());
+        attackerShipsLost = new Gson().fromJson(a.get("json_attacker_ships_lost").toString(),new TypeToken<HashMap<String,Integer>>(){}.getType());
+        defenderShipsDefence = new Gson().fromJson(a.get("json_defender_ships").toString(),new TypeToken<HashMap<String,Integer>>(){}.getType());
+        defenderShipsLost = new Gson().fromJson(a.get("json_defender_ships_lost").toString(),new TypeToken<HashMap<String,Integer>>(){}.getType());
+    }
+
     private void parseMoreDetails(Document moreDetails) {
         tacticalRetreat = moreDetails.select("p.detail_txt > span").get(0).text().trim()+","+
                             moreDetails.select("div.detailReport > p > span").get(1).text();
 
         Elements debris = moreDetails.select("div.resourcedisplay");
-        recyclerCount = Long.parseLong(debris.select("div > span").get(2).text().replace(".","").trim());
+        //TODO this was 8000
+        recyclerCount = Long.parseLong(debris.select("div > span").get(3).text().replaceAll("[A-Za-z >=&;]",""));
         debrisField = new Resource();
         for(Element e : debris.get(1).select("li"))
             if(e.select("div.metal").size() > 0)
@@ -59,8 +104,10 @@ public class CombatMessage {
             else if(e.select("div.crystal").size() > 0)
                 debrisField.setMetal(Long.parseLong(e.select("span.res_value").text().replace(".","")));
         Elements honor = moreDetails.select("div.fightdetails > span");
-        attackerHonorPointsGainOrLoss = Long.parseLong(honor.get(0).text().trim().replaceAll("[A-Za-z:+\\. ]",""));
-        defenderHonorPointsGainOrLoss = Long.parseLong(honor.get(1).text().trim().replaceAll("[A-Za-z:+\\. ]",""));
+        String s = honor.get(0).text().trim().replaceAll("[A-Za-z:+\\. ]","");
+        attackerHonorPointsGainOrLoss = Long.parseLong(s.equals("-")?"0":s);
+        s = honor.get(1).text().trim().replaceAll("[A-Za-z:+\\. ]","");
+        defenderHonorPointsGainOrLoss = Long.parseLong(s.equals("-")?"0":s);
 
         Elements attacker = moreDetails.select("div.combat_participant.attacker");
         attackerStatus = attacker.attr("class").replace("combat_participant","").replace("attacker","").trim();
@@ -82,6 +129,7 @@ public class CombatMessage {
 
         for(Element e : attacker.select("div.buildingimg")){
             Elements span = e.select("span");
+            //TODO this didn't list the small cargos lost
             attackerShips.put(span.get(0).text().trim(),Integer.parseInt(span.get(1).text().replace(".","").trim()));
             attackerShipsLost.put(span.get(0).text().trim(),Integer.parseInt(span.get(2).text().trim().equals("-")?"0":span.get(2).text().replace(".","").trim()));
         }
@@ -106,6 +154,7 @@ public class CombatMessage {
 
         for(Element e : defender.select("div.buildingimg")){
             Elements span = e.select("span");
+            //TODO this didn't list defender ships/defense
             defenderShipsDefence.put(span.get(0).text().trim(),Integer.parseInt(span.get(1).text().trim()));
             defenderShipsLost.put(span.get(0).text().trim(),Integer.parseInt(span.get(2).text().trim().equals("-")?"0":span.get(2).text().trim()));
         }
@@ -128,11 +177,11 @@ public class CombatMessage {
         loot = new Resource();
         for(String s : attacker.get(1).attr("title").split("<br/>"))
             if(s.contains("Metal"))
-                loot.setMetal(Long.parseLong(s.replaceAll("[A-Za-z: ]","")));
+                loot.setMetal(Long.parseLong(s.replaceAll("[A-Za-z:\\. ]","")));
             else if(s.contains("Crystal"))
-                loot.setCrystal(Long.parseLong(s.replaceAll("[A-Za-z: ]","")));
+                loot.setCrystal(Long.parseLong(s.replaceAll("[A-Za-z:\\. ]","")));
             else if(s.contains("Deuterium"))
-                loot.setDeuterium(Long.parseLong(s.replaceAll("[A-Za-z: ]","")));
+                loot.setDeuterium(Long.parseLong(s.replaceAll("[A-Za-z:\\. ]","")));
         lootPercent = Integer.parseInt(attacker.get(1).text().replaceAll(".*Loot: ","").replaceAll("[A-Za-z:% ]",""));
         debrisFieldSize = Long.parseLong(attacker.get(2).text().replaceAll("[A-Za-z:\\.\\(\\) ]",""));
 
@@ -145,6 +194,16 @@ public class CombatMessage {
 
         api = messageContent.select("div.msg_actions.clearfix > div > span").attr("title")
                 .replaceAll(".*value='","").replaceAll("' .*","");
+    }
+
+    public boolean hasDefense() throws IOException {
+        Set<Buildable> builds = Buildable.getDefense();
+        builds.addAll(Buildable.getShipyard());
+        builds.removeIf(a->a.getName().equals(Ship.SOLAR_SATELLITE));
+        for(Buildable b : builds)
+            if(defenderShipsDefence.containsKey(b.getName()) && defenderShipsDefence.get(b.getName()) > 0)
+                return true;
+        return false;
     }
 
     public long getMessageId() {

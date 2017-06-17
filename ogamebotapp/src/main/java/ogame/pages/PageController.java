@@ -245,6 +245,8 @@ public class PageController {
         for(Element e : v) {
             try {
                 String name = e.select("a > span > span > span").text().trim();
+                if(name.isEmpty())
+                    name = e.parent().attr("title").replaceAll("[0-9\\(\\)]","").trim();
                 Buildable bb = Buildable.getBuildableByName(name);
                 try {
                     Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
@@ -320,9 +322,8 @@ public class PageController {
             }else {
                 name = e.select("tr > th").text();
                 count = Integer.parseInt(e.select("div.shipSumCount").text().trim());
-                time = Bot.parseTime(e.select("span.shipCountdown").text());
+                time = Bot.parseTime(e.select("span.shipAllCountdown").text());
             }
-
             Buildable bb = Buildable.getBuildableByName(name);
             bb.setCurrentLevel(count);
             buildTask.setBuildable(bb);

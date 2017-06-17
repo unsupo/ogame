@@ -193,13 +193,13 @@ public class Bot {
                     Thread.sleep(1000);
                     continue;
                 }
+                if(!isGotInitialState)
+                    getInitialState();
+
                 setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
                     pageController.parsePage(Overview.OVERVIEW);
                     setBuildTasks(getNextBuildTask());return null;
                 }));
-
-                if(!isGotInitialState)
-                    getInitialState();
 
                 performNextAction();
 
@@ -274,7 +274,7 @@ public class Bot {
                 //you are on the current planet
                 //get the merchant item
                 //TODO
-                if(getPageController().getCurrentPage().equals(Merchant.MERCHANT)){
+                if(getPageController().getCurrentPage().toLowerCase().equals(Merchant.MERCHANT.toLowerCase())){
                     //You're on the merchant page
                     getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
                             getDriverController().getDriver().findElement(By.cssSelector("#js_traderImportExport")));
@@ -312,6 +312,7 @@ public class Bot {
         }
 
         //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
+        getPageController().parsePage(getPageController().getCurrentPage());
         if((getFleetInfo().getFleetsTotal() == 1 && getFleetInfo().getFleetsUsed() != 1 ) || getFleetInfo().getFleetsRemaining() - 1 > 0){
             if(getCurrentPlanet().getShips().size() == 0) {
                 System.out.println("No ships to send fleets");
@@ -352,9 +353,11 @@ public class Bot {
                 new FleetObject()
                         .setMission(Mission.ESPIONAGE)
                         .setToCoordinates(espionageTargets.getCoordinates())
-                        .addShip(Ship.ESPIONAGE_PROBE,espionageProbesCount)
+                        .addShip(Ship.ESPIONAGE_PROBE,espionageProbesNeeded)
                 ,this
         );
+        espionageTargets.setLastEspionage(LocalDateTime.now());
+        espionageTargets.setLastProbeSentCount(espionageProbesNeeded);
         System.out.println("Finished probing: "+espionageTargets);
     }
 
@@ -373,7 +376,7 @@ public class Bot {
                 new FleetObject()
                     .setMission(Mission.ATTACKING)
                     .setToCoordinates(attackTargets.getCoordinates())
-                    .addShip(Ship.SMALL_CARGO,smallCargoCount)
+                    .addShip(Ship.SMALL_CARGO,smallCargoNeeded)
                 ,this
         );
         attackTargets.setLastAttack(LocalDateTime.now());
@@ -382,9 +385,39 @@ public class Bot {
 
     private void buildRequest(BuildTask buildTask) throws SQLException, IOException, ClassNotFoundException {
         //TODO insert into planet_queue;
+        if(Arrays.asList(Shipyard.SHIPYARD.toLowerCase(),Defense.DEFENSE.toLowerCase()).contains(buildTask.getBuildable().getType().toLowerCase())) {
+            List<Map<String, Object>> v = getDatabase().executeQuery("select sum(build_level) from planet_queue " +
+                    "where bot_planets_id = " + getCurrentPlanet().getBotPlanetID() +
+                    " and buildable_id = " + buildTask.getBuildable().getId()+
+                    " and done = 'N'"
+            );
+            if (v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
+                if(v.get(0).get("sum") != null) {
+                    long sum = (long) v.get(0).get("sum");
+                    if (buildTask.getCountOrLevel() <= sum)
+                        return;
+                    buildTask.setCountOrLevel((int)(buildTask.getCountOrLevel()-sum));
+                }
+            }
+        }else{
+            List<Map<String, Object>> v = getDatabase().executeQuery("select count(*) from planet_queue " +
+                    "where bot_planets_id = " + getCurrentPlanet().getBotPlanetID() +
+                    " and buildable_id = " + buildTask.getBuildable().getId()+
+                    " and build_level >= "+buildTask.getCountOrLevel()+
+                    " and done = 'N'"
+            );
+            if (v != null && v.size() > 0 && v.get(0) != null && v.get(0).size() > 0) {
+                long sum = (long) v.get(0).get("count");
+                if(sum > 0)
+                    return;
+            }
+        }
+
         getDatabase().executeQuery(
-                "insert into planet_queue(bot_planets_id,buildable_id,build_level,priority) " +
-                "   values("+getCurrentPlanet().getBotPlanetID()+","+buildTask.getBuildable().getId()+","+buildTask.getBuildPriority()+") ON CONFLICT DO NOTHING; ");
+                "insert into planet_queue(bot_planets_id,buildable_id,build_level,BUILD_PRIORITY) " +
+                "   values("+getCurrentPlanet().getBotPlanetID()+","+buildTask.getBuildable().getId()+","+buildTask.getCountOrLevel()+","+buildTask.getBuildPriority()+") " +
+                        "ON CONFLICT DO NOTHING; "
+        );
     }
 
     private void performNextBuildTask() throws IOException, SQLException, ClassNotFoundException {
@@ -417,8 +450,9 @@ public class Bot {
                             return;
                         }
                 }
-
-            if(getPageController().getCurrentPage().equals(build.getBuildable().getType())) {
+            //TODO check level with build level use case, it built a level 5 when it wanted to build a level 4 because the data wasn't updated
+            if(getPageController().getCurrentPage().toLowerCase().equals(build.getBuildable().getType().toLowerCase())) {
+                getPageController().parsePage(getPageController().getCurrentPage());
                 //YOU are on the correct page build the item in question
                 //if you can can only afford with dark matter
                 Buildable b = build.getBuildable();
@@ -476,6 +510,7 @@ public class Bot {
                     return;
                 }
                 //TODO test shipyard and defense with dark matter
+                //TODO fix, ended up building several more probes than what was in build list
                 driverController.clickWait(By.cssSelector(currentPlanetBuildable.getCssSelector()+" > a"),1L,TimeUnit.MINUTES);
                 driverController.waitForElement(By.cssSelector("#content"),1L,TimeUnit.MINUTES);
                 if(parseOpenedPanel(getCurrentPlanet(),driverController.getDriver().getPageSource())) {
@@ -566,7 +601,7 @@ public class Bot {
         List<BuildTask> buildTasks = new ArrayList<>();
         HashMap<String,Planet> planetIDMap = new HashMap<>();
         for(Map.Entry<String, Planet> planet : getPlanets().entrySet()) {
-            List<BuildTask> queue = planet.getValue().getQueueManager(getOgameUserId(),getResearch()).getQueue(id)
+            List<BuildTask> queue = planet.getValue().getQueueManager(getOgameUserId(),getResearch()).setResearch(getResearch()).getQueue(id)
                     .stream().filter(a->!isDone(a,planet.getValue())).collect(Collectors.toList());
 
             planetIDMap.put(planet.getValue().getBotPlanetID(),planet.getValue());
@@ -619,6 +654,7 @@ public class Bot {
         }
         if(buildTasks.size() <= 0)
             return new ArrayList<>();
+        Collections.shuffle(buildTasks);
         Collections.sort(buildTasks);
 
         //hopefully by this point, buildablePerPlanet has one buildTask per planet of the highest priority
@@ -695,6 +731,7 @@ public class Bot {
                     if (bb.getBuildable().getName().equals(task.getBuildable().getName()))
                         currentLevel+=bb.getCountOrLevel();
             b = currentLevel >= level;
+            task.setCountOrLevel(level - currentLevel);
         }else {
             int currentLevel = value.getAllBuildables().get(buildable.getName()).getCurrentLevel();
             b = currentLevel >= level;

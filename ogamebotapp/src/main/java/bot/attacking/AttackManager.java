@@ -1,7 +1,11 @@
 package bot.attacking;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.data.Server;
+import ogame.objects.game.messages.CombatMessage;
+import ogame.objects.game.messages.EspionageMessage;
 import utilities.database.Database;
 
 import java.io.IOException;
@@ -78,6 +82,35 @@ public class AttackManager {
         Collections.sort(targets,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
 
         //TODO remove targets who have defenses ie targets who's combat reports have a failed attack mission (or draw)
+        v = getDatabase().executeQuery("select * from combat_messages where attacker_status in ('draw') and server_id = "+server.getServerID());
+        if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
+            List<Target> coords = v.stream().map(a -> new Target(server, new CombatMessage(a))).collect(Collectors.toList());
+            ArrayList<Target> remove = new ArrayList<>(), add = new ArrayList<>();
+            for(Target t : coords)
+                for(Target tt : targets)
+                    if(tt.getCoordinates().equals(t.getCoordinates())) {
+                        remove.add(tt);
+                        if(!t.hasDefense())
+                            add.add(t);
+                    }
+            targets.removeAll(remove);
+            targets.addAll(add);
+        }
+
+        v = getDatabase().executeQuery("select * from espionage_messages where max_info >= 2 and server_id = "+server.getServerID());
+        if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
+            List<Target> coords = v.stream().map(a -> new Target(server, (EspionageMessage)new Gson().fromJson(a.get("json_esp_object").toString(),new TypeToken<EspionageMessage>(){}.getType()))).collect(Collectors.toList());
+            ArrayList<Target> remove = new ArrayList<>(), add = new ArrayList<>();
+            for(Target t : coords)
+                for(Target tt : targets)
+                    if(tt.getCoordinates().equals(t.getCoordinates())) {
+                        remove.add(tt);
+                        if(!t.hasDefense())
+                            add.add(t);
+                    }
+            targets.removeAll(remove);
+            targets.addAll(add);
+        }
 
         return targets;
     }
@@ -87,10 +120,31 @@ public class AttackManager {
         return new ArrayList<>();
     }
 
-    public List<Target> getSafeAttackTargets(){
+    public List<Target> getSafeAttackTargets() throws SQLException, IOException, ClassNotFoundException {
         //TODO targets from espioange and combat reports
+        List<Map<String, Object>> v = getDatabase().executeQuery("select * from espionage_messages where max_info >= 2 and server_id = " + server.getServerID());
+        List<Target> targets = new ArrayList<>();
+        if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
+            targets.addAll(v.stream()
+                    .map(a ->
+                            new Target(server,
+                                    (EspionageMessage)new Gson().fromJson(a.get("json_esp_object").toString(),
+                                            new TypeToken<EspionageMessage>(){}.getType())
+                            )
+                    )
+                    .filter(a -> {
+                        try {
+                            return !a.hasDefense();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    })
+                    .collect(Collectors.toList())
+            );
 
-        return  new ArrayList<>();
+        }
+        return  targets;
     }
 
     public List<Target> getRecyclerTargets(){
