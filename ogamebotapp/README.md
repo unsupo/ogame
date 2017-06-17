@@ -59,3 +59,4 @@ Calculating best targets based on previous data, ect.
 - add a column to the database, planet_queue and profile for maintain, where if true it will make sure the planet has that many ships/defense always on the planet, this can never be set to done
 - will it ever be an issue to worry about fields remaining on planet
 - when to think about IRN
+- TODO FIX BUILDING SIMULATOR, it fails a lot and isn't very accurate and doesn't take into account researches and any building goal state

@@ -41,6 +41,11 @@ public class QueueManager {
         return d;
     }
 
+    public QueueManager setResearch(HashMap<String,Integer> research){
+        this.research = research;
+        return this;
+    }
+
     public String getPlanetId() {
         return planetId;
     }
@@ -91,7 +96,7 @@ public class QueueManager {
     public int getMaxPriority(){
         ArrayList<BuildTask> v = (ArrayList<BuildTask>) new ArrayList<>(queue).clone();
         Collections.sort(v,(a,b)->new Integer(b.getBuildPriority()).compareTo(a.getBuildPriority()));
-        return v.get(0).getBuildPriority();
+        return v.size() == 0 ? 0 : v.get(0).getBuildPriority();
     }
 
 //    public Planet getPlanet() {
@@ -150,7 +155,7 @@ public class QueueManager {
         StringBuilder builder = new StringBuilder("");
         for(BuildTask b : diff)
             builder.append("insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority) " +
-                    "   values("+planetId+","+b.getBuildable().getId()+","+b.getCountOrLevel()+","+b.getBuildPriority()+");");
+                    "   values("+planetId+","+b.getBuildable().getId()+","+b.getCountOrLevel()+","+b.getBuildPriority()+") ON CONFLICT DO NOTHING;");
         if(!builder.toString().isEmpty())
             getDatabase().executeQuery(builder.toString());
     }
@@ -166,7 +171,7 @@ public class QueueManager {
                 buildTasks.add(new BuildTask().setBuildable(v.get(i)).setBuildPriority(i));
             setQueue(buildTasks);
             return buildTasks;
-        }catch (IOException e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return null;
