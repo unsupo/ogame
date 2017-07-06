@@ -2,6 +2,7 @@ package bot;
 
 import bot.attacking.AttackManager;
 import bot.attacking.Target;
+import bot.settings.SettingsManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import ogame.objects.User;
@@ -198,6 +199,7 @@ public class Bot {
 
                 setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
                     pageController.parsePage(Overview.OVERVIEW);
+                    setBuildTasks(new ArrayList<>());
                     setBuildTasks(getNextBuildTask());return null;
                 }));
 
@@ -312,10 +314,24 @@ public class Bot {
         }
 
         //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
-        getPageController().parsePage(getPageController().getCurrentPage());
+        getPageController().goToPage(Fleet.FLEET);
         if((getFleetInfo().getFleetsTotal() == 1 && getFleetInfo().getFleetsUsed() != 1 ) || getFleetInfo().getFleetsRemaining() - 1 > 0){
-            if(getCurrentPlanet().getShips().size() == 0) {
+            if(getCurrentPlanet().getShips().values().stream().filter(a->a != 0).collect(Collectors.toList()).size() == 0) {
                 System.out.println("No ships to send fleets");
+                if(getCurrentPlanet().getSetting(SettingsManager.AUTO_BUILD_ESPIONAGE_PROBES,getOgameUserId()).equals("true"))
+                    buildRequest(new BuildTask().setBuildable(
+                            Buildable
+                                    .getBuildableByName(Ship.ESPIONAGE_PROBE))
+                            .setCountOrLevel(1)
+                            .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
+                    );
+                if(getCurrentPlanet().getSetting(SettingsManager.AUTO_BUILD_SMALL_CARGOS,getOgameUserId()).equals("true"))
+                    buildRequest(new BuildTask().setBuildable(
+                            Buildable
+                                    .getBuildableByName(Ship.SMALL_CARGO))
+                            .setCountOrLevel(1)
+                            .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
+                    );
                 return;
             }
             if(getAttackManager().getSafeAttackTargets().size() > 0) {
@@ -323,7 +339,23 @@ public class Bot {
                 return;
             }
             if(getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel()>0){
-                sendProbe(getAttackManager().getEspionageTargets().get(0));
+                //TODO fix issue with fuel.  Can't send if not enough storage capacity
+                List<Target> espionageTargets = getAttackManager().getEspionageTargets();
+                HashMap<String,Integer> ships = new HashMap<>();
+                ships.put(Ship.ESPIONAGE_PROBE,1);
+                FleetObject fleet = new FleetObject()
+                        .setFromCoordinates(getCurrentPlanetCoordinates())
+                        .setShips(ships);
+                espionageTargets = espionageTargets.stream().filter(a -> {
+                    try {
+                        return fleet.setToCoordinates(a.getCoordinates()).isEnoughCargoCapacity();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }).collect(Collectors.toList());
+
+                sendProbe(espionageTargets);
                 return;
             }
             quickAttack(getAttackManager().getBlindAttackTargets().get(0));
@@ -338,10 +370,10 @@ public class Bot {
 
     }
 
-    private void sendProbe(Target espionageTargets) throws SQLException, IOException, ClassNotFoundException {
+    private void sendProbe(List<Target> espionageTargets) throws SQLException, IOException, ClassNotFoundException {
         //TODO send probes out
         int espionageProbesCount = getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel();
-        int espionageProbesNeeded = espionageTargets.getEspionageProbesNeeded(getResearch());
+        int espionageProbesNeeded = espionageTargets.get(0).getEspionageProbesNeeded(getResearch());
         if(espionageProbesCount < espionageProbesNeeded)
             buildRequest(new BuildTask().setBuildable(
                     Buildable
@@ -352,12 +384,12 @@ public class Bot {
         new Mission().sendFleet(
                 new FleetObject()
                         .setMission(Mission.ESPIONAGE)
-                        .setToCoordinates(espionageTargets.getCoordinates())
+                        .setToCoordinates(espionageTargets.get(0).getCoordinates())
                         .addShip(Ship.ESPIONAGE_PROBE,espionageProbesNeeded)
                 ,this
         );
-        espionageTargets.setLastEspionage(LocalDateTime.now());
-        espionageTargets.setLastProbeSentCount(espionageProbesNeeded);
+        espionageTargets.get(0).setLastEspionage(LocalDateTime.now());
+        espionageTargets.get(0).setLastProbeSentCount(espionageProbesNeeded);
         System.out.println("Finished probing: "+espionageTargets);
     }
 
@@ -685,6 +717,7 @@ public class Bot {
         HashMap<String, Integer> rr = getResearch();
         if(getCurrentResearchBeingBuilt() != null && !(getCurrentResearchBeingBuilt().isDone() && getCurrentResearchBeingBuilt().isComplete()))
             rr.put(getCurrentResearchBeingBuilt().getBuildable().getName(),getCurrentResearchBeingBuilt().getCountOrLevel()-1);
+
         return p.canBuild(b.getName(),getResearch());
     }
 
@@ -737,17 +770,21 @@ public class Bot {
             b = currentLevel >= level;
         }if(b) {
             final int buildLevel = level;
-            FileOptions.runConcurrentProcessNonBlocking((Callable) () -> {
-                getDatabase().executeQuery(
-                        "update planet_queue set done = 'Y' " +
-                                "where bot_planets_id = " + task.getBotPlanetID() + " and " +
-                                "buildable_id = " + buildable.getId() + " and " +
-                                "build_level = " + buildLevel
-               );
-                return null;
-            });
+            markAsDone(task);
         }
         return b;
+    }
+
+    private void markAsDone(BuildTask task){
+        FileOptions.runConcurrentProcessNonBlocking((Callable) () -> {
+            getDatabase().executeQuery(
+                    "update planet_queue set done = 'Y' " +
+                            "where bot_planets_id = " + task.getBotPlanetID() + " and " +
+                            "buildable_id = " + task.getBuildable().getId() + " and " +
+                            "build_level = " + task.getBuildable().getCurrentLevel()
+            );
+            return null;
+        });
     }
 
     public BuildTask getCurrentResearchBeingBuilt() {

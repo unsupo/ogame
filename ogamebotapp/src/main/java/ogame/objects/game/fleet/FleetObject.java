@@ -3,6 +3,7 @@ package ogame.objects.game.fleet;
 import bot.Bot;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Resource;
+import ogame.objects.game.Ship;
 import ogame.pages.Fleet;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -87,6 +88,27 @@ public class FleetObject {
         }
     }
 
+    public boolean isEnoughCargoCapacity() throws IOException {
+        return getFuelCost() < getCargoCapacity();
+    }
+
+    public int getFuelCost() throws IOException {
+        return getFuelCost(100);
+    }public int getFuelCost(int speed) throws IOException {
+        int distance = toCoordinates.getDistance(fromCoordinates);
+        int fuel = 0;
+        for(String s : getShips().keySet())
+            fuel+=getShips().get(s)*(1+Math.round(distance*Ship.getShipByName(s).getFuel_consuption()/35000.*Math.pow(speed/100.+1,2)));
+        return fuel;
+    }
+
+    public int getCargoCapacity() throws IOException {
+        int cargoCapacity = 0;
+        for(String s : getShips().keySet())
+            cargoCapacity+=getShips().get(s)*Ship.getShipByName(s).getCargo_capacity();
+        return cargoCapacity;
+    }
+
     public FleetObject addShip(String smallCargo, int smallCargoCount) {
         getShips().put(smallCargo, smallCargoCount);
         return this;
@@ -98,8 +120,9 @@ public class FleetObject {
         return ships;
     }
 
-    public void setShips(HashMap<String, Integer> ships) {
+    public FleetObject setShips(HashMap<String, Integer> ships) {
         this.ships = ships;
+        return this;
     }
 
     public Coordinates getToCoordinates() {
@@ -115,8 +138,9 @@ public class FleetObject {
         return fromCoordinates;
     }
 
-    public void setFromCoordinates(Coordinates fromCoordinates) {
+    public FleetObject setFromCoordinates(Coordinates fromCoordinates) {
         this.fromCoordinates = fromCoordinates;
+        return this;
     }
 
     public String getMission() {
