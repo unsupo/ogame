@@ -66,8 +66,9 @@ public class AttackManager {
 
     public List<Target> getEspionageTargets() throws SQLException, IOException, ClassNotFoundException {
         //TODO better espionage targets?
+        //TODO make minus time be a setting
         Set<Target> targets = new HashSet<>();
-        targets.addAll(_getSafeAttackTargets().stream().filter(a->!a.getLastAttackedOrProbed().isAfter(LocalDateTime.now().minusDays(1))).collect(Collectors.toList()));
+        targets.addAll(_getSafeAttackTargets().stream().filter(a->!a.getLastProbed().isBefore(LocalDateTime.now().minusHours(4))).collect(Collectors.toList()));
         targets.addAll(getBlindAttackTargets());
         ArrayList<Target> t = new ArrayList<>(targets);
         Collections.sort(t,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
