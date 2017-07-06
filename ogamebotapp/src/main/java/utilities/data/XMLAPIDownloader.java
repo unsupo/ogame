@@ -35,13 +35,12 @@ import java.util.stream.Collectors;
  */
 public class XMLAPIDownloader {
     public static void main(String[] args) throws IOException, SQLException, SchedulerException {
-//        System.out.println("Downloading");
-//        XMLAPIDownloader.downloadAllXML();
-//        XMLToDatabase.parseAllFilesIntoDatabase();
-//        System.out.println("Done Downloading");
-//        System.exit(0);
+        System.out.println("Downloading");
+        XMLAPIDownloader.downloadAllXML();
+        XMLToDatabase.parseAllFilesIntoDatabase();
+        System.out.println("Done Downloading");
 
-        startDownloadXMLThreads();
+//        startDownloadXMLThreads();
     }
     static {
         FileOptions.setLogger(FileOptions.DEFAULT_LOGGER_STRING);

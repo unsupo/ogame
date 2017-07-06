@@ -7,6 +7,7 @@ import ogame.pages.Fleet;
 import ogame.pages.Research;
 import org.jsoup.Jsoup;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import utilities.webdriver.DriverController;
 import utilities.webdriver.JavaScriptFunctions;
 
@@ -106,7 +107,12 @@ public class Mission {
         JavaScriptFunctions.fillFormByXpath(d,"//*[@id='position']",c.getPlanet()+"");
 
         //TODO fleet speed needed for fleet saves
-        d.executeJavaScript("trySubmit();");
+        //TODO can't find variable trySubmit
+        try {
+            d.executeJavaScript("trySubmit();");
+        }catch (WebDriverException e){
+            throw e;
+        }
         d.waitForElement(By.xpath("//*[@id='fleetStatusBar']"),1L, TimeUnit.MINUTES);
         //PAGE 3
         String js = getJSForMissionType(fleetObject.getMission(), b);

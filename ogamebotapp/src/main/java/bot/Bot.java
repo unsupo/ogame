@@ -249,7 +249,8 @@ public class Bot {
             return;
         }
 
-        performIdleTask();
+        if(performIdleTask())
+            return;
 
         //Literally nothing to do, just go to the overview page.
         getPageController().goToPage(Overview.OVERVIEW);
@@ -259,13 +260,13 @@ public class Bot {
     }
     private transient Random r = new Random();
 
-    private void performIdleTask() throws IOException, SQLException, ClassNotFoundException {
+    private boolean performIdleTask() throws IOException, SQLException, ClassNotFoundException {
         //TODO
         //Unread messages
         if(getUnreadMessages() != 0){
 //            ((Messages)getPageController().getPage(Messages.MESSAGES)).parseAllMessages(this);
             getPageController().goToPage(Messages.MESSAGES);
-            return;
+            return true;
         }
         //TODO PUT BREAKPOINT HERE
         List<Planet> merchantItems = getPlanets().values().stream().filter(a -> a.canGetMerchantItem()).collect(Collectors.toList());
@@ -300,17 +301,18 @@ public class Bot {
                         getCurrentPlanet().setMerchantItemCost(-1);
                     }
 
-                    return;
+                    return true;
                 }
                 //you're not on the merchant page, go to the merchant page
                 //this will go to the merchant page then cycle back through the other more important events all over again.
                 getPageController().goToPage(Merchant.MERCHANT);
 
-                return;
+                return true;
             }
 
             //go to next planet in merchantItems list that can get a merchant item and
             pageController.goToPageOnPlanet(merchantItems.get(0).getCoordinates(),Merchant.MERCHANT);
+            return true;
         }
 
         //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
@@ -332,11 +334,11 @@ public class Bot {
                             .setCountOrLevel(1)
                             .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
                     );
-                return;
+                return true;
             }
             if(getAttackManager().getSafeAttackTargets().size() > 0) {
                 quickAttack(getAttackManager().getSafeAttackTargets().get(0));
-                return;
+                return true;
             }
             if(getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel()>0){
                 //TODO fix issue with fuel.  Can't send if not enough storage capacity
@@ -352,14 +354,15 @@ public class Bot {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return false;
+                    return true;
                 }).collect(Collectors.toList());
-
-                sendProbe(espionageTargets);
-                return;
+                //TODO trying to probe an uninhabited planet, how to know that or find out after a probed attempt.
+                if(espionageTargets.size() > 0)
+                    sendProbe(espionageTargets);
+                return true;
             }
             quickAttack(getAttackManager().getBlindAttackTargets().get(0));
-            return;
+            return true;
 
             //TODO
             //probably shouldn't loop over each planet?????
@@ -368,10 +371,13 @@ public class Bot {
             //check if this bot should send fleet out
         }
 
+        return false;
     }
 
     private void sendProbe(List<Target> espionageTargets) throws SQLException, IOException, ClassNotFoundException {
         //TODO send probes out
+        //TODO won't wait for probes to come back before sending more probes
+        //TODO tries to send probes when no probes are left
         int espionageProbesCount = getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel();
         int espionageProbesNeeded = espionageTargets.get(0).getEspionageProbesNeeded(getResearch());
         if(espionageProbesCount < espionageProbesNeeded)
@@ -381,6 +387,9 @@ public class Bot {
                     .setCountOrLevel((espionageProbesNeeded-espionageProbesCount))
                     .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
             );
+        if(espionageProbesCount == 0)
+            return;
+
         new Mission().sendFleet(
                 new FleetObject()
                         .setMission(Mission.ESPIONAGE)
@@ -390,7 +399,7 @@ public class Bot {
         );
         espionageTargets.get(0).setLastEspionage(LocalDateTime.now());
         espionageTargets.get(0).setLastProbeSentCount(espionageProbesNeeded);
-        System.out.println("Finished probing: "+espionageTargets);
+        System.out.println("Finished probing: "+espionageTargets.get(0));
     }
 
     private void quickAttack(Target attackTargets) throws IOException, SQLException, ClassNotFoundException {

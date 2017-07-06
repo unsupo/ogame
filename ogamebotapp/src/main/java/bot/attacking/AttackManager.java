@@ -68,8 +68,8 @@ public class AttackManager {
         //TODO better espionage targets?
         //TODO make minus time be a setting
         Set<Target> targets = new HashSet<>();
-        targets.addAll(_getSafeAttackTargets().stream().filter(a->!a.getLastProbed().isBefore(LocalDateTime.now().minusHours(4))).collect(Collectors.toList()));
-        targets.addAll(getBlindAttackTargets());
+        targets.addAll(_getSafeAttackTargets().stream().filter(a->a.getLastProbed().isBefore(LocalDateTime.now().minusHours(4))).collect(Collectors.toList()));
+        targets.addAll(getBlindAttackTargets().stream().filter(a->a.getLastProbed().isBefore(LocalDateTime.now().minusHours(4))).collect(Collectors.toList()));
         ArrayList<Target> t = new ArrayList<>(targets);
         Collections.sort(t,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
         return t;
@@ -89,6 +89,7 @@ public class AttackManager {
         targets = new ArrayList<>(targetHashMap.values()).stream().filter(a->a.getLastAttack().plusHours(1).isBefore(LocalDateTime.now())).collect(Collectors.toList());
         Collections.sort(targets,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
 
+        //TODO these two might not be necessary
         //TODO remove targets who have defenses ie targets who's combat reports have a failed attack mission (or draw)
         v = getDatabase().executeQuery("select * from combat_messages where attacker_status in ('draw') and server_id = "+server.getServerID());
         if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
@@ -120,11 +121,15 @@ public class AttackManager {
             targets.addAll(add);
         }
 
-        for(Target t : targets)
-            if(!targetHashMap.containsKey(t.getCoordinates().getStringValue()))
-                targetHashMap.put(t.getCoordinates().getStringValue(),t);
-
-        return targets;
+        List<Target> addList = new ArrayList<>();
+        for(Target t : targets) {
+            if (!targetHashMap.containsKey(t.getCoordinates().getStringValue()))
+                targetHashMap.put(t.getCoordinates().getStringValue(), t);
+            Target tt = targetHashMap.get(t.getCoordinates().getStringValue());
+            if(tt.getEspionageMessage() == null && tt.getCombatMessage() == null)
+                addList.add(tt);
+        }
+        return addList;
     }
 
     public List<Target> getAttackTargets(){
@@ -176,7 +181,8 @@ public class AttackManager {
     }
     public List<Target> getSafeAttackTargets() throws SQLException, IOException, ClassNotFoundException {
         //TODO targets from espionage and combat reports
-        return _getSafeAttackTargets().stream().filter(a->a.getLastAttackedOrProbed().isAfter(LocalDateTime.now().minusDays(1))
+        //TODO make this a setting, time between attacking repeat players probably not a time, but percent of recourses expected or something
+        return _getSafeAttackTargets().stream().filter(a->a.getLastAttacked().isBefore(LocalDateTime.now().minusDays(1))
                 //only safe if message is newer than 1 day
         ).collect(Collectors.toList());
     }

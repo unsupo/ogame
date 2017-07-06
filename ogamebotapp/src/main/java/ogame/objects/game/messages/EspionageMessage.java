@@ -38,7 +38,7 @@ public class EspionageMessage {
 
     public EspionageMessage(MessageObject messageObject, String domain, String cookies) throws IOException {
         messageId = messageObject.getMessageId();
-        String[] planetAndCoords = messageObject.getMessageTitle().replace("Espionage report from ","").split(" ");
+        String[] planetAndCoords = messageObject.getMessageTitle().replace("Espionage report from ","").split(" \\[");
         planetName = planetAndCoords[0];
         messageDate = messageObject.getMessageDate();
         coordinates = new Coordinates(planetAndCoords[1]);

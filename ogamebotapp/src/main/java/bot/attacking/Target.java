@@ -80,17 +80,24 @@ public class Target {
     }
 
     public LocalDateTime getLastAttackedOrProbed(){
-        ZonedDateTime esp = getLastEspionage().atZone(server.getZoneId()),
-                        atk = getLastAttack().atZone(server.getZoneId());
+        ZonedDateTime esp = getEspionageMessage()!=null?getEspionageMessage().getMessageDate().atZone(server.getZoneId()):ZonedDateTime.now().minusYears(10);
+        ZonedDateTime atk = getCombatMessage()!=null?getCombatMessage().getMessageDate().atZone(server.getZoneId()):ZonedDateTime.now().minusYears(10);
         List<LocalDateTime> dateTimes = Arrays.asList(esp.toLocalDateTime(),atk.toLocalDateTime(),lastAttack,lastEspionage);
-        Collections.sort(dateTimes);
+        Collections.sort(dateTimes, Collections.reverseOrder());
         return dateTimes.get(0);
     }
 
     public LocalDateTime getLastProbed() {
-        ZonedDateTime esp = getLastEspionage().atZone(server.getZoneId());
-        List<LocalDateTime> dateTimes = Arrays.asList(esp.toLocalDateTime(),lastEspionage);
-        Collections.sort(dateTimes);
+        ZonedDateTime esp = getEspionageMessage()!=null?getEspionageMessage().getMessageDate().atZone(server.getZoneId()):ZonedDateTime.now().minusYears(10);
+        List<LocalDateTime> dateTimes = Arrays.asList(esp.toLocalDateTime(),lastEspionage==null?LocalDateTime.now().minusYears(10):lastEspionage);
+        Collections.sort(dateTimes, Collections.reverseOrder());
+        return dateTimes.get(0);
+    }
+
+    public LocalDateTime getLastAttacked() {
+        ZonedDateTime atk = getCombatMessage()!=null?getCombatMessage().getMessageDate().atZone(server.getZoneId()):ZonedDateTime.now().minusYears(10);
+        List<LocalDateTime> dateTimes = Arrays.asList(atk.toLocalDateTime(),lastAttack==null?LocalDateTime.now().minusYears(10):lastAttack);
+        Collections.sort(dateTimes, Collections.reverseOrder());
         return dateTimes.get(0);
     }
 
