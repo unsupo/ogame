@@ -47,7 +47,7 @@ public class Defense implements OgamePage{
 
     @Override
     public void parsePage(Bot b, Document document) {
-        PageController.parseGenericBuildings(document,b);
+        PageController.parseGenericBuildings(document,b,true);
 
         PageController.parseShips(b,document);
     }

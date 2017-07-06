@@ -198,7 +198,7 @@ public class Bot {
                     getInitialState();
 
                 setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
-                    pageController.parsePage(Overview.OVERVIEW);
+                    pageController.parsePage(pageController.getCurrentPage());
                     setBuildTasks(new ArrayList<>());
                     setBuildTasks(getNextBuildTask());return null;
                 }));
@@ -245,8 +245,12 @@ public class Bot {
         //in other words build the next building that you can
         if(getBuildTasks() != null && getBuildTasks().size() > 0) {
             System.out.println("Performing build action");
-            performNextBuildTask();
-            return;
+            try {
+                performNextBuildTask();
+                return;
+            }catch (IndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
         }
 
         if(performIdleTask())
@@ -336,7 +340,7 @@ public class Bot {
                     );
                 return true;
             }
-            if(getAttackManager().getSafeAttackTargets().size() > 0) {
+            if(getCurrentPlanet().getShips().get(Ship.SMALL_CARGO) > 0 && getAttackManager().getSafeAttackTargets().size() > 0) {
                 quickAttack(getAttackManager().getSafeAttackTargets().get(0));
                 return true;
             }
@@ -505,18 +509,38 @@ public class Bot {
                 else
                     currentPlanetBuildable = getCurrentPlanet().getBuildable(build.getBuildable().getName());
                 System.out.println("Trying to build: "+b.getName()+", level: "+b.getCurrentLevel()+", cost: "+cost+", dm: "+cost.subtract(getCurrentPlanet().getResources()).getDarkMatterCost());
+                if(currentPlanetBuildable.getCurrentLevel() >= b.getCurrentLevel()){
+                    System.out.println("Current level is: "+currentPlanetBuildable.getCurrentLevel()+", already completed this build request");
+                    markAsDone(build);
+                    return;
+                }
+
                 if(getCurrentPlanet().getResources().lessThan(cost))
                     if(cost.subtract(getCurrentPlanet().getResources()).getDarkMatterCost() <= getDarkMatter())
                         dm = true;
 
-                List<String> useSmallButton = Arrays.asList(Resources.RESOURCES.toLowerCase(), Facilities.FACILITIES.toLowerCase(), Research.RESEARCH.toLowerCase());
+                List<String> useSmallButton = Arrays.asList(Resources.RESOURCES.toLowerCase(), Facilities.FACILITIES.toLowerCase()),
+                            shipyard        = Arrays.asList(Shipyard.SHIPYARD.toLowerCase(),Defense.DEFENSE.toLowerCase());
 
                 BuildTask buildingBeingBuilt = getCurrentPlanet().getCurrentBuildingBeingBuild();
-                boolean isBuilding = useSmallButton.contains(build.getBuildable().getType().toLowerCase());
-                if(isBuilding && buildingBeingBuilt!= null && !(buildingBeingBuilt.isComplete() && buildingBeingBuilt.isDone())) {
+                Set<BuildTask> shipyardBeingBuilt = getCurrentPlanet().getCurrentShipyardBeingBuild();
+                boolean isBuilding = useSmallButton.contains(build.getBuildable().getType().toLowerCase()),
+                        isShipyard = shipyard.contains(build.getBuildable().getType().toLowerCase()),
+                        isResearch = build.getBuildable().getType().equalsIgnoreCase(Research.RESEARCH);
+                if(isShipyard && shipyardBeingBuilt!= null && shipyardBeingBuilt.size() > 0) {
+                    System.out.println("Won't build yet, shipyard has queue: "+shipyardBeingBuilt);
+                    setBuildTasks(new ArrayList<>());
+                    return;
+                }if(isBuilding && buildingBeingBuilt!= null && !(buildingBeingBuilt.isComplete() && buildingBeingBuilt.isDone())) {
                     System.out.println("Can't build yet, building currently being built: "+
                             buildingBeingBuilt.getBuildable().getName()+", level: "+buildingBeingBuilt.getBuildable().getCurrentLevel()+
                             ", completeTime: "+buildingBeingBuilt.getCompleteTime());
+                    setBuildTasks(new ArrayList<>());
+                    return;
+                }if(isResearch && currentResearchBeingBuilt != null && !(currentResearchBeingBuilt.isDone() && currentResearchBeingBuilt.isComplete())){
+                    System.out.println("Can't research yet, research currently in progress: "+
+                            currentResearchBeingBuilt.getBuildable().getName()+", level: "+currentResearchBeingBuilt.getBuildable().getCurrentLevel()+
+                            ", completeTime: "+currentResearchBeingBuilt.getCompleteTime());
                     setBuildTasks(new ArrayList<>());
                     return;
                 }if(!dm && getCurrentPlanet().getResources().lessThan(cost)) {
@@ -536,7 +560,7 @@ public class Bot {
                     System.out.println("Can't build yet");
                     return;
                 }
-
+                isBuilding = isResearch;
                 if(!dm && isBuilding) {
                     //use the quick build link
                     //TODO fix, sometimes it builds it even though its already building it

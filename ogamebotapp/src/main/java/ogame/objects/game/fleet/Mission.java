@@ -100,23 +100,39 @@ public class Mission {
         d.executeJavaScript(page1.toString());
         d.waitForElement(By.xpath("//*[@id='mission']"),1L, TimeUnit.MINUTES);
         //PAGE 2
-
-        Coordinates c = fleetObject.getToCoordinates();
-        JavaScriptFunctions.fillFormByXpath(d,"//*[@id='galaxy']",c.getGalaxy()+"");
-        JavaScriptFunctions.fillFormByXpath(d,"//*[@id='system']",c.getSystem()+"");
-        JavaScriptFunctions.fillFormByXpath(d,"//*[@id='position']",c.getPlanet()+"");
-
-        //TODO fleet speed needed for fleet saves
-        //TODO can't find variable trySubmit
         try {
-            d.executeJavaScript("trySubmit();");
+            //TODO org.openqa.selenium.WebDriverException: {"errorMessage":"undefined is not an object (evaluating '$x(\"//*[@id='galaxy']\")[0].value=\"8\"')","request":{"headers":{"Accept-Encoding":"gzip,deflate","Connection":"Keep-Alive","Content-Length":"377","Content-Type":"application/json; charset=utf-8","Host":"localhost:7743","User-Agent":"Apache-HttpClient/4.5.2 (Java/1.8.0_121)"},"httpVersion":"1.1","method":"POST","post":"{\"script\":\"var $x = function(xpathToExecute){\\n  var result = [];\\n  var nodesSnapshot = document.evaluate(xpathToExecute, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );\\n  for ( var i=0 ; i < nodesSnapshot.snapshotLength; i++ ){\\n    result.push( nodesSnapshot.snapshotItem(i) );\\n  }\\n  return result;\\n};$x(\\\"//*[@id='galaxy']\\\")[0].value=\\\"8\\\";\",\"args\":[]}","url":"/execute","urlParsed":{"anchor":"","query":"","file":"execute","directory":"/","path":"/execute","relative":"/execute","port":"","host":"","password":"","user":"","userInfo":"","authority":"","protocol":"","source":"/execute","queryKey":{},"chunks":["execute"]},"urlOriginal":"/session/c7f2b470-627f-11e7-b075-4532bba2b786/execute"}}
+            Coordinates c = fleetObject.getToCoordinates();
+            JavaScriptFunctions.fillFormByXpath(d,"//*[@id='galaxy']",c.getGalaxy()+"");
+            JavaScriptFunctions.fillFormByXpath(d,"//*[@id='system']",c.getSystem()+"");
+            JavaScriptFunctions.fillFormByXpath(d,"//*[@id='position']",c.getPlanet()+"");
+
+            //TODO fleet speed needed for fleet saves
+            //TODO can't find variable trySubmit
+            try{ d.executeJavaScript("trySubmit();");}catch (WebDriverException e){
+                try {
+                    Thread.sleep(1000);
+                    d.executeJavaScript("trySubmit();");
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            d.waitForElement(By.xpath("//*[@id='fleetStatusBar']"),1L, TimeUnit.MINUTES);
+            //PAGE 3
+            String js = getJSForMissionType(fleetObject.getMission(), b);
+            //TODO can't find variable: serverTime
+            try{ d.executeJavaScript(js); } catch (WebDriverException e){
+                try {
+                    Thread.sleep(1000);
+                    d.executeJavaScript(js);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }catch (WebDriverException e){
             throw e;
         }
-        d.waitForElement(By.xpath("//*[@id='fleetStatusBar']"),1L, TimeUnit.MINUTES);
-        //PAGE 3
-        String js = getJSForMissionType(fleetObject.getMission(), b);
-        d.executeJavaScript(js);
+
         //TODO load resources
         d.executeJavaScript("trySubmit();");
     }

@@ -239,7 +239,7 @@ public class PageController {
         goToPage(page);
     }
 
-    public static void parseGenericBuildings(Document document, Bot b){
+    public static void parseGenericBuildings(Document document, Bot b, boolean...pass){
         Elements v = document.select("div.buildingimg");
         Planet p = b.getCurrentPlanet();
         for(Element e : v) {
@@ -263,6 +263,8 @@ public class PageController {
                     p.addBuildable(bb);
             }catch (IndexOutOfBoundsException ioobe){/*DO NOTHING, building is currently being built*/}
         }
+        if(pass != null && pass.length > 0 && pass[0])
+            return;
 
         Elements activeConstruction = document.select("#inhalt").select("div.content-box-s > div.content > table");
         boolean works = activeConstruction.select("tr").size() == 5;
@@ -273,14 +275,25 @@ public class PageController {
             if(bb == null)
                 bb = Buildable.getBuildableByName(name).setCurrentLevel(b.getResearch().get(name));
             buildTask.setBuildable(bb);
-
-            int level = Integer.parseInt(activeConstruction.select("span.level").text().replace("Level ", "").trim());
+            int level = 0;
+            try {
+                level = Integer.parseInt(activeConstruction.select("span.level").text().replace("Level ", "").trim());
+            }catch (Exception e){
+                level = Integer.parseInt(activeConstruction.select("div.shipSumCount").text().trim());
+            }
             buildTask.setCountOrLevel(level);
             long time;
             try {
                 time = Bot.parseTime(activeConstruction.select("td.desc.timer > span").text().trim());
             }catch (NumberFormatException nfe){
                 return;
+            }
+            if(time == 0){
+                try {
+                    time = Bot.parseTime(activeConstruction.select("span.shipAllCountdown").text().trim());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
             buildTask.setCompleteTime(LocalDateTime.now().plusSeconds(time));
 
