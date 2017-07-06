@@ -185,11 +185,21 @@ public class Planet {
             if (currentBuildingBeingBuild != null &&
                     Arrays.asList(Facilities.SHIPYARD,Facilities.NANITE_FACTORY)
                             .contains(currentBuildingBeingBuild.getBuildable().getName().toLowerCase())) {
-                if (currentBuildingBeingBuild.isDone() && currentBuildingBeingBuild.isComplete())
-                    return canAfford(name);
-                else
+                if (currentBuildingBeingBuild.isDone() && currentBuildingBeingBuild.isComplete()) {
+                    //don't build another ship/defense if there is something in the queue
+                    if (getCurrentShipyardBeingBuild().size() > 0)
+                        return false;
+                    else
+                        return canAfford(name);
+                }else
                     return false;
+            }else {
+                if (getCurrentShipyardBeingBuild().size() > 0)
+                    return false;
+                else
+                    return canAfford(name);
             }
+
         return canAfford(name);
     }
 

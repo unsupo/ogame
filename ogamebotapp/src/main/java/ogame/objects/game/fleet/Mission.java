@@ -61,6 +61,7 @@ public class Mission {
 
     public void sendFleet(FleetObject fleetObject, Bot b) throws IOException {
         b.getPageController().goToPage(Fleet.FLEET);
+        b.getPageController().parsePage(Fleet.FLEET);
         if(b.getFleetInfo().getFleetsRemaining() == 0) {
             System.out.println("No fleet slots");
             return;
