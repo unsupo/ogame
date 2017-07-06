@@ -40,6 +40,8 @@ public class AttackManager {
         this.rank = rank;
         mainPlanet = coordinates;
         this.name = username;
+        for(Target t : Target.getTargets(server.getServerID()))
+            targetHashMap.put(t.getCoordinates().getStringValue(),t);
     }
 
     public AttackManager setRankPoints(int rank, int points) {
@@ -64,7 +66,12 @@ public class AttackManager {
 
     public List<Target> getEspionageTargets() throws SQLException, IOException, ClassNotFoundException {
         //TODO better espionage targets?
-        return getBlindAttackTargets();
+        Set<Target> targets = new HashSet<>();
+        targets.addAll(_getSafeAttackTargets().stream().filter(a->!a.getLastAttackedOrProbed().isAfter(LocalDateTime.now().minusDays(1))).collect(Collectors.toList()));
+        targets.addAll(getBlindAttackTargets());
+        ArrayList<Target> t = new ArrayList<>(targets);
+        Collections.sort(t,(a,b)->new Integer(a.getCoordinates().getDistance(mainPlanet)).compareTo(b.getCoordinates().getDistance(mainPlanet)));
+        return t;
     }
 
     public List<Target> getBlindAttackTargets() throws SQLException, IOException, ClassNotFoundException {
@@ -112,6 +119,10 @@ public class AttackManager {
             targets.addAll(add);
         }
 
+        for(Target t : targets)
+            if(!targetHashMap.containsKey(t.getCoordinates().getStringValue()))
+                targetHashMap.put(t.getCoordinates().getStringValue(),t);
+
         return targets;
     }
 
@@ -120,9 +131,16 @@ public class AttackManager {
         return new ArrayList<>();
     }
 
-    public List<Target> getSafeAttackTargets() throws SQLException, IOException, ClassNotFoundException {
-        //TODO targets from espioange and combat reports
-        List<Map<String, Object>> v = getDatabase().executeQuery("select * from espionage_messages where max_info >= 2 and server_id = " + server.getServerID());
+    private List<Target> _getSafeAttackTargets() throws SQLException, IOException, ClassNotFoundException {
+        List<Map<String, Object>> v = getDatabase().executeQuery(
+                "select * from espionage_messages \n" +
+                        "\twhere max_info >= 2 and server_id = "+server.getServerID()+" \n" +
+                        "    \tand (message_date, coordinates) in (\t\n" +
+                        "            select max(message_date), coordinates from espionage_messages \n" +
+                        "            \twhere max_info >= 2 and server_id = "+server.getServerID()+" \n" +
+                        "            \tgroup by coordinates\n" +
+                        "        );"
+        ); //query gets only lastest espionage message for a target
         List<Target> targets = new ArrayList<>();
         if(v!=null && v.size() >0 && v.get(0)!=null && v.get(0).size()>0) {
             targets.addAll(v.stream()
@@ -142,9 +160,24 @@ public class AttackManager {
                     })
                     .collect(Collectors.toList())
             );
-
         }
-        return  targets;
+        List<Target> safeTargets = new ArrayList<>();
+        for(Target t : targets)
+            if(targetHashMap.containsKey(t.getCoordinates().getStringValue())){
+                Target target = targetHashMap.get(t.getCoordinates().getStringValue());
+                target.setEspionageMessage(t.getEspionageMessage());
+                safeTargets.add(target);
+            }else {
+                targetHashMap.put(t.getCoordinates().getStringValue(),t);
+                safeTargets.add(t);
+            }
+        return safeTargets;
+    }
+    public List<Target> getSafeAttackTargets() throws SQLException, IOException, ClassNotFoundException {
+        //TODO targets from espionage and combat reports
+        return _getSafeAttackTargets().stream().filter(a->a.getLastAttackedOrProbed().isAfter(LocalDateTime.now().minusDays(1))
+                //only safe if message is newer than 1 day
+        ).collect(Collectors.toList());
     }
 
     public List<Target> getRecyclerTargets(){

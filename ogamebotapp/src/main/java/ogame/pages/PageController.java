@@ -264,7 +264,7 @@ public class PageController {
             }catch (IndexOutOfBoundsException ioobe){/*DO NOTHING, building is currently being built*/}
         }
 
-        Elements activeConstruction = document.select("#inhalt > div.content-box-s > div.content > table");
+        Elements activeConstruction = document.select("#inhalt").select("div.content-box-s > div.content > table");
         boolean works = activeConstruction.select("tr").size() == 5;
         if(works) {
             BuildTask buildTask = new BuildTask();

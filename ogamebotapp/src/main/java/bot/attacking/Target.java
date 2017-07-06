@@ -1,5 +1,7 @@
 package bot.attacking;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Resource;
 import ogame.objects.game.data.PlayerData;
@@ -7,10 +9,13 @@ import ogame.objects.game.data.Server;
 import ogame.objects.game.messages.CombatMessage;
 import ogame.objects.game.messages.EspionageMessage;
 import ogame.pages.Research;
+import utilities.database.Database;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * Created by jarndt on 6/14/17.
@@ -31,6 +36,7 @@ public class Target {
     public Target(Server server, Coordinates coordinates) {
         this.server = server;
         this.coordinates = coordinates;
+        toDatabase();
     }
 
     public Target(Server server, CombatMessage combatMessage) {
@@ -38,6 +44,7 @@ public class Target {
         this.combatMessage = combatMessage;
         this.coordinates = combatMessage.getDefenderCoordinates();
         this.lastAttack = combatMessage.getMessageDate();
+        toDatabase();
     }
 
     public Target(Server server, EspionageMessage json_esp_object) {
@@ -45,6 +52,21 @@ public class Target {
         this.espionageMessage = json_esp_object;
         this.coordinates = espionageMessage.getCoordinates();
         this.lastEspionage = espionageMessage.getMessageDate();
+        toDatabase();
+    }
+
+    private void toDatabase(){
+        try {
+            String data = new Gson().toJson(this);
+            Database.getExistingDatabaseConnection().executeQuery(
+                    "insert into targets(server_id,json_data)" +
+                            "   values("+server.getServerID()+",'"+data+"')" +
+                            "       ON CONFLICT (server_id) DO UPDATE SET json_data = '"+data+"';"
+            );
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public int getSmallCargosNeeded() {
@@ -55,6 +77,14 @@ public class Target {
             smallCargosNeeded = (int) (combatMessage.getLoot().getTotal()/5000);
 
         return smallCargosNeeded;
+    }
+
+    public LocalDateTime getLastAttackedOrProbed(){
+        ZonedDateTime esp = getLastEspionage().atZone(server.getZoneId()),
+                        atk = getLastAttack().atZone(server.getZoneId());
+        List<LocalDateTime> dateTimes = Arrays.asList(esp.toLocalDateTime(),atk.toLocalDateTime(),lastAttack,lastEspionage);
+        Collections.sort(dateTimes);
+        return dateTimes.get(0);
     }
 
     public int getEspionageProbesNeeded(HashMap<String,Integer> research) {
@@ -93,7 +123,7 @@ public class Target {
     }
 
     public void setLastProbeSentCount(int lastProbeSentCount) {
-        this.lastProbeSentCount = lastProbeSentCount;
+        toDatabase();this.lastProbeSentCount = lastProbeSentCount;
     }
 
     public EspionageMessage getEspionageMessage() {
@@ -101,7 +131,7 @@ public class Target {
     }
 
     public void setEspionageMessage(EspionageMessage espionageMessage) {
-        this.espionageMessage = espionageMessage;
+        toDatabase();this.espionageMessage = espionageMessage;
     }
 
     public CombatMessage getCombatMessage() {
@@ -109,7 +139,7 @@ public class Target {
     }
 
     public void setCombatMessage(CombatMessage combatMessage) {
-        this.combatMessage = combatMessage;
+        toDatabase();this.combatMessage = combatMessage;
     }
 
     public PlayerData getPlayer() {
@@ -117,7 +147,7 @@ public class Target {
     }
 
     public void setPlayer(PlayerData player) {
-        this.player = player;
+        toDatabase();this.player = player;
     }
 
     public LocalDateTime getLastAttack() {
@@ -127,7 +157,7 @@ public class Target {
     }
 
     public void setLastAttack(LocalDateTime lastAttack) {
-        this.lastAttack = lastAttack;
+        toDatabase();this.lastAttack = lastAttack;
     }
 
     public LocalDateTime getLastEspionage() {
@@ -135,7 +165,7 @@ public class Target {
     }
 
     public void setLastEspionage(LocalDateTime lastEspionage) {
-        this.lastEspionage = lastEspionage;
+        toDatabase();this.lastEspionage = lastEspionage;
     }
 
     public long getPoints() {
@@ -143,7 +173,7 @@ public class Target {
     }
 
     public void setPoints(long points) {
-        this.points = points;
+        toDatabase();this.points = points;
     }
 
     public Coordinates getCoordinates() {
@@ -151,7 +181,7 @@ public class Target {
     }
 
     public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
+        toDatabase();this.coordinates = coordinates;
     }
 
     public Resource getResources() {
@@ -159,7 +189,7 @@ public class Target {
     }
 
     public void setResources(Resource resources) {
-        this.resources = resources;
+        toDatabase();this.resources = resources;
     }
 
     public Resource getDebris() {
@@ -167,7 +197,7 @@ public class Target {
     }
 
     public void setDebris(Resource debris) {
-        this.debris = debris;
+        toDatabase();this.debris = debris;
     }
 
     public HashMap<String, Integer> getLevels() {
@@ -175,7 +205,7 @@ public class Target {
     }
 
     public void setLevels(HashMap<String, Integer> levels) {
-        this.levels = levels;
+        toDatabase();this.levels = levels;
     }
 
     public String getActivity() {
@@ -183,7 +213,7 @@ public class Target {
     }
 
     public void setActivity(String activity) {
-        this.activity = activity;
+        toDatabase();this.activity = activity;
     }
 
     public Server getServer() {
@@ -191,7 +221,7 @@ public class Target {
     }
 
     public void setServer(Server server) {
-        this.server = server;
+        toDatabase();this.server = server;
     }
 
     @Override
@@ -251,6 +281,19 @@ public class Target {
                 ", activity='" + activity + '\'' +
                 ", server=" + server +
                 '}';
+    }
+
+    public static List<Target> getTargets(int serverId){
+        List<Target> targets = new ArrayList<>();
+        try {
+            Gson gson = new Gson();
+            List<Map<String, Object>> v = Database.getExistingDatabaseConnection().executeQuery("select * from targets where server_id = "+serverId);
+            for(Map<String, Object> s : v)
+                targets.add(gson.fromJson(s.get("json_data").toString(),new TypeToken<Target>(){}.getType()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return targets;
     }
 
 }

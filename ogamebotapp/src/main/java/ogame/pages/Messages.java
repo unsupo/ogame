@@ -88,11 +88,17 @@ public class Messages implements OgamePage {
     public void parsePage(Bot b, Document document) {
         //TODO message parsing
         Set<Integer> v = new HashSet<>();
-        for(Element e : document.select("li.list_item"))
-            if(!e.select("span").attr("style").contains("display: none;"))
-                for(Element ee : e.select("li.list_item"))
-                    if(!ee.select("a.txt_link > span").text().replaceAll("[\\(\\)]","").trim().isEmpty())
-                        v.add(Integer.parseInt(ee.attr("data-tabid")));
+        int i = 0;
+        for(Element e : document.select("li.list_item")) {
+            if (!e.select("span").attr("style").contains("display: none;"))
+                if(i == 0) {
+                    for (Element ee : e.select("li.list_item"))
+                        if (!ee.select("a.txt_link > span").text().replaceAll("[\\(\\)]", "").trim().isEmpty())
+                            v.add(Integer.parseInt(ee.attr("data-tabid")));
+                }else
+                    v.add(Integer.parseInt(e.attr("data-tabid")));
+            i++;
+        }
 
         v.addAll(Arrays.asList(20,21));
         try {
@@ -197,7 +203,7 @@ public class Messages implements OgamePage {
                     m.getCoordinates().getStringValue()+"',"+(m.isHonorable()+"").toUpperCase()+","+m.getResources().getMetal()+","+
                     m.getResources().getCrystal()+","+m.getResources().getDeuterium()+","+m.getResources().getEnergy()+",'"+
                     new Gson().toJson(m.getLevels())+"','"+new Gson().toJson(m.getActiveRepair())+"','" + new Gson().toJson(m)+"',"+m.getMaxInfo()+""+
-                            ") ON CONFLICT DO NOTHING;"
+                            ");" // ON CONFLICT DO NOTHING
             );
         if(!builder1.toString().isEmpty())
             Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
@@ -235,7 +241,7 @@ public class Messages implements OgamePage {
                             m.getDefenderStatus()+"','"+m.getAttackerCoordinates().getStringValue()+"','"+m.getDefenderCoordinates().getStringValue()+"','"+
                             new Gson().toJson(m.getAttackerShips())+"','"+new Gson().toJson(m.getAttackerShipsLost())+"','" +
                             new Gson().toJson(m.getDefenderShipsDefence())+"','"+new Gson().toJson(m.getDefenderShipsLost())+"'" +
-                            ") ON CONFLICT DO NOTHING; "
+                            "); " // ON CONFLICT DO NOTHING;
             );
         if(!builder1.toString().isEmpty())
             Database.getExistingDatabaseConnection().executeQuery(builder1.toString());
