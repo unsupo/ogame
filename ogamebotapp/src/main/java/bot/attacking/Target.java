@@ -59,9 +59,9 @@ public class Target {
         try {
             String data = new Gson().toJson(this);
             Database.getExistingDatabaseConnection().executeQuery(
-                    "insert into targets(server_id,json_data)" +
-                            "   values("+server.getServerID()+",'"+data+"')" +
-                            "       ON CONFLICT (server_id) DO UPDATE SET json_data = '"+data+"';"
+                    "insert into targets(server_id,coordinates,json_data)" +
+                            "   values("+server.getServerID()+",'"+getCoordinates().getStringValue()+"','"+data+"')" +
+                            "       ON CONFLICT (server_id,coordinates) DO UPDATE SET json_data = '"+data+"';"
             );
 
         }catch (Exception e){
@@ -83,6 +83,13 @@ public class Target {
         ZonedDateTime esp = getLastEspionage().atZone(server.getZoneId()),
                         atk = getLastAttack().atZone(server.getZoneId());
         List<LocalDateTime> dateTimes = Arrays.asList(esp.toLocalDateTime(),atk.toLocalDateTime(),lastAttack,lastEspionage);
+        Collections.sort(dateTimes);
+        return dateTimes.get(0);
+    }
+
+    public LocalDateTime getLastProbed() {
+        ZonedDateTime esp = getLastEspionage().atZone(server.getZoneId());
+        List<LocalDateTime> dateTimes = Arrays.asList(esp.toLocalDateTime(),lastEspionage);
         Collections.sort(dateTimes);
         return dateTimes.get(0);
     }
@@ -295,5 +302,4 @@ public class Target {
         }
         return targets;
     }
-
 }
