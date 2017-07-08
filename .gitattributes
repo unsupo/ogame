@@ -1,0 +1,2 @@
+*.jar filter=lfs diff=lfs merge=lfs -text
+ogamebotapp/src/main/resources/databases/postgres/postgres/ filter=lfs diff=lfs merge=lfs -text

@@ -16,3 +16,6 @@ ogamebotapp/src/main/resources/ogame/xml_downloads/
 *.jar
 /ogamebotapp/src/main/resources/drivers/
 jarExecutables/
+b
+lib/
+ogamebotapp/src/main/resources/databases/HSQLDB/.tmp/
