@@ -1,9 +1,11 @@
 package ogame.pages;
 
+import bot.Bot;
 import com.google.gson.Gson;
 import ogame.objects.User;
 import ogame.objects.game.data.Server;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import utilities.database.Database;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jarndt on 5/13/17.
  */
-public class Login {
+public class Login implements OgamePage{
     public static void main(String[] args) throws Exception {
 //        System.out.println(new URI("https://en.ogame.gameforge.com/").getHost());
 
@@ -31,12 +33,15 @@ public class Login {
 
     }
 
+    public static final String HOMEPAGE = "Homepage";
     public static final String OGAME_HOMEPAGE = "https://en.ogame.gameforge.com/";
     User user;
     boolean isLoggedIn = false;
     Server server;
 
     private transient DriverController driverController;
+
+    public Login(){}
 
     public Login(User user) throws SQLException, IOException, ClassNotFoundException {
         this.user = user;
@@ -216,5 +221,40 @@ public class Login {
                 ", isLoggedIn=" + isLoggedIn +
                 ", server=" + server +
                 '}';
+    }
+
+    @Override
+    public String getPageName() {
+        return HOMEPAGE;
+    }
+
+    @Override
+    public String getXPathSelector() {
+        return "//*[@id=\"regSubmit\"]";
+    }
+
+    @Override
+    public String getCssSelector() {
+        return "#regSubmit";
+    }
+
+    @Override
+    public String uniqueCssSelector() {
+        return "#regSubmit";
+    }
+
+    @Override
+    public boolean isPageLoaded(DriverController driverController) {
+        return driverController.getDriver().findElements(By.cssSelector("#loginBtn")).size() > 0;
+    }
+
+    @Override
+    public boolean waitForPageToLoad(DriverController driverController, TimeUnit timeUnit, long l) {
+        return driverController.waitForElement(By.cssSelector("#loginBtn"),l,timeUnit);
+    }
+
+    @Override
+    public void parsePage(Bot b, Document document) {
+
     }
 }

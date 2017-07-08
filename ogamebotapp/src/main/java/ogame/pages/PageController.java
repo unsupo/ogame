@@ -36,6 +36,7 @@ public class PageController {
     public PageController(Bot b){this.b = b; init();}
 
     private void init(){
+        ogamePages.put(Login.HOMEPAGE.toLowerCase(),new Login());
         ogamePages.put(Messages.MESSAGES.toLowerCase(),new Messages());
         ogamePages.put(Overview.OVERVIEW.toLowerCase(),new Overview());
         ogamePages.put(Resources.RESOURCES.toLowerCase(),new Resources());
@@ -51,10 +52,12 @@ public class PageController {
         ogamePages.put(Shipyard.SHIPYARD.toLowerCase(),new Shipyard());
     }
 
-    public boolean goToPage(String pageName) throws IOException {
+    public boolean goToPage(String pageName) throws Exception {
         //TODO utilize tooltip on each planet (right side) to navigate to pages this allows direct navigation to different planets
         OgamePage page = ogamePages.get(pageName.toLowerCase());
         b.setCurrentPage(pageName);
+        if(getCurrentPage().equals(Login.HOMEPAGE.toLowerCase()))
+            throw new Exception("Got Logged Out");
         if(getCurrentPage().equals(pageName))
             b.getDriverController().getDriver().navigate().refresh();
         else
@@ -233,7 +236,7 @@ public class PageController {
         return ogamePages.get(pageName.toLowerCase());
     }
 
-    public void goToPageOnPlanet(Coordinates planetCoordinates, String page) throws IOException {
+    public void goToPageOnPlanet(Coordinates planetCoordinates, String page) throws Exception {
         //TODO test navigating between planets
         b.getDriverController().getDriver().navigate().to(b.getPlanets().get(planetCoordinates.getStringValue()).getLinkToPage(page.toLowerCase()));
         goToPage(page);

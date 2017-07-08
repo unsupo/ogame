@@ -1,8 +1,12 @@
 package ogame.pages;
 
 import bot.Bot;
+import ogame.objects.game.Buildable;
+import ogame.objects.game.planet.Planet;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import utilities.webdriver.DriverController;
 
@@ -68,6 +72,21 @@ public class Fleet implements OgamePage{
     @Override
     public void parsePage(Bot b, Document document) {
         //TODO expedition, dueterium cost
+        Elements v = document.select("div.buildingimg");
+        Planet p = b.getCurrentPlanet();
+        for(Element e : v) {
+            try {
+                String name = e.select("a > span > span > span").text().trim();
+                if(name.isEmpty())
+                    name = e.parent().attr("title").replaceAll("[0-9\\(\\)]","").trim();
+                Buildable bb = Buildable.getBuildableByName(name);
+                Integer level = Integer.parseInt(e.select("span.level").get(0).ownText().trim());
+                bb.setCurrentLevel(level);
+                bb.setRef(e.select("a").attr("ref").trim());
+                p.addBuildable(bb);
+            }catch (IndexOutOfBoundsException ioobe){/*DO NOTHING, building is currently being built*/}
+        }
+
         String[] fleets = document.select("#slots > div:nth-child(1) > span").text().replaceAll("[A-Za-z: ]","").trim().split("/");
         int fleetSlots = Integer.parseInt(fleets[1]), used = Integer.parseInt(fleets[0]);
         b.getFleetInfo().setFleetsTotal(fleetSlots);

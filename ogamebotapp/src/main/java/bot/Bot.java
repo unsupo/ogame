@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -233,7 +234,7 @@ public class Bot {
         isGotInitialState = true;
     }
 
-    private void performNextAction() throws IOException, InterruptedException, SQLException, ClassNotFoundException {
+    private void performNextAction() throws Exception {
         //Check if being attacked perform attack action
         if(isBeingAttacked) {
             System.out.println("Being attacked, performing attacked action");
@@ -259,12 +260,19 @@ public class Bot {
         //Literally nothing to do, just go to the overview page.
         getPageController().goToPage(Overview.OVERVIEW);
         System.out.println("Nothing to do, waiting");
-        Thread.sleep(r.nextInt(60000-10000+1)+30000); //wait between 30 and 60 seconds before updating page.  This helps from ogame logging you out
+        long max = 60000, min = 20000;
+        long sleepTime = ThreadLocalRandom.current().nextLong(min,max);//wait between 30 and 60 seconds before updating page.  This helps from ogame logging you out
+        while(sleepTime > 0) {
+            if(getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                throw new Exception("You've been logged out, logging back in");
+            Thread.sleep(500);
+            sleepTime-=500;
+        }
         getPageController().goToPage(Overview.OVERVIEW);
     }
     private transient Random r = new Random();
 
-    private boolean performIdleTask() throws IOException, SQLException, ClassNotFoundException {
+    private boolean performIdleTask() throws Exception {
         //TODO
         //Unread messages
         if(getUnreadMessages() != 0){
@@ -344,6 +352,15 @@ public class Bot {
                 quickAttack(getAttackManager().getSafeAttackTargets().get(0));
                 return true;
             }
+            if(getCurrentPlanet().getShips().get(Ship.SMALL_CARGO) == 0)
+                if(getCurrentPlanet().getSetting(SettingsManager.AUTO_BUILD_SMALL_CARGOS,getOgameUserId()).equals("true"))
+                    buildRequest(new BuildTask().setBuildable(
+                            Buildable
+                                    .getBuildableByName(Ship.SMALL_CARGO))
+                            .setCountOrLevel(10)
+                            .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
+                    );
+
             if(getCurrentPlanet().getBuildable(Ship.ESPIONAGE_PROBE).getCurrentLevel()>0){
                 //TODO fix issue with fuel.  Can't send if not enough storage capacity
                 List<Target> espionageTargets = getAttackManager().getEspionageTargets();
@@ -378,7 +395,7 @@ public class Bot {
         return false;
     }
 
-    private void sendProbe(List<Target> espionageTargets) throws SQLException, IOException, ClassNotFoundException {
+    private void sendProbe(List<Target> espionageTargets) throws Exception {
         //TODO send probes out
         //TODO won't wait for probes to come back before sending more probes
         //TODO tries to send probes when no probes are left
@@ -406,7 +423,7 @@ public class Bot {
         System.out.println("Finished probing: "+espionageTargets.get(0));
     }
 
-    private void quickAttack(Target attackTargets) throws IOException, SQLException, ClassNotFoundException {
+    private void quickAttack(Target attackTargets) throws Exception {
         //TODO send fleet out
         int smallCargoCount = getCurrentPlanet().getBuildable(Ship.SMALL_CARGO).getCurrentLevel();
         int smallCargoNeeded = attackTargets.getSmallCargosNeeded();
@@ -465,7 +482,7 @@ public class Bot {
         );
     }
 
-    private void performNextBuildTask() throws IOException, SQLException, ClassNotFoundException {
+    private void performNextBuildTask() throws Exception {
         //TODO
         List<BuildTask> tasks = getBuildTasks();
         if(tasks != null && tasks.size() > 0){
@@ -810,12 +827,28 @@ public class Bot {
 
     private void markAsDone(BuildTask task){
         FileOptions.runConcurrentProcessNonBlocking((Callable) () -> {
-            getDatabase().executeQuery(
-                    "update planet_queue set done = 'Y' " +
-                            "where bot_planets_id = " + task.getBotPlanetID() + " and " +
-                            "buildable_id = " + task.getBuildable().getId() + " and " +
-                            "build_level = " + task.getBuildable().getCurrentLevel()
-            );
+            try {
+                getDatabase().executeQuery(
+                        "update planet_queue set done = 'Y' " +
+                                "where bot_planets_id = " + task.getBotPlanetID() + " and " +
+                                "buildable_id = " + task.getBuildable().getId() + " and " +
+                                "build_level = " + task.getBuildable().getCurrentLevel()
+                );
+            }catch (Exception e){
+                if(e.getMessage().contains("ERROR: duplicate key value violates unique constraint"))
+                    getDatabase().executeQuery(
+                            "update planet_queue set " +
+                                    "build_level = build_level + " + task.getBuildable().getCurrentLevel()+" "+
+                                        "where bot_planets_id = " + task.getBotPlanetID() + " and " +
+                                        "buildable_id = " + task.getBuildable().getId() + " and " +
+                                        "build_level = " + task.getBuildable().getCurrentLevel() + " and " +
+                                        "done = 'Y'; " +
+                            "delete from planet_queue where bot_planets_id = " + task.getBotPlanetID() + " and " +
+                                "buildable_id = " + task.getBuildable().getId() + " and " +
+                                "build_level = " + task.getBuildable().getCurrentLevel() + " and " +
+                                "done = 'N';"
+                    );
+            }
             return null;
         });
     }

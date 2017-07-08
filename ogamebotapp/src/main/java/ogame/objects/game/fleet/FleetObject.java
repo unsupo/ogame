@@ -79,11 +79,11 @@ public class FleetObject {
                 this.ships.put(tds.get(0).text().trim().replace(":",""),Integer.parseInt(tds.get(1).text().trim()));
             if(resources){
                 if(tds.get(0).text().trim().replace(":","").equals("Metal"))
-                    resourcesBeingCarried.setMetal(Long.parseLong(tds.get(1).text().trim()));
+                    resourcesBeingCarried.setMetal(Long.parseLong(tds.get(1).text().trim().replace(".","")));
                 if(tds.get(0).text().trim().replace(":","").equals("Crystal"))
-                    resourcesBeingCarried.setCrystal(Long.parseLong(tds.get(1).text().trim()));
+                    resourcesBeingCarried.setCrystal(Long.parseLong(tds.get(1).text().trim().replace(".","")));
                 if(tds.get(0).text().trim().replace(":","").equals("Deuterium"))
-                    resourcesBeingCarried.setDeuterium(Long.parseLong(tds.get(1).text().trim()));
+                    resourcesBeingCarried.setDeuterium(Long.parseLong(tds.get(1).text().trim().replace(".","")));
             }
         }
     }

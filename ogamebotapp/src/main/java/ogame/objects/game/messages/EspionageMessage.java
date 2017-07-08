@@ -96,15 +96,15 @@ public class EspionageMessage {
         resources = new Resource();
         for(Element e : ressies)
             if(e.text().contains("Metal: "))
-                resources.setMetal(Long.parseLong(e.text().replaceAll("[A-Za-z:\\. ]","")));
+                resources.setMetal(Long.parseLong(e.text().replace("Mn","000").replaceAll("[A-Za-z:\\. ]","")));
             else if(e.text().contains("Crystal: "))
-                resources.setCrystal(Long.parseLong(e.text().replaceAll("[A-Za-z:\\. ]","")));
+                resources.setCrystal(Long.parseLong(e.text().replace("Mn","000").replaceAll("[A-Za-z:\\. ]","")));
             else if(e.text().contains("Deuterium: "))
-                resources.setDeuterium(Long.parseLong(e.text().replaceAll("[A-Za-z:\\. ]","")));
+                resources.setDeuterium(Long.parseLong(e.text().replace("Mn","000").replaceAll("[A-Za-z:\\. ]","")));
     }
 
     private void parseTitleInfo(Document title) {
-        long loot = Long.parseLong(title.select("body").get(0).ownText().replace("Loot: ","").replace(".",""));
+        long loot = Long.parseLong(title.select("body").get(0).ownText().replace("Loot: ","").replace(".","").replace("Mn","000"));
         for(Element e : title.select("a")) {
             String[] split = e.text().split(": ");
             if (split[0].equals("S.Cargo"))
