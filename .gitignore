@@ -21,3 +21,8 @@ lib/
 ogamebotapp/src/main/resources/databases/HSQLDB/.tmp/
 ogamebotapp/src/main/resources/databases/postgres/postgres/
 ogamebotserver/src/main/resources/databases/postgres/postgres/
+ogamebotapp/src/main/resources/databases/postgres_windows/App/PgSQL/postgres/
+ogamebotapp/src/main/resources/databases/postgres.zip~HEAD
+ogamebotapp/src/main/resources/databases/postgres.zip~origin_ogame_2.0
+ogamebotserver/src/main/resources/databases/postgres.zip~HEAD
+ogamebotserver/src/main/resources/databases/postgres.zip~origin_ogame_2.0
