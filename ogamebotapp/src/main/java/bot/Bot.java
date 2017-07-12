@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
+import org.openqa.selenium.TimeoutException;
 import utilities.database.Database;
 import utilities.fileio.FileOptions;
 import utilities.webdriver.DriverController;
@@ -29,10 +30,7 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -272,6 +270,32 @@ public class Bot {
     }
     private transient Random r = new Random();
 
+    private boolean waitForElement(By by, long time, TimeUnit timeUnit) throws Exception {
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        boolean b = true;
+        try {
+            b = exec.submit(new Callable<Boolean>(){
+                @Override public Boolean call() throws Exception {
+                    while(true) {
+                        if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                            throw new Exception("You've been logged out, logging back in");
+                        if(getDriverController().getDriver().findElements(by).size() > 0)
+                            break;
+                        Thread.sleep(500);
+                    }
+                    return true;
+                }
+            }).get(time, timeUnit);
+            exec.shutdown();
+            exec.awaitTermination(time, timeUnit);
+        } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
+            b = false;
+        }finally{
+            exec.shutdownNow();
+        }
+        return b;
+    }
+
     private boolean performIdleTask() throws Exception {
         //TODO
         //Unread messages
@@ -295,7 +319,9 @@ public class Bot {
                             getDriverController().getDriver().findElement(By.cssSelector("#js_traderImportExport")));
                     //buy the merchant item
                     String selector = "#div_traderImportExport > div.content > div.left_box > div.left_content > div.price.js_import_price";
-                    getDriverController().waitForElement(By.cssSelector(selector),1L,TimeUnit.MINUTES);
+
+                    if(!waitForElement(By.cssSelector(selector),1L, TimeUnit.MINUTES))
+                        throw new Exception("You've been logged out, logging back in");
 
                     Document doc = Jsoup.parse(getDriverController().getDriver().getPageSource());
                     long price = Long.parseLong(
@@ -445,7 +471,7 @@ public class Bot {
         System.out.println("Finished attacking: "+attackTargets);
     }
 
-    private void buildRequest(BuildTask buildTask) throws SQLException, IOException, ClassNotFoundException {
+    public void buildRequest(BuildTask buildTask) throws SQLException, IOException, ClassNotFoundException {
         //TODO insert into planet_queue;
         if(Arrays.asList(Shipyard.SHIPYARD.toLowerCase(),Defense.DEFENSE.toLowerCase()).contains(buildTask.getBuildable().getType().toLowerCase())) {
             List<Map<String, Object>> v = getDatabase().executeQuery("select sum(build_level) from planet_queue " +
@@ -577,7 +603,8 @@ public class Bot {
                     System.out.println("Can't build yet");
                     return;
                 }
-                isBuilding = isResearch;
+                if(isResearch)
+                    isBuilding = true;
                 if(!dm && isBuilding) {
                     //use the quick build link
                     //TODO fix, sometimes it builds it even though its already building it
@@ -594,18 +621,21 @@ public class Bot {
                 //TODO test shipyard and defense with dark matter
                 //TODO fix, ended up building several more probes than what was in build list
                 driverController.clickWait(By.cssSelector(currentPlanetBuildable.getCssSelector()+" > a"),1L,TimeUnit.MINUTES);
-                driverController.waitForElement(By.cssSelector("#content"),1L,TimeUnit.MINUTES);
+                if(!waitForElement(By.cssSelector("#content"),1L, TimeUnit.MINUTES))
+                    throw new Exception("You've been logged out, logging back in");
                 if(parseOpenedPanel(getCurrentPlanet(),driverController.getDriver().getPageSource())) {
                     //SHIPS
                     if(!useSmallButton.contains(build.getBuildable().getType().toLowerCase())) {
                         String xpath = "//*[@id='number']";
-                        getDriverController().waitForElement(By.xpath(xpath),1L, TimeUnit.MINUTES);
+                        if(!waitForElement(By.xpath(xpath),1L, TimeUnit.MINUTES))
+                            throw new Exception("You've been logged out, logging back in");
                         WebElement e = getDriverController().getDriver().findElement(By.xpath(xpath));
                         e.clear();
                         e.sendKeys(b.getCurrentLevel()+"",Keys.ENTER);
                     }else {
                         String xpath = "//*[@id='content']/div[2]/a";
-                        getDriverController().waitForElement(By.xpath(xpath),1L, TimeUnit.MINUTES);
+                        if(!waitForElement(By.xpath(xpath),1L, TimeUnit.MINUTES))
+                            throw new Exception("You've been logged out, logging back in");
                         getDriverController().getJavaScriptExecutor().executeScript("arguments[0].click();",
                                 getDriverController().getDriver().findElement(By.xpath(xpath)));
                     }

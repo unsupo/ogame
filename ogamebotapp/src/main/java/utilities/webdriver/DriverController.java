@@ -5,6 +5,8 @@ package utilities.webdriver;
  */
 
 import com.google.gson.Gson;
+import ogame.pages.Login;
+import ogame.pages.PageController;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;

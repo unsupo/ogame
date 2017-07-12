@@ -21,11 +21,13 @@ public class SettingsManager {
             AUTO_BUILD_SOLAR_PERCENT        = "AUTO_BUILD_SOLAR_PERCENT".toLowerCase(),
             AUTO_BUILD_ESPIONAGE_PROBES     = "AUTO_BUILD_ESPIONAGE_PROBES".toLowerCase(),
             AUTO_BUILD_SMALL_CARGOS         = "AUTO_BUILD_SMALL_CARGOS".toLowerCase(),
+            AUTO_BUILD_LARGE_CARGOS         = "AUTO_BUILD_LARGE_CARGOS".toLowerCase(),
             SIMULATE_QUEUE_ON_EMPTY         = "SIMULATE_QUEUE_ON_EMPTY".toLowerCase();
 
     public static final List<String> SETTINGS = Arrays.asList(
             DELETE_MESSAGES, AUTO_BUILD_CRYSTAL_STORAGE,AUTO_BUILD_DEUTERIUM_STORAGE,AUTO_BUILD_METAL_STORAGE,
-            AUTO_BUILD_SOLAR,AUTO_BUILD_SOLAR_PERCENT,SIMULATE_QUEUE_ON_EMPTY,AUTO_BUILD_ESPIONAGE_PROBES,AUTO_BUILD_SMALL_CARGOS
+            AUTO_BUILD_SOLAR,AUTO_BUILD_SOLAR_PERCENT,SIMULATE_QUEUE_ON_EMPTY,AUTO_BUILD_ESPIONAGE_PROBES,AUTO_BUILD_SMALL_CARGOS,
+            AUTO_BUILD_LARGE_CARGOS
     );
 
 
@@ -66,6 +68,7 @@ public class SettingsManager {
         defaults.put(SIMULATE_QUEUE_ON_EMPTY,"false");
         defaults.put(AUTO_BUILD_ESPIONAGE_PROBES,"true");
         defaults.put(AUTO_BUILD_SMALL_CARGOS,"true");
+        defaults.put(AUTO_BUILD_LARGE_CARGOS,"true");
 
         SETTINGS.forEach(a->{
             if(!(settings.containsKey(a) && settings.get(a) != null))

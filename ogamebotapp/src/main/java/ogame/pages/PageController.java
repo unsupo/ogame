@@ -18,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import utilities.fileio.FileOptions;
+import utilities.webdriver.DriverController;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -357,4 +358,21 @@ public class PageController {
 
         return Overview.OVERVIEW;
     }
+
+
+//    private PageController(DriverController driverController){
+//        this.driverController = driverController;
+//        init();
+//    }
+//    private static PageController instance;
+//    private DriverController driverController;
+//    private static PageController getInstance(DriverController driverController){
+//        if(instance == null)
+//            instance = new PageController(driverController);
+//        return instance;
+//    }
+//
+//    public static PageController getStaticPageController(DriverController driverController){
+//        return getInstance(driverController);
+//    }
 }

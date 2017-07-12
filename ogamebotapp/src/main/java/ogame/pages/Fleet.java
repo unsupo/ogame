@@ -1,7 +1,10 @@
 package ogame.pages;
 
 import bot.Bot;
+import bot.settings.SettingsManager;
+import ogame.objects.game.BuildTask;
 import ogame.objects.game.Buildable;
+import ogame.objects.game.Ship;
 import ogame.objects.game.planet.Planet;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,7 +13,11 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import utilities.webdriver.DriverController;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.concurrent.*;
+
+import static ogame.objects.game.Buildable.getResearch;
 
 /**
  * Created by jarndt on 5/30/17.
@@ -91,5 +98,22 @@ public class Fleet implements OgamePage{
         int fleetSlots = Integer.parseInt(fleets[1]), used = Integer.parseInt(fleets[0]);
         b.getFleetInfo().setFleetsTotal(fleetSlots);
         b.getFleetInfo().setFleetsUsed(used);
+
+        try {
+            if(b.getCurrentPlanet().getSetting(SettingsManager.AUTO_BUILD_LARGE_CARGOS,b.getOgameUserId()).equalsIgnoreCase("true")){
+                //if the database has the setting true for large cargos
+                double lc = Math.ceil(b.getCurrentPlanet().getResources().getTotal() / 25000);
+                int cargos = b.getCurrentPlanet().getShips().get(Ship.LARGE_CARGO);
+                if(lc > cargos)
+                    b.buildRequest(new BuildTask().setBuildable(
+                            Buildable
+                                    .getBuildableByName(Ship.LARGE_CARGO))
+                            .setCountOrLevel((int) (lc-cargos))
+                            .setBuildPriority(b.getCurrentPlanet().getQueueManager(b.getOgameUserId(),b.getResearch()).getMaxPriority())
+                    );
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

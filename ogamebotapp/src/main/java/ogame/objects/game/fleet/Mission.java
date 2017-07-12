@@ -4,6 +4,7 @@ import bot.Bot;
 import ogame.objects.game.Coordinates;
 import ogame.objects.game.Ship;
 import ogame.pages.Fleet;
+import ogame.pages.Overview;
 import ogame.pages.Research;
 import org.jsoup.Jsoup;
 import org.openqa.selenium.By;
@@ -105,6 +106,7 @@ public class Mission {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            b.getPageController().goToPage(Overview.OVERVIEW);
             sendFleet(fleetObject, b);
         }
 
@@ -126,6 +128,7 @@ public class Mission {
                 JavaScriptFunctions.fillFormByXpath(d, "//*[@id='system']", c.getSystem() + "");
                 JavaScriptFunctions.fillFormByXpath(d, "//*[@id='position']", c.getPlanet() + "");
             }
+            d.executeJavaScript("updateVariables();");
 
             //TODO fleet speed needed for fleet saves
             //TODO can't find variable trySubmit
@@ -137,7 +140,12 @@ public class Mission {
                     e1.printStackTrace();
                 }
             }
-            d.waitForElement(By.xpath("//*[@id='fleetStatusBar']"),1L, TimeUnit.MINUTES);
+
+            if(!d.waitForElement(By.xpath("//*[@id='fleetStatusBar']"),1L, TimeUnit.MINUTES)){
+                //next page didn't load, try again
+                System.out.println("Something went wrong with coordinates: "+c);
+                return;
+            }
             //PAGE 3
             String js = getJSForMissionType(fleetObject.getMission(), b);
             //TODO can't find variable: serverTime i suspect it's too fast and potential sleeps are needed
@@ -150,6 +158,7 @@ public class Mission {
                 }
             }
         }catch (WebDriverException e){
+            b.getPageController().goToPage(Overview.OVERVIEW);
             throw e;
         }
 
