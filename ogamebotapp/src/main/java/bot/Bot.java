@@ -258,7 +258,7 @@ public class Bot {
         //Literally nothing to do, just go to the overview page.
         getPageController().goToPage(Overview.OVERVIEW);
         System.out.println("Nothing to do, waiting");
-        long max = 60000, min = 20000;
+        long max = 120000, min = 30000;
         long sleepTime = ThreadLocalRandom.current().nextLong(min,max);//wait between 30 and 60 seconds before updating page.  This helps from ogame logging you out
         while(sleepTime > 0) {
             if(getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
@@ -614,6 +614,7 @@ public class Bot {
                     else
                         System.out.println("Can't build, something went wrong");
                     currentPlanetBuildable.setQuickBuildLink("");
+                    getPageController().goToPage(Overview.OVERVIEW);
                     tasks.remove(0);
                     System.out.println("Build complete");
                     return;
@@ -695,7 +696,7 @@ public class Bot {
             if(s.contains("h"))
                 t+=Integer.parseInt(s.replace("h","").trim())*60*60;
             if(s.contains("d"))
-                t+=Integer.parseInt(s.replace("m","").trim())*60*60*24;
+                t+=Integer.parseInt(s.replace("d","").trim())*60*60*24;
             //TODO time larger than days
         }
         return t;

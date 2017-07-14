@@ -190,7 +190,8 @@ public class CombatMessage {
         defenderGainsOrLosses = Long.parseLong(defString[1].replace(".",""));
 
         actuallyRepaired = Long.parseLong(defender.get(1).text().replaceAll("[A-Za-z:\\. ]",""));
-        moonChancePercent = Integer.parseInt(defender.get(2).text().replaceAll("[A-Za-z:%\\. ]",""));
+        if(defender.size() > 2)
+            moonChancePercent = Integer.parseInt(defender.get(2).text().replaceAll("[A-Za-z:%\\. ]",""));
 
         api = messageContent.select("div.msg_actions.clearfix > div > span").attr("title")
                 .replaceAll(".*value='","").replaceAll("' .*","");
