@@ -61,27 +61,27 @@ public class Mission {
     private int type = 1;
     //attack https://s135-en.ogame.gameforge.com/game/index.php?page=fleet1&amp;galaxy=8&amp;system=307&amp;position=11&amp;type=1&amp;mission=1
 
-    public void sendFleet(FleetObject fleetObject, Bot b) throws Exception {
+    public boolean sendFleet(FleetObject fleetObject, Bot b) throws Exception {
         b.getPageController().goToPage(Fleet.FLEET);
         b.getPageController().parsePage(Fleet.FLEET);
         if(b.getFleetInfo().getFleetsRemaining() == 0) {
             System.out.println("No fleet slots");
-            return;
+            return false;
         }
         if(fleetObject.getMission().equals(Mission.COLONIZATION) && b.canGetAnotherPlanet(fleetObject.getToCoordinates())){
             System.out.println("Astrophysics too low to colonize");
-            return;
+            return false;
         }
         if(fleetObject.getMission().equals(Mission.ESPIONAGE) &&
                 fleetObject.getShips().containsKey(Ship.ESPIONAGE_PROBE) &&
                 fleetObject.getShips().get(Ship.ESPIONAGE_PROBE) < 1){
             System.out.println("No probes in mission, can't go on an espionage mission");
-            return;
+            return false;
         }if(fleetObject.getMission().equals(Mission.ESPIONAGE) &&
                 fleetObject.getShips().containsKey(Ship.ESPIONAGE_PROBE) &&
                 fleetObject.getShips().get(Ship.ESPIONAGE_PROBE) == 1) {
             sendProbe(b.getDriverController(), fleetObject.getToCoordinates());
-            return;
+            return false;
         }
 
         String shipIdR = "[SHIP_ID]", shipCountR = "[SHIP_COUNT]";
@@ -144,7 +144,7 @@ public class Mission {
             if(!d.waitForElement(By.xpath("//*[@id='fleetStatusBar']"),1L, TimeUnit.MINUTES)){
                 //next page didn't load, try again
                 System.out.println("Something went wrong with coordinates: "+c);
-                return;
+                return false;
             }
             //PAGE 3
             String js = getJSForMissionType(fleetObject.getMission(), b);
@@ -164,6 +164,7 @@ public class Mission {
 
         //TODO load resources
         d.executeJavaScript("trySubmit();");
+        return true;
     }
 
     private String getJSForMissionType(String mission, Bot b) {

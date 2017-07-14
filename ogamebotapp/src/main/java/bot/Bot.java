@@ -421,6 +421,28 @@ public class Bot {
         return false;
     }
 
+    public boolean waitForCallable(Callable c) throws Exception {
+        long l = 1;
+        TimeUnit timeUnit = TimeUnit.MINUTES;
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        boolean b = true;
+        try {
+            exec.submit(c).get(l, timeUnit);
+            exec.shutdown();
+//            exec.awaitTermination(l, timeUnit);
+            while(!exec.awaitTermination(5,TimeUnit.SECONDS))
+                if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                    return false;
+            if (!exec.awaitTermination(5, TimeUnit.SECONDS))
+                exec.shutdownNow();
+        } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
+            b = false;
+        }finally{
+            exec.shutdownNow();
+        }
+        return b;
+    }
+
     private void sendProbe(List<Target> espionageTargets) throws Exception {
         //TODO send probes out
         //TODO won't wait for probes to come back before sending more probes
@@ -436,14 +458,22 @@ public class Bot {
             );
         if(espionageProbesCount == 0)
             return;
+        if(!waitForCallable((Callable)()-> {
+            try {
+                return new Mission().sendFleet(
+                        new FleetObject()
+                                .setMission(Mission.ESPIONAGE)
+                                .setToCoordinates(espionageTargets.get(0).getCoordinates())
+                                .addShip(Ship.ESPIONAGE_PROBE, espionageProbesNeeded)
+                        , this
+                );
+            }catch (Exception e){
+                return false;
+            }
+        }))
+            if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                throw new Exception("You've been logged out");
 
-        new Mission().sendFleet(
-                new FleetObject()
-                        .setMission(Mission.ESPIONAGE)
-                        .setToCoordinates(espionageTargets.get(0).getCoordinates())
-                        .addShip(Ship.ESPIONAGE_PROBE,espionageProbesNeeded)
-                ,this
-        );
         espionageTargets.get(0).setLastEspionage(LocalDateTime.now());
         espionageTargets.get(0).setLastProbeSentCount(espionageProbesNeeded);
         System.out.println("Finished probing: "+espionageTargets.get(0));
@@ -460,13 +490,21 @@ public class Bot {
                         .setCountOrLevel((smallCargoNeeded-smallCargoCount))
                         .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
             );
-        new Mission().sendFleet(
-                new FleetObject()
-                    .setMission(Mission.ATTACKING)
-                    .setToCoordinates(attackTargets.getCoordinates())
-                    .addShip(Ship.SMALL_CARGO,smallCargoNeeded)
-                ,this
-        );
+        if(!waitForCallable((Callable)()-> {
+            try {
+                return new Mission().sendFleet(
+                        new FleetObject()
+                            .setMission(Mission.ATTACKING)
+                            .setToCoordinates(attackTargets.getCoordinates())
+                            .addShip(Ship.SMALL_CARGO,smallCargoNeeded)
+                        ,this
+                );
+            }catch (Exception e){
+                return false;
+            }
+        }))
+            if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                throw new Exception("You've been logged out");
         attackTargets.setLastAttack(LocalDateTime.now());
         System.out.println("Finished attacking: "+attackTargets);
     }
