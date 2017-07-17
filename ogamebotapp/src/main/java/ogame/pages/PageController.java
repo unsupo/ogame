@@ -91,6 +91,11 @@ public class PageController {
             return null;
         });
 
+        if(!d.select("#attack_alert").hasClass("noAttack"))
+            b.setBeingAttacked(true);
+        else
+            b.setBeingAttacked(false);
+
         for(Element planet : d.select("#planetList > div")){
             Coordinates coords = new Coordinates(planet.select("span.planet-koords").text())
                     .setUniverse(b.getLogin().getUser().getUniverse());

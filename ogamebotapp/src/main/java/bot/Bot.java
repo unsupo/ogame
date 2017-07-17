@@ -193,18 +193,21 @@ public class Bot {
                     Thread.sleep(1000);
                     continue;
                 }
-                if(!isGotInitialState)
-                    getInitialState();
+                waitForCallable((Callable)()-> {
+                    if(!isBeingAttacked() && !isGotInitialState)
+                        getInitialState();
 
-                setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
-                    pageController.parsePage(pageController.getCurrentPage());
-                    setBuildTasks(new ArrayList<>());
-                    setBuildTasks(getNextBuildTask());return null;
-                }));
+                    setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
+                        pageController.parsePage(pageController.getCurrentPage());
+                        setBuildTasks(new ArrayList<>());
+                        setBuildTasks(getNextBuildTask());return null;
+                    }));
 
-                performNextAction();
-
-//                getDriverController().getDriver().navigate().refresh();
+                    performNextAction();
+                    return null;
+                },30L, TimeUnit.MINUTES);
+                if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                    throw new Exception("You've been logged out");
 
             }catch (Exception | Error e){
                 /*Garbage collect and keep going*/
@@ -234,7 +237,7 @@ public class Bot {
 
     private void performNextAction() throws Exception {
         //Check if being attacked perform attack action
-        if(isBeingAttacked) {
+        if(isBeingAttacked()) {
             System.out.println("Being attacked, performing attacked action");
             preformBeingAttackedAction();
             return;
@@ -259,16 +262,23 @@ public class Bot {
         getPageController().goToPage(Overview.OVERVIEW);
         System.out.println("Nothing to do, waiting");
         long max = 120000, min = 30000;
-        long sleepTime = ThreadLocalRandom.current().nextLong(min,max);//wait between 30 and 60 seconds before updating page.  This helps from ogame logging you out
-        while(sleepTime > 0) {
-            if(getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
-                throw new Exception("You've been logged out, logging back in");
-            Thread.sleep(500);
-            sleepTime-=500;
-        }
+        final long sleepTime = ThreadLocalRandom.current().nextLong(min,max);//wait between 30 and 60 seconds before updating page.  This helps from ogame logging you out
+        waitForCallable((Callable)()-> {
+            Thread.sleep(sleepTime);
+            return null;
+        },10L, TimeUnit.MINUTES);
+        if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+            throw new Exception("You've been logged out");
         getPageController().goToPage(Overview.OVERVIEW);
     }
     private transient Random r = new Random();
+
+    public void recallFleet() throws Exception {
+        //TODO set a specific fleet to recall.  I believe this will recall the first fleet in the list.
+        getPageController().goToPage(Fleet.FLEET);
+        getDriverController().clickWait(By.cssSelector("#movements > a"),1L, TimeUnit.MINUTES);
+        getDriverController().clickWait(By.cssSelector("a.icon_link.tooltipHTML"),1L,TimeUnit.MINUTES);
+    }
 
     private boolean waitForElement(By by, long time, TimeUnit timeUnit) throws Exception {
         ExecutorService exec = Executors.newSingleThreadExecutor();
@@ -372,7 +382,7 @@ public class Bot {
                             .setCountOrLevel(1)
                             .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
                     );
-                return true;
+                return false;
             }
             if(getCurrentPlanet().getShips().get(Ship.SMALL_CARGO) > 0 && getAttackManager().getSafeAttackTargets().size() > 0) {
                 quickAttack(getAttackManager().getSafeAttackTargets().get(0));
@@ -420,20 +430,17 @@ public class Bot {
 
         return false;
     }
-
-    public boolean waitForCallable(Callable c) throws Exception {
-        long l = 1;
-        TimeUnit timeUnit = TimeUnit.MINUTES;
+    public boolean waitForCallable(Callable c, long l, TimeUnit timeUnit){
         ExecutorService exec = Executors.newSingleThreadExecutor();
         boolean b = true;
         try {
             exec.submit(c).get(l, timeUnit);
             exec.shutdown();
-//            exec.awaitTermination(l, timeUnit);
-            while(!exec.awaitTermination(5,TimeUnit.SECONDS))
+//            exec.awaitTermination(l, timeUnit); //blocking call
+            while(!exec.awaitTermination(1,TimeUnit.SECONDS))
                 if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
                     return false;
-            if (!exec.awaitTermination(5, TimeUnit.SECONDS))
+            if (!exec.awaitTermination(1, TimeUnit.SECONDS))
                 exec.shutdownNow();
         } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
             b = false;
@@ -441,6 +448,9 @@ public class Bot {
             exec.shutdownNow();
         }
         return b;
+    }
+    public boolean waitForCallable(Callable c) throws Exception {
+        return waitForCallable(c,5l,TimeUnit.MINUTES);
     }
 
     private void sendProbe(List<Target> espionageTargets) throws Exception {
@@ -742,7 +752,16 @@ public class Bot {
 
     private void preformBeingAttackedAction() {
         //TODO
-        //i'd imagine you'd first try to send everything away, then spend remaining resources
+//        i'd imagine you'd first try to send everything away, then spend remaining resources
+//        check how long until the attacking fleet will land on your planet.
+//        if attacking fleet is less than say... 5 minutes away then
+//        go to Fleet Page
+//        send all ships and resources at 10% speed to:
+//        if you have a moon, send it to your moon, if you have another colony send it to your colony,
+//        otherwise get an inactive planet and send it to that planet
+//        save that fleet to be recalled later.
+//        if remaining resources greater than a certain amount say... 10k metal then spend it all
+//         until fleet arrives.  Metal on rocket launchers, crystal on espionage probes, just spend it all
     }
 
     public List<BuildTask> getNextBuildTask() throws SQLException, IOException, ClassNotFoundException {
@@ -831,7 +850,7 @@ public class Bot {
                     return Buildable.getBuildableByName(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
                 } else return false;
             }else
-                return Buildable.getBuildableByName(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
+                return researchBuildable.get(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
 
         HashMap<String, Integer> rr = getResearch();
         if(getCurrentResearchBeingBuilt() != null && !(getCurrentResearchBeingBuilt().isDone() && getCurrentResearchBeingBuilt().isComplete()))
@@ -1026,7 +1045,7 @@ public class Bot {
     }
 
     public boolean isBeingAttacked() {
-        return isBeingAttacked;
+        return !Jsoup.parse(getDriverController().getDriver().getPageSource()).select("#attack_alert").hasClass("noAttack");
     }
 
     public void setBeingAttacked(boolean beingAttacked) {
