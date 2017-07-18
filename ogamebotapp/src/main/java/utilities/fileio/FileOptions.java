@@ -159,13 +159,13 @@ public class FileOptions {
         return runConcurrentProcess(Arrays.asList(callable), threads, time, timeUnit);
     }
     public static ExecutorService runConcurrentProcess(List<Callable> callables){
-        return runConcurrentProcess(callables, 100, 5, TimeUnit.MINUTES);
+        return runConcurrentProcess(callables, callables.size(), 5, TimeUnit.MINUTES);
     }
     public static ExecutorService runConcurrentProcess(List<Callable> callables, int threads){
         return runConcurrentProcess(callables, threads, 5, TimeUnit.MINUTES);
     }
     public static ExecutorService runConcurrentProcess(List<Callable> callables, int time, TimeUnit timeUnit){
-        return runConcurrentProcess(callables, 100, time, timeUnit);
+        return runConcurrentProcess(callables, callables.size(), time, timeUnit);
     }
     public static ExecutorService runConcurrentProcess(List<Callable> callables, int threads, int time, TimeUnit timeUnit){
         ExecutorService service = Executors.newFixedThreadPool(threads);

@@ -99,6 +99,7 @@ public class Mission {
 
         DriverController d = b.getDriverController();
         d.executeJavaScript(page1.toString());
+        Thread.sleep(500);
         if(!d.waitForElement(By.xpath("//*[@id='mission']"),1L, TimeUnit.MINUTES)) {
             //next page didn't load, try again
             try {
@@ -113,6 +114,7 @@ public class Mission {
         //PAGE 2
         try {
             //TODO org.openqa.selenium.WebDriverException: {"errorMessage":"undefined is not an object (evaluating '$x(\"//*[@id='galaxy']\")[0].value=\"8\"')","request":{"headers":{"Accept-Encoding":"gzip,deflate","Connection":"Keep-Alive","Content-Length":"377","Content-Type":"application/json; charset=utf-8","Host":"localhost:7743","User-Agent":"Apache-HttpClient/4.5.2 (Java/1.8.0_121)"},"httpVersion":"1.1","method":"POST","post":"{\"script\":\"var $x = function(xpathToExecute){\\n  var result = [];\\n  var nodesSnapshot = document.evaluate(xpathToExecute, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );\\n  for ( var i=0 ; i < nodesSnapshot.snapshotLength; i++ ){\\n    result.push( nodesSnapshot.snapshotItem(i) );\\n  }\\n  return result;\\n};$x(\\\"//*[@id='galaxy']\\\")[0].value=\\\"8\\\";\",\"args\":[]}","url":"/execute","urlParsed":{"anchor":"","query":"","file":"execute","directory":"/","path":"/execute","relative":"/execute","port":"","host":"","password":"","user":"","userInfo":"","authority":"","protocol":"","source":"/execute","queryKey":{},"chunks":["execute"]},"urlOriginal":"/session/c7f2b470-627f-11e7-b075-4532bba2b786/execute"}}
+            Thread.sleep(500);
             Coordinates c = fleetObject.getToCoordinates();
             try {
                 JavaScriptFunctions.fillFormByXpath(d, "//*[@id='galaxy']", c.getGalaxy() + "");
@@ -128,6 +130,7 @@ public class Mission {
                 JavaScriptFunctions.fillFormByXpath(d, "//*[@id='system']", c.getSystem() + "");
                 JavaScriptFunctions.fillFormByXpath(d, "//*[@id='position']", c.getPlanet() + "");
             }
+            //TODO Can't find variable: currentPage
             d.executeJavaScript("updateVariables();");
 
             //TODO fleet speed needed for fleet saves
@@ -147,21 +150,30 @@ public class Mission {
                 return false;
             }
             //PAGE 3
-            String js = getJSForMissionType(fleetObject.getMission(), b);
-            //TODO can't find variable: serverTime i suspect it's too fast and potential sleeps are needed
-            try{ d.executeJavaScript(js); } catch (WebDriverException e){
+            int count = 0;
+            do{
+                String js = getJSForMissionType(fleetObject.getMission(), b);
+                //TODO can't find variable: serverTime i suspect it's too fast and potential sleeps are needed
                 try {
-                    Thread.sleep(1000);
                     d.executeJavaScript(js);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    Thread.sleep(1000);
+                } catch (WebDriverException e) {
+                    try {
+                        Thread.sleep(1000);
+                        d.executeJavaScript(js);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
                 }
-            }
+                if(count++ > 10)
+                    throw new Exception("Stuck on Fleet page 3");
+            }while(Jsoup.parse(b.getDriverController().getDriver().getPageSource()).select("#missionName").text()
+                    .equalsIgnoreCase("Nothing has been selected"));//fleetObject.getMission()
         }catch (WebDriverException e){
             b.getPageController().goToPage(Overview.OVERVIEW);
             throw e;
         }
-
+        Thread.sleep(500);
         //TODO load resources
         d.executeJavaScript("trySubmit();");
         return true;

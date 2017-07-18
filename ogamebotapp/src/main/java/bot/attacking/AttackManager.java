@@ -184,6 +184,7 @@ public class AttackManager {
         //TODO make this a setting, time between attacking repeat players probably not a time, but percent of recourses expected or something
         return _getSafeAttackTargets().stream().filter(a->a.getLastAttacked().isBefore(LocalDateTime.now().minusDays(1))
                 //only safe if message is newer than 1 day
+                && a.getSomethingWrongCount() < 3
         ).collect(Collectors.toList());
     }
 
