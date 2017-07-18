@@ -32,6 +32,7 @@ public class Target {
     private String activity;
     private Server server;
     private int lastProbeSentCount = -1;
+    private int somethingWentWrongCount = 0;
 
     public Target(Server server, Coordinates coordinates) {
         this.server = server;
@@ -308,5 +309,14 @@ public class Target {
             e.printStackTrace();
         }
         return targets;
+    }
+
+    public void somethingWentWrong() {
+        toDatabase();
+        somethingWentWrongCount++;
+    }
+
+    public int getSomethingWrongCount() {
+        return somethingWentWrongCount;
     }
 }

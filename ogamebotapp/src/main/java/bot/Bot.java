@@ -194,16 +194,21 @@ public class Bot {
                     continue;
                 }
                 waitForCallable((Callable)()-> {
-                    if(!isBeingAttacked() && !isGotInitialState)
-                        getInitialState();
+                    try {
+                        if (!isBeingAttacked() && !isGotInitialState)
+                            getInitialState();
 
-                    setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable)()->{
-                        pageController.parsePage(pageController.getCurrentPage());
-                        setBuildTasks(new ArrayList<>());
-                        setBuildTasks(getNextBuildTask());return null;
-                    }));
+                        setBuildTaskService(FileOptions.runConcurrentProcessNonBlocking((Callable) () -> {
+                            pageController.parsePage(pageController.getCurrentPage());
+                            setBuildTasks(new ArrayList<>());
+                            setBuildTasks(getNextBuildTask());
+                            return null;
+                        }));
 
-                    performNextAction();
+                        performNextAction();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     return null;
                 },30L, TimeUnit.MINUTES);
                 if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
@@ -220,17 +225,18 @@ public class Bot {
 
     public void getInitialState() {
         System.out.println("Getting inital state");
-        Arrays.asList(Resources.RESOURCES, Facilities.FACILITIES, Research.RESEARCH, Shipyard.SHIPYARD, Defense.DEFENSE, Fleet.FLEET)
-                .forEach(a -> {
-                    try {
-                        getPageController().goToPage(a);
-                    } catch (Exception e) {
-                        if(e instanceof TimeoutException)
-                            System.err.println("Failed to wait for page to load in 1 minute: "+a);
-                        else
-                            e.printStackTrace();
-                    }
-                });
+        List<String> pages = Arrays.asList(Resources.RESOURCES, Facilities.FACILITIES, Research.RESEARCH, Shipyard.SHIPYARD, Defense.DEFENSE, Fleet.FLEET);
+        Collections.sort(pages);
+        pages.forEach(a -> {
+            try {
+                getPageController().goToPage(a);
+            } catch (Exception e) {
+                if(e instanceof TimeoutException)
+                    System.err.println("Failed to wait for page to load in 1 minute: "+a);
+                else
+                    e.printStackTrace();
+            }
+        });
 
         isGotInitialState = true;
     }
@@ -434,15 +440,17 @@ public class Bot {
         ExecutorService exec = Executors.newSingleThreadExecutor();
         boolean b = true;
         try {
-            exec.submit(c).get(l, timeUnit);
+            exec.submit(c);//.get(l, timeUnit);
             exec.shutdown();
 //            exec.awaitTermination(l, timeUnit); //blocking call
             while(!exec.awaitTermination(1,TimeUnit.SECONDS))
-                if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE)) {
+                    exec.shutdownNow();
                     return false;
+                }
             if (!exec.awaitTermination(1, TimeUnit.SECONDS))
                 exec.shutdownNow();
-        } catch (InterruptedException | ExecutionException | java.util.concurrent.TimeoutException e) {
+        } catch (InterruptedException e) {
             b = false;
         }finally{
             exec.shutdownNow();
@@ -468,21 +476,17 @@ public class Bot {
             );
         if(espionageProbesCount == 0)
             return;
-        if(!waitForCallable((Callable)()-> {
-            try {
-                return new Mission().sendFleet(
-                        new FleetObject()
-                                .setMission(Mission.ESPIONAGE)
-                                .setToCoordinates(espionageTargets.get(0).getCoordinates())
-                                .addShip(Ship.ESPIONAGE_PROBE, espionageProbesNeeded)
-                        , this
-                );
-            }catch (Exception e){
-                return false;
-            }
-        }))
-            if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
-                throw new Exception("You've been logged out");
+        if(!new Mission().sendFleet(
+                new FleetObject()
+                        .setMission(Mission.ESPIONAGE)
+                        .setToCoordinates(espionageTargets.get(0).getCoordinates())
+                        .addShip(Ship.ESPIONAGE_PROBE, espionageProbesNeeded)
+                , this
+        ))
+            //TODO somehow mark this as a target where soemthing went wrong;
+            espionageTargets.get(0).somethingWentWrong();
+        if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+            throw new Exception("You've been logged out");
 
         espionageTargets.get(0).setLastEspionage(LocalDateTime.now());
         espionageTargets.get(0).setLastProbeSentCount(espionageProbesNeeded);
@@ -500,21 +504,17 @@ public class Bot {
                         .setCountOrLevel((smallCargoNeeded-smallCargoCount))
                         .setBuildPriority(getCurrentPlanet().getQueueManager(getOgameUserId(),getResearch()).getMaxPriority())
             );
-        if(!waitForCallable((Callable)()-> {
-            try {
-                return new Mission().sendFleet(
-                        new FleetObject()
-                            .setMission(Mission.ATTACKING)
-                            .setToCoordinates(attackTargets.getCoordinates())
-                            .addShip(Ship.SMALL_CARGO,smallCargoNeeded)
-                        ,this
-                );
-            }catch (Exception e){
-                return false;
-            }
-        }))
-            if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
-                throw new Exception("You've been logged out");
+        if(!new Mission().sendFleet(
+                new FleetObject()
+                    .setMission(Mission.ATTACKING)
+                    .setToCoordinates(attackTargets.getCoordinates())
+                    .addShip(Ship.SMALL_CARGO,smallCargoNeeded)
+                ,this
+        ))
+            //TODO Somehow mark this as a something went wrong target
+            attackTargets.somethingWentWrong();
+        if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+            throw new Exception("You've been logged out");
         attackTargets.setLastAttack(LocalDateTime.now());
         System.out.println("Finished attacking: "+attackTargets);
     }
@@ -657,9 +657,10 @@ public class Bot {
                     //use the quick build link
                     //TODO fix, sometimes it builds it even though its already building it
                     PageController.parseGenericBuildings(Jsoup.parse(getDriverController().getDriver().getPageSource()), this);
-                    if(currentPlanetBuildable != null && currentPlanetBuildable.getQuickBuildLink() != null && !currentPlanetBuildable.getQuickBuildLink().isEmpty())
+                    if(currentPlanetBuildable != null && currentPlanetBuildable.getQuickBuildLink() != null && !currentPlanetBuildable.getQuickBuildLink().isEmpty()) {
                         getDriverController().executeJavaScript(currentPlanetBuildable.getQuickBuildLink());
-                    else
+                        Thread.sleep(500);
+                    }else
                         System.out.println("Can't build, something went wrong");
                     currentPlanetBuildable.setQuickBuildLink("");
                     getPageController().goToPage(Overview.OVERVIEW);
@@ -762,6 +763,11 @@ public class Bot {
 //        save that fleet to be recalled later.
 //        if remaining resources greater than a certain amount say... 10k metal then spend it all
 //         until fleet arrives.  Metal on rocket launchers, crystal on espionage probes, just spend it all
+        //then after attacking fleet lands or the attacking fleet is recalled, then recall your fleet.
+
+        //prevent this algorithm from running if only probe tries to attack.
+        //  If your espionage is high enough to see attacking fleet then check that,
+        //  otherwise ignore if less than a minute is left before attacking fleet arrives.
     }
 
     public List<BuildTask> getNextBuildTask() throws SQLException, IOException, ClassNotFoundException {

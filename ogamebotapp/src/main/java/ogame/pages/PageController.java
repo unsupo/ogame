@@ -357,11 +357,26 @@ public class PageController {
     }
 
     public String getCurrentPage() {
-        for(OgamePage p : ogamePages.values())
-            if(b.getDriverController().getDriver().findElements(By.cssSelector(p.uniqueCssSelector())).size() > 0)
-                return p.getPageName();
+        final Document source = Jsoup.parse(b.getDriverController().getDriver().getPageSource());
+        List<Callable> callables = ogamePages.values().stream().map(a -> (Callable) () -> {
+            if (source.select(a.uniqueCssSelector()).size() > 0)
+                return a.getPageName();
+            return null;
+        }).collect(Collectors.toList());
 
-        return Overview.OVERVIEW;
+        FileOptions.runConcurrentProcess(callables);
+        List<String> values = callables.stream().map(a -> {
+            try {
+                return a.call().toString();
+            } catch (Exception e) { /*DO NOTHING*/ }
+            return null;
+        }).filter(a -> a != null).collect(Collectors.toList());
+
+//        for(OgamePage p : ogamePages.values())
+//            if(b.getDriverController().getDriver().findElements(By.cssSelector(p.uniqueCssSelector())).size() > 0)
+//                return p.getPageName();
+
+        return values.size() == 1 ? values.get(0): Overview.OVERVIEW;
     }
 
 
