@@ -181,9 +181,11 @@ public class Planet {
             }
         }
         //if it is a defense or shipyard and the shipyard or nanite factory is build built, then you can't build it.
-        if(Arrays.asList(Defense.DEFENSE.toLowerCase(),Shipyard.SHIPYARD.toLowerCase()).contains(b.getType().toLowerCase()))
+        //or if a defense or shipyard is being built, you can't built the nanite factory or shipyard.
+        if(Arrays.asList(Defense.DEFENSE.toLowerCase(),Shipyard.SHIPYARD.toLowerCase()).contains(b.getType().toLowerCase())
+                || Arrays.asList(Facilities.SHIPYARD.toLowerCase(),Facilities.NANITE_FACTORY.toLowerCase()).contains(name.toLowerCase()))
             if (currentBuildingBeingBuild != null &&
-                    Arrays.asList(Facilities.SHIPYARD,Facilities.NANITE_FACTORY)
+                    Arrays.asList(Facilities.SHIPYARD.toLowerCase(),Facilities.NANITE_FACTORY.toLowerCase())
                             .contains(currentBuildingBeingBuild.getBuildable().getName().toLowerCase())) {
                 if (currentBuildingBeingBuild.isDone() && currentBuildingBeingBuild.isComplete()) {
                     //don't build another ship/defense if there is something in the queue
