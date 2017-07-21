@@ -527,12 +527,14 @@ public class Bot {
         attackTargets.setLastAttack(LocalDateTime.now());
         System.out.println("Finished attacking: "+attackTargets);
     }
-
     public void buildRequest(BuildTask buildTask) throws SQLException, IOException, ClassNotFoundException {
+        buildRequest(getCurrentPlanet().getBotPlanetID(),buildTask);
+    }
+    public void buildRequest(String botPlanetId, BuildTask buildTask) throws SQLException, IOException, ClassNotFoundException {
         //TODO insert into planet_queue;
         if(Arrays.asList(Shipyard.SHIPYARD.toLowerCase(),Defense.DEFENSE.toLowerCase()).contains(buildTask.getBuildable().getType().toLowerCase())) {
             List<Map<String, Object>> v = getDatabase().executeQuery("select sum(build_level) from planet_queue " +
-                    "where bot_planets_id = " + getCurrentPlanet().getBotPlanetID() +
+                    "where bot_planets_id = " + botPlanetId +
                     " and buildable_id = " + buildTask.getBuildable().getId()+
                     " and done = 'N'"
             );
@@ -546,7 +548,7 @@ public class Bot {
             }
         }else{
             List<Map<String, Object>> v = getDatabase().executeQuery("select count(*) from planet_queue " +
-                    "where bot_planets_id = " + getCurrentPlanet().getBotPlanetID() +
+                    "where bot_planets_id = " + botPlanetId +
                     " and buildable_id = " + buildTask.getBuildable().getId()+
                     " and build_level >= "+buildTask.getCountOrLevel()+
                     " and done = 'N'"
@@ -560,7 +562,7 @@ public class Bot {
 
         getDatabase().executeQuery(
                 "insert into planet_queue(bot_planets_id,buildable_id,build_level,BUILD_PRIORITY) " +
-                "   values("+getCurrentPlanet().getBotPlanetID()+","+buildTask.getBuildable().getId()+","+buildTask.getCountOrLevel()+","+buildTask.getBuildPriority()+") " +
+                "   values("+botPlanetId+","+buildTask.getBuildable().getId()+","+buildTask.getCountOrLevel()+","+buildTask.getBuildPriority()+") " +
                         "ON CONFLICT DO NOTHING; "
         );
     }
@@ -911,10 +913,11 @@ public class Bot {
         //TODO add to database the prerequisites  needs priority
         //TODO check if queue already has it
         for(String s : totalRequirements.keySet())
-            getDatabase().executeQuery(
-                    "insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority)" +
-                    "   values("+value.getBotPlanetID()+","+totalRequirements.get(s).getBuildable().getId()+","+totalRequirements.get(s).getBuildable().getCurrentLevel()+","+totalRequirements.get(s).getBuildPriority()+");"
-            );
+            buildRequest(value.getBotPlanetID(),totalRequirements.get(s));
+//            getDatabase().executeQuery(
+//                    "insert into planet_queue(bot_planets_id,buildable_id,build_level,build_priority)" +
+//                    "   values("+value.getBotPlanetID()+","+totalRequirements.get(s).getBuildable().getId()+","+totalRequirements.get(s).getBuildable().getCurrentLevel()+","+totalRequirements.get(s).getBuildPriority()+");"
+//            );
     }
 
     private HashMap<String, Integer> getBotRemainingRequirements(Buildable buildable, Map.Entry<String, Planet> planet) {
