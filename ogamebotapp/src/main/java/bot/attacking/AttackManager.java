@@ -188,6 +188,19 @@ public class AttackManager {
         ).collect(Collectors.toList());
     }
 
+    public List<Target> getFleetSaveTargets() throws SQLException, IOException, ClassNotFoundException {
+        if(targetHashMap.size() > 0){
+            //you have previous targets check which ones you've attacked without something wrong
+            List<Target> v = targetHashMap.values().stream().filter(a -> a.getLastAttack() != null && a.getSomethingWrongCount() == 0).collect(Collectors.toList());
+            if(v.size() > 0)
+                return v;
+        }
+        List<Target> v = _getSafeAttackTargets();
+        if(v.size() > 0)
+            return v;
+        return getBlindAttackTargets();
+    }
+
     public List<Target> getRecyclerTargets(){
         //TODO recycler targets
         return  new ArrayList<>();

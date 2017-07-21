@@ -2,6 +2,7 @@ package ogame.objects.game.fleet;
 
 import bot.Bot;
 import ogame.objects.game.Coordinates;
+import ogame.objects.game.Resource;
 import ogame.objects.game.Ship;
 import ogame.pages.Fleet;
 import ogame.pages.Overview;
@@ -56,6 +57,22 @@ public class Mission {
         missionSelector.put(TRANSPORT,"#missionButton"+transport);
         missionSelector.put(ATTACKING,"#missionButton"+attack);
         missionSelector.put(ESPIONAGE,"#missionButton"+espionageMission);
+    }
+    private int speed = 10;
+    private Resource resourcesToSend = new Resource(0,0,0);
+
+    public Mission setResourcesToSend(Resource resourcesToSend){
+        this.resourcesToSend = resourcesToSend;
+        return this;
+    }
+
+    public Mission setSpeed(int speed) {
+        if(speed > 10) speed/=10;
+        if(speed > 10) return setSpeed(speed);
+        if(speed < 0) speed = Math.abs(speed);
+        if(speed == 0) speed = 1;
+        this.speed = speed;
+        return this;
     }
 
     private int type = 1;
@@ -134,6 +151,8 @@ public class Mission {
             d.executeJavaScript("updateVariables();");
 
             //TODO fleet speed needed for fleet saves
+            //use speed variable
+
             //TODO can't find variable trySubmit
             try{ d.executeJavaScript("trySubmit();");}catch (WebDriverException e){
                 try {
@@ -175,6 +194,7 @@ public class Mission {
         }
         Thread.sleep(500);
         //TODO load resources
+        //use resourcesToSend
         d.executeJavaScript("trySubmit();");
         return true;
     }

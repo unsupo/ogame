@@ -244,7 +244,8 @@ public class PageController {
 
     public void goToPageOnPlanet(Coordinates planetCoordinates, String page) throws Exception {
         //TODO test navigating between planets
-        b.getDriverController().getDriver().navigate().to(b.getPlanets().get(planetCoordinates.getStringValue()).getLinkToPage(page.toLowerCase()));
+        if(!planetCoordinates.equals(b.getCurrentPlanetCoordinates()))
+            b.getDriverController().getDriver().navigate().to(b.getPlanets().get(planetCoordinates.getStringValue()).getLinkToPage(page.toLowerCase()));
         goToPage(page);
     }
 

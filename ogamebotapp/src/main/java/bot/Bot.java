@@ -248,7 +248,6 @@ public class Bot {
         if(isBeingAttacked()) {
             System.out.println("Being attacked, performing attacked action");
             preformBeingAttackedAction();
-            return;
         }
 
         //if the executor service is done and there are build task to do then do them
@@ -790,19 +789,64 @@ public class Bot {
         ).collect(Collectors.toList());
         if(enemyFleets.isEmpty() && !isBeingAttacked())
             return;
-        //TODO switch to the planet that is being attacked.
         //get the first enemy fleet to land on your planet.
         Collections.sort(enemyFleets,(a,b)->new Long(a.getDataArrivalTime()).compareTo(b.getDataArrivalTime()));
+        //TODO test switch to the planet that is being attacked.
+        getPageController().goToPageOnPlanet(enemyFleets.get(0).getToCoordinates(),Fleet.FLEET);
         LocalDateTime enemyFleetLandsDate =
                 Instant.ofEpochMilli(enemyFleets.get(0).getDataArrivalTime()*1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
         if(enemyFleetLandsDate.isBefore(LocalDateTime.now().plusMinutes(10)) && enemyFleetLandsDate.isAfter(LocalDateTime.now())) { //you are 10 minutes away from being attacked
             //TODO perfect world you'd run sim and check losses
             getPageController().goToPage(Fleet.FLEET);
             if(!isCurrentPlanetHasNoShips()){//if the planet has ships. Then send them away with the the resources you can.
-                //find where you're going to fleet save. //for simplicities sake, just send it to
+                //find where you're going to fleet save. First send it to moon, if no moon then colony, if no colony then:
+                //      for simplicities sake, just send it to last successful combat report, if fail then espionage, if fail then inactive.
+                String mission = Mission.ATTACKING;
+                Coordinates toCoordinates = null;
+                Target fleetSaveTarget = null;
+                if(getCurrentPlanet().getMoon() != null){
+                    //TODO send to moon.
+                    mission = Mission.DEPLOYMENT;
+                    toCoordinates = getCurrentPlanet().getMoon().getCoordinates();
+                }else if(getPlanets().size() > 0){
+                    Planet p = null;
+                    for(String s : getPlanets().keySet())
+                        if(getPlanets().get(s).getMoon() != null){
+                            p = getPlanets().get(s).getMoon();
+                            break;
+                        }
+                    if(p == null) { //no moons
+                        for(String s : getPlanets().keySet())
+                            if(!s.equals(getCurrentPlanetCoordinates().getStringValue())){
+                                p = getPlanets().get(s);
+                                break;
+                            }
+                    }
+                    //TODO send to planet p whether it be a moon or a colony
+                    mission = Mission.DEPLOYMENT;
+                    toCoordinates = p.getCoordinates();
+                }else {
+                    //TODO just send it to last successful combat report, if none/fail then espionage, if none/fail then inactive.
+                    fleetSaveTarget = getAttackManager().getFleetSaveTargets().get(0);
+                    toCoordinates = fleetSaveTarget.getCoordinates();
+                }
+                //TODO what to do when you can't afford to send the ships off the planet?
+                FleetObject fleetObject = new FleetObject()
+                        .setMission(mission)
+                        .setToCoordinates(toCoordinates);
+                for(String s : getCurrentPlanet().getShips().keySet())
+                    fleetObject.addShip(s,getCurrentPlanet().getShips().get(s));
 
+                if(!new Mission().setSpeed(1).sendFleet(fleetObject,this))
+                    if(fleetSaveTarget != null)
+                        fleetSaveTarget.somethingWentWrong();
+                if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
+                    throw new Exception("You've been logged out");
+                System.out.println("Finished Fleet Saving: "+toCoordinates);
+            }else{
+                //TODO what to do when you have no ships to save your resources.
+                Resource resources = getCurrentPlanet().getResources();
             }
-            System.out.println();
         }
     }
 
