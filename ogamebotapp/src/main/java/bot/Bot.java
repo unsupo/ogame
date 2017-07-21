@@ -28,7 +28,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -210,7 +212,7 @@ public class Bot {
                         e.printStackTrace();
                     }
                     return null;
-                },30L, TimeUnit.MINUTES);
+                },10L, TimeUnit.MINUTES);
                 if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))
                     throw new Exception("You've been logged out");
 
@@ -372,7 +374,8 @@ public class Bot {
         //Send fleet out if you only have 1 fleet slot or you have more than 1 free fleet slot
         getPageController().goToPage(Fleet.FLEET);
         if((getFleetInfo().getFleetsTotal() == 1 && getFleetInfo().getFleetsUsed() != 1 ) || getFleetInfo().getFleetsRemaining() - 1 > 0){
-            if(getCurrentPlanet().getShips().values().stream().filter(a->a != 0).collect(Collectors.toList()).size() == 0) {
+            getPageController().parsePage(Fleet.FLEET);
+            if(isCurrentPlanetHasNoShips()) {
                 System.out.println("No ships to send fleets");
                 if(getCurrentPlanet().getSetting(SettingsManager.AUTO_BUILD_ESPIONAGE_PROBES,getOgameUserId()).equals("true"))
                     buildRequest(new BuildTask().setBuildable(
@@ -443,13 +446,19 @@ public class Bot {
             exec.submit(c);//.get(l, timeUnit);
             exec.shutdown();
 //            exec.awaitTermination(l, timeUnit); //blocking call
-            while(!exec.awaitTermination(1,TimeUnit.SECONDS))
-                if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE)) {
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.submit((Callable)()-> {
+                while (!exec.awaitTermination(1, TimeUnit.SECONDS))
+                    if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE)) {
+                        exec.shutdownNow();
+                        return false;
+                    }
+                if (!exec.awaitTermination(1, TimeUnit.SECONDS))
                     exec.shutdownNow();
-                    return false;
-                }
-            if (!exec.awaitTermination(1, TimeUnit.SECONDS))
-                exec.shutdownNow();
+                return true;
+            });
+            executorService.shutdown();
+            executorService.awaitTermination(l,timeUnit);
         } catch (InterruptedException e) {
             b = false;
         }finally{
@@ -751,15 +760,15 @@ public class Bot {
         return t;
     }
 
-    private void preformBeingAttackedAction() {
+    private void preformBeingAttackedAction() throws Exception {
         //TODO
 //        i'd imagine you'd first try to send everything away, then spend remaining resources
-//        check how long until the attacking fleet will land on your planet.
-//        if attacking fleet is less than say... 5 minutes away then
-//        go to Fleet Page
+////        check how long until the attacking fleet will land on your planet.
+////        if attacking fleet is less than say... 10 minutes away then
+// //       go to Fleet Page
 //        send all ships and resources at 10% speed to:
-//        if you have a moon, send it to your moon, if you have another colony send it to your colony,
-//        otherwise get an inactive planet and send it to that planet
+//              if you have a moon, send it to your moon, if you have another colony send it to your colony,
+//              otherwise get an inactive planet and send it to that planet
 //        save that fleet to be recalled later.
 //        if remaining resources greater than a certain amount say... 10k metal then spend it all
 //         until fleet arrives.  Metal on rocket launchers, crystal on espionage probes, just spend it all
@@ -768,6 +777,39 @@ public class Bot {
         //prevent this algorithm from running if only probe tries to attack.
         //  If your espionage is high enough to see attacking fleet then check that,
         //  otherwise ignore if less than a minute is left before attacking fleet arrives.
+
+        HashSet<FleetObject> fleets = new HashSet<>(FleetObject.getFleetObjects(this));
+        getFleetInfo().setFleets(fleets);
+        //get enemy fleets
+        List<FleetObject> enemyFleets = fleets.stream().filter(
+                a -> (a.getMissionOwner() == null || !a.getMissionOwner().equalsIgnoreCase(Mission.OWN_FLEET))
+                    && a.getMission().equalsIgnoreCase(Mission.ATTACKING)
+                    && isMoreThanJustProbes(a)
+        ).collect(Collectors.toList());
+        if(enemyFleets.isEmpty() && !isBeingAttacked())
+            return;
+        //TODO switch to the planet that is being attacked.
+        //get the first enemy fleet to land on your planet.
+        Collections.sort(enemyFleets,(a,b)->new Long(a.getDataArrivalTime()).compareTo(b.getDataArrivalTime()));
+        LocalDateTime enemyFleetLandsDate =
+                Instant.ofEpochMilli(enemyFleets.get(0).getDataArrivalTime()*1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        if(enemyFleetLandsDate.isBefore(LocalDateTime.now().plusMinutes(10)) && enemyFleetLandsDate.isAfter(LocalDateTime.now())) { //you are 10 minutes away from being attacked
+            //TODO perfect world you'd run sim and check losses
+            getPageController().goToPage(Fleet.FLEET);
+            if(!isCurrentPlanetHasNoShips()){//if the planet has ships. Then send them away with the the resources you can.
+                //find where you're going to fleet save. //for simplicities sake, just send it to
+
+            }
+            System.out.println();
+        }
+    }
+
+    private boolean isMoreThanJustProbes(FleetObject fleet) {
+        List<String> excludeShips = Arrays.asList(Ship.ESPIONAGE_PROBE,Ship.COLONY_SHIP);
+        for(String s : fleet.getShips().keySet())
+            if(!excludeShips.contains(s) && fleet.getShips().get(s) != 0)
+                return false;
+        return true;
     }
 
     public List<BuildTask> getNextBuildTask() throws SQLException, IOException, ClassNotFoundException {
@@ -855,7 +897,7 @@ public class Bot {
                 if (getCurrentResearchBeingBuilt().isDone() && getCurrentResearchBeingBuilt().isComplete()) {
                     return Buildable.getBuildableByName(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
                 } else return false;
-            }else
+            }else if(b.getType().toLowerCase().equals(Research.RESEARCH.toLowerCase()))
                 return researchBuildable.get(b.getName()).getNextLevelCost().canAfford(getDarkMatter(), p.getResources());
 
         HashMap<String, Integer> rr = getResearch();
@@ -988,6 +1030,11 @@ public class Bot {
         if(attackManager == null)
             attackManager = new AttackManager(login.getUser().getUsername(),login.getServer(), getOgameUserId(), getPoints(), getRank(),getCurrentPlanetCoordinates());
         return attackManager.setRankPoints(getRank(),getPoints());
+    }
+
+
+    public boolean isCurrentPlanetHasNoShips() {
+        return getCurrentPlanet().getShips().values().stream().filter(a->a != 0).collect(Collectors.toList()).size() == 0;
     }
 
     public void setAttackManager(AttackManager attackManager) {
