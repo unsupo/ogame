@@ -1,4 +1,4 @@
-This is still a work in progress, once it's in a useable state, i will merge it with the master branch.  Currently ogame_1.0 branch is usable in the ide only.  This project will use that branch as a refernce point.
+This is still a work in progress.  Currently it is only functional through an IDE.
 - - - -
 # Ogame BOT #
 Once this is done, the server will be hosted on a website which will make a local run not required.
