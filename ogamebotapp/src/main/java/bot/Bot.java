@@ -573,10 +573,11 @@ public class Bot {
             List<BuildTask> currentPlanetBuild = tasks.stream().filter(a -> a.getCoordinates().equals(currentPlanetCoordinates)).collect(Collectors.toList());
             //no currentPlanetBuild, but there are BuildTasks then the build task isn't on this planet
             if(currentPlanetBuild.size() == 0) {
-                pageController.goToPageOnPlanet(tasks.get(0).getCoordinates(),tasks.get(0).getBuildable().getType());
+                getPageController().goToPageOnPlanet(tasks.get(0).getCoordinates(),tasks.get(0).getBuildable().getType());
                 return;
             }
 
+//            getPageController().goToPage(Resources.RESOURCES);
             BuildTask build = tasks.get(0);
             HashMap<String, Integer> requirements = Buildable.getBuildableRequirements(build.getBuildable().getName());
             if(!(requirements.size() == 1 && requirements.containsValue(build.getBuildable().getName())))
@@ -837,7 +838,10 @@ public class Bot {
                 for(String s : getCurrentPlanet().getShips().keySet())
                     fleetObject.addShip(s,getCurrentPlanet().getShips().get(s));
 
-                if(!new Mission().setSpeed(1).sendFleet(fleetObject,this))
+                if(!new Mission()
+                        .setSpeed(1)
+                        .setResourcesToSend(getCurrentPlanet().getResources())
+                        .sendFleet(fleetObject,this))
                     if(fleetSaveTarget != null)
                         fleetSaveTarget.somethingWentWrong();
                 if (getPageController().getCurrentPage().equalsIgnoreCase(Login.HOMEPAGE))

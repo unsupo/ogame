@@ -1,0 +1,273 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Running title $\bullet$ May 2016 $\bullet$ Vol. XXI, No. 1} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{Ogame Bot} % Article title
+\author{%
+\textsc{Jonathan Arndt}\\%\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize Utah State University\\ % Your institution
+\normalsize \href{mailto:unsupo@gmail.com}{unsupo@gmail.com} % Your email address
+%\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+%\textsc{Jane Smith}\thanks{Corresponding author} \\[1ex] % Second author's name
+%\normalsize University of Utah \\ % Second author's institution
+%\normalsize \href{mailto:jane@smith.com}{jane@smith.com} % Second author's email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+\begin{abstract}
+\noindent %\blindtext % Dummy abstract text - replace \blindtext with your abstract text
+Ogame is a complicated strategy game which is known for banning players who use bots,
+the bot created for this paper didn't not get discovered and banned and did achieve
+the goal of getting 10s of thousands of point in a short time.
+
+This bot still has a ways to go before it can truly conquor the universe, however
+this is a difficult game that takes time and effort to truly be good at.
+\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+\lettrine[nindent=0em,lines=3]{O}game, the online strategy game is notorious
+among it's community as both a long fund and tedious game as well as a brutal
+banner of players who don't obey the rules.  Nonetheless, some developers
+have made attempts to create bots to automate the tedious tasks involved in this
+game.  Most bots have ceased development due to ogame upgrades and increases in
+banning of players using them.
+
+The most profitable of which is Ogame Automizer which charges players money to
+bot their account.  This bot has ceased development since the latest version of
+ogame has been released, yet still players on the forum ask for continued development.
+
+This paper address my attempt to create a bot for this game and the challenges
+and results of my efforts.
+
+%------------------------------------------------
+
+\section{Gameplay}
+Ogame is an online multiplayer strategy game.
+The game starts out with you selecting a universe and creating an account.
+There are many universes and each one is completely seperated from each other.
+Once you've created an account, you are given a planet to build onto.
+
+The game revolves around the concept of upgrading and waiting an amount of time
+for the upgrade to complete.  Upgrades falls into 3 categories: buildings, research
+and ships.  Each category has a blocking item; an item to which another
+of the same category can't be built. A time decreasing item; an item to which
+the time it takes to improve the level of that category is decreased.  And lastly
+an improvement tree; the tree by which you can improve items to a specified level
+to unlock other items.
+
+Resources are vital to the game, without which, the player literally can't do anything.
+There are three main forms of resources: metal, crystal, and deueterium.  All
+forms of improvements on all three categories require some proportion of these
+three resources.  Each improvement means the next level will follow an
+exponential curve of the next cost, usually by a power of 2.  Dark Matter could be
+considered a resource, however this is a mostly real money paid resource and can
+be gathered in game in minute quantities, this resource isn't needed to improve the
+categories, but to decrease the time or decrease the resource gap needed for the
+improvement.  Finally, energy, this resource is needed, but not consumed by a few
+category improvements.  Energy's main point to power the producers, to which won't
+function at top efficiency without a specified amount of energy available.
+
+Ogame also has ways to generate resources, these will be called produces for this
+paper.  The game doesn't have any built in resources (except for a tiny amount
+supplied at the beggining of the game), resources can only be aquired by either
+you improving producers, or by you raiding another player who has improved upon
+producers (you cannot raid energy or dark matter from other players).  There are
+also a few other ways to get resoures, all using ships.  This includes harvesting,
+or getting resources from another player's planet's debris field after their, or
+opposing player's ships have been destroyed and you can harvest a fraction of the
+resources used to make the ships.  This method only allows harvesting of metal and
+crystal.  Lastly, expodition, which is like the ingame lottory.  You can send ships
+on an expedition to either lose all your ships, get some resources (including dark matter),
+or get some ships.
+
+Combat is an essential part of the game.  It fuels the competition and to some
+extent the fun of the game.  Some players choose to live a solitary career, these
+players are known as turtles, they simply build defenses and producers.  This
+may be the sinmplest way to play, but it is also the slowest to advance due to
+diminishing returns of your own producers.  By stealing or raiding other players
+you can increase your resources by a tremendous amount.  However this means that
+other players view you as a way to increase their resources.  Thus a method known
+as fleet/resource saving was invented.  Fleet/resource saving is the method by
+which using your ships to transfer all resources and ships off your planet if
+you get attacked by another player.
+
+Most gameplay is preordained by formulas, very few aspecs of the game is random.
+This makes it a great game to simulate and automate.
+
+
+%------------------------------------------------
+
+\section{Goals}
+
+The main goal of this project was to automate the entire game.  Selenium webframework
+was the main tool used to accomplish this goal. Phantomjs allowed selenium to be run
+on a headless browser.  Create a bot which could use an email address and
+create a new user.  This user would then utilize algorithms to level up and conquor the
+universe.  Twitter bots exists and this bot will have a few similar outcomes to the Twitter
+bot in that it will need to bypass the internal bot detection system built into ogame.org.
+
+Another goal was to create bots to work in tandem like a hivemind.  By creating
+multiple bots to communicate together.
+
+%------------------------------------------------
+
+\section{Methods}
+
+Selenium framework with the phantomjs browser was the tool to automate this web game.
+Some http requests were mimicked to easily access data or perform some actions.
+Data was then saved to a database.
+
+The bot began by using a list of created email addresses using One.com.  It would then
+create a user using one of these email addresses on ogame.org and then verify the email
+address.
+
+Once in the game, the bot would preceed to develop levels using a build simulation which
+devised to optimal build strategy for a perticular goal.  The main initial goal of the
+bot was to get to the point of being able to create small cargo ships.  Small cargos
+are critical to gather more than the improved producers could create.
+
+The attacking algorithm works as follows, initially get to small cargos, using verified
+gift of dark matter, this could be achieved nearly immidiately in the start of the game.
+Then using an api's request for players, find the nearest inactive player with low points
+and blindly attack that player.  A blind attack is one that the bot is unsure of the outcome.
+Then work to get espionage probes while maintaining a steady stream of attacks on that player,
+which if the attack become successfuly is now considered a safe target.  If the attack
+was unsucessfully meaning the player had defenses, then that player is marked on the do not
+attack list in the database.
+
+Once probes have been achieved, then probe all inactive players that are attackable.
+Using the probes report you can determine if the players are safe targets, ie they have no
+defense.  The probes can also tell you how much resources you can steal, if you don't
+have enough cargos to get all the resources then develop more cargos.
+
+This constant stream of attacks on players allows the bot to quickly rise in the ranks
+until eventually it will get to the point of being able to get more advanced technology.
+
+%------------------------------------------------
+
+\section{Results}
+
+The bot was successful in achieving all goals for a single bot.  The bot ran for months
+and still hasn't been detected as a bot.  The bot achieved 10s of thousands of points
+and millions of resources at it's disposal as well has hundreds of cargos without any
+human intervention.
+
+
+%------------------------------------------------
+
+\section{Future}
+
+The future holds a vast array of improvements to the bot including the fabled hive mind
+of bots.  Unfortunately at this point, the bot only works on my ide thus a more user
+friendly program would be very beneficial.
+
+Other features of the game are still yet to be developed, like fleet/resource saving.
+Right now this is untested and only works to save the fleet, resource movement is still
+a feature to be added.  Multiple colonies are an important improvement as this would
+massivly increase the resource output and reach of the empire.  Missiles are needed
+to attack players with defenses and many other improvements to attack active players.
+
+% \subsection{Subsection One}
+%
+% A statement requiring citation \cite{Figueredo:2009dg}.
+% \blindtext % Dummy text
+%
+% \subsection{Subsection Two}
+%
+% \blindtext % Dummy text
+%
+% %----------------------------------------------------------------------------------------
+% %	REFERENCE LIST
+% %----------------------------------------------------------------------------------------
+%
+% \begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+%
+% \bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
+% Figueredo, A.~J. and Wolf, P. S.~A. (2009).
+% \newblock Assortative pairing and life history strategy - a cross-cultural
+%   study.
+% \newblock {\em Human Nature}, 20:317--330.
+%
+% \end{thebibliography}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
