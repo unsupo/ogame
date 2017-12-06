@@ -1,3 +1,5 @@
+This is several months old, i plan to return to work on this in a while.  I'll be more interested in returning to it if others show interest in this.  The goal is to make a client that the user can either use on their own computer with a progressive web app UI or an app/website where users can create bots that will use a proxy and have one or more bots be utilized through the website.  Via electron and ionic, a native app for both mobile and other os can be made.
+
 This is still a work in progress.  Currently it is only functional through an IDE.
 - - - -
 # Ogame BOT #
