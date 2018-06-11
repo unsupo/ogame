@@ -1,27 +1,36 @@
-This is several months old, i plan to return to work on this in a while.  I'll be more interested in returning to it if others show interest in this.  The goal is to make a client that the user can either use on their own computer with a progressive web app UI or an app/website where users can create bots that will use a proxy and have one or more bots be utilized through the website.  Via electron and ionic, a native app for both mobile and other os can be made.
+This is several months old, i plan to return to work on this in a while.  I'll be more interested in returning to it if others show interest in this.  The goal is to make a client that the user can use on their own computer with a progressive web app UI or an app/website where users can create bots that will use a proxy and have one or more bots be utilized through the website.  Via electron and ionic, a native app for both mobile and other os can be made.
 
 This is still a work in progress.  Currently it is only functional through an IDE.
+
+The goal of 3.0 is to allow users to run this from a single jar.  Users would be able to automate only as much as they want to.  
+
+The bot's goal will be two fold, fully automated hive mind of bots or partially automated bot for quality of life for players.
+
+Since this bot will try to replicate a user as much as possible using selenium a web browser testing framework, it is highly unlikely to be discovered as a bot
+
+I plan to seperate this project into two repositories to make it easier to manage.  A client repository and a bot repository.  The client will be a UI for users to interact with the bot and the bot will be the program which will actually perform the actions.
+
+Tasks to be automated will include 
+- fleet/resource saving
+- automated building/research/ship queue with a scheduler 
+- daily item grab
+- farming of inactive and active players
+- espianoge of players
+- farming of recycling debris field
+- moon creation by building light fighters (or other ship) and crashing it into a planet
+- planet field finder, building colony ships and colonizing a specified planet slot until a field range is discovered
+- Add increasing levels of human play replication as to not be discovered as a bot
+
+
 - - - -
 # Ogame BOT #
 Once this is done, the server will be hosted on a website which will make a local run not required.
 
 #### Requirements to run locally ####
 Java 8 download it [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)<br/>
-maven  download it [here](https://maven.apache.org/download.cgi)<br/>
 
 - - - -
 This is the parent folder for the ogame bot.  This is used to fully autonomize the game [Ogame.org](https://en.ogame.gameforge.com/).<br/>
-Since I can't store jars larger than 100MB on git, you'll have to build the jar yourself.<br/>
-Simply run in the root directory:<br/>
-`mvn clean install -U`<br/><br/>
-
-This will create and copy the jars for both projects into the `jarResources` directory.<br/><br/>
-To Run the jars type:<br/>
-`java -jar {{jarfile}}` where `{{jarfile}}` is the name of jar file you want to run.<br/>
-You should get these jars in that directory:<br/>
-`ogamebot-app-1.0-SNAPSHOT.jar` <br/>
-`ogamebot-server-1.0-SNAPSHOT.jar`<br/><br/>
-The description of each is below.
 
 - - - -
 ### Ogame Bot App ###
