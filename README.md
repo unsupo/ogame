@@ -8,7 +8,7 @@ The bot's goal will be two fold, fully automated hive mind of bots or partially 
 
 Since this bot will try to replicate a user as much as possible using selenium a web browser testing framework, it is highly unlikely to be discovered as a bot
 
-I plan to seperate this project into two repositories to make it easier to manage.  A client repository and a bot repository.  The client will be a UI for users to interact with the bot and the bot will be the program which will actually perform the actions.
+I plan to seperate this project into two repositories to make it easier to manage.  A client repository and a bot repository.  The client will be a UI for users to interact with the bot and the bot will be the program which will actually perform the actions.  Also would like to support distributed systems with a proxy to control a cluster of bots.
 
 Tasks to be automated will include 
 - fleet/resource saving
