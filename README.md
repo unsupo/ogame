@@ -1,6 +1,9 @@
-This is several months old, i plan to return to work on this in a while.  I'll be more interested in returning to it if others show interest in this.  The goal is to make a client that the user can either use on their own computer with a progressive web app UI or an app/website where users can create bots that will use a proxy and have one or more bots be utilized through the website.  Via electron and ionic, a native app for both mobile and other os can be made.
+This is project is old, i plan to return to work on this in a while.  I'll be more interested in returning to it if others show interest in this.  The goal is to make a client that the user can either use on their own computer with a progressive web app UI or an app/website where users can create bots that will use a proxy and have one or more bots be utilized through the website.  Via electron and ionic, a native app for both mobile and other os can be made.
 
 This is still a work in progress.  Currently it is only functional through an IDE.
+
+This is the master branch, it will house the most functional version of the bot so far.  The experimental branch is ogame_3.0 where i'll be starting over with the information i've learned so far.  When i feel confortable with 3.0 i'll merge it into master branch and include a jar to download and run the bot.  If i have time I plan to complete this by the end of the year 2018.
+
 - - - -
 # Ogame BOT #
 Once this is done, the server will be hosted on a website which will make a local run not required.
